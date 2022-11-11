@@ -37,8 +37,8 @@
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
                             <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
-                            <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
-                            <li><a class="nav-link" href="{{ route('todos.index') }}">Manage Todo</a></li>
+                            <!-- <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
+                            <li><a class="nav-link" href="{{ route('todos.index') }}">Manage Todo</a></li> -->
                             <li><a class="nav-link">{{ Auth::user()->name }}</a></li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"

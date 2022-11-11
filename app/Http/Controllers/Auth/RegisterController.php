@@ -55,6 +55,7 @@ class RegisterController extends Controller
             'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
         ], [
             'unique'        => 'The :attribute already been registered.',
+            'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
         ]); 

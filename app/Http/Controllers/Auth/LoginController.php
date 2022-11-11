@@ -91,8 +91,8 @@ class LoginController extends Controller
             if(isset($is_role[0])){ 
                 $role_name = $is_role[0];
                 if($role_name == 'SuperAdmin' || $role_name == 'CustomerAdmin'){
-                    //print_r("admin login");exit;
-                    return redirect('/home');
+                    return redirect('/admin-dashboard');
+                    //return redirect('/home');
                 }else{
                     $otp = new SmsOtpController();
                     $sendotp = $otp->sendOTP($client->PhoneNumber, $customer->RegistrationName);

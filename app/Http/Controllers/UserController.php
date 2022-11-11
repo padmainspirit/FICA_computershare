@@ -6,22 +6,37 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\CustomerUser;
+use App\Models\Customer;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Address;
 
     
 class UserController extends Controller
 {
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    { 
         $data = CustomerUser::orderBy('Id','DESC')->paginate(5);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -35,7 +50,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $customers = Customer::pluck('RegistrationName','Id', );
+        return view('users.create',compact('roles','customers'));
     }
     
     /**
@@ -47,12 +63,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'FirstName' => 'required',
-            'LastName' => 'required',
-            'Email' => 'required|email|unique:customerusers,Email',
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
+            'FirstName' => ['required', 'string', 'min:2','max:255'],
+            'LastName' => ['required', 'string', 'min:2', 'max:255'],
+            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
+            'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
+            'Password' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',                
+            ],
+            'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
+            'roles' => 'required',
+            'CustomerId'=>'required'
+        ], [
+            'unique'        => 'The :attribute already been registered.',
+            'IDNumber.required' => 'The ID number field is required.',
+            'CustomerId.required' => 'The Customer ID field is required.',
+            'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+            'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
+        ]); 
     
         $input = $request->all();
         //$input['password'] = Hash::make($input['password']);
@@ -64,11 +94,11 @@ class UserController extends Controller
             'LastName' => $input['LastName'],
             'Email' => $input['Email'],
             'PhoneNumber' => rand(),                
-            'Password' => Hash::make($input['password']),
+            'Password' => Hash::make($input['Password']),
             'IDNumber' => rand(),
             'IsAdmin' => 0,
             'Status' => NULL,
-            'CustomerId' => '47B97C4A-E9F6-4283-BDB5-D500CA8851C1',
+            'CustomerId' => $input['CustomerId'],
             'Code' => NULL,
             'SubscriptionId' => NULL,
             'Message' => NULL,
@@ -112,8 +142,9 @@ class UserController extends Controller
         $user = CustomerUser::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-    
-        return view('users.edit',compact('user','roles','userRole'));
+        $customers = Customer::pluck('RegistrationName','Id');
+        $userBelongsToCustomer = $user->CustomerId;
+        return view('users.edit',compact('user','roles','userRole', 'customers','userBelongsToCustomer'));
     }
     
     /**
@@ -125,19 +156,38 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        /* $this->validate($request, [
             'FirstName' => 'required',
             'LastName' => 'required',
             'Email' => 'required|email|unique:customerusers,Email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
-        ]);
+        ]); */
+        $this->validate($request, [
+            'FirstName' => ['required', 'string', 'min:2','max:255'],
+            'LastName' => ['required', 'string', 'min:2', 'max:255'],
+            'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,'.$id,
+            'Email' => 'required|email|unique:CustomerUsers,Email,'.$id,
+            'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,'.$id,
+            'Password' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',                
+            ],
+            'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
+            'roles' => 'required'
+        ], [
+            'unique'        => 'The :attribute already been registered.',
+            'IDNumber.required' => 'The ID number field is required.',
+            'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+            'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
+        ]); 
     
         $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['Password'] = Hash::make($input['password']);
+        if(!empty($input['Password'])){ 
+            $input['Password'] = Hash::make($input['Password']);
         }else{
-            $input = Arr::except($input,array('password'));    
+            $input = Arr::except($input,array('Password'));    
         }
     
         $user = CustomerUser::find($id);

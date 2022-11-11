@@ -49,9 +49,9 @@ class GetStartedController extends Controller
         $customer = Customer::getCustomerDetails($Customerid);
 
         //print_r($Customerid);exit;
-        $Logo = $customerBrand['Client_Logo'];
+        /* $Logo = $customerBrand['Client_Logo'];
         $Icon = $customerBrand['Client_Icon'];
-        $customerName = $customerBrand['RegistrationName'];
+        $customerName = $customerBrand['RegistrationName']; */
 
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');

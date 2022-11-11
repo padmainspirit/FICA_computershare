@@ -16,6 +16,13 @@ use App\Http\Controllers\FicaProcessController;
 use App\Http\Controllers\UserVerificationController;
 use App\Http\Controllers\APIValidationController;
 use App\Http\Controllers\ConsumerFicaProcess;
+use App\Http\Controllers\CustomerVerification;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminCreateController;
+use App\Http\Controllers\ClientCaptureController;
+use App\Http\Controllers\tomerVerification;
+use App\Http\Controllers\FAQ;
+use App\Http\Controllers\VerificationDataController;
 
   
 /*
@@ -81,7 +88,44 @@ Route::post('/screening', [ConsumerFicaProcess::class, 'Screening'])->name('scre
 Route::post('/declarations', [ConsumerFicaProcess::class, 'Declarations'])->name('declarations');
 Route::post('/acknowledgement', [ConsumerFicaProcess::class, 'Acknowledgement'])->name('acknowledgement');
 
+//Admin
+Route::post('/admin-test', [CustomerVerification::class, 'TestResult'])->name('testresult');
+Route::get('/admin-vertical', [CustomerVerification::class, 'AdminVertical'])->name('admin-vertical');
+Route::get('/admin-reports', [CustomerVerification::class, 'AdminReports']);
+Route::post('/admin-reports', [CustomerVerification::class, 'AdminSearchReports'])->name('search-reports');
+Route::get('/admin-findusers', [AdminController::class, 'FindUsers'])->name('admin-findusers');
+Route::post('/admin-findusers', [AdminController::class, 'Display'])->name('display-admin-findusers');
+Route::get('/admin-users', [AdminController::class, 'ShowUsers'])->name('admin-users');
+Route::post('/admin-actions', [CustomerVerification::class, 'AdminActions'])->name('admin-actions');
+Route::get('/admin-dashboard', [AdminController::class, 'ShowDashboard'])->name('admin-dashboard');
 
+Route::get('/admin-client', [AdminCreateController::class, 'EditCustomer'])->name('client-show');
+Route::post('/admin-client', [AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
+
+Route::get('/admin-display', [AdminCreateController::class, 'index']);
+Route::post('/admin-display', [AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
+
+Route::get('/admin-edit', [AdminCreateController::class, 'EditCustomer'])->name('edit-customer');
+Route::post('/admin-edit', [AdminCreateController::class, 'ShowCustomerEdit'])->name('admin-edit');
+
+Route::get('/admin-customer', [AdminCreateController::class, 'ShowCustomerCreate']);
+Route::post('/admin-customer', [AdminCreateController::class, 'CreateCustomer'])->name('admin-customer');
+
+
+Route::get('/admin-users', [AdminController::class, 'show']);
+Route::get('/admin-tabs', [ClientCaptureController::class, 'ScreenUsersTabs'])->name('admin-tabs');
+Route::post('/admin-tabs-personal', [CustomerVerification::class, 'PersonalDetailsUpdate'])->name('admin-tabs-personal');
+Route::post('/admin-tabs-address', [CustomerVerification::class, 'AddressDetailsUpdate'])->name('admin-tabs-address');
+Route::post('/admin-tabs-financial', [CustomerVerification::class, 'FinancialDetailsUpdate'])->name('admin-tabs-financial');
+Route::post('/admin-tabs-screening', [CustomerVerification::class, 'ScreeningDetailsCreate'])->name('admin-tabs-screening');
+Route::post('/admin-tabs-other', [tomerVerification::class, 'OtherDetailsCreate'])->name('admin-tabs-other');
+Route::get('/admin-comments', [tomerVerification::class, 'UserComments'])->name('admin-comments');
+Route::get('/admin-inbox', [CustomerVerification::class, 'UserInbox'])->name('admin-inbox');
+Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name('admin-inbox-message');
+
+//FAQ
+Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
+Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');
   
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);

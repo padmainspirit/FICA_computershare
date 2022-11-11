@@ -43,7 +43,7 @@ class TwoStepVerificationController extends Controller
 
     public function otpVerify(Request $request)
     {       
-        
+
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
         $client = Auth::user();
@@ -55,9 +55,7 @@ class TwoStepVerificationController extends Controller
         //dd($client->OTP);
 
         // $optData = $request->input('digit1-input') . $request->input('digit2-input') . $request->input('digit3-input') . $request->input('digit4-input') . $request->input('digit5-input') . $request->input('digit6-input');
-
         $optData = $request->input('otp-input');
-
         if (Auth::user()->OTP == $optData && $minute <= 5) {
             app('debugbar')->info($consumer);
             app('debugbar')->info($client);
