@@ -87,10 +87,10 @@ class LoginController extends Controller
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
 
-        $is_role = Auth::user()->getRoleNames();
-            if(isset($is_role[0])){ 
-                $role_name = $is_role[0];
-                if($role_name == 'SuperAdmin' || $role_name == 'CustomerAdmin'){
+        //$is_role = Auth::user()->getRoleNames();
+        $getRoleName = CustomerUser::getCustomerUserRoleName(); 
+            if($getRoleName){ 
+                if($getRoleName == 'SuperAdmin' || $getRoleName == 'CustomerAdmin'){
                     return redirect('/admin-dashboard');
                     //return redirect('/home');
                 }else{

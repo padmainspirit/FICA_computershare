@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Auth;
 
 
 class CustomerUser extends Authenticatable
@@ -87,6 +88,16 @@ class CustomerUser extends Authenticatable
     
     public function getKey() {
         return $this->Id;
+    }
+
+    /* Get loggedin users role name */
+    public static function getCustomerUserRoleName()
+    {
+        $id = Auth::user()->Id;
+        $getRoleName = Auth::user()->getRoleNames();
+        $userRole = isset($getRoleName[0]) ? $getRoleName[0] : '';
+        return $userRole; 
+
     }
 
 }
