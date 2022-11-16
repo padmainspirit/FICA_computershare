@@ -1,3 +1,4 @@
+use IDAS_FICASA_ADMIN;
 go
 delete from CustomerUsers where Id = '51d7fdfd-9673-4e85-9484-621c5cf032f4';
 go
