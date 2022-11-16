@@ -69,29 +69,31 @@ class AdminController extends Controller
 
         // dd($DashboardInfo);
 
-        $DashboardData = [
+        $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
 
-            'NumClients' => $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null,
-            'InProgress' => $DashboardInfo != '' ? $DashboardInfo[0]->InProgress : null,
-            'Completed' => $DashboardInfo != '' ? $DashboardInfo[0]->Completed : null,
-            'Rejected' => $DashboardInfo != '' ? $DashboardInfo[0]->Rejected : null,
-            'Failed' => $DashboardInfo != '' ? $DashboardInfo[0]->Failed : null,
-            'Correction' => $DashboardInfo != '' ? $DashboardInfo[0]->Correction : null,
-            'HighRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null,
-            'MediumRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null,
-            'LowRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null,
-            'Oneto5Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Oneto5Count : null,
-            'Fiveto10Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Fiveto10Count : null,
-            'Tento15count' => $DashboardInfo != '' ? $DashboardInfo[0]->Tento15count : null,
-            'Fifteenpluscount' => $DashboardInfo != '' ? $DashboardInfo[0]->Fifteenpluscount : null,
+        // $DashboardData = [
 
-        ];
+        //     'NumClients' => $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null,
+        //     'InProgress' => $DashboardInfo != '' ? $DashboardInfo[0]->InProgress : null,
+        //     'Completed' => $DashboardInfo != '' ? $DashboardInfo[0]->Completed : null,
+        //     'Rejected' => $DashboardInfo != '' ? $DashboardInfo[0]->Rejected : null,
+        //     'Failed' => $DashboardInfo != '' ? $DashboardInfo[0]->Failed : null,
+        //     'Correction' => $DashboardInfo != '' ? $DashboardInfo[0]->Correction : null,
+        //     'HighRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null,
+        //     'MediumRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null,
+        //     'LowRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null,
+        //     'Oneto5Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Oneto5Count : null,
+        //     'Fiveto10Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Fiveto10Count : null,
+        //     'Tento15count' => $DashboardInfo != '' ? $DashboardInfo[0]->Tento15count : null,
+        //     'Fifteenpluscount' => $DashboardInfo != '' ? $DashboardInfo[0]->Fifteenpluscount : null,
 
-        $NumClients = $DashboardData['NumClients'];
+        // ];
 
-        $HighRisk = $DashboardData['HighRisk'];
-        $MediumRisk = $DashboardData['MediumRisk'];
-        $LowRisk = $DashboardData['LowRisk'];
+        $NumClients = $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null;
+
+        $HighRisk = $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null;
+        $MediumRisk = $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null;
+        $LowRisk = $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null;
 
         $HighPerc = $NumClients!= 0 ? (($HighRisk / $NumClients) * 100): 0;
         $MediumPerc = $NumClients!= 0 ? (($MediumRisk / $NumClients) * 100): 0;
@@ -185,7 +187,7 @@ class AdminController extends Controller
 
         return view('admin-dashboard', [])
 
-            ->with($DashboardData)
+            ->with('DashboardData', $DashboardData)
             ->with('LowPerc', $LowPerc)
             ->with('MediumPerc', $MediumPerc)
             ->with('HighPerc', $HighPerc)
