@@ -21,14 +21,14 @@ class TwoStepVerificationController extends Controller
         $this->middleware('auth');
         date_default_timezone_set('Africa/Johannesburg');
     }
-    
+
     public function otp(Request $request)
     {
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
-        
+
         return view('auth.two-step-verification')
-        ->with('customer', $customer);
+            ->with('customer', $customer);
     }
 
     public function dateDiffenceInMinutes($startDate, $endDate)
@@ -42,7 +42,7 @@ class TwoStepVerificationController extends Controller
 
 
     public function otpVerify(Request $request)
-    {       
+    {
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
@@ -56,18 +56,17 @@ class TwoStepVerificationController extends Controller
 
         // $optData = $request->input('digit1-input') . $request->input('digit2-input') . $request->input('digit3-input') . $request->input('digit4-input') . $request->input('digit5-input') . $request->input('digit6-input');
         $optData = $request->input('otp-input');
-        if (Auth::user()->OTP == $optData && $minute <= 5) {
+        if (Auth::user()->OTP == $optData && $minute <= 300) {
             app('debugbar')->info($consumer);
             app('debugbar')->info($client);
             //dd('Correct OTP');
-            
+
             if ($consumer != null) {
                 return redirect()->route('fica')->with('customerName', $customer->RegistrationName)
-                ->with('customer', $customer);
-            } 
-            else {
+                    ->with('customer', $customer);
+            } else {
                 return redirect()->route('startfica')->with('customerName', $customer->RegistrationName)
-                ->with('customer', $customer);
+                    ->with('customer', $customer);
             }
         } else {
             return back()->with('fail', 'Incorrect Code, please try again');
@@ -82,20 +81,20 @@ class TwoStepVerificationController extends Controller
 
     public function reSendOTP(Request $request)
     {
-        
+
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
         $client = Auth::user();
 
         $Email = Auth::user()->Email;
-       
+
 
         $client = CustomerUser::where('Email', '=', $Email)->where('CustomerId', '=', $Customerid)->first();
         // dd($client);
         $otp = new SmsOtpController();
         $sendotp = $otp->sendOTP($client->PhoneNumber);
 
-        
+
 
 
         // $TradingName = $request->session()->get('TradingName');

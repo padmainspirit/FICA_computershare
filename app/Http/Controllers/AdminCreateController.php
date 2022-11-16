@@ -7,20 +7,25 @@ use App\Models\CustomerUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class AdminCreateController extends Controller
 {
     public function index(Request $request)
     {
-        $Consumerid = $request->session()->get('LoggedUser');
-        $client = CustomerUser::where('Id', '=', $Consumerid)->first();
-        $request->session()->put('UserFullName', $client->FirstName . ' ' . $client->LastName);
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        // $Consumerid = $request->session()->get('LoggedUser');
+        //$Consumerid =$client -> Id;
+        // $client = CustomerUser::where('Id', '=', $Consumerid)->first();
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        // $Logo = $customer['Client_Logo'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         // $GetAllUsers = CustomerUser::all();
         $GetAllCustomers = Customer::all();
@@ -28,25 +33,24 @@ class AdminCreateController extends Controller
         app('debugbar')->info($GetAllCustomers);
 
         return view('admin-display', [])
-        
-        // ->with('GetAllUsers', $GetAllUsers)
-        ->with('GetAllCustomers', $GetAllCustomers)
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+
+            // ->with('GetAllUsers', $GetAllUsers)
+            ->with('GetAllCustomers', $GetAllCustomers)
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function ShowCustomerDisplay(Request $request)
     {
-        $Consumerid = $request->session()->get('LoggedUser');
-        $client = CustomerUser::where('Id', '=', $Consumerid)->first();
-        $request->session()->put('UserFullName', $client->FirstName . ' ' . $client->LastName);
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         $getCustomerUserSearchID = $request->input('SelectClient');
 
@@ -56,23 +60,22 @@ class AdminCreateController extends Controller
 
         return view('admin-client', [])
 
-        ->with('CustomerSearchID', $CustomerSearchID)
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('CustomerSearchID', $CustomerSearchID)
+            ->with('customerName', $customerName)
+            ->with('UserFullName', $UserFullName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function ShowCustomerEdit(Request $request)
     {
-        $Consumerid = $request->session()->get('LoggedUser');
-        $client = CustomerUser::where('Id', '=', $Consumerid)->first();
-        $request->session()->put('UserFullName', $client->FirstName . ' ' . $client->LastName);
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         $getLoggedUsersID = $request->input('SelectUser');
 
@@ -89,51 +92,48 @@ class AdminCreateController extends Controller
 
         return view('admin-edit', [])
 
-        ->with('FirstName', $FirstName)
-        ->with('LastName', $LastName)
-        ->with('IDNumber', $IDNumber)
-        ->with('Email', $Email)
-        ->with('Password', $Password)
-        ->with('PhoneNumber', $PhoneNumber)
-        ->with('IsRestricted', $IsRestricted)
-        ->with('OTP', $OTP)
+            ->with('FirstName', $FirstName)
+            ->with('LastName', $LastName)
+            ->with('IDNumber', $IDNumber)
+            ->with('Email', $Email)
+            ->with('Password', $Password)
+            ->with('PhoneNumber', $PhoneNumber)
+            ->with('IsRestricted', $IsRestricted)
+            ->with('OTP', $OTP)
+            ->with('UserFullName', $UserFullName)
 
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function ShowCustomerCreate(Request $request)
     {
-        $Consumerid = $request->session()->get('LoggedUser');
-        $client = CustomerUser::where('Id', '=', $Consumerid)->first();
-        $request->session()->put('UserFullName', $client->FirstName . ' ' . $client->LastName);
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         return view('admin-customer')
-        
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function CreateCustomer(Request $request)
     {
-        $Consumerid = $request->session()->get('LoggedUser');
-        $client = CustomerUser::where('Id', '=', $Consumerid)->first();
-        $request->session()->put('UserFullName', $client->FirstName . ' ' . $client->LastName);
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
-        
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
+
         $newclient = Customer::create([
             'Id' =>  Str::upper(Str::uuid()),
             'TradingName' => $request->TradingName,
@@ -186,13 +186,11 @@ class AdminCreateController extends Controller
         ]);
 
         $newclient->save();
-        
-        return view('admin-customer')
-        
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
-    }
-    
 
+        return view('admin-customer')
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
+    }
 }

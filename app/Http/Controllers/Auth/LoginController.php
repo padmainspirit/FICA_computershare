@@ -62,9 +62,9 @@ class LoginController extends Controller
 
     /* Function to render login screen */
     public function index(Request $request)
-    {   
+    {
         $this->guard()->logout();
-        $customer = Customer::getCustomerDetailsByUrl();        
+        $customer = Customer::getCustomerDetailsByUrl();
         return view('auth.login', ['customer' => $customer]);
     }
 
@@ -86,43 +86,50 @@ class LoginController extends Controller
 
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        // session()->put('UserFullName', $UserFullName);
+        // dd($customer);
 
         //$is_role = Auth::user()->getRoleNames();
-        $getRoleName = CustomerUser::getCustomerUserRoleName(); 
-            if($getRoleName){ 
-                if($getRoleName == 'SuperAdmin' || $getRoleName == 'CustomerAdmin'){
-                    return redirect('/admin-dashboard');
-                    //return redirect('/home');
-                }else{
-                    $otp = new SmsOtpController();
-                    $sendotp = $otp->sendOTP($client->PhoneNumber, $customer->RegistrationName);
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
 
-                    DB::table('CustomerUsers')
-                        ->where('Id', $client->Id)
-                        ->update([
-                            'OTP' => $sendotp,
-                            'OTP_Date' => date("Y-m-d H:i:s")
-                        ]);
+        // dd($getRoleName);
 
-                    // Mail::send(
-                    //     'auth.emailotp',
-                    //     ['otp' => $sendotp, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow],
-                    //     function ($message) use ($request) {
-                    //         $message->to($request->session()->get('Email'));
-                    //         $message->subject('OTP Verification');
-                    //     }
-                    // );
+        if ($getRoleName) {
+            if ($getRoleName == 'SuperAdmin') {
+                return redirect('admin-display');
+                //return redirect('/home');
+            } elseif ($getRoleName == 'CustomerAdmin') {
+                return redirect('/admin-dashboard');
+            } else {
+                $otp = new SmsOtpController();
+                $sendotp = $otp->sendOTP($client->PhoneNumber, $customer->RegistrationName);
+
+                DB::table('CustomerUsers')
+                    ->where('Id', $client->Id)
+                    ->update([
+                        'OTP' => $sendotp,
+                        'OTP_Date' => date("Y-m-d H:i:s")
+                    ]);
+
+                // Mail::send(
+                //     'auth.emailotp',
+                //     ['otp' => $sendotp, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow],
+                //     function ($message) use ($request) {
+                //         $message->to($request->session()->get('Email'));
+                //         $message->subject('OTP Verification');
+                //     }
+                // );
 
 
-                    return $request->wantsJson()
+                return $request->wantsJson()
                     ? new JsonResponse([], 204)
                     : redirect()->intended('otp');
-
-                }
-            }else{
-                $this->guard()->logout();
-                return back()->with('fail', 'Role has not been assigned to the user. You account will be activated soon');
             }
+        } else {
+            $this->guard()->logout();
+            return back()->with('fail', 'Role has not been assigned to the user. You account will be activated soon');
+        }
 
 
         /* return $request->wantsJson()
@@ -132,13 +139,15 @@ class LoginController extends Controller
 
 
     public function login(Request $request)
-    {        
+    {
         $this->validateLogin($request);
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
+        if (
+            method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)
+        ) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -160,7 +169,7 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    
+
     /**
      * Log the user out of the application.
      *
@@ -179,5 +188,4 @@ class LoginController extends Controller
             ? new JsonResponse([], 204)
             : redirect('/');
     }
-
 }
