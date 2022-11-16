@@ -170,11 +170,12 @@ class UserController extends Controller
             'Email' => 'required|email|unique:CustomerUsers,Email,'.$id,
             'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,'.$id,
             'Password' => [
-                'required',
+                'nullable',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',                
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',  
+                "same:confirm-passkey"              
             ],
-            'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
+            'confirm-passkey' => ['nullable', 'string', 'min:8'],
             'roles' => 'required'
         ], [
             'unique'        => 'The :attribute already been registered.',
