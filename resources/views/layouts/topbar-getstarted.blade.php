@@ -102,7 +102,7 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
                             key="t-logout">@lang('translation.Logout')</span></a>
-                    <form id="logout-form" action="{{ route('logout', ['customer' => $customer->RegistrationName]) }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                 </div>

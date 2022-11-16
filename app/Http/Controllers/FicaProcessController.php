@@ -271,12 +271,14 @@ class FicaProcessController extends Controller
     public function uploadfile(Request $request)
     {
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $customerUser = Auth::user();
+        $Customerid = $customerUser->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-
 
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
@@ -294,8 +296,9 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+        //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        $consumer = Consumer::where('CustomerUSERID', '=',  $customerUser->Id)->first();
+        //$customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
