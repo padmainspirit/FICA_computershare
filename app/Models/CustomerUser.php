@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
+use DB;
+
 
 
 class CustomerUser extends Authenticatable
@@ -98,6 +100,13 @@ class CustomerUser extends Authenticatable
         $userRole = isset($getRoleName[0]) ? $getRoleName[0] : '';
         return $userRole; 
 
+    }
+
+    /* add users role in model_has roles with $id */
+    public static function assignRoleWithId($role_id, $userid)
+    {
+        $assignrole = DB::table('model_has_roles')->insert(['role_id' => $role_id,'model_id'=>$userid,'model_type'=>'App\Models\CustomerUser']);
+        return true;
     }
 
 }
