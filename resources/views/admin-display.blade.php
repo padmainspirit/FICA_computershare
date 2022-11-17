@@ -39,11 +39,16 @@
                                         <form method="POST" action="{{ route('admin-client') }}">
                                             @csrf
                                             <button type="submit" class="btn btn-primary w-md text-decoration-underline"
-                                            style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
+                                                style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
+                                                View Users
+                                            </button>
+                                            <button type="submit" class="btn btn-primary w-md text-decoration-underline"
+                                                style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
                                                 Edit
                                             </button>
 
-                                            <input id="SelectClient" name="SelectClient" value="{{ $item->Id }}" style="display: none;">
+                                            <input id="SelectClient" name="SelectClient" value="{{ $item->Id }}"
+                                                style="display: none;">
                                         </form>
                                     </td>
                                 </tr>
@@ -53,7 +58,7 @@
                     </table>
 
 
-                    
+
 
                 </div>
             </div>

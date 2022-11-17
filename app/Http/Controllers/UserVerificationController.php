@@ -23,6 +23,7 @@ use App\Models\Compliance;
 use App\Models\ConsumerComplianceSanction;
 use App\Models\ConsumerComplianceEntityAdditional;
 use App\Models\BankAccountType;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserVerificationController extends Controller
@@ -50,14 +51,16 @@ class UserVerificationController extends Controller
     {
         try {
             //$user = Auth::user();
-            $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+            // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
 
 
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
                 $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
                 // $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
                 $soapUrlDemo = 'https://www.web.xds.co.za/uatxdsconnect/?WSDL';
-                
+
                 $soapUrlLive = $soapUrlDemo; //here we are changing the url to the demo/dev/testing environment
                 $username = $this->xdsusername; // Demo username
                 //$username = 'czs_ws'; // Live username
@@ -144,8 +147,13 @@ class UserVerificationController extends Controller
     public function getSelfieResultFromxXDS(Request $request)
     {
         try {
-            $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $client->CustomerId)->first();
+
+
+            // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            // $customers = Customer::where('Id', '=',  $client->CustomerId)->first();
             $dovsLookup = LookupDatas::where('ID', '=', $this->DOVS)->first();
 
 
@@ -314,7 +322,11 @@ class UserVerificationController extends Controller
                             ]);
 
 
-                            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+                            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+                            $loggedInUserId = Auth::user()->Id;
+                            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+                            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+
                             // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
                             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
 
@@ -387,14 +399,19 @@ class UserVerificationController extends Controller
         try {
             // app('debugbar')->info('Hi');
             //return $request->all();
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $idasData = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
             $address = Address::where('ConsumerID', '=', $consumer->Consumerid)->first();
             $kycLookup = LookupDatas::where('ID', '=', $this->KYC)->first();
 
-            $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+
+            $loggedInUserId = Auth::user()->Id;
+            $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
             $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
             $customerID = $customers->Id;
@@ -739,8 +756,12 @@ class UserVerificationController extends Controller
     public function verifyClientBankAccount(Request $request)
     {
         try {
-            $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+
+            // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             //$fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $avsLookup = LookupDatas::where('ID', '=', $this->AVS)->first();
@@ -748,7 +769,7 @@ class UserVerificationController extends Controller
             $bankInfo = BankAccountType::where('BankTypeid', '=',  $avs->BankTypeid)->first();
 
 
-            $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            $customerUser =  CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
             $customerID = $customers->Id;
 
@@ -1100,8 +1121,13 @@ class UserVerificationController extends Controller
         $password = 'cal100';
 
         try {
-            $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+
+
+            // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $compliance = Compliance::where('FICA_id', '=', $fica->FICA_id)->first();

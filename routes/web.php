@@ -1,7 +1,7 @@
 <?php
-  
+
 use Illuminate\Support\Facades\Route;
-  
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -23,8 +23,8 @@ use App\Http\Controllers\ClientCaptureController;
 use App\Http\Controllers\tomerVerification;
 use App\Http\Controllers\FAQ;
 use App\Http\Controllers\VerificationDataController;
+use Illuminate\Support\Facades\Auth;
 
-  
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,13 +35,13 @@ use App\Http\Controllers\VerificationDataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-  
+
 Route::get('/', function () {
     return view('welcome');
 });
-  
+
 Auth::routes();
-  
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
@@ -70,16 +70,26 @@ Route::post('auth/reset-password', [ForgotPasswordController::class, 'submitRese
 
 Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->name('validateapi');
 
-Route::get('/startfica', [GetStartedController::class, 'startFica'])->name('startfica');
-Route::post('/startfica', [GetStartedController::class, 'getStarted'])->name('startfica');
-Route::post('/start-fica', [GetStartedController::class, 'getStarted'])->name('start-fica');
-Route::post('/startfica', [FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
+// Route::get('/startfica', [GetStartedController::class, 'startFica'])->name('startfica');
+// Route::post('/startfica', [GetStartedController::class, 'getStarted'])->name('startfica');
+// Route::post('/start-fica', [GetStartedController::class, 'getStarted'])->name('start-fica');
+// Route::post('/startfica', [FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
+Route::get('/startfica', [App\Http\Controllers\GetStartedController::class, 'startFica'])->name('startfica');
+Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('startfica');
+Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
+Route::post('/startfica', [App\Http\Controllers\FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 
-Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
-Route::post('/fica', [FicaProcessController::class, 'uploadfile']);
-Route::post('/fica-address', [awsController::class, 'proofOfAddress'])->name('proofofaddress');
-Route::post('/fica-bank', [awsController::class, 'proofOfBank'])->name('proofofbank');
-Route::post('/fica-indentity', [awsController::class, 'identitySubmit'])->name('submitID');
+// Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
+// Route::post('/fica', [FicaProcessController::class, 'uploadfile']);
+// Route::post('/fica-address', [awsController::class, 'proofOfAddress'])->name('proofofaddress');
+// Route::post('/fica-bank', [awsController::class, 'proofOfBank'])->name('proofofbank');
+// Route::post('/fica-indentity', [awsController::class, 'identitySubmit'])->name('submitID');
+Route::post('/fica-indentity', [App\Http\Controllers\awsController::class, 'identitySubmit'])->name('submitID');
+Route::post('/fica-bank', [App\Http\Controllers\awsController::class, 'proofOfBank'])->name('proofofbank');
+Route::post('/fica-address', [App\Http\Controllers\awsController::class, 'proofOfAddress'])->name('proofofaddress');
+Route::post('/fica', [App\Http\Controllers\FicaProcessController::class, 'uploadfile']);
+Route::get('/fica', [App\Http\Controllers\FicaProcessController::class, 'fica'])->name('fica');
+
 
 //Fica Process continue
 Route::post('/personal-user-detail', [ConsumerFicaProcess::class, 'PersonalDetails'])->name('personal-user-detail');
@@ -126,8 +136,8 @@ Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name(
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
 Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');
-  
-Route::group(['middleware' => ['auth']], function() {
+
+Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('todos', TodoController::class);

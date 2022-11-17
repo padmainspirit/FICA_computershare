@@ -16,6 +16,7 @@ use App\Models\AVS;
 use App\Models\KYC;
 use App\Models\DOVS;
 use App\Models\Compliance;
+use Illuminate\Support\Facades\Auth;
 
 
 class APIValidationController extends Controller
@@ -23,7 +24,9 @@ class APIValidationController extends Controller
     public function validateAPIs(Request $request)
     {
         // try {
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
 
         // dd($consumer);
@@ -36,7 +39,7 @@ class APIValidationController extends Controller
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
 
 
-        
+
 
         //Run All API's
         if ($kyc->KYC_Status != 2 && $avs->AVS_Status != 2 && $comply->Compliance_Status != 2) {

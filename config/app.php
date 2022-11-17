@@ -216,4 +216,6 @@ return [
 
     ])->toArray(),
 
+    'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3)
+
 ];

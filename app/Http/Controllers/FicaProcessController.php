@@ -60,7 +60,9 @@ class FicaProcessController extends Controller
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
-        $customerName =  $request->session()->get('customerName');
+        // $customerName =  $request->session()->get('customerName');
+        $client = Auth::user();
+        $customerName = $client->FirstName . ' ' . $client->LastName;;
 
         $EmailID = $request->emailid;
         //   app('debugbar')->info($EmailID);
@@ -70,10 +72,10 @@ class FicaProcessController extends Controller
         ]);
 
         return redirect()->back()
-        ->with('Logo', $Logo)
-        ->with('Icon', $Icon)
-        ->with('customerName', $customerName)
-        ->with('NotificationLink', $NotificationLink);
+            // ->with('Logo', $Logo)
+            // ->with('Icon', $Icon)
+            ->with('customerName', $customerName)
+            ->with('NotificationLink', $NotificationLink);
     }
 
 
@@ -262,7 +264,8 @@ class FicaProcessController extends Controller
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'citiesNames' => $citiesNames, 'Telephones' => $Telephones,
             'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus,
-            'homeTelephoneNumber' => $homeTelephoneNumber, 'workTelephoneNumber' => $workTelephoneNumber, 'customer' => $customer]);
+            'homeTelephoneNumber' => $homeTelephoneNumber, 'workTelephoneNumber' => $workTelephoneNumber, 'customer' => $customer
+        ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
         // }
@@ -271,11 +274,13 @@ class FicaProcessController extends Controller
     public function uploadfile(Request $request)
     {
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
 
         // $Logo =  $request->session()->get('Logo');
@@ -294,18 +299,37 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+
+
+
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        $LoggedInConsumerId = $fica['Consumerid'];
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
-        $customer = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
         $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
-
         $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
         $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
+
+        // $consumer = Consumer::where('CustomerUSERID', '=',  $client->Id)->first();
+
+        // //dd($consumer);
+        // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+        // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        // $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
+        // $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $customer = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
+        // $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
+
+        // $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
 
         $LoggedInConsumerId = $consumer['Consumerid'];
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();

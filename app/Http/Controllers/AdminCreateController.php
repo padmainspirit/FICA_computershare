@@ -126,6 +126,7 @@ class AdminCreateController extends Controller
 
     public function CreateCustomer(Request $request)
     {
+
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
@@ -184,8 +185,10 @@ class AdminCreateController extends Controller
 
             'Customer_Name' => $request->RegistrationName,
         ]);
-
+        dd($newclient);
         $newclient->save();
+
+
 
         return view('admin-customer')
             ->with('UserFullName', $UserFullName)
