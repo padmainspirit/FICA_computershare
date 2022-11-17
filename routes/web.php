@@ -76,7 +76,7 @@ Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->
 // Route::post('/startfica', [FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 Route::get('/startfica', [App\Http\Controllers\GetStartedController::class, 'startFica'])->name('startfica');
 Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('startfica');
-Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
+Route::post('/start-fica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
 Route::post('/startfica', [App\Http\Controllers\FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 
 // Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
