@@ -220,7 +220,7 @@ class AdminController extends Controller
     public function FindUsers(Request $request)
     {
 
-        $Consumerid = $request->session()->get('LoggedUser');
+
 
         // app('debugbar')->info($Consumerid);
 
@@ -228,8 +228,7 @@ class AdminController extends Controller
 
         $LogUserName = $getLogUser['FirstName'];
         $LogUserSurname = $getLogUser['LastName']; */
-        $LogUserName = Auth::user()->FirstName;
-        $LogUserSurname = Auth::user()->LastName;
+
         // $SearchConsumerID = $request->session()->get('SearchConsumerID');
         // $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
@@ -260,6 +259,9 @@ class AdminController extends Controller
 
         /* $Customerid = $request->session()->get('Customerid');
         $customer = Customer::where('Id', '=',  $Customerid)->first(); */
+        // $Consumerid = $request->session()->get('LoggedUser');
+        $LogUserName = Auth::user()->FirstName;
+        $LogUserSurname = Auth::user()->LastName;
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 

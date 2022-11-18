@@ -133,6 +133,7 @@ class AdminCreateController extends Controller
         $getLoggedUsersID = $request->input('SelectUser');
 
         $LoggedUsersID = CustomerUser::where('Id', '=',  $getLoggedUsersID)->first();
+        // dd($LoggedUsersID->FirstName);
 
         $FirstName = $LoggedUsersID->FirstName != '' ? $LoggedUsersID->FirstName : null;
         $LastName = $LoggedUsersID->LastName != '' ? $LoggedUsersID->LastName : null;

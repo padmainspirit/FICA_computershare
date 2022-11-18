@@ -110,14 +110,15 @@ Route::post('/admin-actions', [App\Http\Controllers\CustomerVerification::class,
 Route::get('/admin-dashboard', [App\Http\Controllers\AdminController::class, 'ShowDashboard'])->name('admin-dashboard');
 
 Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
+Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
 Route::get('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'EditCustomer'])->name('client-show');
+
+Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index'])->name('admin-display');
+Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
+Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 
 Route::post('/admin-edit', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerEdit'])->name('edit-customer');
 Route::get('/admin-edit', [App\Http\Controllers\AdminCreateController::class, 'EditDetails'])->name('edit-details');
-
-Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index']);
-Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
-Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 
 Route::get('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'ShowAdminCreate'])->name('admin-create');
 Route::post('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'CreateAdmin'])->name('create-admin');
