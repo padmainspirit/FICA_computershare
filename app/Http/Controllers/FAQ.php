@@ -30,6 +30,7 @@ class FAQ extends Controller
 
         // $Customerid = session()->get('Customerid');
 
+
         $customerBrand = Customer::where('Id', '=',  $Customerid)->first();
 
         // dd($customerBrand);
@@ -49,5 +50,6 @@ class FAQ extends Controller
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
             ->with('Logo', $Logo);
+
     }
 }

@@ -198,6 +198,7 @@
                                                 style="width: {{ $HighPerc }}%"
                                                 aria-valuenow="{{ $DashboardData->HighRisk }}" aria-valuemin="0"
                                                 aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+
                                         </div>
                                     </div>
                                 </li>
@@ -211,6 +212,7 @@
                                                 style="width: {{ $MediumPerc }}%"
                                                 aria-valuenow="{{ $DashboardData->MediumRisk }}" aria-valuemin="0"
                                                 aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+
                                         </div>
                                     </div>
                                 </li>
@@ -224,6 +226,7 @@
                                                 style="width: {{ $LowPerc }}%"
                                                 aria-valuenow="{{ $DashboardData->LowRisk }}" aria-valuemin="0"
                                                 aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+
                                         </div>
                                     </div>
                                 </li>

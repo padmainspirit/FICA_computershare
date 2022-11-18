@@ -39,6 +39,9 @@ use App\Models\LookupDatas;
 use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Exists;
+
+use function Symfony\Component\String\b;
 
 class FicaProcessController extends Controller
 {
@@ -51,6 +54,7 @@ class FicaProcessController extends Controller
     {
 
         $NotificationLink = $request->session()->get('NotificationLink');
+
 
 
         // $customerName =  $request->session()->get('customerName');
@@ -79,7 +83,7 @@ class FicaProcessController extends Controller
     public function fica(Request $request)
     {
 
-        $Customerid = Auth::user()->CustomerId;
+        $Customerid = $request->session()->get('Customerid');
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
@@ -99,9 +103,8 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-        $loggedInUserId = Auth::user()->Id;
-        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $LoggedInConsumerId = $fica['Consumerid'];
@@ -115,7 +118,7 @@ class FicaProcessController extends Controller
 
 
 
-        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         $LoggedInConsumerId = $consumer['Consumerid'];
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         $request->session()->put('NotificationLink', $NotificationLink);
@@ -198,6 +201,7 @@ class FicaProcessController extends Controller
                     $TelWork = $tele;
                 }
             }
+
         }
 
         //Telephone
@@ -290,6 +294,7 @@ class FicaProcessController extends Controller
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
             'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
+
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -404,6 +409,7 @@ class FicaProcessController extends Controller
                     $TelWork = $tele;
                 }
             }
+
         }
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));

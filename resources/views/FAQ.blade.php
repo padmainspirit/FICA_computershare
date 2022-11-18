@@ -4,6 +4,7 @@
     @lang('translation.FAQs')
 @endsection
 
+
 @section('css')
     <style>
         .heading-fica-id {
@@ -66,18 +67,21 @@
                             </div>
                         </div>
 
+
                         <form action="#" method="post" id="faq">
 
                             <div class="row justify-content-center">
                                 <div class="col-sm-6 mt-3" style="margin-left: 10%; margin-bottom: 2%;">
                                     <select class="myselect" style="width: 90%;" title="Please select an option..."
                                         id="select-faq" name="faqList" data-show-subtext="false" data-live-search="true"
+
                                         onchange="showHide(this)">
 
                                         <option data-hidden="true">Select an option</option>
 
                                         @foreach ($Questions as $item)
                                             <option value="{{ $item->FAQ_ID }}">{{ $item->Question }}</option>
+
                                         @endforeach
                                     </select>
                                 </div>
@@ -91,11 +95,13 @@
                                 @foreach ($Questions as $item)
                                     <div class="show-hide" style="display: none; text-align: justify;"
                                         id="{{ $item->FAQ_ID }}">
+
                                         {{ $item->Answer }}
                                     </div>
                                 @endforeach
 
                             </div>
+
 
                         </form>
 
@@ -110,6 +116,7 @@
 @endsection
 
 @section('script')
+
     <script>
         function showHide(elem) {
             if (elem.selectedIndex !== 0) {
@@ -132,3 +139,4 @@
         $(".myselect").select2();
     </script>
 @endsection
+

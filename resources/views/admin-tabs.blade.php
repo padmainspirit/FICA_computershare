@@ -481,6 +481,7 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     {{ $CellCode }}{{ $CellNo }}
+
                                                                                 </td>
                                                                             </tr>
 
@@ -1893,6 +1894,7 @@
                                                                 width: 100px; text-transform: uppercase;"
                                                                 required>
 
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1946,6 +1948,7 @@
                                                                 id="Gender" name="Gender" aria-placeholder="Select"
                                                                 required>
 
+
                                                                 {{-- <option value="" selected="" disabled="">Select</option> --}}
 
                                                                 <option value='Male'
@@ -1956,6 +1959,7 @@
                                                                 <option value='Female'
                                                                     {{ isset($Gender) && $Gender == 'Female' ? 'selected' : '' }}>
                                                                     FEMALE
+
                                                                 </option>
 
                                                             </select>
@@ -2210,6 +2214,7 @@
 
                                                         <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo"
                                                             class="form-control input-sm"
+
                                                             value="{{ $WorkTelCode }}{{ $WorkTelNo }}"
                                                             style="padding-left: 24px; height: 27px; font-size: 12px;
                                                              width: 225px; text-transform: uppercase;"
@@ -2238,6 +2243,7 @@
                                                                 placeholder="Enter Home Number" pattern="^\d{10}$"
                                                                 required>
 
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2263,6 +2269,7 @@
 
                                                         <input type="text" id="CellularNo" name="CellularNo"
                                                             class="form-control input-sm"
+
                                                             value="{{ $CellCode }}{{ $CellNo }}"
                                                             style="height: 27px; padding-left: 24px; font-size: 12px;
                                                             text-transform: uppercase;"
@@ -3307,6 +3314,7 @@
                                                                 <option value=5 style="font-size: 12px;"
                                                                     {{ isset($AccountType) && $AccountType == 'SUBSCRIPTION SHARE' ? 'selected' : '' }}>
                                                                     SUBSCRIPTION SHARE
+
                                                                 </option>
 
                                                             </select>
@@ -3411,6 +3419,7 @@
                                                             placeholder="Enter Your Account Number" pattern="^[0-9]*$"
                                                             required>
 
+
                                                     </div>
                                                 </div>
 
@@ -3506,6 +3515,7 @@
                                                             placeholder="Enter Your Income Tax Number"
                                                             pattern="^[0-9]*$" required>
 
+
                                                     </div>
                                                 </div>
 
@@ -3535,6 +3545,7 @@
                                                             style="height: 27px; padding-left: 24px; text-transform: uppercase;font-size: 12px;"
                                                             placeholder="Enter Your Foreign Tax Number"
                                                             pattern="^[0-9]*$">
+
 
                                                     </div>
                                                 </div>
@@ -4041,6 +4052,7 @@
                                                                 {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'I/We confirm that I  am/we  are a nominee and intend to hold Securities on behalf of the beneficial owners.' ? 'selected' : '' }}>
                                                                 I/We confirm that I am/we are a nominee and intend to hold
                                                                 Securities on
+
                                                                 behalf of the beneficial owners.
                                                             </option>
                                                         </select>
@@ -4155,6 +4167,7 @@
                                                                 {{ isset($CustodyService) && $CustodyService == 'Securities must be registered in my Own Name' ? 'selected' : '' }}>
                                                                 Securities must be registered in my own name and maintained
                                                                 by ComputerShare utilizing my own broker.</option>
+
                                                         </select>
 
                                                         {{--  <select class="form-select" autocomplete="off"
@@ -4771,6 +4784,7 @@
             // var homephoto = ({{ $ConsumerIDPhoto }} == null) ? {{ $ConsumerIDPhoto }} : null;
             // var capphoto = ({{ $ConsumerCapturedPhoto }} == null) ? {{ $ConsumerCapturedPhoto }} : null;
 
+
             // 'Value' => $testing != '' ? $testing : null,
 
             // var title = isset($TitleDesc) ? $TitleDesc : null;
@@ -4790,6 +4804,7 @@
 
             pageHeight = doc.internal.pageSize.height;
             specialElementHandlers = {
+
                 // element with id of "bypass" - jQuery style selector  
                 '#bypassme': function(element, renderer) {
                     // true = "handled elsewhere, bypass text extraction"  
@@ -4905,6 +4920,7 @@
                     fillColor: [26, 79, 110],
                     textColor: [255, 255, 255]
                 },
+
             });
 
             doc.autoTable({
@@ -5229,6 +5245,7 @@
                     fillColor: [26, 79, 110],
                     textColor: [255, 255, 255]
                 },
+
             });
 
             // doc.autoTable({
@@ -5300,6 +5317,7 @@
                     fillColor: [26, 79, 110],
                     textColor: [255, 255, 255]
                 },
+
             });
 
             SancList.forEach((element, index) => {
@@ -5415,6 +5433,7 @@
 
             value == 'Securities must be registered in my own name and maintained by ComputerShare'
             s Deal Routing Service ' ? $("#newoptions1").hide() : $("#newoptions1").show();
+
 
         });
     </script>
