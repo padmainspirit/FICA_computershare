@@ -39,11 +39,12 @@
                                         <form method="POST" action="{{ route('admin-edit') }}">
                                             @csrf
                                             <button type="submit" class="btn btn-primary w-md text-decoration-underline"
-                                            style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
+                                                style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
                                                 Edit
                                             </button>
 
-                                            <input id="SelectUser" name="SelectUser" value="{{ $item->Id }}" style="display: none;">
+                                            <input id="SelectUser" name="SelectUser" value="{{ $item->Id }}"
+                                                style="display: none;">
                                         </form>
                                     </td>
                                 </tr>

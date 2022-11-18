@@ -11,8 +11,9 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/user.png"
-                        alt="Image Not Found" style="width: 25px;height: 25px;">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ URL::asset('assets/images/users/user.png') }}" alt="Image Not Found"
+                        style="width: 25px;height: 25px;">
                     <span style="color: black" class="d-none d-xl-inline-block ms-1"
                         key="t-henry">{{ $UserFullName }}</span>
 

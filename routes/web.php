@@ -142,3 +142,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
     Route::resource('todos', TodoController::class);
 });
+
+Route::post('/users.admincreate', [App\Http\Controllers\UserController::class, 'adminstore'])->name('users.adminstore');
+Route::get('/users.admincreate', [App\Http\Controllers\UserController::class, 'admincreate'])->name('users.admincreate');
