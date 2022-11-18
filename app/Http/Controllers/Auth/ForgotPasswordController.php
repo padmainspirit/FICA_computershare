@@ -24,7 +24,7 @@ class ForgotPasswordController extends Controller
     {
         $message = '';
 
-        $Customerid = $request->session()->get('Customerid');
+        //$Customerid = $request->session()->get('Customerid');
         $customer = Customer::getCustomerDetailsByUrl(); 
 
         return view('auth.forget-password')->with('message', $message)

@@ -94,9 +94,10 @@ class RegisterController extends Controller
         $request['IsUserLoggedIn'] = 0;
         $request['IsRestricted'] = 0;        
         
-        try{
-            $user = CustomerUser::create($request->all());
-            CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+        try{ //print_r(config('app.CUSTOMER_USER_ROLE_ID'));exit;
+            $user = CustomerUser::create($request->all());            
+            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+            CustomerUser::assignRoleWithId(config('app.customer_user_role_id'), $user->Id); //CustomerUser role id to be assigned for registered user
 
             $token = Str::random(16);
             $FirstName = $request->FirstName;

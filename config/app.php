@@ -43,6 +43,10 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+    'customer_user_role_id' => env('CUSTOMER_USER_ROLE_ID', 3),
+    /* set default role to user, that is 3 */
+    
+
     /*
     |--------------------------------------------------------------------------
     | Application URL

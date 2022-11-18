@@ -441,19 +441,7 @@ class GetStartedController extends Controller
             'Province' => NULL,
         ]);
 
-        //TELEPHONES
-        // $telephones = Telephones::create([
-        //     'ConsumerID' => $consumerId,
-        //     'TelephoneTypeInd' => NULL,
-        //     'InternationalDialingCode' => NULL,
-        //     'TelephoneCode' => NULL,
-        //     'TelephoneNo' => NULL,
-        //     'RecordStatusInd' => NULL,
-        //     'CreatedonDate' => NULL,
-        //     'ChangedonDate' => NULL,
-        //     'LastUpdatedDate' => NULL
-        // ]);
-
+        
         //FINANCIAL
         $financial = Financial::create([
             'ConsumerFinancial' => $consumerFinancial,
