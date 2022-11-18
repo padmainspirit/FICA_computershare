@@ -42,6 +42,59 @@ class AdminCreateController extends Controller
             ->with('Logo', $Logo);
     }
 
+    public function ShowConglomerateEdit(Request $request)
+    {
+
+        if (session()->has('success')) {
+            session()->pull('success');
+        }
+
+        if (session()->has('fail')) {
+            session()->pull('fail');
+        }
+
+        if (session()->has('getLoggedUsersID')) {
+            session()->pull('getLoggedUsersID');
+        }
+
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
+
+        // $GetAllUsers = CustomerUser::all();
+        $getCustomerId = $request->input('SelectClient');
+        $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();
+        // dd($GetAllConglomerateDetails);
+
+        $TradingName = $GetAllConglomerateDetails->TradingName != '' ? $GetAllConglomerateDetails->TradingName : null;
+        $Customer_Name = $GetAllConglomerateDetails->Customer_Name != '' ? $GetAllConglomerateDetails->Customer_Name : null;
+        $RegistrationNumber = $GetAllConglomerateDetails->RegistrationNumber != '' ? $GetAllConglomerateDetails->RegistrationNumber : null;
+        $BranchLocation = $GetAllConglomerateDetails->BranchLocation != '' ? $GetAllConglomerateDetails->BranchLocation : null;
+        $PhysicalAddress = $GetAllConglomerateDetails->PhysicalAddress != '' ? $GetAllConglomerateDetails->PhysicalAddress : null;
+        $TypeOfBusiness = $GetAllConglomerateDetails->TypeOfBusiness != '' ? $GetAllConglomerateDetails->TypeOfBusiness : null;
+        $TelephoneNumber = $GetAllConglomerateDetails->TelephoneNumber != '' ? $GetAllConglomerateDetails->TelephoneNumber : null;
+
+        app('debugbar')->info($GetAllConglomerateDetails);
+        return view('admin-conglomerate', [])
+
+            ->with('UserFullName', $UserFullName)
+            ->with('TradingName', $TradingName)
+            ->with('Customer_Name', $Customer_Name)
+            ->with('RegistrationNumber', $RegistrationNumber)
+            ->with('BranchLocation', $BranchLocation)
+            ->with('PhysicalAddress', $PhysicalAddress)
+            ->with('TypeOfBusiness', $TypeOfBusiness)
+            ->with('TelephoneNumber', $TelephoneNumber)
+
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
+    }
+
     public function ShowCustomerDisplay(Request $request)
     {
         $client = Auth::user();
@@ -185,7 +238,7 @@ class AdminCreateController extends Controller
 
             'Customer_Name' => $request->RegistrationName,
         ]);
-        dd($newclient);
+        // dd($newclient);
         $newclient->save();
 
 

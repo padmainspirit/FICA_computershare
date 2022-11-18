@@ -25,8 +25,8 @@ class AdminController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:admin-dashboard', ['only' => ['ShowDashboard']]);
-         $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
+        $this->middleware('permission:admin-dashboard', ['only' => ['ShowDashboard']]);
+        $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
     }
 
     public function ShowDashboard(Request $request)
@@ -36,7 +36,7 @@ class AdminController extends Controller
         $request->session()->put('idnumber', null);
         // $findnote = SendEmail::all()->toArray();
         //$Consumerid = $request->session()->get('LoggedUser');
-        $Consumerid =Auth::user()->Id;
+        $Consumerid = Auth::user()->Id;
 
         $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
@@ -67,35 +67,37 @@ class AdminController extends Controller
             ]
         );
 
+        $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
+
         // dd($DashboardInfo);
 
-        $DashboardData = [
+        // $DashboardData = [
 
-            'NumClients' => $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null,
-            'InProgress' => $DashboardInfo != '' ? $DashboardInfo[0]->InProgress : null,
-            'Completed' => $DashboardInfo != '' ? $DashboardInfo[0]->Completed : null,
-            'Rejected' => $DashboardInfo != '' ? $DashboardInfo[0]->Rejected : null,
-            'Failed' => $DashboardInfo != '' ? $DashboardInfo[0]->Failed : null,
-            'Correction' => $DashboardInfo != '' ? $DashboardInfo[0]->Correction : null,
-            'HighRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null,
-            'MediumRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null,
-            'LowRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null,
-            'Oneto5Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Oneto5Count : null,
-            'Fiveto10Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Fiveto10Count : null,
-            'Tento15count' => $DashboardInfo != '' ? $DashboardInfo[0]->Tento15count : null,
-            'Fifteenpluscount' => $DashboardInfo != '' ? $DashboardInfo[0]->Fifteenpluscount : null,
+        //     'NumClients' => $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null,
+        //     'InProgress' => $DashboardInfo != '' ? $DashboardInfo[0]->InProgress : null,
+        //     'Completed' => $DashboardInfo != '' ? $DashboardInfo[0]->Completed : null,
+        //     'Rejected' => $DashboardInfo != '' ? $DashboardInfo[0]->Rejected : null,
+        //     'Failed' => $DashboardInfo != '' ? $DashboardInfo[0]->Failed : null,
+        //     'Correction' => $DashboardInfo != '' ? $DashboardInfo[0]->Correction : null,
+        //     'HighRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null,
+        //     'MediumRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null,
+        //     'LowRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null,
+        //     'Oneto5Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Oneto5Count : null,
+        //     'Fiveto10Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Fiveto10Count : null,
+        //     'Tento15count' => $DashboardInfo != '' ? $DashboardInfo[0]->Tento15count : null,
+        //     'Fifteenpluscount' => $DashboardInfo != '' ? $DashboardInfo[0]->Fifteenpluscount : null,
 
-        ];
+        // ];
 
-        $NumClients = $DashboardData['NumClients'];
+        $NumClients = $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null;
 
-        $HighRisk = $DashboardData['HighRisk'];
-        $MediumRisk = $DashboardData['MediumRisk'];
-        $LowRisk = $DashboardData['LowRisk'];
+        $HighRisk = $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null;
+        $MediumRisk = $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null;
+        $LowRisk = $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null;
 
-        $HighPerc = $NumClients!= 0 ? (($HighRisk / $NumClients) * 100): 0;
-        $MediumPerc = $NumClients!= 0 ? (($MediumRisk / $NumClients) * 100): 0;
-        $LowPerc = $NumClients!= 0 ? (($LowRisk / $NumClients) * 100): 0;
+        $HighPerc = $NumClients != 0 ? (($HighRisk / $NumClients) * 100) : 0;
+        $MediumPerc = $NumClients != 0 ? (($MediumRisk / $NumClients) * 100) : 0;
+        $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
 
 
         // $emailid = SendEmail::where('EmailID', '=',  $NotificationLink->EmailID)->first();
@@ -185,7 +187,7 @@ class AdminController extends Controller
 
         return view('admin-dashboard', [])
 
-            ->with($DashboardData)
+            ->with('DashboardData', $DashboardData)
             ->with('LowPerc', $LowPerc)
             ->with('MediumPerc', $MediumPerc)
             ->with('HighPerc', $HighPerc)
@@ -710,7 +712,7 @@ class AdminController extends Controller
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-            
+
 
         // $Consumerid = $request->session()->get('LoggedUser');
         // $EmailID = SendEmail::where('EmailID', '=', $findnote->EmailID)->first();
@@ -732,12 +734,12 @@ class AdminController extends Controller
 
         return redirect()->back()
 
-        // ->with('NotificationLink', $NotificationLink)
-        ->with('customerName', $customerName)
-        ->with('Logo', $Logo)
-        ->with('Icon', $Icon)
-        ->with('LogUserName', $LogUserName)
-        ->with('LogUserSurname', $LogUserSurname);
+            // ->with('NotificationLink', $NotificationLink)
+            ->with('customerName', $customerName)
+            ->with('Logo', $Logo)
+            ->with('Icon', $Icon)
+            ->with('LogUserName', $LogUserName)
+            ->with('LogUserSurname', $LogUserSurname);
     }
 
     // public function ScreenUsersFirst()
