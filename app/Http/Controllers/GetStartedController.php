@@ -43,9 +43,13 @@ class GetStartedController extends Controller
 
         $Consumerid = Auth::user()->Id;
 
+        // dd($Consumerid);
+
         $SearchCustomerId = CustomerUser::where('Id', '=', $Consumerid)->first();
 
         $Customerid = Auth::user()->CustomerId;
+
+        // dd($Customerid);
         $customer = Customer::getCustomerDetails($Customerid);
 
         //print_r($Customerid);exit;
@@ -86,7 +90,7 @@ class GetStartedController extends Controller
         $request->session()->put('ficaId', $ficaId);
         $request->session()->put('consumerId', $consumerId);
 
-       
+
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
@@ -542,7 +546,7 @@ class GetStartedController extends Controller
 
         //$riskAnswer->save();
 
-        
+
         return redirect('fica');
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);

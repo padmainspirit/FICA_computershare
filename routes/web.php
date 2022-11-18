@@ -1,7 +1,7 @@
 <?php
-  
+
 use Illuminate\Support\Facades\Route;
-  
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -23,8 +23,8 @@ use App\Http\Controllers\ClientCaptureController;
 use App\Http\Controllers\tomerVerification;
 use App\Http\Controllers\FAQ;
 use App\Http\Controllers\VerificationDataController;
+use Illuminate\Support\Facades\Auth;
 
-  
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,13 +35,13 @@ use App\Http\Controllers\VerificationDataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-  
+
 Route::get('/', function () {
     return view('welcome');
 });
-  
+
 Auth::routes();
-  
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
@@ -70,16 +70,26 @@ Route::post('auth/reset-password', [ForgotPasswordController::class, 'submitRese
 
 Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->name('validateapi');
 
-Route::get('/startfica', [GetStartedController::class, 'startFica'])->name('startfica');
-Route::post('/startfica', [GetStartedController::class, 'getStarted'])->name('startfica');
-Route::post('/start-fica', [GetStartedController::class, 'getStarted'])->name('start-fica');
-Route::post('/startfica', [FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
+// Route::get('/startfica', [GetStartedController::class, 'startFica'])->name('startfica');
+// Route::post('/startfica', [GetStartedController::class, 'getStarted'])->name('startfica');
+// Route::post('/start-fica', [GetStartedController::class, 'getStarted'])->name('start-fica');
+// Route::post('/startfica', [FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
+Route::get('/startfica', [App\Http\Controllers\GetStartedController::class, 'startFica'])->name('startfica');
+Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('startfica');
+Route::post('/start-fica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
+Route::post('/startfica', [App\Http\Controllers\FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 
-Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
-Route::post('/fica', [FicaProcessController::class, 'uploadfile']);
-Route::post('/fica-address', [awsController::class, 'proofOfAddress'])->name('proofofaddress');
-Route::post('/fica-bank', [awsController::class, 'proofOfBank'])->name('proofofbank');
-Route::post('/fica-indentity', [awsController::class, 'identitySubmit'])->name('submitID');
+// Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
+// Route::post('/fica', [FicaProcessController::class, 'uploadfile']);
+// Route::post('/fica-address', [awsController::class, 'proofOfAddress'])->name('proofofaddress');
+// Route::post('/fica-bank', [awsController::class, 'proofOfBank'])->name('proofofbank');
+// Route::post('/fica-indentity', [awsController::class, 'identitySubmit'])->name('submitID');
+Route::post('/fica-indentity', [App\Http\Controllers\awsController::class, 'identitySubmit'])->name('submitID');
+Route::post('/fica-bank', [App\Http\Controllers\awsController::class, 'proofOfBank'])->name('proofofbank');
+Route::post('/fica-address', [App\Http\Controllers\awsController::class, 'proofOfAddress'])->name('proofofaddress');
+Route::post('/fica', [App\Http\Controllers\FicaProcessController::class, 'uploadfile']);
+Route::get('/fica', [App\Http\Controllers\FicaProcessController::class, 'fica'])->name('fica');
+
 
 //Fica Process continue
 Route::post('/personal-user-detail', [ConsumerFicaProcess::class, 'PersonalDetails'])->name('personal-user-detail');
@@ -89,27 +99,32 @@ Route::post('/declarations', [ConsumerFicaProcess::class, 'Declarations'])->name
 Route::post('/acknowledgement', [ConsumerFicaProcess::class, 'Acknowledgement'])->name('acknowledgement');
 
 //Admin
-Route::post('/admin-test', [CustomerVerification::class, 'TestResult'])->name('testresult');
-Route::get('/admin-vertical', [CustomerVerification::class, 'AdminVertical'])->name('admin-vertical');
-Route::get('/admin-reports', [CustomerVerification::class, 'AdminReports']);
-Route::post('/admin-reports', [CustomerVerification::class, 'AdminSearchReports'])->name('search-reports');
-Route::get('/admin-findusers', [AdminController::class, 'FindUsers'])->name('admin-findusers');
-Route::post('/admin-findusers', [AdminController::class, 'Display'])->name('display-admin-findusers');
-Route::get('/admin-users', [AdminController::class, 'ShowUsers'])->name('admin-users');
-Route::post('/admin-actions', [CustomerVerification::class, 'AdminActions'])->name('admin-actions');
-Route::get('/admin-dashboard', [AdminController::class, 'ShowDashboard'])->name('admin-dashboard');
+Route::post('/admin-test', [App\Http\Controllers\CustomerVerification::class, 'TestResult'])->name('testresult');
+Route::get('/admin-vertical', [App\Http\Controllers\CustomerVerification::class, 'AdminVertical'])->name('admin-vertical');
+Route::get('/admin-reports', [App\Http\Controllers\CustomerVerification::class, 'AdminReports']);
+Route::post('/admin-reports', [App\Http\Controllers\CustomerVerification::class, 'AdminSearchReports'])->name('search-reports');
+Route::get('/admin-findusers', [App\Http\Controllers\AdminController::class, 'FindUsers'])->name('admin-findusers');
+Route::post('/admin-findusers', [App\Http\Controllers\AdminController::class, 'Display'])->name('display-admin-findusers');
+Route::get('/admin-users', [App\Http\Controllers\AdminController::class, 'ShowUsers'])->name('admin-users');
+Route::post('/admin-actions', [App\Http\Controllers\CustomerVerification::class, 'AdminActions'])->name('admin-actions');
+Route::get('/admin-dashboard', [App\Http\Controllers\AdminController::class, 'ShowDashboard'])->name('admin-dashboard');
 
-Route::get('/admin-client', [AdminCreateController::class, 'EditCustomer'])->name('client-show');
-Route::post('/admin-client', [AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
+Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
+Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
+Route::get('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'EditCustomer'])->name('client-show');
 
-Route::get('/admin-display', [AdminCreateController::class, 'index']);
-Route::post('/admin-display', [AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
+Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index'])->name('admin-display');
+Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
+Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 
-Route::get('/admin-edit', [AdminCreateController::class, 'EditCustomer'])->name('edit-customer');
-Route::post('/admin-edit', [AdminCreateController::class, 'ShowCustomerEdit'])->name('admin-edit');
+Route::post('/admin-edit', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerEdit'])->name('edit-customer');
+Route::get('/admin-edit', [App\Http\Controllers\AdminCreateController::class, 'EditDetails'])->name('edit-details');
 
-Route::get('/admin-customer', [AdminCreateController::class, 'ShowCustomerCreate']);
-Route::post('/admin-customer', [AdminCreateController::class, 'CreateCustomer'])->name('admin-customer');
+Route::get('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'ShowAdminCreate'])->name('admin-create');
+Route::post('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'CreateAdmin'])->name('create-admin');
+
+Route::get('/admin-customer', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerCreate']);
+Route::post('/admin-customer', [App\Http\Controllers\AdminCreateController::class, 'CreateCustomer'])->name('admin-customer');
 
 
 Route::get('/admin-users', [AdminController::class, 'show']);
@@ -126,9 +141,12 @@ Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name(
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
 Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');
-  
-Route::group(['middleware' => ['auth']], function() {
+
+Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('todos', TodoController::class);
 });
+
+Route::post('/users.admincreate', [App\Http\Controllers\UserController::class, 'adminstore'])->name('users.adminstore');
+Route::get('/users.admincreate', [App\Http\Controllers\UserController::class, 'admincreate'])->name('users.admincreate');

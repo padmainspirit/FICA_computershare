@@ -25,10 +25,10 @@ class RegisterController extends Controller
     }
 
 
-    /**  index function to render registration form with customer details*/ 
+    /**  index function to render registration form with customer details*/
     public function index(Request $request)
-    {        
-        $customer = Customer::getCustomerDetailsByUrl(); 
+    {
+        $customer = Customer::getCustomerDetailsByUrl();
         return view('auth.register', ['customer' => $customer]);
     }
 
@@ -42,7 +42,7 @@ class RegisterController extends Controller
         $YearNow = Carbon::now()->year;
 
         $this->validate($request, [
-            'FirstName' => ['required', 'string', 'min:2','max:255'],
+            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
             'IDNumber' => 'required|digits:13|unique:CustomerUsers',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
@@ -50,7 +50,7 @@ class RegisterController extends Controller
             'Password' => [
                 'required',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',                
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
             ],
             'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
         ], [
@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
-        ]); 
+        ]);
 
 
         $isUserExist = false;
@@ -92,12 +92,13 @@ class RegisterController extends Controller
         $request['CustomerId'] = $customer->Id;
         $request['CreatedDate'] = date("Y-m-d H:i:s");
         $request['IsUserLoggedIn'] = 0;
-        $request['IsRestricted'] = 0;        
-        
-        try{
-            $user = CustomerUser::create($request->all());
-            CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+        $request['IsRestricted'] = 0;
 
+
+        try {
+            $user = CustomerUser::create($request->all());
+            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+            CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
             $token = Str::random(16);
             $FirstName = $request->FirstName;
             $LastName = $request->LastName;
@@ -115,14 +116,12 @@ class RegisterController extends Controller
                     $message->subject('New Registered User');
                 }
             ); */
-         }
-         catch(\Exception $e){
-            print_r($e->getMessage());exit;   
-         }
-        
-        
-        return redirect()->route('login', ['customer' => $customer->RegistrationName]);
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            exit;
+        }
 
+
+        return redirect()->route('login', ['customer' => $customer->RegistrationName]);
     }
-    
 }

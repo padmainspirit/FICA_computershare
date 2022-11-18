@@ -38,6 +38,7 @@ use App\Models\Cities;
 use App\Models\LookupDatas;
 use App\Models\Telephones;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Exists;
 
 use function Symfony\Component\String\b;
@@ -54,16 +55,19 @@ class FicaProcessController extends Controller
 
         $NotificationLink = $request->session()->get('NotificationLink');
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
-        $customerName = $customer['RegistrationName'];
 
-        $customerName =  $request->session()->get('customerName');
 
+        // $customerName =  $request->session()->get('customerName');
+        $client = Auth::user();
+        $customerName = $client->FirstName . ' ' . $client->LastName;
         $EmailID = $request->emailid;
         //   app('debugbar')->info($EmailID);
+
+        $Customerid = Auth::user()->CustomerId;
+        $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $Logo = $customer['Client_Logo'];
+        $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         SendEmail::where('EmailID', '=', $EmailID)->update([
             'IsRead' => 0,
@@ -168,48 +172,35 @@ class FicaProcessController extends Controller
         // $workAddressExist =  $workAddress != null ? true : false;
 
         $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $AddressesExist =  $Addresses != null ? $Addresses : null;
-
-        try {
-            if ($AddressesExist[0]->AddressTypeInd == 16 && $AddressesExist[1]->AddressTypeInd != 16 && $AddressesExist[2]->AddressTypeInd != 16) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
-            } elseif ($AddressesExist[0]->AddressTypeInd != 15 && $AddressesExist[1]->AddressTypeInd == 15 && $AddressesExist[2]->AddressTypeInd != 15) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
-            } elseif ($AddressesExist[0]->AddressTypeInd != 14 && $AddressesExist[1]->AddressTypeInd != 14 && $AddressesExist[2]->AddressTypeInd == 14) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
+        $Home  = null;
+        $Postal = null;
+        $Work  = null;
+        if ($Addresses) {
+            foreach ($Addresses as $address) {
+                if ($address['AddressTypeInd'] == 16) {
+                    $Home = $address;
+                } else if ($address['AddressTypeInd'] == 15) {
+                    $Postal = $address;
+                } else if ($address['AddressTypeInd'] == 14) {
+                    $Work = $address;
+                }
             }
-        } catch (\Exception $e) {
-            
         }
 
-        $Telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $TelephoneExist =  $Telephone != null ? $Telephone : null;
-
-        try {
-            if ($TelephoneExist[0]->TelephoneTypeInd == 12 && $TelephoneExist[1]->TelephoneTypeInd != 12 && $TelephoneExist[2]->TelephoneTypeInd != 12){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
-            }elseif($TelephoneExist[0]->TelephoneTypeInd != 11 && $TelephoneExist[1]->TelephoneTypeInd == 11 && $TelephoneExist[2]->TelephoneTypeInd != 11){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
-            }elseif($TelephoneExist[0]->TelephoneTypeInd != 10 && $TelephoneExist[1]->TelephoneTypeInd != 10 && $TelephoneExist[2]->TelephoneTypeInd == 10){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
+        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $TelCell  = null;
+        $TelHome = null;
+        $TelWork  = null;
+        if ($Telephone) {
+            foreach ($Telephone as $tele) {
+                if ($tele['TelephoneTypeInd'] == 16) {
+                    $TelCell = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 15) {
+                    $TelHome = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 14) {
+                    $TelWork = $tele;
+                }
             }
-            
-        }catch (\Exception $e) {
 
         }
 
@@ -302,7 +293,8 @@ class FicaProcessController extends Controller
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
-            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus,'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
+            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
+
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -312,11 +304,13 @@ class FicaProcessController extends Controller
     public function uploadfile(Request $request)
     {
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
 
         // $Logo =  $request->session()->get('Logo');
@@ -335,15 +329,16 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        $LoggedInConsumerId = $fica['Consumerid'];
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
-        $customer = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
         $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
-
         $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
         $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -385,48 +380,35 @@ class FicaProcessController extends Controller
         // $workAddressExist =  $workAddress != null ? true : false;
 
         $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $AddressesExist =  $Addresses != null ? $Addresses : null;
-
-        try {
-            if ($AddressesExist[0]->AddressTypeInd == 16 && $AddressesExist[1]->AddressTypeInd != 16 && $AddressesExist[2]->AddressTypeInd != 16) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
-            } elseif ($AddressesExist[0]->AddressTypeInd != 15 && $AddressesExist[1]->AddressTypeInd == 15 && $AddressesExist[2]->AddressTypeInd != 15) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
-            } elseif ($AddressesExist[0]->AddressTypeInd != 14 && $AddressesExist[1]->AddressTypeInd != 14 && $AddressesExist[2]->AddressTypeInd == 14) {
-                $Home = $AddressesExist[0];
-                $Postal = $AddressesExist[1];
-                $Work = $AddressesExist[2];
+        $Home  = null;
+        $Postal = null;
+        $Work  = null;
+        if ($Addresses) {
+            foreach ($Addresses as $address) {
+                if ($address['AddressTypeInd'] == 16) {
+                    $Home = $address;
+                } else if ($address['AddressTypeInd'] == 15) {
+                    $Postal = $address;
+                } else if ($address['AddressTypeInd'] == 14) {
+                    $Work = $address;
+                }
             }
-        } catch (\Exception $e) {
-            
         }
 
-        $Telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $TelephoneExist =  $Telephone != null ? $Telephone : null;
-
-        try {
-            if ($TelephoneExist[0]->TelephoneTypeInd == 12 && $TelephoneExist[1]->TelephoneTypeInd != 12 && $TelephoneExist[2]->TelephoneTypeInd != 12){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
-            }elseif($TelephoneExist[0]->TelephoneTypeInd != 11 && $TelephoneExist[1]->TelephoneTypeInd == 11 && $TelephoneExist[2]->TelephoneTypeInd != 11){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
-            }elseif($TelephoneExist[0]->TelephoneTypeInd != 10 && $TelephoneExist[1]->TelephoneTypeInd != 10 && $TelephoneExist[2]->TelephoneTypeInd == 10){
-                $TelCell = $Telephone[0]->TelephoneCode.$Telephone[0]->TelephoneNo;
-                $TelHome = $Telephone[1]->TelephoneCode.$Telephone[1]->TelephoneNo;
-                $TelWork = $Telephone[2]->TelephoneCode.$Telephone[2]->TelephoneNo;
-    
+        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $TelCell  = null;
+        $TelHome = null;
+        $TelWork  = null;
+        if ($Telephone) {
+            foreach ($Telephone as $tele) {
+                if ($tele['TelephoneTypeInd'] == 16) {
+                    $TelCell = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 15) {
+                    $TelHome = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 14) {
+                    $TelWork = $tele;
+                }
             }
-            
-        }catch (\Exception $e) {
 
         }
 
