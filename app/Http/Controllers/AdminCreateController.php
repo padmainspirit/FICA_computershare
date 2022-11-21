@@ -107,7 +107,7 @@ class AdminCreateController extends Controller
 
         $getCustomerUserSearchID = $request->input('SelectClient');
 
-        $CustomerSearchID = CustomerUser::where('CustomerId', '=',  $getCustomerUserSearchID)->where('IsAdmin', '=',  '0')->get();
+        $CustomerSearchID = CustomerUser::where('CustomerId', '=',  $getCustomerUserSearchID)->where('IsAdmin', '!=',  '2')->get();
 
         app('debugbar')->info($CustomerSearchID);
 
