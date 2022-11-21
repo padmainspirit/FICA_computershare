@@ -39,9 +39,6 @@ class awsController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
-
-        $this->TextractClientKey = config("app.TEXTRACT_CLIENT_KEY");
-        $this->TextractClientSecret = config("app.TEXTRACT_CLIENT_SECRET");
     }
     public function TextractAmazonOCR($path, Request $request)
     {
@@ -50,17 +47,16 @@ class awsController extends Controller
         $texts = array();
         $data = new OCRdata();
 
-        $TextractClientKey = $this->TextractClientKey;
-        $TextractClientSecret = $this->TextractClientSecret;
-
         $client = new TextractClient([
             'region' => 'us-east-1',
             'version' => 'latest',
             'credentials' => [
-                'key'    => $TextractClientKey,
-                'secret' => $TextractClientSecret
+                'key'    => 'AKIA4IKI2GCK2MKU65VF', //move to .env file
+                'secret' => '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' //move to .env file
             ]
         ]);
+
+
 
         $filename = $path;
         $file = fopen($filename, "rb");
@@ -157,12 +153,12 @@ class awsController extends Controller
                         $IssueDateResult = substr($IssueDate, 0, -3);
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
-                    // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
-                    //     array_push($Nationality, 'SOUTH AFRICA');
-                    // }
-                    if (preg_match('(SOUTH AFRICA|RSA|SUID-AFRIKA|HOME AFFAIRS)', $texts[$i]) === 1) {
+                    if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
                         array_push($Nationality, 'SOUTH AFRICA');
                     }
+                    // if (preg_match('(SOUTH AFRICA|RSA|SUID-AFRIKA|ENGLAND)', $texts[$i]) === 1) {
+                    //     array_push($Nationality, 'SOUTH AFRICA');
+                    // }
                 }
             }
             array_push($IdAndConfidence, isset($IssueDateResultResponse[0]) ? $IssueDateResultResponse[0] : null);
