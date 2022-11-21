@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div style="display: flex; justify-content: end;color: #000000">
-                © {{$customer->RegistrationName}}
+                {{-- © {{ $customerName }} --}}
                 <script>
                     document.write(new Date().getFullYear())
                 </script> | Powered by Inspirit Data.

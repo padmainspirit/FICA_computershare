@@ -11,9 +11,11 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Image Not Found" style="width: 25px;height: 25px;">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ URL::asset('assets/images/users/user.png') }}" alt="Image Not Found"
+                        style="width: 25px;height: 25px;">
                     <span style="color: black" class="d-none d-xl-inline-block ms-1"
-                        key="t-henry">{{ Session::get('UserFullName') }}</span>
+                        key="t-henry">{{ $UserFullName }}</span>
 
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
@@ -28,7 +30,8 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
                             key="t-logout">@lang('translation.Logout')</span></a>
-                    <form id="logout-form" action="{{ route('logout', ['customer' => $customerName]) }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout', ['customer' => $customerName]) }}" method="POST"
+                        style="display: none;">
                         @csrf
                     </form>
                 </div>

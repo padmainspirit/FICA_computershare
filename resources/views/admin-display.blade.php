@@ -9,7 +9,15 @@
     <link href="{{ URL::asset('/assets/libs/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
+
+
 @section('content')
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -23,7 +31,8 @@
                                 <th>Registration Name</th>
                                 <th>Registration Number</th>
                                 <th>VAT Number</th>
-                                <th>Action</th>
+                                <th>Viewing Users</th>
+                                <th>Editing Customer</th>
                             </tr>
                         </thead>
 
@@ -39,11 +48,24 @@
                                         <form method="POST" action="{{ route('admin-client') }}">
                                             @csrf
                                             <button type="submit" class="btn btn-primary w-md text-decoration-underline"
-                                            style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
+                                                style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
+                                                View
+                                            </button>
+
+                                            <input id="SelectClient" name="SelectClient" value="{{ $item->Id }}"
+                                                style="display: none;">
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ route('conglomerate-edit') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary w-md text-decoration-underline"
+                                                style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">
                                                 Edit
                                             </button>
 
-                                            <input id="SelectClient" name="SelectClient" value="{{ $item->Id }}" style="display: none;">
+                                            <input id="SelectClient" name="SelectClient" value="{{ $item->Id }}"
+                                                style="display: none;">
                                         </form>
                                     </td>
                                 </tr>
@@ -51,9 +73,6 @@
                         </tbody>
 
                     </table>
-
-
-                    
 
                 </div>
             </div>

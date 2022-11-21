@@ -1,7 +1,7 @@
 <?php
-    
+
 namespace App\Http\Controllers;
-    
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,11 +13,11 @@ use Hash;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
 
-    
 class UserController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -25,10 +25,10 @@ class UserController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -36,12 +36,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    { 
-        $data = CustomerUser::orderBy('Id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
+    {
+        $data = CustomerUser::orderBy('Id', 'DESC')->paginate(5);
+        return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -49,11 +49,45 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        $customers = Customer::pluck('RegistrationName','Id', );
-        return view('users.create',compact('roles','customers'));
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
+
+        $roles = Role::pluck('name', 'name')->all();
+        $customers = Customer::pluck('RegistrationName', 'Id',);
+        return view('users.create', compact('roles', 'customers'))
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
-    
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function admincreate()
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
+
+        $roles = Role::pluck('name', 'name')->all();
+        $customers = Customer::pluck('RegistrationName', 'Id',);
+        return view('users.admincreate', compact('roles', 'customers'))
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -63,7 +97,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'FirstName' => ['required', 'string', 'min:2','max:255'],
+            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
             'IDNumber' => 'required|digits:13|unique:CustomerUsers',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
@@ -71,29 +105,29 @@ class UserController extends Controller
             'Password' => [
                 'required',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',                
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
             ],
             'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
             'roles' => 'required',
-            'CustomerId'=>'required'
+            'CustomerId' => 'required'
         ], [
             'unique'        => 'The :attribute already been registered.',
             'IDNumber.required' => 'The ID number field is required.',
             'CustomerId.required' => 'The Customer ID field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
-        ]); 
-    
+        ]);
+
         $input = $request->all();
         //$input['password'] = Hash::make($input['password']);
-    
+
         //$user = CustomerUser::create($input);
         $user  = CustomerUser::create([
             //'Id' =>  Str::upper(Str::uuid()),
             'FirstName' => $input['FirstName'],
             'LastName' => $input['LastName'],
             'Email' => $input['Email'],
-            'PhoneNumber' => rand(),                
+            'PhoneNumber' => rand(),
             'Password' => Hash::make($input['Password']),
             'IDNumber' => rand(),
             'IsAdmin' => 0,
@@ -114,11 +148,79 @@ class UserController extends Controller
             'LastLoginDate' =>  date("Y-m-d H:i:s"),
         ]);
         $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+
+        // return redirect()->route('users.index')
+        return redirect()->route('admin-display')
+            ->with('success', 'User created successfully');
     }
-    
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function adminstore(Request $request)
+    {
+        $this->validate($request, [
+            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
+            'LastName' => ['required', 'string', 'min:2', 'max:255'],
+            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
+            'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
+            'Password' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+            ],
+            'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
+            'roles' => 'required',
+            'CustomerId' => 'required'
+        ], [
+            'unique'        => 'The :attribute already been registered.',
+            'IDNumber.required' => 'The ID number field is required.',
+            'CustomerId.required' => 'The Customer ID field is required.',
+            'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+            'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
+        ]);
+
+        $input = $request->all();
+        //$input['password'] = Hash::make($input['password']);
+
+        //$user = CustomerUser::create($input);
+        $user  = CustomerUser::create([
+            //'Id' =>  Str::upper(Str::uuid()),
+            'FirstName' => $input['FirstName'],
+            'LastName' => $input['LastName'],
+            'Email' => $input['Email'],
+            'PhoneNumber' => rand(),
+            'Password' => Hash::make($input['Password']),
+            'IDNumber' => rand(),
+            'IsAdmin' => 1,
+            'Status' => NULL,
+            'CustomerId' => $input['CustomerId'],
+            'Code' => NULL,
+            'SubscriptionId' => NULL,
+            'Message' => NULL,
+            'CreatedDate' =>  date("Y-m-d H:i:s"),
+            'CreatedBy' => NULL,
+            'ModifiedDate' => date("Y-m-d H:i:s"),
+            'ModifiedBy' => NULL,
+            'ActivatedBy' => NULL,
+            'IsUserLoggedIn' => 1,
+            'IsRestricted' => 0,
+            'LastPasswordResetDate' =>  date("Y-m-d H:i:s"),
+            'ActivatedDate' => date("Y-m-d H:i:s"),
+            'LastLoginDate' =>  date("Y-m-d H:i:s"),
+        ]);
+        $user->assignRole($request->input('roles'));
+
+        // return redirect()->route('users.index')
+        return redirect()->route('admin-display')
+            ->with('success', 'User created successfully');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -128,9 +230,9 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        return view('users.show', compact('user'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -140,13 +242,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = CustomerUser::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-        $customers = Customer::pluck('RegistrationName','Id');
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->all();
+        $customers = Customer::pluck('RegistrationName', 'Id');
         $userBelongsToCustomer = $user->CustomerId;
-        return view('users.edit',compact('user','roles','userRole', 'customers','userBelongsToCustomer'));
+        return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -164,16 +266,16 @@ class UserController extends Controller
             'roles' => 'required'
         ]); */
         $this->validate($request, [
-            'FirstName' => ['required', 'string', 'min:2','max:255'],
+            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,'.$id,
-            'Email' => 'required|email|unique:CustomerUsers,Email,'.$id,
-            'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,'.$id,
+            'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,' . $id,
+            'Email' => 'required|email|unique:CustomerUsers,Email,' . $id,
+            'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,' . $id,
             'Password' => [
                 'nullable',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',  
-                "same:confirm-passkey"              
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+                "same:confirm-passkey"
             ],
             'confirm-passkey' => ['nullable', 'string', 'min:8'],
             'roles' => 'required'
@@ -182,28 +284,28 @@ class UserController extends Controller
             'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
-        ]); 
-    
+        ]);
+
         $input = $request->all();
-        if(!empty($input['Password'])){ 
+        if (!empty($input['Password'])) {
             $input['Password'] = Hash::make($input['Password']);
-        }else{
-            $input = Arr::except($input,array('Password'));    
+        } else {
+            $input = Arr::except($input, array('Password'));
         }
-    
+
         $user = CustomerUser::find($id);
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-        
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
         $user->assignRole($request->input('roles'));
 
         // $role = DB::table('roles')->where('name',$request['roles'])->first();
         // $assignrole = DB::table('model_has_roles')->insert(['role_id' => $role->id,'model_id'=>$id,'model_type'=>'App\Models\CustomerUser']);
-    
+
         return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+            ->with('success', 'User updated successfully');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -214,6 +316,6 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+            ->with('success', 'User deleted successfully');
     }
 }

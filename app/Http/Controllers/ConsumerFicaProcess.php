@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 use App\Models\IndustryOccupation;
 use App\Models\Nationality;
 use App\Models\Telephones;
+use Illuminate\Support\Facades\Auth;
 
 
 class ConsumerFicaProcess extends Controller
@@ -60,9 +61,13 @@ class ConsumerFicaProcess extends Controller
         $WorkAddressIDType = 'C3E57D4F-3100-4973-A717-E17355321983'; //WORK:14
 
         // try {
-        app('debugbar')->info($request);
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+        //app('debugbar')->info($request);
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+
+        // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -76,12 +81,14 @@ class ConsumerFicaProcess extends Controller
             array_push($occupation, $industry->Industry_occupation);
         }
 
+        // Commented out dropdown on view
+
         //Get Nationality
-        $nationality = Nationality::all();
-        foreach ($nationality as $country) {
-            array_push($countries, strtoupper($country->Nationality));
-        }
-        sort($countries);
+        // $nationality = Nationality::all();
+        // foreach ($nationality as $country) {
+        //     array_push($countries, strtoupper($country->Nationality));
+        // }
+        // sort($countries);
 
         // app('debugbar')->info($occupation);
 
@@ -403,7 +410,7 @@ class ConsumerFicaProcess extends Controller
         //     app('debugbar')->info($e);
         // }
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
@@ -412,10 +419,10 @@ class ConsumerFicaProcess extends Controller
         // app('debugbar')->info($request);
 
         return back()->withSuccess('successfully')
-        // ->with($old)
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            // ->with($old)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function FinancialDetails(Request $request)
@@ -423,13 +430,15 @@ class ConsumerFicaProcess extends Controller
         $this->validate($request, [
             'funds-input' => 'required',
         ]);
-        
+
         // dd($request);
 
         // dd($request);
 
         try {
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
 
@@ -469,22 +478,24 @@ class ConsumerFicaProcess extends Controller
             app('debugbar')->info($e);
         }
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
 
         return back()->withSuccess('successfully')->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function Screening(Request $request)
     {
 
         try {
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
@@ -550,16 +561,15 @@ class ConsumerFicaProcess extends Controller
             app('debugbar')->info($e);
         }
 
-        $Customerid = session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-
         $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         return back()->withSuccess('successfully')->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function Declarations(Request $request)
@@ -578,7 +588,9 @@ class ConsumerFicaProcess extends Controller
 
         // app('debugbar')->info($request);
         try {
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
@@ -643,7 +655,7 @@ class ConsumerFicaProcess extends Controller
                     'BrokerContact' => $brokerContact,
                     'CommunicationType' => $communicationType,
                     'Broker' => $brokerName,
-                    
+
                     'CustodyService' => $custodyservice,
                     'SegregatedDeposit' => $segregateddepository,
                     'DividendTax' => (int)$dividendstax,
@@ -668,16 +680,15 @@ class ConsumerFicaProcess extends Controller
             app('debugbar')->info($e);
         }
 
-        $Customerid = session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-
         $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         return back()->withSuccess('successfully')->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function Acknowledgement(Request $request)
@@ -689,7 +700,9 @@ class ConsumerFicaProcess extends Controller
 
 
         try {
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
@@ -727,7 +740,7 @@ class ConsumerFicaProcess extends Controller
             }
             $ficaCheck = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             app('debugbar')->info($ficaCheck->ficaProgress);
-            
+
 
             if ($ficaCheck->FICAProgress == 10) {
                 FICA::where('Consumerid', $consumer->Consumerid)->update(
@@ -745,14 +758,14 @@ class ConsumerFicaProcess extends Controller
             $request->session()->put($e);
         }
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
 
         return back()->withSuccess('successfully')->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 }

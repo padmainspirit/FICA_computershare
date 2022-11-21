@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'IFICA_AS2'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,9 +41,8 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', true),
 
-    'customer_user_role_id' => env('CUSTOMER_USER_ROLE_ID', 3),
     /* set default role to user, that is 3 */
     
 
@@ -163,6 +162,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        // Aws\Laravel\AwsServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -186,6 +186,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // Org_Heigl\Ghostscript\Ghostscript::class,
+
+
 
         /*
          * Package Service Providers...
@@ -214,10 +217,88 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+    'aliases' => [
+        // 'AWS' => Aws\Laravel\AwsFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'App' => Illuminate\Support\Facades\App::class,
+        'Arr' => Illuminate\Support\Arr::class,
+        'Artisan' => Illuminate\Support\Facades\Artisan::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
+        'Bus' => Illuminate\Support\Facades\Bus::class,
+        'Cache' => Illuminate\Support\Facades\Cache::class,
+        'Config' => Illuminate\Support\Facades\Config::class,
+        'Cookie' => Illuminate\Support\Facades\Cookie::class,
+        'Crypt' => Illuminate\Support\Facades\Crypt::class,
+        'Date' => Illuminate\Support\Facades\Date::class,
+        'DB' => Illuminate\Support\Facades\DB::class,
+        'Eloquent' => Illuminate\Database\Eloquent\Model::class,
+        'Event' => Illuminate\Support\Facades\Event::class,
+        'File' => Illuminate\Support\Facades\File::class,
+        'Gate' => Illuminate\Support\Facades\Gate::class,
+        'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Http' => Illuminate\Support\Facades\Http::class,
+        'Lang' => Illuminate\Support\Facades\Lang::class,
+        'Log' => Illuminate\Support\Facades\Log::class,
+        'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Password' => Illuminate\Support\Facades\Password::class,
+        'Queue' => Illuminate\Support\Facades\Queue::class,
+        'RateLimiter' => Illuminate\Support\Facades\RateLimiter::class,
+        'Redirect' => Illuminate\Support\Facades\Redirect::class,
+        // 'Redis' => Illuminate\Support\Facades\Redis::class,
+        'Request' => Illuminate\Support\Facades\Request::class,
+        'Response' => Illuminate\Support\Facades\Response::class,
+        'Route' => Illuminate\Support\Facades\Route::class,
+        'Schema' => Illuminate\Support\Facades\Schema::class,
+        'Session' => Illuminate\Support\Facades\Session::class,
+        'Storage' => Illuminate\Support\Facades\Storage::class,
+        'Str' => Illuminate\Support\Str::class,
+        'URL' => Illuminate\Support\Facades\URL::class,
+        'Validator' => Illuminate\Support\Facades\Validator::class,
+        'View' => Illuminate\Support\Facades\View::class,
+        // 'Ghostscript' => Org_Heigl\Ghostscript\Ghostscript::class
+    ],
 
-    ])->toArray(),
+    // Google api code call for register, login, forget and reset views
+    'GOOGLE_API_SECRET' => env("GOOGLE_API_SECRET", "6LcWWaQhAAAAAID-WVERnHfeVgvy5A3LIvmle0bg"),
+
+    // OTP auth credentials for sending code via provider
+    'API_OTP_KEY' => env("API_OTP_KEY", "c7fda9ca-7795-4be1-891f-7686ca2db620"),
+    'API_OTP_SECRET' => env("API_OTP_SECRET", "7pCeMsdU5/1wvlsye6DA87llcahaWEXU"),
+    'API_OTP_AUTH_ENDPOINT' => env("API_OTP_AUTH_ENDPOINT", "https://rest.mymobileapi.com/Authentication"),
+    'API_OTP_SEND_URL' => env("API_OTP_SEND_URL", "https://rest.mymobileapi.com/bulkmessages"),
+
+    // User Verification API and credentials
+    'API_USERNAME' => env("API_USERNAME", "Insprt_uat"),
+    'API_PASSWORD' => env("API_PASSWORD", "Id@s0522"),
+
+    // Subject to change in the event of dynamic distribution of User Verification
+    'API_ID_KYC' => env("API_ID_KYC", "FA52707C-2DE9-4050-8350-E19988D1B311"),
+    'API_ID_AVS' => env("API_ID_AVS", "42365A78-E955-4015-B2E3-7321B444BEB1"),
+    'API_ID_DOVS' => env("API_ID_DOVS", "F855922F-B9C0-4132-801D-1593728F85F0"),
+    'API_ID_COMPLIANCE' => env("API_ID_COMPLIANCE", "0DF4E073-923C-4352-BB12-E1F24D0438FE"),
+
+    // Some links are the same but are coded in case XDS changes per channel
+    'API_SOAP_URL_LIVE_FACIAL' => env("API_SOAP_URL_LIVE_FACIAL", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_DEMO_FACIAL' => env("API_SOAP_URL_DEMO_FACIAL", "https://www.web.xds.co.za/uatxdsconnect/?WSDL"),
+    'API_SOAP_URL_LIVE_XDS_SELFIE_RESULT' => env("API_SOAP_URL_LIVE_XDS_SELFIE_RESULT", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_DEMO_XDS_SELFIE_RESULT' => env("API_SOAP_URL_DEMO_XDS_SELFIE_RESULT", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_KYC' => env("API_SOAP_URL_LIVE_VERIFY_KYC", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_DEMO_VERIFY_KYC' => env("API_SOAP_URL_DEMO_VERIFY_KYC", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_BANK' => env("API_SOAP_URL_LIVE_VERIFY_BANK", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_DEMO_VERIFY_BANK' => env("API_SOAP_URL_DEMO_VERIFY_BANK", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_COMPLIANCE' => env("API_SOAP_URL_LIVE_VERIFY_COMPLIANCE", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_DEMO_VERIFY_COMPLIANCE' => env("API_SOAP_URL_DEMO_VERIFY_COMPLIANCE", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+
+    // FicaProcess S3 bucket pathline
+    'API_UPLOAD_PATH' => env("API_UPLOAD_PATH", "https://file-upload-fica.s3.amazonaws.com/"),
+
+    //  AWS CONTROLLER CREDENTIALS
+    'TEXTRACT_CLIENT_KEY' => env("TEXTRACT_CLIENT_KEY", "AKIA4IKI2GCK2MKU65VF"),
+    'TEXTRACT_CLIENT_SECRET' => env("TEXTRACT_CLIENT_SECRET", "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"),
+
+    'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3)
 
 ];

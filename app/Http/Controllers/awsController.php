@@ -25,6 +25,7 @@ use App\Models\LookupDatas;
 use App\Models\BankAccountType;
 use App\Models\APILogs;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class awsController extends Controller
 {
@@ -38,6 +39,9 @@ class awsController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
+
+        $this->TextractClientKey = config("app.TEXTRACT_CLIENT_KEY");
+        $this->TextractClientSecret = config("app.TEXTRACT_CLIENT_SECRET");
     }
     public function TextractAmazonOCR($path, Request $request)
     {
@@ -46,12 +50,15 @@ class awsController extends Controller
         $texts = array();
         $data = new OCRdata();
 
+        $TextractClientKey = $this->TextractClientKey;
+        $TextractClientSecret = $this->TextractClientSecret;
+
         $client = new TextractClient([
             'region' => 'us-east-1',
             'version' => 'latest',
             'credentials' => [
-                'key'    => 'AKIA4IKI2GCK2MKU65VF', //move to .env file
-                'secret' => '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' //move to .env file
+                'key'    => $TextractClientKey,
+                'secret' => $TextractClientSecret
             ]
         ]);
 
@@ -178,7 +185,7 @@ class awsController extends Controller
             $verifyData = new VerificationDataController(); //Uncomment
             // app('debugbar')->info($verifyData);
             if (isset($IdAndConfidence[0], $IdAndConfidence[1])) {
-                $IdData = ['Id' => $IdAndConfidence[0], 'Score' => $IdAndConfidence[1], 'IdType' => isset($IdAndConfidence[2]) ? $IdAndConfidence[2]:null, 'DateOfIssue' => isset($IdAndConfidence[3]) ? date('Y-m-d', strtotime($IdAndConfidence[3])) : null, 'Nationality' => $IdAndConfidence[4]];
+                $IdData = ['Id' => $IdAndConfidence[0], 'Score' => $IdAndConfidence[1], 'IdType' => isset($IdAndConfidence[2]) ? $IdAndConfidence[2] : null, 'DateOfIssue' => isset($IdAndConfidence[3]) ? date('Y-m-d', strtotime($IdAndConfidence[3])) : null, 'Nationality' => $IdAndConfidence[4]];
                 $IdDataResult = (object) $IdData;
                 app('debugbar')->info($IdDataResult);
                 if (strlen($IdDataResult->Id) == 13 && $IdDataResult->Score >= 50) {
@@ -187,8 +194,11 @@ class awsController extends Controller
                     $IdResult =   $dataValidated;
                     $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
                     //  $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->where('FICAStatus', '=', 'In progress')->first();
-                    $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-                    $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+                    $loggedInUserId = Auth::user()->Id;
+                    $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+                    //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+                    // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+                    $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
                     $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
@@ -244,7 +254,9 @@ class awsController extends Controller
                     $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
                     $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->first();
 
-                    $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+                    // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+                    $loggedInUserId = Auth::user()->Id;
+                    $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
                     $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
@@ -323,10 +335,13 @@ class awsController extends Controller
 
     function identitySubmit(Request $request)
     {
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        // dd($request);
+        //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
         $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
-        app('debugbar')->info($request);
+        // app('debugbar')->info('Request', $request);
 
         FICA::where('FICA_id', $fica->FICA_id)->update(
             array(
@@ -343,11 +358,14 @@ class awsController extends Controller
     function address($texts, Request $request)
     {
         try {
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $addressLookUpHomeValue = LookupDatas::where('ID', '=',  $this->homeAddressIDType)->first();
             $addressLookUpPostalValue = LookupDatas::where('ID', '=',   $this->PostalAddressIDType)->first();
             $addressLookUpWorkValue = LookupDatas::where('ID', '=',   $this->WorkAddressIDType)->first();
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-            $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            //  $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
             $request->session()->put('dataTextracted', $texts);
@@ -587,8 +605,11 @@ class awsController extends Controller
         $addressLookUpHomeValue = LookupDatas::where('ID', '=',  $this->homeAddressIDType)->first();
         $addressLookUpPostalValue = LookupDatas::where('ID', '=',   $this->PostalAddressIDType)->first();
         $addressLookUpWorkValue = LookupDatas::where('ID', '=',   $this->WorkAddressIDType)->first();
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-        $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
@@ -757,8 +778,10 @@ class awsController extends Controller
     function getAddressFromIDSA($resultAddress)
     {
         try {
+            $loggedInUserId = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             //app('debugbar')->info($resultAddress);
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
 
             $client = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
             //$client = ConsumerIdentity::where('Identity_Document_ID', '=', '9212055358081')->first();
@@ -943,7 +966,9 @@ class awsController extends Controller
 
         $bankResponse =  new stdClass();
 
-        $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
 
         $request->session()->put('FICAProgress', $fica->FICAProgress);
@@ -954,7 +979,7 @@ class awsController extends Controller
         $accNumberAndScore = [];
         $accountNoIsValid = false; // $accountNoIsValid = false
         $accountNumber = '';
-        
+
         foreach ($bankDataExtracted as $bankdetail) {
 
             $removeScore =  str_replace(array(',', '-', ' '), '', substr($bankdetail, 0, -3));
@@ -993,7 +1018,7 @@ class awsController extends Controller
             $bankResponse->status = true;
             $bankResponse->accountNo = $accNumber;
             $bankResponse->message = 'Bank details was successfully validated';
-            
+
             $response = ['data' =>  $bankResponse];
             return $response;
         } else {
@@ -1018,7 +1043,6 @@ class awsController extends Controller
         // return $bankResponse;
         return view('fica-process', ['bankTpye' => $bankTpye,]);
     }
-    
 }
 class OCRdata
 {
