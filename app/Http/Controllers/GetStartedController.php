@@ -68,7 +68,7 @@ class GetStartedController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        return view('start-fica-process')->with('customer', $customer);
+        return view('start-fica-process')->with('customer', $customer)->with('LogUserName',Auth::user()->FirstName)->with('LogUserSurname',Auth::user()->LastName);
     }
 
     public function getStarted(Request $request)
