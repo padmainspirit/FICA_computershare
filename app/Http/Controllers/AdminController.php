@@ -13,8 +13,6 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 
-
-
 class AdminController extends Controller
 {
 
@@ -59,7 +57,6 @@ class AdminController extends Controller
 
         // dd($Icon);
 
-
         $DashboardInfo = DB::connection("sqlsrv2")->select(
             DB::raw("SET NOCOUNT ON; exec SP_Dashboard :Customerid"),
             [
@@ -69,8 +66,7 @@ class AdminController extends Controller
 
         $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
 
-        // dd($DashboardInfo);
-
+        // dd($DashboardData);
 
         // $DashboardData = [
 
@@ -100,23 +96,7 @@ class AdminController extends Controller
         $MediumPerc = $NumClients != 0 ? (($MediumRisk / $NumClients) * 100) : 0;
         $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
 
-
-
-        // $emailid = SendEmail::where('EmailID', '=',  $NotificationLink->EmailID)->first();
-        // $allMessages = ['EmailMessage' => $getallMessages];
-        // $Messages = $allMessages['EmailMessage'];
-
-        // $EmailID = SendEmail::where('EmailID', '=', $findnote->EmailID)->first();
-
-
-        // $request->session()->put('NotificationLink', $NotificationLink);
-
-        // if (isset($_POST['remove'])) {
-        //     $key=array_search($_GET['idnumber'],$_SESSION['idnumber']);
-        //     if($key!==false)
-        //     unset($_SESSION['idnumber'][$key]);
-        //     $_SESSION["idnumber"] = array_values($_SESSION["idnumber"]);
-        // } 
+        // dd($HighPerc);
 
         if (session()->has('LoggedUser')) {
             session()->pull('FirstName');
@@ -200,21 +180,6 @@ class AdminController extends Controller
             ->with('Icon', $Icon)
             ->with('customer', $customer)
 
-            // ->with('NotificationLink', $NotificationLink)
-            // ->with('NumClients', $NumClients)
-            // ->with('InProgress', $InProgress)
-            // ->with('Completed', $Completed)
-            // ->with('Rejected', $Rejected)
-            // ->with('Failed', $Failed)
-            // ->with('Correction', $Correction)
-            // ->with('HighRisk', $HighRisk)
-            // ->with('MediumRisk', $MediumRisk)
-            // ->with('LowRisk', $LowRisk)
-            // ->with('Oneto5Count', $Oneto5Count)
-            // ->with('Fiveto10Count', $Fiveto10Count)
-            // ->with('Tento15count', $Tento15count)
-            // ->with('Fifteenpluscount', $Fifteenpluscount)
-
             ->with('LogUserName', $LogUserName)
             ->with('LogUserSurname', $LogUserSurname);
     }
@@ -224,13 +189,13 @@ class AdminController extends Controller
 
         // $Consumerid = $request->session()->get('LoggedUser');
 
-
         // app('debugbar')->info($Consumerid);
 
-        /* $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
+        // $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
-        $LogUserName = $getLogUser['FirstName'];
-        $LogUserSurname = $getLogUser['LastName']; */
+        // $LogUserName = $getLogUser['FirstName'];
+        // $LogUserSurname = $getLogUser['LastName'];
+
         // $SearchConsumerID = $request->session()->get('SearchConsumerID');
         // $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
@@ -259,8 +224,6 @@ class AdminController extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        /* $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first(); */
         $Consumerid = Auth::user()->Id;
         $LogUserName = Auth::user()->FirstName;
         $LogUserSurname = Auth::user()->LastName;
@@ -349,14 +312,13 @@ class AdminController extends Controller
         // ->with('NotificationLink', $NotificationLink)
     }
 
-    public function show()
-    {
+    // public function DisplaySearch()
+    // {
 
-        // app('debugbar')->info('Testing');
+    // app('debugbar')->info('Testing');
 
-        return view('admin-users');
-    }
-
+    //     return view('admin-users');
+    // }
 
     public function Display(Request $request)
     {
@@ -684,25 +646,6 @@ class AdminController extends Controller
 
     }
 
-    // public function GetSurname(Request $request)
-    // {
-
-    //     $consumerid = "2D12F5FB-BE59-4A50-BD6A-3896720D8F89";
-    //     $idnumber = "0000000000001";
-    //     // $idnumber = $request->search2;
-
-    //     $clientsDetails = DB::connection("sqlsrv2")->select('EXEC sp_IdentityDetails ?,?', [$consumerid, $idnumber]);
-
-    //     $output_data = ['response' => true, 'message' => 'request is successful.', 'data' =>   $clientsDetails];
-
-    //     return  $output_data;
-
-    //     app('debugbar')->info($output_data);
-
-    //     return view('admin-dashboard');
-
-    // }
-
     public function ReadNotification(Request $request)
     {
 
@@ -745,40 +688,4 @@ class AdminController extends Controller
             ->with('LogUserName', $LogUserName)
             ->with('LogUserSurname', $LogUserSurname);
     }
-
-    // public function ScreenUsersFirst()
-    // {
-    //     return view('admin-screening-first');
-    // }
-
-    // public function ScreenUsersSecond()
-    // {
-    //     return view('admin-screening-second');
-    // }
-
-    // public function ScreenUsersThird()
-    // {
-    //     return view('admin-screening-third');
-    // }
-
-    // public function ScreenUsersFourth()
-    // {
-    //     return view('admin-screening-fourth');
-    // }
-
-    // public function ScreenUsersFifth()
-    // {
-    //     return view('admin-screening-fifth');
-    // }
-
-    // public function ScreenUsersSixth()
-    // {
-    //     return view('admin-screening-sixth');
-    // }
-
-    // public function ScreenUsersSeventh()
-    // {
-    //     return view('admin-screening-seventh');
-    // }
-
 }

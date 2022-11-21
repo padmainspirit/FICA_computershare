@@ -296,6 +296,12 @@ return [
     'TEXTRACT_CLIENT_KEY' => env("TEXTRACT_CLIENT_KEY", "AKIA4IKI2GCK2MKU65VF"),
     'TEXTRACT_CLIENT_SECRET' => env("TEXTRACT_CLIENT_SECRET", "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"),
 
-    'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3)
+    // Role Id for Register Controller
+    'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3),
 
+    //  Verfication Data Controller Credentials
+    'VERIFICATION_USER_NAME' => env("VERIFICATION_USER_NAME", "idasAPI@inspirit.co.za"),
+    'VERIFICATION_USER_PASSWORD' => env("VERIFICATION_USER_PASSWORD", "31GESS0QTB"),
+    'VERIFICATION_USER_URL' => env("VERIFICATION_USER_URL", "https://www.inspiritdata.co.za:55715/token"),
+    'VERIFICATION_USER_API_URL' => env("VERIFICATION_USER_API_URL", "https://www.inspiritdata.co.za:55715/api/APISearch?id="),
 ];

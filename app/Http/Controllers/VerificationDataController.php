@@ -17,9 +17,12 @@ class VerificationDataController extends Controller
 
     public function __construct()
     {
+        $this->username = config("app.VERIFICATION_USER_NAME");
+        $this->pass = config("app.VERIFICATION_USER_PASSWORD");
+        $this->url = config("app.VERIFICATION_USER_URL");
+        $this->apiSearch = config("app.VERIFICATION_USER_API_URL");
         date_default_timezone_set('Africa/Johannesburg');
     }
-
 
     public function verifyClientData($IDNum, Request $request)
     {
@@ -30,9 +33,10 @@ class VerificationDataController extends Controller
             $idas_address = array();
             $idas_api_data = array();
 
-            $username = 'idasAPI@inspirit.co.za';
-            $pass = '31GESS0QTB';
-            $url = 'https://www.inspiritdata.co.za:55715/token';
+            $username = config("app.VERIFICATION_USER_NAME");
+            $pass = config("app.VERIFICATION_USER_PASSWORD");
+            $url = config("app.VERIFICATION_USER_URL");
+            $apiSearch = config("app.VERIFICATION_USER_API_URL");
             $data = array(
                 'username' => $username,
                 'password' => $pass,
@@ -54,7 +58,7 @@ class VerificationDataController extends Controller
             $result = file_get_contents($url, false, $context);
 
             $resultJsonFormat = json_decode($result);
-            $apiUrl = 'https://www.inspiritdata.co.za:55715/api/APISearch?id=' . $id_no . '&username=' . $username . '&password=' . $pass;
+            $apiUrl = $apiSearch . $id_no . '&username=' . $username . '&password=' . $pass;
             $ch = curl_init($apiUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_HEADER, TRUE);

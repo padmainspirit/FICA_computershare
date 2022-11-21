@@ -56,8 +56,6 @@ class awsController extends Controller
             ]
         ]);
 
-
-
         $filename = $path;
         $file = fopen($filename, "rb");
 
@@ -153,12 +151,12 @@ class awsController extends Controller
                         $IssueDateResult = substr($IssueDate, 0, -3);
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
-                    if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
-                        array_push($Nationality, 'SOUTH AFRICA');
-                    }
-                    // if (preg_match('(SOUTH AFRICA|RSA|SUID-AFRIKA|ENGLAND)', $texts[$i]) === 1) {
+                    // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
                     //     array_push($Nationality, 'SOUTH AFRICA');
                     // }
+                    if (preg_match('(SOUTH AFRICA|RSA|SUID-AFRIKA|HOME AFFAIRS)', $texts[$i]) === 1) {
+                        array_push($Nationality, 'SOUTH AFRICA');
+                    }
                 }
             }
             array_push($IdAndConfidence, isset($IssueDateResultResponse[0]) ? $IssueDateResultResponse[0] : null);
@@ -337,7 +335,7 @@ class awsController extends Controller
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
         $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
-        // app('debugbar')->info('Request', $request);
+        // app('debugbar')->info($request);
 
         FICA::where('FICA_id', $fica->FICA_id)->update(
             array(

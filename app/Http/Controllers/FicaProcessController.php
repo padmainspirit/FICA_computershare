@@ -40,7 +40,6 @@ use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-
 use function Symfony\Component\String\b;
 
 class FicaProcessController extends Controller
@@ -78,7 +77,6 @@ class FicaProcessController extends Controller
             ->with('NotificationLink', $NotificationLink);
     }
 
-
     public function fica(Request $request)
     {
 
@@ -107,7 +105,6 @@ class FicaProcessController extends Controller
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        // dd($fica);
         $LoggedInConsumerId = $fica['Consumerid'];
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -164,29 +161,59 @@ class FicaProcessController extends Controller
 
 
         //get addresses
-        $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+
+        // $homeAddressExist =  $homeAddress != null ? true : false;
+        // $postalAddressExist =  $postalAddress != null ? true : false;
+        // $workAddressExist =  $workAddress != null ? true : false;
+
+        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Home  = null;
+        $Postal = null;
+        $Work  = null;
+        if ($Addresses) {
+            foreach ($Addresses as $address) {
+                if ($address['AddressTypeInd'] == 16) {
+                    $Home = $address;
+                } else if ($address['AddressTypeInd'] == 15) {
+                    $Postal = $address;
+                } else if ($address['AddressTypeInd'] == 14) {
+                    $Work = $address;
+                }
+            }
+        }
+
+        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $TelCell  = null;
+        $TelHome = null;
+        $TelWork  = null;
+        if ($Telephone) {
+            foreach ($Telephone as $tele) {
+                if ($tele['TelephoneTypeInd'] == 16) {
+                    $TelCell = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 15) {
+                    $TelHome = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 14) {
+                    $TelWork = $tele;
+                }
+            }
+        }
 
         //Telephone
-        $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        $worktelephone = Telephones::where('ConsumerID', '=',   $fica->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
+        // $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
+        // $worktelephone = Telephones::where('ConsumerID', '=',   $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
 
-        $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-        $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
+        // $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
+        // $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
 
         //Check if addresses exist
         // if ($telephone != null) {
         //     $homeTelephoneNumebr =  $telephone->TelephoneCode . $telephone->TelephoneNo;
         // }
 
-        $homeTelephoneNumebr = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
         // app('debugbar')->info($homeTelephoneNumebr);
-
-
-        $homeAddressExist =  $homeAddress != null ? true : false;
-        $postalAddressExist =  $postalAddress != null ? true : false;
-        $workAddressExist =  $workAddress != null ? true : false;
 
         $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
 
@@ -198,7 +225,7 @@ class FicaProcessController extends Controller
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all();
         foreach ($industryOccupation as $industry) {
-            array_push($occupation, $industry->Industry_occupation);
+            array_push($occupation, strtoupper($industry->Industry_occupation));
         }
 
         //Get Nationality
@@ -228,12 +255,12 @@ class FicaProcessController extends Controller
         }
         sort($provincesNames);
 
-        //Geting Cities
-        $cities = Cities::all();
-        foreach ($cities as $city) {
-            array_push($citiesNames, strtoupper($city->cityName));
-        }
-        sort($citiesNames);
+        // Geting Cities but we changed it to input boxes so the drop down is disabled and this fucntion is pointless
+        // $cities = Cities::all();
+        // foreach ($cities as $city) {
+        //     array_push($citiesNames, strtoupper($city->cityName));
+        // }
+        // sort($citiesNames);
 
 
         //app('debugbar')->info($citiesNames);
@@ -259,13 +286,11 @@ class FicaProcessController extends Controller
         // return view('fica');
 
         return view('fica-process', [
-            'fica' => $fica, 'consumer' => $consumer, 'homeAddressExist' => $homeAddressExist, 'postalAddressExist' => $postalAddressExist, 'workAddressExist' => $workAddressExist,
-            'homeAddress' => $homeAddress, 'postalAddress' => $postalAddress, 'workAddress' => $workAddress, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
+            'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
-            'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'citiesNames' => $citiesNames, 'Telephones' => $Telephones,
-            'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus,
-            'homeTelephoneNumber' => $homeTelephoneNumber, 'workTelephoneNumber' => $workTelephoneNumber, 'customer' => $customer
+            'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
+            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -300,9 +325,6 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-
-
-
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
@@ -317,21 +339,6 @@ class FicaProcessController extends Controller
         $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
         $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
-
-        // $consumer = Consumer::where('CustomerUSERID', '=',  $client->Id)->first();
-
-        // //dd($consumer);
-        // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
-        // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        // $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
-        // $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
-        // $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
-        // $customer = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
-        // $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
-
-        // $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
-        // $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
-        // $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
 
         $LoggedInConsumerId = $consumer['Consumerid'];
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
@@ -351,26 +358,56 @@ class FicaProcessController extends Controller
             }
         }
 
-        $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
 
         //Telephone
-        $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        $worktelephone = Telephones::where('ConsumerID', '=',   $fica->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
+        // $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
+        // $worktelephone = Telephones::where('ConsumerID', '=',   $fica->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
 
-        $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-        $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
+        // $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
+        // $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
+        // $homeTelephoneNumebr = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
 
+        // app('debugbar')->info($homeTelephoneNumebr);
 
-        $homeTelephoneNumebr = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-        app('debugbar')->info($homeTelephoneNumebr);
+        // $homeAddressExist =  $homeAddress != null ? true : false;
+        // $postalAddressExist =  $postalAddress != null ? true : false;
+        // $workAddressExist =  $workAddress != null ? true : false;
 
-        $NotificationLink = $request->session()->get('NotificationLink');
+        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Home  = null;
+        $Postal = null;
+        $Work  = null;
+        if ($Addresses) {
+            foreach ($Addresses as $address) {
+                if ($address['AddressTypeInd'] == 16) {
+                    $Home = $address;
+                } else if ($address['AddressTypeInd'] == 15) {
+                    $Postal = $address;
+                } else if ($address['AddressTypeInd'] == 14) {
+                    $Work = $address;
+                }
+            }
+        }
 
-        $homeAddressExist =  $homeAddress != null ? true : false;
-        $postalAddressExist =  $postalAddress != null ? true : false;
-        $workAddressExist =  $workAddress != null ? true : false;
+        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $TelCell  = null;
+        $TelHome = null;
+        $TelWork  = null;
+        if ($Telephone) {
+            foreach ($Telephone as $tele) {
+                if ($tele['TelephoneTypeInd'] == 16) {
+                    $TelCell = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 15) {
+                    $TelHome = $tele;
+                } else if ($tele['TelephoneTypeInd'] == 14) {
+                    $TelWork = $tele;
+                }
+            }
+        }
+
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 
@@ -379,6 +416,7 @@ class FicaProcessController extends Controller
         $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
         // $selectSourceOfFunds = $financial->Sources_Funds;
 
+        $NotificationLink = $request->session()->get('NotificationLink');
 
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all();
@@ -431,7 +469,7 @@ class FicaProcessController extends Controller
         $type = substr($request->file->getClientMimeType(), -3);
         $size = $request->file->getSize();
         // $path = '';
-        $url = 'https://file-upload-fica.s3.amazonaws.com/';
+        $url = config('app.API_UPLOAD_PATH');
         $urlFile = '';
 
         $file = $request->file;
@@ -447,6 +485,13 @@ class FicaProcessController extends Controller
         $pdfTempPath = '';
 
         //Check if uploaded file is pdf
+
+        $path = public_path('tempImages/');
+
+        if (!File::isDirectory($path)) {
+            File::makeDirectory($path, 0777, true, true);
+        }
+
         if ($type == 'pdf') {
             $request->file->move(public_path('pdf'), $fileName);
             //$firstPage =  $fileName . '[0]';
@@ -604,12 +649,11 @@ class FicaProcessController extends Controller
 
 
         return view('fica-process', [
-            'fica' => $fica, 'consumer' => $consumer, 'homeAddressExist' => $homeAddressExist, 'postalAddressExist' => $postalAddressExist, 'workAddressExist' => $workAddressExist,
-            'homeAddress' => $homeAddress, 'postalAddress' => $postalAddress, 'workAddress' => $workAddress, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
+            'fica' => $fica, 'consumer' => $consumer, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'citiesNames' => $citiesNames, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
-            'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'homeTelephoneNumber' => $homeTelephoneNumber, 'workTelephoneNumber' => $workTelephoneNumber
+            'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
