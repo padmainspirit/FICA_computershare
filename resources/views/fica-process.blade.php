@@ -1,8 +1,7 @@
 @extends('layouts.master')
 
 @section('css')
-    <style> 
-
+    <style>
         /* Firefox */
         html {
             scrollbar-color: #1a4f6e white;
@@ -11,14 +10,14 @@
 
         /* WebKit and Chromiums */
         ::-webkit-scrollbar {
-        width: 10px;
-        height: 4px;
-        background-color: white;
+            width: 10px;
+            height: 4px;
+            background-color: white;
         }
 
         ::-webkit-scrollbar-thumb {
-        background: #1a4f6e;
-        border-radius: 5px;
+            background: #1a4f6e;
+            border-radius: 5px;
         }
 
         body {
@@ -292,7 +291,8 @@
                         <section>
                             <div class="heading-fica-id rounded">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 1: Upload Identity Document
                                     </h4>
                                 </div>
@@ -302,7 +302,8 @@
                                 <br><br>
                                 <div class="text-center">
                                     <div id="loading-briefcase" class="text-center">
-                                        <img src="{{ URL::asset('/assets/images/briefcase.gif') }}" alt="cloud upload" width="100px" />
+                                        <img src="{{ URL::asset('/assets/images/briefcase.gif') }}" alt="cloud upload"
+                                            width="100px" />
                                     </div>
                                     <br><br>
                                     <div id="loading-wait-identity" style="display: none">
@@ -326,7 +327,8 @@
                                         style="font-size: 12px;" id="fileUpload">
                                         @csrf
                                         <div id="image-upload-identity">
-                                            <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;  font-weight: bold; ">
+                                            <p
+                                                style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;  font-weight: bold; ">
                                                 Upload your
                                                 Identity
                                                 document by simply clicking the icon below.
@@ -339,7 +341,8 @@
                                                 <div class="board-uplaod">
                                                     <label for="file-input">
                                                         <br>
-                                                        <img id="click-icon" src="{{ URL::asset('/assets/images/click.gif') }}"
+                                                        <img id="click-icon"
+                                                            src="{{ URL::asset('/assets/images/click.gif') }}"
                                                             alt="cloud upload" width="150px" />
                                                         <img id="click-icon-static"
                                                             src="{{ URL::asset('/assets/images/click.png') }}"
@@ -351,8 +354,8 @@
                                                 <input type="type" id="stage" name="stage" value="id">
                                                 <br>
                                                 <div class="col-md-12">
-                                                    <button type="submit" name="submit" id="submit-id" class="btn btn-primary"
-                                                        value="Upload"
+                                                    <button type="submit" name="submit" id="submit-id"
+                                                        class="btn btn-primary" value="Upload"
                                                         style="width: 100px; padding:.28rem; height:fit-content;">Submit
                                                     </button>
                                                     <button type="button" class="btn btn-primary" id="btn-hidden-id"
@@ -373,7 +376,7 @@
 
                                     <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
                                     {{-- <br><br><br><br> --}}
-                                    
+
                                 </div>
                             @endif
 
@@ -393,7 +396,8 @@
                         <section>
                             <div class="heading-fica-id rounded">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 2: Upload Proof of Address
                                     </h4>
                                 </div>
@@ -414,8 +418,8 @@
                                                         document is being processed
                                                     </h4>
                                                 </span>
-                                                <img src="{{ URL::asset('/assets/images/loading.gif') }}" alt="cloud upload"
-                                                    width="50px" />
+                                                <img src="{{ URL::asset('/assets/images/loading.gif') }}"
+                                                    alt="cloud upload" width="50px" />
                                             </div>
                                         </div>
                                     </div>
@@ -426,9 +430,11 @@
                                         <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;">Upload
                                             your Proof of Address document by simply clicking the icon below.
                                         </p>
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;"> Once uploaded, please
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;"> Once uploaded,
+                                            please
                                             click<span> <b>Submit.</b></span></p>
-                                        <form action="{{ route('fica') }}" method="post" enctype="multipart/form-data" id="fileUpload-address">
+                                        <form action="{{ route('fica') }}" method="post" enctype="multipart/form-data"
+                                            id="fileUpload-address">
                                             @csrf
                                             <div class="image-upload">
                                                 <div class="board-uplaod">
@@ -450,8 +456,9 @@
                                                         class="btn btn-primary" value="Upload"
                                                         style="width: 100px; padding:.28rem; height:fit-content;">Submit
                                                     </button>
-                                                    <button type="button" class="btn btn-primary" id="btn-hidden-address"
-                                                        data-bs-toggle="modal" data-bs-target="#composemodal-address">
+                                                    <button type="button" class="btn btn-primary"
+                                                        id="btn-hidden-address" data-bs-toggle="modal"
+                                                        data-bs-target="#composemodal-address">
                                                         Show PopUp
                                                     </button>
                                                 </div>
@@ -461,7 +468,7 @@
                                 </div>
                             @else
                                 <div class="text-center">
-                                    
+
                                     <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
 
                                     {{-- <br><br><br><br>
@@ -501,7 +508,8 @@
                         <section>
                             <div class="heading-fica-id rounded">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 3: Upload Proof Of Bank Details
                                     </h4>
                                 </div>
@@ -511,7 +519,8 @@
                                 <br><br>
                                 <div class="center-input">
                                     <div id="loading-moneybag-address">
-                                        <img src="{{ URL::asset('/assets/images/money-bag.gif') }}" alt="cloud upload" width="120px" />
+                                        <img src="{{ URL::asset('/assets/images/money-bag.gif') }}" alt="cloud upload"
+                                            width="120px" />
                                     </div>
                                     <div id="loading-wait-bank" style="display: none">
                                         <div class="row">
@@ -521,7 +530,8 @@
                                                         document is being processed
                                                     </h4>
                                                 </span>
-                                                <img src="{{ URL::asset('/assets/images/loading.gif') }}" alt="cloud upload" width="50px" />
+                                                <img src="{{ URL::asset('/assets/images/loading.gif') }}"
+                                                    alt="cloud upload" width="50px" />
                                             </div>
                                         </div>
                                     </div>
@@ -532,10 +542,12 @@
                                         <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;">Upload
                                             your Proof of Bank document by simply clicking the icon below.
                                         </p>
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e; ">Once uploaded, please
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e; ">Once uploaded,
+                                            please
                                             click<span> <b>Submit.</b></span></p>
                                         <div id="loader-bank" class="center"></div>
-                                        <form action="{{ route('fica') }}" method="post" enctype="multipart/form-data" id="fileUpload-bank">
+                                        <form action="{{ route('fica') }}" method="post" enctype="multipart/form-data"
+                                            id="fileUpload-bank">
                                             @csrf
                                             <div class="image-upload">
                                                 <div class="board-uplaod">
@@ -611,7 +623,8 @@
                         <section>
                             <div class="heading-fica-id rounded">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 4: Facial Verification
                                     </h4>
                                 </div>
@@ -628,7 +641,8 @@
                                     </p>
                                     <br>
 
-                                    <form action="{{ route('selfie') }}" method="post" enctype="multipart/form-data" id="selfieLink">
+                                    <form action="{{ route('selfie') }}" method="post" enctype="multipart/form-data"
+                                        id="selfieLink">
                                         @csrf
                                         <div class="image-upload">
 
@@ -646,8 +660,9 @@
                                                 </button>
 
                                             </div>
-                                            <img id="click-icon-facial" src="{{ URL::asset('/assets/images/click.gif') }}"
-                                                alt="cloud upload" width="150px" />
+                                            <img id="click-icon-facial"
+                                                src="{{ URL::asset('/assets/images/click.gif') }}" alt="cloud upload"
+                                                width="150px" />
                                             <img id="click-icon-static-facial"
                                                 src="{{ URL::asset('/assets/images/click.png') }}" alt="cloud upload"
                                                 width="150px" />
@@ -656,7 +671,8 @@
                                 @else
                                     <div class="text-center">
 
-                                        <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
+                                        <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed
+                                        </p>
 
                                         {{-- <br><br><br><br>
                                         <div class="card border w-75 mx-auto"
@@ -699,13 +715,15 @@
                         <section>
                             <div class="heading-fica-id rounded mb-3">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 5: Personal Details
                                     </h4>
                                 </div>
                             </div>
 
-                            <form action="{{ route('personal-user-detail') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('personal-user-detail') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="personal-details">
 
@@ -720,11 +738,11 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm"
-                                                        readonly
+                                                    <input autocomplete="off" type="text"
+                                                        class="form-control input-sm" readonly
                                                         style="height:27px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
-                                                        id="surname-input" name="surname-input" placeholder="Enter Surname"
-                                                        value="{{ $consumer->Surname }}" />
+                                                        id="surname-input" name="surname-input"
+                                                        placeholder="Enter Surname" value="{{ $consumer->Surname }}" />
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -759,7 +777,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm"
+                                                    <input autocomplete="off" type="text"
+                                                        class="form-control input-sm"
                                                         style="height: 27px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                         id="idnumber-input" name="idnumber-input" readonly
                                                         placeholder="Enter ID Number" value="{{ $consumer->IDNUMBER }}">
@@ -791,15 +810,16 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <label for="basicpill-vatno-input" class="font-weight-bold" style="font-size: 12px; color: rgb(0, 0, 0);">
+                                                    <label for="basicpill-vatno-input" class="font-weight-bold"
+                                                        style="font-size: 12px; color: rgb(0, 0, 0);">
                                                         Title:
                                                     </label>
-                                                        
+
                                                     <span style="color: red; font-size: 20px;" class="required">
                                                         *
                                                     </span>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
@@ -812,37 +832,43 @@
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                             <option selected disabled> Select </option>
 
-                                                            <option value="3" {{ old('titleId') == 3 ? "selected" : "" }}
+                                                            <option value="3"
+                                                                {{ old('titleId') == 3 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '3' ? 'selected' : '' }}>
                                                                 Mr
                                                             </option>
-                                                            <option value="4" {{ old('titleId') == 4 ? "selected" : "" }}
+                                                            <option value="4"
+                                                                {{ old('titleId') == 4 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '4' ? 'selected' : '' }}>
                                                                 Mrs
                                                             </option>
-                                                            <option value="5" {{ old('titleId') == 5 ? "selected" : "" }}
+                                                            <option value="5"
+                                                                {{ old('titleId') == 5 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '5' ? 'selected' : '' }}>
                                                                 Ms
                                                             </option>
-                                                            <option value="6" {{ old('titleId') == 6 ? "selected" : "" }}
+                                                            <option value="6"
+                                                                {{ old('titleId') == 6 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '6' ? 'selected' : '' }}>
                                                                 Miss
                                                             </option>
-                                                            <option value="8" {{ old('titleId') == 8 ? "selected" : "" }}
+                                                            <option value="8"
+                                                                {{ old('titleId') == 8 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '8' ? 'selected' : '' }}>
                                                                 Dr
                                                             </option>
-                                                            <option value="7" {{ old('titleId') == 7 ? "selected" : "" }}
+                                                            <option value="7"
+                                                                {{ old('titleId') == 7 ? 'selected' : '' }}
                                                                 {{ isset($consumer->TitleCode) && $consumer->TitleCode == '7' ? 'selected' : '' }}>
                                                                 Professor
                                                             </option>
                                                         </select>
-                                                        
+
                                                     </div>
                                                     @error('titleId')
-                                                    <div class="mb-3" style="color: red">
-                                                        {{ $message = 'Field is required' }}
-                                                    </div>
+                                                        <div class="mb-3" style="color: red">
+                                                            {{ $message = 'Field is required' }}
+                                                        </div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -1167,7 +1193,8 @@
                                                 <div class="col-md-2">
                                                     <div class="mb-3">
                                                         <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                            style="font-size: 12px; color: rgb(0, 0, 0); ">Postal Zip:</label>
+                                                            style="font-size: 12px; color: rgb(0, 0, 0); ">Postal
+                                                            Zip:</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -1194,12 +1221,14 @@
                                             <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0);">Home Telephone:</label>
+                                                        style="font-size: 12px; color: rgb(0, 0, 0);">Home
+                                                        Telephone:</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm"
+                                                    <input autocomplete="off" type="text"
+                                                        class="form-control input-sm"
                                                         style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                         id="telephone-home-input" name="telephone-home-input"
                                                         {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
@@ -1210,7 +1239,8 @@
                                             <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0);">Mobile Telephone:</label>
+                                                        style="font-size: 12px; color: rgb(0, 0, 0);">Mobile
+                                                        Telephone:</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -1239,7 +1269,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm"
+                                                    <input autocomplete="off" type="text"
+                                                        class="form-control input-sm"
                                                         style="height: 27px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                         id="email-input" name="email-input" placeholder="Enter Email"
                                                         readonly value="{{ $consumer->Email }}" />
@@ -1294,19 +1325,21 @@
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                             <option selected disabled>Select</option>
 
-                                                            <option value="Employed" {{ old('employee-status-input') == 'Employed' ? 'selected' : '' }}
+                                                            <option value="Employed"
+                                                                {{ old('employee-status-input') == 'Employed' ? 'selected' : '' }}
                                                                 {{ isset($consumer->Employmentstatus) && $consumer->Employmentstatus == 'Employed' ? 'selected' : '' }}>
                                                                 Employed</option>
-                                                            <option value="Unemployed" {{ old('employee-status-input') == 'Unemployed' ? 'selected' : '' }}
+                                                            <option value="Unemployed"
+                                                                {{ old('employee-status-input') == 'Unemployed' ? 'selected' : '' }}
                                                                 {{ isset($consumer->Employmentstatus) && $consumer->Employmentstatus == 'Unemployed' ? 'selected' : '' }}>
                                                                 Unemployed</option>
                                                         </select>
                                                     </div>
                                                     {{-- <div style="padding-bottom: 2px"> --}}
-                                                        @error('employee-status-input')
-                                                            <div style="color: red">
-                                                                {{ $message = 'Field is required' }}</div>
-                                                        @enderror
+                                                    @error('employee-status-input')
+                                                        <div style="color: red">
+                                                            {{ $message = 'Field is required' }}</div>
+                                                    @enderror
                                                     {{-- </div> --}}
                                                 </div>
                                             </div>
@@ -1358,9 +1391,12 @@
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                                 name="industry-of-occupation-input">
 
-                                                                <option value=""> Select Industry Of Occupation</option>
+                                                                <option value=""> Select Industry Of Occupation
+                                                                </option>
                                                                 @foreach ($occupation as $industry)
-                                                                    <option value="{{ $industry }}" {{ old('industry-of-occupation-input') == $industry ? "selected" :""}} {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}>
+                                                                    <option value="{{ $industry }}"
+                                                                        {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
+                                                                        {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}>
                                                                         {{ $industry }}
                                                                     </option>
                                                                 @endforeach
@@ -1434,8 +1470,7 @@
                                                                 style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;"
                                                                 id="employeer-city-input"
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                                name="employeer-city-input"
-                                                                placeholder="Enter City"
+                                                                name="employeer-city-input" placeholder="Enter City"
                                                                 value="{{ $workAddressExist == true ? $workAddress->OriginalAddress3 : '' }}">
 
 
@@ -1480,7 +1515,8 @@
                                                         <div class="input-group" style="height: 27px; width: 200px;">
                                                             <select class="form-select" autocomplete="off"
                                                                 style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;"
-                                                                id="employeer-province-input" name="employeer-province-input"
+                                                                id="employeer-province-input"
+                                                                name="employeer-province-input"
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                                 <option selected
                                                                     style="text-transform: uppercase;font-size: 12px;"
@@ -1556,7 +1592,7 @@
                                                                 placeholder="Enter Postal Code"
                                                                 value="{{ $workAddressExist == true ? $workAddress->OriginalPostalCode : '' }}">
                                                         </div>
-                                                        
+
                                                     </div>
                                                     @error('employeer-postal-code-input')
                                                         <div style="color: red;width:200px">
@@ -1625,13 +1661,15 @@
                         <section>
                             <div class="heading-fica-id rounded">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 6: Financial Infomation
                                     </h4>
                                 </div>
                             </div>
 
-                            <form action="{{ route('financial-detail') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('financial-detail') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="personal-financial">
                                     <br><br>
@@ -1658,18 +1696,18 @@
                                                             {{ $fica->Financial_status !== null ? 'disabled' : '' }}>
                                                             <option selected disabled> Select Source of Funds </option>
                                                             @foreach ($funds as $fund)
-                                                            <option value="{{ $fund }}"
-                                                                {{ old('funds-input') == $fund ? 'selected' : '' }}
-                                                                {{ isset($selectSourceOfFunds) && $fund == $selectSourceOfFunds ? 'selected' : '' }}>
-                                                                {{ $fund }}
-                                                            </option>
+                                                                <option value="{{ $fund }}"
+                                                                    {{ old('funds-input') == $fund ? 'selected' : '' }}
+                                                                    {{ isset($selectSourceOfFunds) && $fund == $selectSourceOfFunds ? 'selected' : '' }}>
+                                                                    {{ $fund }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     @error('funds-input')
-                                                    <div style="color: red">
-                                                        {{ $message = 'Field is required' }}
-                                                    </div>
+                                                        <div style="color: red">
+                                                            {{ $message = 'Field is required' }}
+                                                        </div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -1686,7 +1724,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm"
+                                                    <input autocomplete="off" type="text"
+                                                        class="form-control input-sm"
                                                         style="height: 27px; width: 10px; padding-left: 24px; width: 210px;"
                                                         id="tax-number-input" name="tax-number-input"
                                                         {{ $fica->Financial_status !== null ? 'disabled' : '' }}
@@ -1770,8 +1809,9 @@
                                                         <input autocomplete="off" type="text"
                                                             class="form-control input-sm"
                                                             style="height: 27px; width: 10px; padding-left: 24px; width: 210px;"
-                                                            id="country-of-tax-code-input" name="country-of-tax-code-input"
-                                                            placeholder="" value="" />
+                                                            id="country-of-tax-code-input"
+                                                            name="country-of-tax-code-input" placeholder=""
+                                                            value="" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1850,7 +1890,8 @@
                         <section>
                             <div class="heading-fica-id rounded mb-3">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 7: Screening
                                     </h4>
                                 </div>
@@ -2091,7 +2132,8 @@
                         <section>
                             <div class="heading-fica-id rounded mb-3">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 8: Declarations
                                     </h4>
                                 </div>
@@ -2102,20 +2144,23 @@
                                 <div class="personal-details">
                                     <h6 style="color: rgb(0, 0, 0);">K. Client Due Diligence</h6>
                                     <div class="col-md-12" style="padding-right: 2%;">
-                                        <select class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror"
+                                        <select
+                                            class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror"
                                             id="client-due-diligence-dropdown" name="client-due-diligence-dropdown"
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
 
                                             <option selected disabled>Select</option>
 
-                                            <option value="Once off sale transaction" {{ old('client-due-diligence-dropdown') == 'Once off sale transaction' ? "selected" : "" }}
+                                            <option value="Once off sale transaction"
+                                                {{ old('client-due-diligence-dropdown') == 'Once off sale transaction' ? 'selected' : '' }}
                                                 {{ isset($declaration->ClientDueDiligence) && $declaration->ClientDueDiligence == 'Once off sale transaction' ? 'selected' : '' }}>
                                                 Once off sale transaction</option>
                                             <option value="Ongoing trading(R50 000 above)"
                                                 {{ isset($declaration->ClientDueDiligence) && $declaration->ClientDueDiligence == 'Ongoing trading(R50 000 above)' ? 'selected' : '' }}>
                                                 Ongoing trading (R50 000 above)</option>
 
-                                            <option value="Ongoing trading (estimated value R1 to R50 000)" {{ old('client-due-diligence-dropdown') == 'Ongoing trading (estimated value R1 to R50 000)' ? "selected" : "" }}
+                                            <option value="Ongoing trading (estimated value R1 to R50 000)"
+                                                {{ old('client-due-diligence-dropdown') == 'Ongoing trading (estimated value R1 to R50 000)' ? 'selected' : '' }}
                                                 {{ isset($declaration->ClientDueDiligence) && $declaration->ClientDueDiligence == 'Ongoing trading (estimated value R1 to R50 000)' ? 'selected' : '' }}>
                                                 Ongoing trading (estimated value R1 to R50 000)</option>
 
@@ -2125,25 +2170,23 @@
                                             </option> --}}
 
                                         </select>
-                                        
+
                                     </div>
                                     @error('client-due-diligence-dropdown')
-                                    <div style="color: red">
-                                        {{ $message = 'Field is required' }}
-                                    </div>
+                                        <div style="color: red">
+                                            {{ $message = 'Field is required' }}
+                                        </div>
                                     @enderror
                                     <br>
                                     <h6 style="color: rgb(0, 0, 0);">C. Nominee Declaration</h6>
                                     <div class="col-md-12" style="padding-right: 2%;">
-                                        <select
-                                            {{-- class="form-select @error('nominee-declaration-dropdown') is-invalid @enderror" --}}
-                                            class="form-select"
+                                        <select {{-- class="form-select @error('nominee-declaration-dropdown') is-invalid @enderror" --}} class="form-select"
                                             id="nominee-declaration-dropdown" name="nominee-declaration-dropdown"
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
                                             <option disabled>Select</option>
 
-                                            <option selected value="NO" {{ isset($declaration->NomineeDeclaration) && 
-                                                $declaration->NomineeDeclaration == 'NO' ? 'selected' : '' }}>
+                                            <option selected value="NO"
+                                                {{ isset($declaration->NomineeDeclaration) && $declaration->NomineeDeclaration == 'NO' ? 'selected' : '' }}>
                                                 NO
                                             </option>
 
@@ -2165,7 +2208,7 @@
                                                 behalf of the beneficial owners.
                                             </option>
                                         </select>
-                                        
+
                                     </div>
                                     {{-- @error('nominee-declaration-dropdown')
                                         <div style="color: red">
@@ -2180,7 +2223,6 @@
                                             class="form-select @error('issuer-communication-selection-dropdown') is-invalid @enderror"
                                             id="issuer-communication-selection-dropdown"
                                             name="issuer-communication-selection-dropdown"
-                                            
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
                                             <option disabled>Select</option>
                                             <option value="I wish to continue to receive an annual report"
@@ -2196,7 +2238,7 @@
                                                 {{ isset($declaration->IssuerCommunication) && $declaration->IssuerCommunication == 'Electronic communication' ? 'selected' : '' }}>
                                                 Electronic communication</option> --}}
                                         </select>
-                                        
+
                                     </div>
                                     @error('issuer-communication-selection-dropdown')
                                         <div style="color: red">
@@ -2248,17 +2290,19 @@
                                             <option disabled>Select</option>
                                             <option selected value="Securities held on my behalf must be register"
                                                 {{ isset($declaration->CustodyService) && $declaration->CustodyService == 'Securities held on my behalf must be register' ? 'selected' : '' }}>
-                                                Securities must be registered in my own name and maintained by ComputerShare's Deal Routing Service.</option>
+                                                Securities must be registered in my own name and maintained by
+                                                ComputerShare's Deal Routing Service.</option>
                                             <option value="Securities must be registered in my Own Name"
                                                 {{ isset($declaration->CustodyService) && $declaration->CustodyService == 'Securities must be registered in my Own Name' ? 'selected' : '' }}>
-                                                Securities must be registered in my own name and maintained by ComputerShare utilizing my own broker.</option>
+                                                Securities must be registered in my own name and maintained by ComputerShare
+                                                utilizing my own broker.</option>
                                         </select>
-                                        
+
                                     </div>
                                     @error('custody-service-selection-dropdown')
-                                    <div style="color: red">
-                                        {{ $message = 'Field is required' }}
-                                    </div>
+                                        <div style="color: red">
+                                            {{ $message = 'Field is required' }}
+                                        </div>
                                     @enderror
                                     <br>
 
@@ -2302,7 +2346,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
 
                                     <h6 style="color: rgb(0, 0, 0);">F. Segregated Depository
                                         Acounts</h6>
@@ -2315,23 +2359,25 @@
 
                                             <option selected disabled>Select</option>
 
-                                            <option value="Confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? "selected" : "" }}
+                                            <option value="Confirm SDA"
+                                                {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? 'selected' : '' }}
                                                 {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Confirm SDA' ? 'selected' : '' }}>
                                                 I confirm that I would not like to open a SDA Strate.
                                             </option>
 
-                                            <option value="Do not confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Do not confirm SDA' ? "selected" : "" }}
+                                            <option value="Do not confirm SDA"
+                                                {{ old('segregated-depository-acounts-dropdown') == 'Do not confirm SDA' ? 'selected' : '' }}
                                                 {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Do not confirm SDA' ? 'selected' : '' }}>
                                                 I confirm that I would like to open a SDA Strate.
                                             </option>
 
                                         </select>
-                                        
+
                                     </div>
                                     @error('segregated-depository-acounts-dropdown')
-                                    <div style="color: red">
-                                        {{ $message = 'Field is required' }}
-                                    </div>
+                                        <div style="color: red">
+                                            {{ $message = 'Field is required' }}
+                                        </div>
                                     @enderror
 
                                     <br>
@@ -2340,10 +2386,8 @@
                                     <p style="color: rgb(0, 0, 0);">Are you exempt for Dividends Tax
                                         in are subject to a reduced rate of Dividends Tax?</p>
                                     <div class="col-md-12" style="padding-right: 2%;">
-                                        <select 
-                                            {{-- class="form-select @error('dividends-tax-dropdown') is-invalid @enderror" --}}
-                                            class="form-select"
-                                            id="dividends-tax-dropdown" name="dividends-tax-dropdown"
+                                        <select {{-- class="form-select @error('dividends-tax-dropdown') is-invalid @enderror" --}} class="form-select" id="dividends-tax-dropdown"
+                                            name="dividends-tax-dropdown"
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
                                             <option disabled>Select</option>
                                             <option value=1
@@ -2354,7 +2398,7 @@
                                                 NO
                                             </option>
                                         </select>
-                                        
+
                                     </div>
                                     {{-- @error('dividends-tax-dropdown')
                                     <div style="color: red">
@@ -2367,9 +2411,7 @@
                                     <p style="color: rgb(0, 0, 0);">Do you want to purchase BEE
                                         shares?</p>
                                     <div class="col-md-12" style="padding-right: 2%;">
-                                        <select
-                                            {{-- class="form-select @error('bee-shareholders-dropdown') is-invalid @enderror" --}}
-                                            class="form-select"
+                                        <select {{-- class="form-select @error('bee-shareholders-dropdown') is-invalid @enderror" --}} class="form-select"
                                             id="bee-shareholders-dropdown" name="bee-shareholders-dropdown"
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
                                             <option disabled>Select</option>
@@ -2380,21 +2422,19 @@
                                                 {{ isset($declaration->BeeShareholder) && $declaration->BeeShareholder == 0 ? 'selected' : '' }}>
                                                 NO</option>
                                         </select>
-                                        
+
                                     </div>
                                     @error('bee-shareholders-dropdown')
-                                    <div style="color: red">
-                                        {{ $message = 'Field is required' }}
-                                    </div>
+                                        <div style="color: red">
+                                            {{ $message = 'Field is required' }}
+                                        </div>
                                     @enderror
 
                                     <br>
 
                                     <h6 style="color: rgb(0, 0, 0);">J. Stamp Duty Reserve Tax</h6>
                                     <div class="form-check">
-                                        <input
-                                            {{-- class="form-check-input big-checkbox @error('stamp-duty-reserve-tax-checkbox') is-invalid @enderror" --}}
-                                            class="form-check-input big-checkbox"
+                                        <input {{-- class="form-check-input big-checkbox @error('stamp-duty-reserve-tax-checkbox') is-invalid @enderror" --}} class="form-check-input big-checkbox"
                                             type="checkbox" value=1 id="stamp-duty-reserve-tax-checkbox"
                                             name="stamp-duty-reserve-tax-checkbox"
                                             style="width: 20px; height:20px; color:rgb(0, 0, 0)"
@@ -2413,7 +2453,7 @@
                                             {{ $message = 'Field is required' }}
                                         </div>
                                     @enderror --}}
-        
+
                                 </div>
 
                                 <div class="text-center">
@@ -2468,7 +2508,8 @@
                         <section>
                             <div class="heading-fica-id rounded mb-3">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 9: Validation
                                     </h4>
                                 </div>
@@ -2602,9 +2643,11 @@
                                                 </div>
                                                 <div class="text-center">
                                                     <img id="varification-image-static-kyc"
-                                                        src="{{ URL::asset('/assets/images/KYC.png') }}" width="60%" />
+                                                        src="{{ URL::asset('/assets/images/KYC.png') }}"
+                                                        width="60%" />
                                                     <img id="varification-image-kyc" style="margin-left: 18px;"
-                                                        src="{{ URL::asset('/assets/images/KYC.gif') }}" width="60%" />
+                                                        src="{{ URL::asset('/assets/images/KYC.gif') }}"
+                                                        width="60%" />
                                                     <br><br>
                                                     <h6 style="color: #000; ">KYC</h6>
                                                 </div>
@@ -2815,8 +2858,8 @@
                                         @endif
                                         @if ($fica->Validation_Status !== null)
                                             @if ($fica->FICAStatus !== 'Failed')
-                                                <button type="button" name="continue-validation" id="continue-validation"
-                                                    class="btn text-center w-md text-white"
+                                                <button type="button" name="continue-validation"
+                                                    id="continue-validation" class="btn text-center w-md text-white"
                                                     style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
                                                     Continue
                                                 </button>
@@ -2854,15 +2897,17 @@
                         <section>
                             <div class="heading-fica-id rounded mb-4">
                                 <div class="text-center">
-                                    <h4 style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
+                                    <h4
+                                        style="color: #f3f3f3;padding-top: 8px;padding-bottom: 8px;padding-right: 8px;padding-left: 8px;">
                                         Step 10: Acknowledgement
                                     </h4>
                                 </div>
                             </div>
-                            <form method="post" action="{{ route('acknowledgement') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('acknowledgement') }}"
+                                enctype="multipart/form-data">
                                 @csrf
-                                
-                            
+
+
                                 <div style="padding-left:6%">
                                     <br>
                                     {{-- <div id="fica-final-status"> --}}
@@ -2876,7 +2921,7 @@
                                     {{-- </div> --}}
                                     <br>
                                     <div class="col-lg-12">
-                                        
+
                                         <div class="row justify-content-center">
                                             <div class="col-md-3" style="padding-left: 0px;padding-right: 0px;">
                                                 <div class="mb-3">
@@ -2908,7 +2953,7 @@
                                                         <span style="color: red; font-size: 20px;" class="required">*
                                                         </span>
                                                     </label>
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-3" style="padding-left: 0px;padding-right: 0px;">
@@ -2932,29 +2977,32 @@
                                         </div>
 
                                         {{-- <div class="col-lg-4"> --}}
-                                            <div style="display: flex; justify-content: center;">
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input big-checkbox @error('terms-and-conditions-checkbox') is-invalid @enderror"
-                                                        type="checkbox" value=1
-                                                        {{ $fica->TandC_Status != null ? 'checked' : '' }}
-                                                        id="terms-and-conditions-checkbox" name="terms-and-conditions-checkbox"
-                                                        style="border-bottom-width: 2px;border-top-width: 2px;border-right-width: 2px;border-left-width: 2px;margin-top: 5%;">
-                                                    <label class="form-check-label" for="salary-checkbox" style="padding-left:15px;font-size: 12px; color: rgb(0, 0, 0);padding-top: 0.25em;">
-                                                        I agree to the <a style="color: red"
-                                                            href="{{ $customer->CustomerTerms_URL }}" target="_blank"> Terms
-                                                            and Conditions </a>
-                                                    </label>
-                                                    <span style="color: red; font-size: 20px;" class="required">
-                                                        *
-                                                    </span>
-                                                    @error('terms-and-conditions-checkbox')
-                                                        <div style="color: red">
-                                                            {{ $message = 'Field is required' }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
+                                        <div style="display: flex; justify-content: center;">
+                                            <div class="form-check">
+                                                <input
+                                                    class="form-check-input big-checkbox @error('terms-and-conditions-checkbox') is-invalid @enderror"
+                                                    type="checkbox" value=1
+                                                    {{ $fica->TandC_Status != null ? 'checked' : '' }}
+                                                    id="terms-and-conditions-checkbox"
+                                                    name="terms-and-conditions-checkbox"
+                                                    style="border-bottom-width: 2px;border-top-width: 2px;border-right-width: 2px;border-left-width: 2px;margin-top: 5%;">
+                                                <label class="form-check-label" for="salary-checkbox"
+                                                    style="padding-left:15px;font-size: 12px; color: rgb(0, 0, 0);padding-top: 0.25em;">
+                                                    I agree to the <a style="color: red"
+                                                        href="{{ $customer->CustomerTerms_URL }}" target="_blank">
+                                                        Terms
+                                                        and Conditions </a>
+                                                </label>
+                                                <span style="color: red; font-size: 20px;" class="required">
+                                                    *
+                                                </span>
+                                                @error('terms-and-conditions-checkbox')
+                                                    <div style="color: red">
+                                                        {{ $message = 'Field is required' }}
+                                                    </div>
+                                                @enderror
                                             </div>
+                                        </div>
                                         {{-- </div> --}}
 
                                     </div>
@@ -3029,17 +3077,17 @@
                         <form method="post" action='{{ route('submitID') }}' enctype="multipart/form-data">
                             @csrf
                             {{-- <a href="javascript:window.location = window.location"> --}}
-                                <button type="submit" class="btn btn-primary" id='id-model-yes'
-                                    style="width: 120px">Yes
-                                </button>
+                            <button type="submit" class="btn btn-primary" id='id-model-yes'
+                                style="width: 120px">Yes
+                            </button>
                             {{-- </a> --}}
                         </form>
                     </div>
                     {{-- <a href="javascript:window.location = window.location"> --}}
                     <a href="javascript:window.history.forward(1)">
                         <div style="padding-left:2px">
-                            <button type="button" class="btn btn-secondary" id='id-model-no' data-bs-dismiss="modal"
-                                style="width: 120px">No</button>
+                            <button type="button" class="btn btn-secondary" id='id-model-no'
+                                data-bs-dismiss="modal" style="width: 120px">No</button>
                         </div>
                     </a>
                 </div>
@@ -3064,7 +3112,8 @@
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
                                 <h4 style="color: #1a4f6e">Document upload failed.</h4>
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved. Document is encrypted or unreadable.</p>
+                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved.
+                                    Document is encrypted or unreadable.</p>
                                 <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
                                 {{-- <p class="text-muted font-size-14 mb-4" style="color: #1a4f6e" id="pid">
                                     We can not determine a valid ID Number.
@@ -3077,8 +3126,7 @@
                 <div class="text-center mb-3">
                     {{-- <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
                     style="width: 150px">No</button> --}}
-                    <button type="button" class="btn btn-primary" id="btn-reupload"
-                        style="width: 150px">OK
+                    <button type="button" class="btn btn-primary" id="btn-reupload" style="width: 150px">OK
                     </button>
                 </div>
 
@@ -3125,8 +3173,9 @@
 
                                     <div class="input-group" style="height: 35px; width: 100%;">
 
-                                        <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                        id="py-city" name="py-city" required>
+                                        <input type="text" class="form-control"
+                                            style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
+                                            id="py-city" name="py-city" required>
 
                                         {{-- <select class="form-select" autocomplete="off"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
@@ -3393,7 +3442,7 @@
                                 <div class="mb-3">
                                     <label for="initials" class="form-label">Initials</label>
                                     <input type="type" class="form-control @error('initials') is-invalid @enderror"
-                                        id="initials" name="initials">
+                                        id="initials" name="initials" autocomplete="off">
                                     @error('initials')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3405,7 +3454,8 @@
                                 <div class="mb-3">
                                     <label for="surname"
                                         class="form-label  @error('surname') is-invalid @enderror">Surname</label>
-                                    <input type="type" class="form-control" id="surname" name="surname">
+                                    <input type="type" class="form-control" id="surname" name="surname"
+                                        autocomplete="off">
                                     @error('surname')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3418,7 +3468,7 @@
                                     <label for="acc-number" class="form-label">Account Number</label>
                                     <input type="type"
                                         class="form-control @error('acc-number') is-invalid @enderror" id="acc-number"
-                                        name="acc-number">
+                                        name="acc-number" autocomplete="off">
                                     @error('acc-number')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3480,7 +3530,7 @@
                                 <div class="mb-3">
                                     <label for="branch" class="form-label">Branch Code</label>
                                     <input type="type" class="form-control @error('branch') is-invalid @enderror"
-                                        id="branch" name="branch">
+                                        id="branch" name="branch" autocomplete="off">
                                     @error('branch')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3562,7 +3612,8 @@
                             <div class="col-xl-10">
                                 <h4 style="color: #1a4f6e">Please try again.</h4>
 
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved. Document is encrypted or unreadable.</p>
+                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved.
+                                    Document is encrypted or unreadable.</p>
                                 <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
 
                                 {{-- <h4 style="color: #1a4f6e">We can not determine a valid ID Number, document is encrypted or unreadable.</h4>
@@ -3679,7 +3730,8 @@
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e"> Your submission requires additional verification. An administrator will be in touch.
+                                <h4 style="color: #1a4f6e"> Your submission requires additional verification. An
+                                    administrator will be in touch.
                                 </h4>
                             </div>
                         </div>
@@ -3719,7 +3771,9 @@
                 </div>
                 <hr>
                 <div class="text-center mb-3">
-                    <form id="logout-form" action="{{ route('logout', ['customer' => $customer, 'customerName' => $customer->RegistrationName]) }}" method="POST">
+                    <form id="logout-form"
+                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customer->RegistrationName]) }}"
+                        method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
                             style="width: 150px">Logout</button>
@@ -3731,13 +3785,15 @@
     </div>
 
     <!-- Static Backdrop modal Button -->
-    <button id="modalbtn" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden>
-        Static backdrop modal 
+    <button id="modalbtn" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop" hidden>
+        Static backdrop modal
     </button>
-    
-    
+
+
     <!-- Static Backdrop Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -3745,11 +3801,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Your Session will expire in 2 mins, please click on the logout button to logout or on stay connected to continue.</p>
+                    <p>Your Session will expire in 2 mins, please click on the logout button to logout or on stay connected
+                        to continue.</p>
                 </div>
                 <div class="modal-footer">
-                    <button id="logoutbtn" type="button" onclick="logout()" class="btn btn-light" data-bs-dismiss="modal">Logout</button>
-                    <button id="staybtn" type="button" onclick="stayconnected()"  class="btn btn-primary" data-bs-dismiss="modal">Stay Connected</button>
+                    <button id="logoutbtn" type="button" onclick="logout()" class="btn btn-light"
+                        data-bs-dismiss="modal">Logout</button>
+                    <button id="staybtn" type="button" onclick="stayconnected()" class="btn btn-primary"
+                        data-bs-dismiss="modal">Stay Connected</button>
                 </div>
             </div>
         </div>
@@ -3758,7 +3817,6 @@
 @endsection
 
 @section('script')
-
     {{-- ID upload --}}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -4740,77 +4798,76 @@
         });
     </script>
 
-<script>
-    function status(select) {
+    <script>
+        function status(select) {
 
-        // document.getElementById('brokerinfo').style.display = "none";
+            // document.getElementById('brokerinfo').style.display = "none";
 
-        if (select.value == 'Securities must be registered in my Own Name') {
-            document.getElementById('brokerinfo').style.display = "block";
-        } else {
-            document.getElementById('brokerinfo').style.display = "none";
+            if (select.value == 'Securities must be registered in my Own Name') {
+                document.getElementById('brokerinfo').style.display = "block";
+            } else {
+                document.getElementById('brokerinfo').style.display = "none";
+            }
         }
-    }
-</script>
+    </script>
 
-<script>
-    var timer = setInterval(function() {
-        document.getElementById("mainpage").style.display = "block";
-    }, 150);
-</script>
+    <script>
+        var timer = setInterval(function() {
+            document.getElementById("mainpage").style.display = "block";
+        }, 150);
+    </script>
 
-<script>
-    $(document).ready(function() {
-        var idleState = false;
-        var idleTimer = null;
-        var idleTimer2 = null;
-        const timeout = 300000; // 300000 ms = 5 minutes
-        const modaltime = 180000;
+    <script>
+        $(document).ready(function() {
+            var idleState = false;
+            var idleTimer = null;
+            var idleTimer2 = null;
+            const timeout = 300000; // 300000 ms = 5 minutes
+            const modaltime = 180000;
 
-        $('*').bind(
-            'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick',
-            function() {
-                clearTimeout(idleTimer);
-                idleState = false;
-                idleTimer = setTimeout(function() {
-                    document.getElementById('modalbtn').click();
+            $('*').bind(
+                'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick',
+                function() {
+                    clearTimeout(idleTimer);
+                    idleState = false;
+                    idleTimer = setTimeout(function() {
+                        document.getElementById('modalbtn').click();
 
-                    idleTimer2 = setTimeout(function() {
-                        document.getElementById('logout-form').submit();
-                        idleState = true;
-                    }, timeout);
-                }, modaltime);
+                        idleTimer2 = setTimeout(function() {
+                            document.getElementById('logout-form').submit();
+                            idleState = true;
+                        }, timeout);
+                    }, modaltime);
 
-            });
-        $("body").trigger("mousemove");
-    });
-</script>
+                });
+            $("body").trigger("mousemove");
+        });
+    </script>
 
-<script>
-    function logout() {
-        document.getElementById('logout-form').submit();
-    };
-</script>
+    <script>
+        function logout() {
+            document.getElementById('logout-form').submit();
+        };
+    </script>
 
-<script>
-    $(document).ready(function() {
-        var idleState = false;
-        var idleTimer = null;
-        var idleTimer2 = null;
-        const timeout = 300000; // 300000 ms = 5 minutes
-        const modaltime = 180000;
+    <script>
+        $(document).ready(function() {
+            var idleState = false;
+            var idleTimer = null;
+            var idleTimer2 = null;
+            const timeout = 300000; // 300000 ms = 5 minutes
+            const modaltime = 180000;
 
-        $('*').bind(
-            'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick',
-            function stayconnected() {
-                clearTimeout(idleTimer);
-                idleState = false;
-                const timeout = 0;
+            $('*').bind(
+                'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick',
+                function stayconnected() {
+                    clearTimeout(idleTimer);
+                    idleState = false;
+                    const timeout = 0;
 
-            });
-        $("body").trigger("mousemove");
-        document.getElementById('staticBackdrop').hide();
-    });
-</script>
-
+                });
+            $("body").trigger("mousemove");
+            document.getElementById('staticBackdrop').hide();
+        });
+    </script>
 @endsection

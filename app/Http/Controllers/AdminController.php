@@ -25,8 +25,8 @@ class AdminController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:admin-dashboard', ['only' => ['ShowDashboard']]);
-         $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
+        $this->middleware('permission:admin-dashboard', ['only' => ['ShowDashboard']]);
+        $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
     }
 
     public function ShowDashboard(Request $request)
@@ -36,7 +36,7 @@ class AdminController extends Controller
         $request->session()->put('idnumber', null);
         // $findnote = SendEmail::all()->toArray();
         //$Consumerid = $request->session()->get('LoggedUser');
-        $Consumerid =Auth::user()->Id;
+        $Consumerid = Auth::user()->Id;
 
         $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
@@ -93,9 +93,9 @@ class AdminController extends Controller
         $MediumRisk = $DashboardData['MediumRisk'];
         $LowRisk = $DashboardData['LowRisk'];
 
-        $HighPerc = $NumClients!= 0 ? (($HighRisk / $NumClients) * 100): 0;
-        $MediumPerc = $NumClients!= 0 ? (($MediumRisk / $NumClients) * 100): 0;
-        $LowPerc = $NumClients!= 0 ? (($LowRisk / $NumClients) * 100): 0;
+        $HighPerc = $NumClients != 0 ? (($HighRisk / $NumClients) * 100) : 0;
+        $MediumPerc = $NumClients != 0 ? (($MediumRisk / $NumClients) * 100) : 0;
+        $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
 
 
         // $emailid = SendEmail::where('EmailID', '=',  $NotificationLink->EmailID)->first();
@@ -218,7 +218,8 @@ class AdminController extends Controller
     public function FindUsers(Request $request)
     {
 
-        $Consumerid = $request->session()->get('LoggedUser');
+        // $Consumerid = $request->session()->get('LoggedUser');
+
 
         // app('debugbar')->info($Consumerid);
 
@@ -226,8 +227,6 @@ class AdminController extends Controller
 
         $LogUserName = $getLogUser['FirstName'];
         $LogUserSurname = $getLogUser['LastName']; */
-        $LogUserName = Auth::user()->FirstName;
-        $LogUserSurname = Auth::user()->LastName;
         // $SearchConsumerID = $request->session()->get('SearchConsumerID');
         // $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
@@ -258,12 +257,15 @@ class AdminController extends Controller
 
         /* $Customerid = $request->session()->get('Customerid');
         $customer = Customer::where('Id', '=',  $Customerid)->first(); */
+        $Consumerid = Auth::user()->Id;
+        $LogUserName = Auth::user()->FirstName;
+        $LogUserSurname = Auth::user()->LastName;
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         if (session()->has('LoggedUser')) {
             session()->pull('idnumber');
@@ -710,7 +712,7 @@ class AdminController extends Controller
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-            
+
 
         // $Consumerid = $request->session()->get('LoggedUser');
         // $EmailID = SendEmail::where('EmailID', '=', $findnote->EmailID)->first();
@@ -732,12 +734,12 @@ class AdminController extends Controller
 
         return redirect()->back()
 
-        // ->with('NotificationLink', $NotificationLink)
-        ->with('customerName', $customerName)
-        ->with('Logo', $Logo)
-        ->with('Icon', $Icon)
-        ->with('LogUserName', $LogUserName)
-        ->with('LogUserSurname', $LogUserSurname);
+            // ->with('NotificationLink', $NotificationLink)
+            ->with('customerName', $customerName)
+            ->with('Logo', $Logo)
+            ->with('Icon', $Icon)
+            ->with('LogUserName', $LogUserName)
+            ->with('LogUserSurname', $LogUserSurname);
     }
 
     // public function ScreenUsersFirst()

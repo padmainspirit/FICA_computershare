@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Consumer;
 use App\Models\Customer;
 use App\Models\FAQData;
+use Illuminate\Support\Facades\Auth;
 
 
 class FAQ extends Controller
@@ -55,12 +56,12 @@ class FAQ extends Controller
         $distquestion12 = FAQData::where('FAQ_ID', '=', '10FDC7F7-67EA-48B6-891F-3C704916FBF9')->first();
         $distquestion13 = FAQData::where('FAQ_ID', '=', '318C312E-937D-4484-8CA1-E539364FDDF0')->first();
         $distquestion14 = FAQData::where('FAQ_ID', '=', '5BFF141D-AC78-4584-9A93-39376472973C')->first();
-        $distquestion15 = FAQData::where('FAQ_ID', '=', '2F834B31-CF3A-4323-9669-22043E61B465')->first(); 
+        $distquestion15 = FAQData::where('FAQ_ID', '=', '2F834B31-CF3A-4323-9669-22043E61B465')->first();
         $distquestion16 = FAQData::where('FAQ_ID', '=', '906ABF90-AC3A-4C9A-A8B5-1F087F8784CB')->first();
         $distquestion17 = FAQData::where('FAQ_ID', '=', '5F0B7094-6950-4DE5-A77A-9C145A9CF36F')->first();
         $distquestion18 = FAQData::where('FAQ_ID', '=', 'B58549A2-54B7-4030-9901-9A61E5FA8FB5')->first();
         $distquestion19 = FAQData::where('FAQ_ID', '=', '846A7118-5A4C-49F9-B166-4A783C2C164A')->first();
-        
+
 
         // app('debugbar')->info($distquestion1);
         // app('debugbar')->info($distquestion2);
@@ -100,9 +101,9 @@ class FAQ extends Controller
         // Get the Value for Single Array
         $question6 = $getquestion6['Question'];
 
-         // Get Single Array
+        // Get Single Array
         $getquestion7 = ['Question' => $distquestion7->Question];
-         // Get the Value for Single Array
+        // Get the Value for Single Array
         $question7 = $getquestion7['Question'];
 
         // Get Single Array
@@ -155,20 +156,20 @@ class FAQ extends Controller
         // Get the Value for Single Array
         $question16 = $getquestion16['Question'];
 
-         // Get Single Array
-         $getquestion17 = ['Question' => $distquestion17->Question];
-         // Get the Value for Single Array
-         $question17 = $getquestion17['Question'];
+        // Get Single Array
+        $getquestion17 = ['Question' => $distquestion17->Question];
+        // Get the Value for Single Array
+        $question17 = $getquestion17['Question'];
 
-          // Get Single Array
+        // Get Single Array
         $getquestion18 = ['Question' => $distquestion18->Question];
         // Get the Value for Single Array
         $question18 = $getquestion18['Question'];
 
-         // Get Single Array
-         $getquestion19 = ['Question' => $distquestion19->Question];
-         // Get the Value for Single Array
-         $question19 = $getquestion19['Question'];
+        // Get Single Array
+        $getquestion19 = ['Question' => $distquestion19->Question];
+        // Get the Value for Single Array
+        $question19 = $getquestion19['Question'];
 
         // app('debugbar')->info($question1);
         // app('debugbar')->info($question2);
@@ -218,62 +219,62 @@ class FAQ extends Controller
         // Get the Value for Single Array
         $answer8 = $getanswer8['Answer'];
 
-         // Get Single Array
-         $getanswer9 = ['Answer' => $distquestion9->Answer];
-         // Get the Value for Single Array
-         $answer9 = $getanswer9['Answer'];
+        // Get Single Array
+        $getanswer9 = ['Answer' => $distquestion9->Answer];
+        // Get the Value for Single Array
+        $answer9 = $getanswer9['Answer'];
 
         // Get Single Array
-         $getanswer10 = ['Answer' => $distquestion10->Answer];
-         // Get the Value for Single Array
-         $answer10 = $getanswer10['Answer'];
+        $getanswer10 = ['Answer' => $distquestion10->Answer];
+        // Get the Value for Single Array
+        $answer10 = $getanswer10['Answer'];
 
         // Get Single Array
-         $getanswer11 = ['Answer' => $distquestion11->Answer];
-         // Get the Value for Single Array
-         $answer11 = $getanswer11['Answer'];
+        $getanswer11 = ['Answer' => $distquestion11->Answer];
+        // Get the Value for Single Array
+        $answer11 = $getanswer11['Answer'];
 
         // Get Single Array
-         $getanswer12 = ['Answer' => $distquestion12->Answer];
-         // Get the Value for Single Array
-         $answer12 = $getanswer12['Answer'];
+        $getanswer12 = ['Answer' => $distquestion12->Answer];
+        // Get the Value for Single Array
+        $answer12 = $getanswer12['Answer'];
 
         // Get Single Array
-         $getanswer13 = ['Answer' => $distquestion13->Answer];
-         // Get the Value for Single Array
-         $answer13 = $getanswer13['Answer'];
+        $getanswer13 = ['Answer' => $distquestion13->Answer];
+        // Get the Value for Single Array
+        $answer13 = $getanswer13['Answer'];
 
         // Get Single Array
-         $getanswer14 = ['Answer' => $distquestion14->Answer];
-         // Get the Value for Single Array
-         $answer14 = $getanswer14['Answer'];
-
-         // Get Single Array
-         $getanswer15 = ['Answer' => $distquestion15->Answer];
-         // Get the Value for Single Array
-         $answer15 = $getanswer15['Answer'];
-
-         // Get Single Array
-         $getanswer16 = ['Answer' => $distquestion16->Answer];
-         // Get the Value for Single Array
-         $answer16 = $getanswer16['Answer'];
-
-         // Get Single Array
-         $getanswer17 = ['Answer' => $distquestion17->Answer];
-         // Get the Value for Single Array
-         $answer17 = $getanswer17['Answer'];
+        $getanswer14 = ['Answer' => $distquestion14->Answer];
+        // Get the Value for Single Array
+        $answer14 = $getanswer14['Answer'];
 
         // Get Single Array
-         $getanswer18 = ['Answer' => $distquestion18->Answer];
-         // Get the Value for Single Array
-         $answer18 = $getanswer18['Answer'];
+        $getanswer15 = ['Answer' => $distquestion15->Answer];
+        // Get the Value for Single Array
+        $answer15 = $getanswer15['Answer'];
+
+        // Get Single Array
+        $getanswer16 = ['Answer' => $distquestion16->Answer];
+        // Get the Value for Single Array
+        $answer16 = $getanswer16['Answer'];
+
+        // Get Single Array
+        $getanswer17 = ['Answer' => $distquestion17->Answer];
+        // Get the Value for Single Array
+        $answer17 = $getanswer17['Answer'];
+
+        // Get Single Array
+        $getanswer18 = ['Answer' => $distquestion18->Answer];
+        // Get the Value for Single Array
+        $answer18 = $getanswer18['Answer'];
 
 
         // Get Single Array
-         $getanswer19 = ['Answer' => $distquestion19->Answer];
-         // Get the Value for Single Array
-         $answer19 = $getanswer19['Answer'];
-         
+        $getanswer19 = ['Answer' => $distquestion19->Answer];
+        // Get the Value for Single Array
+        $answer19 = $getanswer19['Answer'];
+
 
         // app('debugbar')->info($answer1);
         // app('debugbar')->info($answer2);
@@ -292,9 +293,10 @@ class FAQ extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        
-        $Customerid = session()->get('Customerid');
+        $client = Auth::user();
 
+        // $Customerid = $client->Id;
+        $Customerid = Auth::user()->CustomerId;
         $customerBrand = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customerBrand['Client_Logo'];
         $Icon = $customerBrand['Client_Icon'];
@@ -303,52 +305,52 @@ class FAQ extends Controller
         app('debugbar')->info($customerBrand);
 
         return view('FAQ', [])
-        
-        ->with('question1', $question1)
-        ->with('question2', $question2)
-        ->with('question3', $question3)
-        ->with('question4', $question4)
-        ->with('question5', $question5)
-        ->with('question6', $question6)
-        ->with('question7', $question7)
-        ->with('question8', $question8)
-        ->with('question9', $question9)
-        ->with('question10', $question10)
-        ->with('question11', $question11)
-        ->with('question12', $question12)
-        ->with('question13', $question13)
-        ->with('question14', $question14)
-        ->with('question15', $question15)
-        ->with('question16', $question16)
-        ->with('question17', $question17)
-        ->with('question18', $question18)
-        ->with('question19', $question19)
 
-        ->with('answer1', $answer1)
-        ->with('answer2', $answer2)
-        ->with('answer3', $answer3)
-        ->with('answer4', $answer4)
-        ->with('answer5', $answer5)
-        ->with('answer6', $answer6)
-        ->with('answer7', $answer7)
-        ->with('answer8', $answer8)
-        ->with('answer9', $answer9)
-        ->with('answer10', $answer10)
-        ->with('answer11', $answer11)
-        ->with('answer12', $answer12)
-        ->with('answer13', $answer13)
-        ->with('answer14', $answer14)
-        ->with('answer15', $answer15)
-        ->with('answer16', $answer16)
-        ->with('answer17', $answer17)
-        ->with('answer18', $answer18)
-        ->with('answer19', $answer19)
-        
-        ->with('NotificationLink', $NotificationLink)
-        ->with('LogUserName', $LogUserName)
-        ->with('LogUserSurname', $LogUserSurname)
-        ->with('customerName', $customerName)
-        ->with('Icon', $Icon)
-        ->with('Logo', $Logo);
+            ->with('question1', $question1)
+            ->with('question2', $question2)
+            ->with('question3', $question3)
+            ->with('question4', $question4)
+            ->with('question5', $question5)
+            ->with('question6', $question6)
+            ->with('question7', $question7)
+            ->with('question8', $question8)
+            ->with('question9', $question9)
+            ->with('question10', $question10)
+            ->with('question11', $question11)
+            ->with('question12', $question12)
+            ->with('question13', $question13)
+            ->with('question14', $question14)
+            ->with('question15', $question15)
+            ->with('question16', $question16)
+            ->with('question17', $question17)
+            ->with('question18', $question18)
+            ->with('question19', $question19)
+
+            ->with('answer1', $answer1)
+            ->with('answer2', $answer2)
+            ->with('answer3', $answer3)
+            ->with('answer4', $answer4)
+            ->with('answer5', $answer5)
+            ->with('answer6', $answer6)
+            ->with('answer7', $answer7)
+            ->with('answer8', $answer8)
+            ->with('answer9', $answer9)
+            ->with('answer10', $answer10)
+            ->with('answer11', $answer11)
+            ->with('answer12', $answer12)
+            ->with('answer13', $answer13)
+            ->with('answer14', $answer14)
+            ->with('answer15', $answer15)
+            ->with('answer16', $answer16)
+            ->with('answer17', $answer17)
+            ->with('answer18', $answer18)
+            ->with('answer19', $answer19)
+
+            ->with('NotificationLink', $NotificationLink)
+            ->with('LogUserName', $LogUserName)
+            ->with('LogUserSurname', $LogUserSurname)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 }

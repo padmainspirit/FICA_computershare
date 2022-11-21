@@ -62,7 +62,7 @@ class FicaProcessController extends Controller
 
         // $customerName =  $request->session()->get('customerName');
         $client = Auth::user();
-        $customerName = $client->FirstName . ' ' . $client->LastName;;
+        $customerName = $client->FirstName . ' ' . $client->LastName;
 
         $EmailID = $request->emailid;
         //   app('debugbar')->info($EmailID);
