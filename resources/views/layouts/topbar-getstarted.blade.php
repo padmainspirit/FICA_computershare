@@ -105,6 +105,7 @@
                             key="t-logout">@lang('translation.Logout')</span></a>
                     <form id="logout-form" action="{{ route('logout', [$customerName]) }}" method="POST"
                         style="display: none;">
+
                         @csrf
                     </form>
                 </div>

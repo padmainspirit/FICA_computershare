@@ -6,7 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "aws/aws-sdk-php": "^3.244",
+        "aws/aws-sdk-php": "^3.243",
+        "calcinai/php-imagick": "^0.1.2",
         "guzzlehttp/guzzle": "^7.2",
         "josiasmontag/laravel-recaptchav3": "^1.0",
         "laravel/framework": "^9.19",

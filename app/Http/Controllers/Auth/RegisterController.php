@@ -92,8 +92,8 @@ class RegisterController extends Controller
         $request['CustomerId'] = $customer->Id;
         $request['CreatedDate'] = date("Y-m-d H:i:s");
         $request['IsUserLoggedIn'] = 0;
-        $request['IsRestricted'] = 0;
 
+        $request['IsRestricted'] = 0;
 
         try {
             $user = CustomerUser::create($request->all());

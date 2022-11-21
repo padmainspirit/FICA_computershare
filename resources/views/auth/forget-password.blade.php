@@ -73,6 +73,11 @@
                                             <input type="Email" name="Email" id="Email"
                                                 placeholder="Enter a valid Email" class="form-control" />
                                             <span class="messg"></span>
+                                            @error('Email')
+                                                <span class="text-danger" role="alert">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                            @enderror
                                         </div>
 
                                         {{-- <div class="mb-3">

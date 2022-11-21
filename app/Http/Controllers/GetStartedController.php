@@ -22,6 +22,8 @@ use App\Models\APILogs;
 use App\Models\SendEmail;
 use Laravel\Ui\Presets\React;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 
 class GetStartedController extends Controller
@@ -29,6 +31,7 @@ class GetStartedController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
+        $this->middleware('permission:customeruser-fica', ['only' => ['startFica','getStarted']]);
     }
 
     public function startFica(Request $request)
@@ -450,19 +453,7 @@ class GetStartedController extends Controller
             'Province' => NULL,
         ]);
 
-        //TELEPHONES
-        // $telephones = Telephones::create([
-        //     'ConsumerID' => $consumerId,
-        //     'TelephoneTypeInd' => NULL,
-        //     'InternationalDialingCode' => NULL,
-        //     'TelephoneCode' => NULL,
-        //     'TelephoneNo' => NULL,
-        //     'RecordStatusInd' => NULL,
-        //     'CreatedonDate' => NULL,
-        //     'ChangedonDate' => NULL,
-        //     'LastUpdatedDate' => NULL
-        // ]);
-
+        
         //FINANCIAL
         $financial = Financial::create([
             'ConsumerFinancial' => $consumerFinancial,
