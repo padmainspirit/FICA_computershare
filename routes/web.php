@@ -150,3 +150,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::post('/users.admincreate', [App\Http\Controllers\UserController::class, 'adminstore'])->name('users.adminstore');
 Route::get('/users.admincreate', [App\Http\Controllers\UserController::class, 'admincreate'])->name('users.admincreate');
+Route::post('/users.edit', [App\Http\Controllers\UserController::class, 'update'])->name('edit');
+Route::get('/users-edit', [App\Http\Controllers\UserController::class, 'edit'])->name('edit-user');
