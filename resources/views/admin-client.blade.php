@@ -36,7 +36,7 @@
                                     <td>{{ $item->Email }}</td>
                                     <td>{{ $item->Password }}</td>
                                     <td>
-                                        <form method="POST" action="{{ route('admin-edit') }}">
+                                        <form method="POST" action="{{ route('edit-customer') }}">
                                             @csrf
                                             <button type="submit" class="btn btn-primary w-md text-decoration-underline"
                                                 style="color: #ffffff;padding-top: 0px;padding-left: 0px;padding-bottom: 0px;padding-right: 0px;">

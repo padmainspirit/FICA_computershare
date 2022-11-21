@@ -971,7 +971,7 @@
                                                             id="street-address-line1" name="street-address-line1"
                                                             placeholder="Enter Street Address Line 1"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $homeAddressExist == 1 ? $homeAddress->OriginalAddress1 : '' }}">
+                                                            value="{{ $Home != null ? $Home->OriginalAddress1 : '' }}">
                                                         @error('street-address-line1')
                                                             <div style="color: red">
                                                                 {{ $message = 'Field is required' }}
@@ -998,7 +998,7 @@
                                                             id="street-address-line2" name="street-address-line2"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                             placeholder="Enter Street Address Line 2"
-                                                            value="{{ $homeAddressExist == 1 ? $homeAddress->OriginalAddress2 : '' }}">
+                                                            value="{{ $Home != null ? $Home->OriginalAddress2 : '' }}">
 
                                                         @error('street-address-line2')
                                                             <div style="color: red">
@@ -1026,7 +1026,7 @@
                                                             id="city-physical" name="city-physical"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                             placeholder="Enter City"
-                                                            value="{{ $homeAddressExist == 1 ? $homeAddress->OriginalAddress3 : '' }}"
+                                                            value="{{ $Home != null ? $Home->OriginalAddress3 : '' }}"
                                                             autofocus>
 
                                                         @error('city-physical')
@@ -1051,7 +1051,7 @@
                                                             id="province-physical" name="province-physical"
                                                             placeholder="Enter Province Physical"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $homeAddressExist == 1 ? $homeAddress->OriginalAddress4 : '' }}">
+                                                            value="{{ $Home != null ? $Home->OriginalAddress4 : '' }}">
 
                                                         @error('province-physical')
                                                             <div style="color: red">{{ $message = 'Field is required' }}
@@ -1079,7 +1079,7 @@
                                                             style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                             id="zip-physical" name="zip-physical"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $homeAddressExist == 1 ? $homeAddress->OriginalPostalCode : '' }}"
+                                                            value="{{ $Home != null ? $Home->OriginalPostalCode : '' }}"
                                                             placeholder="Enter Zip">
 
                                                         @error('zip-physical')
@@ -1119,7 +1119,7 @@
                                                             id="postal-address-line1" name="postal-address-line1"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                             placeholder="Enter Postal Address Line 1:"
-                                                            value="{{ $postalAddressExist == 1 ? $postalAddress->OriginalAddress1 : '' }}">
+                                                            value="{{ $Postal != null ? $Postal->OriginalAddress1 : '' }}">
                                                     </div>
                                                 </div>
 
@@ -1138,7 +1138,7 @@
                                                             id="postal-address-line2" name="postal-address-line2"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                             placeholder="Enter Postal Address Line 2:"
-                                                            value="{{ $postalAddressExist == 1 ? $postalAddress->OriginalAddress2 : '' }}">
+                                                            value="{{ $Postal != null ? $Postal->OriginalAddress2 : '' }}">
                                                     </div>
                                                 </div>
 
@@ -1161,7 +1161,7 @@
                                                             style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                             id="city-postal" name="city-postal" placeholder="Enter City"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $postalAddressExist == 1 ? $postalAddress->OriginalAddress3 : '' }}" />
+                                                            value="{{ $Postal != null ? $Postal->OriginalAddress3 : '' }}" />
 
                                                     </div>
                                                 </div>
@@ -1180,7 +1180,7 @@
                                                             style="height: 27px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                             id="province-postal" name="province-postal"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $postalAddressExist == 1 ? $postalAddress->OriginalAddress4 : '' }}">
+                                                            value="{{ $Postal != null ? $Postal->OriginalAddress4 : '' }}">
                                                     </div>
                                                 </div>
 
@@ -1204,7 +1204,7 @@
                                                             style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
                                                             id="zip-postal" name="zip-postal"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                                            value="{{ $postalAddressExist == 1 ? $postalAddress->OriginalPostalCode : '' }}"
+                                                            value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}"
                                                             placeholder="Enter Zip" />
                                                     </div>
                                                 </div>
@@ -1233,7 +1233,7 @@
                                                         id="telephone-home-input" name="telephone-home-input"
                                                         {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                         placeholder="Enter Telephone Home"
-                                                        value="{{ isset($homeTelephoneNumber) ? $homeTelephoneNumber : null }}" />
+                                                        value="{{ isset($TelHome) ? $TelHome : null }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -1291,7 +1291,7 @@
                                                             id="work-number-input" name="work-number-input"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                             placeholder="Enter Work Number"
-                                                            value="{{ $workTelephoneNumber }}" />
+                                                            value="{{ isset($TelWork) ? $TelWork : null }}">
 
                                                     </div>
                                                 </div>
@@ -1426,7 +1426,7 @@
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                                 name="employeer-street-address-line1-input"
                                                                 placeholder="Enter Street Address Line 1"
-                                                                value="{{ $workAddressExist == true ? $workAddress->OriginalAddress1 : '' }}">
+                                                                value="{{ $Work != null ? $Work->OriginalAddress1 : '' }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1452,7 +1452,7 @@
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                                 name="employeer-street-address-line2-input"
                                                                 placeholder="Enter Street Address Line 2"
-                                                                value="{{ $workAddressExist == true ? $workAddress->OriginalAddress2 : '' }}">
+                                                                value="{{ $Work != null ? $Work->OriginalAddress2 : '' }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1590,7 +1590,7 @@
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                                 name="employeer-postal-code-input"
                                                                 placeholder="Enter Postal Code"
-                                                                value="{{ $workAddressExist == true ? $workAddress->OriginalPostalCode : '' }}">
+                                                                value="{{ $Work != null ? $Work->OriginalPostalCode : '' }}">
                                                         </div>
 
                                                     </div>
@@ -3043,6 +3043,215 @@
         </div>
     </body>
 
+    <!-- start T and C-->
+    <div>
+        <!-- sample modal content -->
+        <div id="TandC" class="modal fade" tabindex="-1" aria-labelledby="TandCLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="TandCLabel">Terms and
+                            Conditions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        {{-- <h5>Overflowing text to show scroll behavior</h5> --}}
+                        <p>
+                            The following terms and conditions describe the
+                            terms on which Inspirit Data Analytics Services
+                            (Pty) Ltd (IDAS), an Authorised Agent of Xpert
+                            Decision Systems (Pty) Ltd (XDS), offers you use of
+                            website (www.inspiritdata.co.za), mobile application
+                            software and access to our services. All Products
+                            and Services offered by IDAS is Powered by XDS
+                        </p>
+
+                        <p>
+                            Important - read carefully. These terms are a legal
+                            agreement between you, the licensed user (either an
+                            individual or organization) (“you” or “your”) and
+                            Inspirit Data Analytics Services, for use of our
+                            services including our website, dashboard, mobile
+                            application, our associated printed and online
+                            documentation (collectively, the "services"). Only
+                            the licensee may accept these terms and use the
+                            services. The licensee is the individual or entity
+                            designated as such on the Data Services Agreement
+                            which details the services that were licensed from
+                            us. Do not use the services and exit now if you are
+                            not the licensee, or a person with authority to bind
+                            the licensee to these terms. By accepting these
+                            terms or using the services you, as an individual
+                            and in your personal capacity, represent and warrant
+                            to us that you are either (i) the individual
+                            licensed to use the services, or (ii) a person duly
+                            authorized to act on behalf of the organization that
+                            is the licensee of the services, or (iii) a person
+                            that has been authorized by a licensee to use the
+                            services under the licensee’s license to use the
+                            services. If this is not the case, your use of the
+                            services is not authorized and you are personally
+                            liable and responsible for any damage incurred by
+                            IDAS.
+                        </p>
+
+                        <p>
+                            If you do not agree to these terms, do not install
+                            or use the services and exit now.
+                        </p>
+
+                        <p>
+                            By accessing this web site, you are agreeing to be
+                            bound by these web site Terms and Conditions of Use.
+                            The materials contained in this web site are
+                            protected by applicable copyright and trade mark
+                            laws.
+                        </p>
+
+                        <p>
+                            When you create an account with us, you guarantee
+                            that you are above the age of 18, and that the
+                            information you provide us is accurate, complete,
+                            and current at all times. Inaccurate, incomplete, or
+                            obsolete information may result in the immediate
+                            termination of your account on the Service. You are
+                            responsible for maintaining the confidentiality of
+                            your account and password, including but not limited
+                            to the restriction of access to your computer and/or
+                            account. You agree to accept responsibility for any
+                            and all activities or actions that occur under your
+                            account and/or password, whether your password is
+                            with our Service or a third-party service. You must
+                            notify us immediately upon becoming aware of any
+                            breach of security or unauthorized use of your
+                            account.
+                        </p>
+
+                        <p>
+                            By creating an Account on our service, you agree to
+                            subscribe to newsletters, marketing or promotional
+                            materials and other information we may send.
+                            However, you may opt out of receiving any, or all,
+                            of these communications from us by following the
+                            unsubscribe link or instructions provided in any
+                            email we send.
+                        </p>
+
+                        <p>
+                            In no event shall IDAS or its suppliers be liable
+                            for any damages (including, without limitation,
+                            damages for loss of profit, or due to business
+                            interruption,) arising out of the use or inability
+                            to use the materials on IDASs’ website, even if IDAS
+                            or an IDAS authorised representative has been
+                            notified orally or in writing of the possibility of
+                            such damage.
+                        </p>
+
+                        <p>
+                            You agree that You will use the Services in a manner
+                            consistent with any and all applicable laws and
+                            regulations. We reserve the right but are not
+                            obligated to investigate and terminate Your use or
+                            access to the Services if You have misused the
+                            Services or behaved in a way which could be regarded
+                            as inappropriate or whose conduct is unlawful or
+                            illegal. With respect to Your use of the Service,
+                            You agree that You will not: (a) Impersonate any
+                            person or entity; (b) "Stalk" or otherwise harass
+                            any person; (c) Express or imply that any statements
+                            You make are endorsed by IDAS, without Our specific
+                            prior written consent; (d) use any robot, spider,
+                            site search/retrieval application, or other manual
+                            or automatic device or process to retrieve, index,
+                            "data mine", or in any way reproduce or circumvent
+                            the navigational structure or presentation of the
+                            Service or its contents; (e) post, distribute or
+                            reproduce in any way any copyrighted material,
+                            trademarks, or other proprietary information without
+                            obtaining the prior consent of the owner of such
+                            proprietary rights and (f) remove any copyright,
+                            trademark or other proprietary rights notices
+                            contained in the applications or with respect to the
+                            Service.
+                        </p>
+
+                        <p>
+                            Our Service may contain links to third party web
+                            sites or services that are not owned or controlled
+                            by IDAS. Our Service also permits Users to
+                            communicate with other users of the Service (“Other
+                            Users”).
+                        </p>
+
+                        <p>
+                            IDAS has no control over, and assumes no
+                            responsibility for the content, privacy policies, or
+                            practices of any third-party web sites or services
+                            or posted or shared by Other Users. We do not
+                            warrant the offerings or information of any of these
+                            entities/individuals or their websites.
+                        </p>
+
+                        <p>
+                            You acknowledge and agree that IDAS shall not be
+                            responsible or liable, directly or indirectly, for
+                            any damage or loss caused or alleged to be caused by
+                            or in connection with use of or reliance on any such
+                            content, goods or services available on or through
+                            any such third-party web sites or services or Other
+                            Users.
+                        </p>
+
+                        <p>
+                            We strongly advise you to read the terms and
+                            conditions and privacy policies of any third-party
+                            web sites or services that you visit, and to
+                            exercise due diligence and care when deciding
+                            whether or not to engage in a potential transaction
+                            with any Other User.
+                        </p>
+
+                        <p>
+                            The materials on IDAS’s web site are provided “as
+                            is”. IDAS makes no warranties, expressed or implied,
+                            and hereby disclaims and negates all other
+                            warranties, including without limitation, implied
+                            warranties. Further, IDAS does not warrant or make
+                            any representations concerning the accuracy, likely
+                            results, or reliability of the use of the materials
+                            on its Internet web site or otherwise relating to
+                            such materials or on any sites linked to this site.
+                        </p>
+
+                        <p>
+                            IDAS may revise these terms of use for its web site
+                            at any time without notice. By using this website,
+                            you are agreeing to be bound by the then current
+                            version of these Terms and Conditions of Use.
+                        </p>
+
+                        <p>
+                            Any claim relating to IDAS’s web site shall be
+                            governed by the laws of the State of South Africa
+                            without regard to its conflict of law provisions.
+                        </p>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- end T and C-->
+
     {{-- ID Popup Modal --}}
     {{-- Success Popup --}}
     <div class="modal fade" id="composemodal-id" tabindex="-1" role="dialog" aria-labelledby="composemodalTitle"
@@ -3153,8 +3362,10 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
-                                    <input type="type" class="form-control" id="py-street-line-1"
-                                        name="py-street-line-1" required>
+                                    <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1"
+                                        id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px"
+                                        required>
+
                                     {{-- @if ($errors->has('py-street-line-1'))
                                         <span class="text-danger">{{ $errors->first('py-street-line-1') }}</span>
                                     @endif --}}
@@ -3164,7 +3375,9 @@
                                 <div class="mb-3">
                                     <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
                                     <input type="type" class="form-control" id="py-street-line-2"
-                                        name="py-street-line-2" required>
+                                        style="padding-left: 24px" name="py-street-line-2"
+                                        placeholder="ENTER ADDRESS LINE 2" required>
+
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3214,7 +3427,8 @@
                                 <div class="mb-3">
                                     <label for="py-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="py-zip"
-                                        name="py-zip"required>
+                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" required>
+
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3237,14 +3451,19 @@
                                 <div class="mb-3">
                                     <label for="po-street-line-1" class="form-label">Postal Address Line 1</label>
                                     <input type="type" class="form-control" id="po-street-line-1"
-                                        name="po-street-line-1">
+                                        name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1"
+                                        style="padding-left: 24px">
+
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="po-street-line-2" class="form-label">Postal Address Line 2</label>
                                     <input type="type" class="form-control" id="po-street-line-2"
-                                        name="po-street-line-2">
+                                        name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2"
+                                        style="padding-left: 24px">
+
+
                                 </div>
                             </div>
 
@@ -3254,7 +3473,11 @@
                                     <label for="po-city" class="form-label">City</label>
                                     {{-- <input type="type" class="form-control" id="po-city" name="po-city"> --}}
 
-                                    <select class="form-select" autocomplete="off"
+                                    <input autocomplete="off" type="text" class="form-control"
+                                        style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
+                                        id="po-city" name="po-city" placeholder="ENTER CITY">
+
+                                    {{-- <select class="form-select" autocomplete="off"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                         id="po-city" name="po-city" required>
                                         <option hidden>Select City</option>
@@ -3263,7 +3486,7 @@
                                                 {{ $city }}
                                             </option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
 
                                 </div>
                             </div>
@@ -3290,7 +3513,9 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="po-zip" class="form-label">ZIP</label>
-                                    <input type="type" class="form-control" id="po-zip" name="po-zip">
+                                    <input type="type" class="form-control" id="po-zip" name="po-zip"
+                                        placeholder="ENTER ZIP" style="padding-left: 24px">
+
                                 </div>
                             </div>
                             {{-- <div class="col-md-12">
@@ -3772,8 +3997,9 @@
                 <hr>
                 <div class="text-center mb-3">
                     <form id="logout-form"
-                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customer->RegistrationName]) }}"
+                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customerName]) }}"
                         method="POST">
+
                         @csrf
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
                             style="width: 150px">Logout</button>
@@ -4717,6 +4943,9 @@
                 $('#dividends-tax-dropdown').prop('disabled', false);
                 $('#bee-shareholders-dropdown').prop('disabled', false);
                 $('#stamp-duty-reserve-tax-checkbox').prop('disabled', false);
+                $('#communication-type-selection-dropdown').prop('disabled', false);
+                $('#broker-contact-input').prop('disabled', false);
+                $('#broker-name-input').prop('disabled', false);
             });
 
 
@@ -4733,6 +4962,9 @@
                 $('#dividends-tax-dropdown').prop('disabled', true);
                 $('#bee-shareholders-dropdown').prop('disabled', true);
                 $('#stamp-duty-reserve-tax-checkbox').prop('disabled', true);
+                $('#communication-type-selection-dropdown').prop('disabled', true);
+                $('#broker-contact-input').prop('disabled', true);
+                $('#broker-name-input').prop('disabled', true);
             });
 
 

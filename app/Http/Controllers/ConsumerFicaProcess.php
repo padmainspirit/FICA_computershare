@@ -81,12 +81,14 @@ class ConsumerFicaProcess extends Controller
             array_push($occupation, $industry->Industry_occupation);
         }
 
+        // Commented out dropdown on view
+
         //Get Nationality
-        $nationality = Nationality::all();
-        foreach ($nationality as $country) {
-            array_push($countries, strtoupper($country->Nationality));
-        }
-        sort($countries);
+        // $nationality = Nationality::all();
+        // foreach ($nationality as $country) {
+        //     array_push($countries, strtoupper($country->Nationality));
+        // }
+        // sort($countries);
 
         // app('debugbar')->info($occupation);
 
@@ -434,11 +436,8 @@ class ConsumerFicaProcess extends Controller
         // dd($request);
 
         try {
-
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-
-
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
             $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();

@@ -88,7 +88,7 @@
                     <img class="rounded-circle header-profile-user" src="assets/images/users/user.png"
                         alt="Image Not Found" style="width: 25px;height: 25px;">
                     <span style="color: black" class="d-none d-xl-inline-block ms-1"
-                        key="t-henry">{{ Session::get('UserFullName') }}</span>
+                        key="t-henry">{{ $LogUserName . ' ' . $LogUserSurname }}</span>
 
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>

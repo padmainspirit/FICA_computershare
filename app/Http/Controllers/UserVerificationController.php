@@ -28,14 +28,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserVerificationController extends Controller
 {
-    protected $xdsusername = 'Insprt_uat'; //move to .env file
-    protected $xdspassword = 'Id@s0522';
+    protected $xdsusername;
+    protected $xdspassword;
 
     //API ID
-    protected $KYC = 'FA52707C-2DE9-4050-8350-E19988D1B311'; //KYC
-    protected $AVS = '42365A78-E955-4015-B2E3-7321B444BEB1'; //AVS
-    protected $DOVS = 'F855922F-B9C0-4132-801D-1593728F85F0'; //DOVS
-    protected $COMPLIANCE = '0DF4E073-923C-4352-BB12-E1F24D0438FE'; //COMPLIANCE
+    protected $KYC; //KYC
+    protected $AVS; //AVS
+    protected $DOVS; //DOVS
+    protected $COMPLIANCE; //COMPLIANCE
 
     // $kycLookup = LookupDatas::where('ID', '=', $this->KYC)->first();
     // $avsLookup = LookupDatas::where('ID', '=', $this->AVS)->first();
@@ -44,6 +44,13 @@ class UserVerificationController extends Controller
 
     public function __construct()
     {
+        $this->xdsusername = config("app.API_USERNAME");
+        $this->xdspassword = config("app.API_PASSWORD");
+
+        $this->KYC = config("app.API_ID_KYC");
+        $this->AVS = config("app.API_ID_AVS");
+        $this->DOVS = config("app.API_ID_DOVS");
+        $this->COMPLIANCE = config("app.API_ID_COMPLIANCE");
         date_default_timezone_set('Africa/Johannesburg');
     }
 
@@ -57,9 +64,9 @@ class UserVerificationController extends Controller
 
 
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
-                $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
+                $soapUrlLive = config("app.API_SOAP_URL_LIVE_FACIAL");
                 // $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
-                $soapUrlDemo = 'https://www.web.xds.co.za/uatxdsconnect/?WSDL';
+                $soapUrlDemo = config("app.API_SOAP_URL_DEMO_FACIAL");
 
                 $soapUrlLive = $soapUrlDemo; //here we are changing the url to the demo/dev/testing environment
                 $username = $this->xdsusername; // Demo username
@@ -150,8 +157,6 @@ class UserVerificationController extends Controller
             $loggedInUserId = Auth::user()->Id;
             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $client->CustomerId)->first();
-
-
             // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
             // $customers = Customer::where('Id', '=',  $client->CustomerId)->first();
             $dovsLookup = LookupDatas::where('ID', '=', $this->DOVS)->first();
@@ -179,8 +184,8 @@ class UserVerificationController extends Controller
 
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
 
-                $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
-                $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
+                $soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
+                $soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
                 $soapUrlLive = $soapUrlDemo; //here we are changing the url to the demo/dev/testing environment
                 $username = $this->xdsusername; // Demo username
 
@@ -326,7 +331,6 @@ class UserVerificationController extends Controller
                             $loggedInUserId = Auth::user()->Id;
                             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
                             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-
                             // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
                             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
 
@@ -409,7 +413,6 @@ class UserVerificationController extends Controller
             $kycLookup = LookupDatas::where('ID', '=', $this->KYC)->first();
 
             // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
-
             $loggedInUserId = Auth::user()->Id;
             $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
@@ -421,8 +424,8 @@ class UserVerificationController extends Controller
 
             if ($consumer->isAdmin == 1 || $consumer->isAdmin == 0) {
 
-                $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
-                $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
+                $soapUrlLive = config("app.API_SOAP_URL_LIVE_VERIFY_KYC");
+                $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_KYC");
                 $soapUrlLive = $soapUrlDemo; //here we are changing the url to the demo/dev/testing environment
                 $username = $this->xdsusername; // Demo username
                 //$username = 'czs_ws'; // Live username
@@ -775,8 +778,8 @@ class UserVerificationController extends Controller
 
             app('debugbar')->info($client);
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
-                $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
-                $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
+                $soapUrlLive = config("app.API_SOAP_URL_LIVE_VERIFY_BANK");
+                $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_BANK");
 
                 $soapUrlLive = $soapUrlLive; //here we are changing the url to the demo/dev/testing environment
                 $username = 'Inspirit_Live';
@@ -1111,8 +1114,8 @@ class UserVerificationController extends Controller
 
     public function verifyClientCompliance(Request $request)
     {
-        $soapUrlLive = 'https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
-        $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
+        $soapUrlLive = config("app.API_SOAP_URL_LIVE_VERIFY_COMPLIANCE");
+        $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_COMPLIANCE");
         $soapUrlLive = $soapUrlLive; //here we are changing the url to the demo/dev/testing environment
 
         // $username = $this->xdsusername;
@@ -1124,8 +1127,6 @@ class UserVerificationController extends Controller
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
-
-
             // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
@@ -1911,7 +1912,6 @@ class UserVerificationController extends Controller
         }
     }
 
-
     public function connectGetDOVResult($url, $user, $pass, $ticketNo, $enquiryId)
     {
         $ticketNo = $ticketNo; //"password"; // password
@@ -1968,7 +1968,6 @@ class UserVerificationController extends Controller
             return $response;
         }
     }
-
 
     public function sanctionAdverseConnectConsumerMatch($url, $user, $pass, $ticketNo, $firstname, $lastname, $id_no, $passport_no = null, $productID)
     {
@@ -2123,7 +2122,6 @@ class UserVerificationController extends Controller
             return $response;
         }
     }
-
 
     public function soapBankVerificationAPICall($url, $user, $pass, $ticketNo, $verifyType, $entity, $initials, $surname, $id_no, $id_type = 'SID', $companyName = null, $reg1 = null, $reg2 = null, $reg3 = null, $trustNo = null, $accNo, $branchCode, $accType, $bankName, $contactNo = null, $email = null, $referenceNo = null)
     {
