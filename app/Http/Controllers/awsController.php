@@ -39,9 +39,6 @@ class awsController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
-
-        $this->TextractClientKey = config("app.TEXTRACT_CLIENT_KEY");
-        $this->TextractClientSecret = config("app.TEXTRACT_CLIENT_SECRET");
     }
     public function TextractAmazonOCR($path, Request $request)
     {
@@ -50,15 +47,12 @@ class awsController extends Controller
         $texts = array();
         $data = new OCRdata();
 
-        $TextractClientKey = $this->TextractClientKey;
-        $TextractClientSecret = $this->TextractClientSecret;
-
         $client = new TextractClient([
             'region' => 'us-east-1',
             'version' => 'latest',
             'credentials' => [
-                'key'    => $TextractClientKey,
-                'secret' => $TextractClientSecret
+                'key'    => 'AKIA4IKI2GCK2MKU65VF', //move to .env file
+                'secret' => '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' //move to .env file
             ]
         ]);
 
@@ -341,7 +335,7 @@ class awsController extends Controller
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
         $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
-        // app('debugbar')->info('Request', $request);
+        // app('debugbar')->info($request);
 
         FICA::where('FICA_id', $fica->FICA_id)->update(
             array(

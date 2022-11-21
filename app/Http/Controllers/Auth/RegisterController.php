@@ -105,7 +105,15 @@ class RegisterController extends Controller
             $Email = $request->Email;
             $Password = $request->Password;
 
-            /* Mail::send(
+
+            $Customerid = $request->CustomerId;
+            $customer = Customer::where('Id', '=',  $Customerid)->first();
+            $Logo = $customer['Client_Logo'];
+            $TradingName = $customer['TradingName'];
+
+            // dd($Customerid);
+
+            Mail::send(
                 'auth.emailreg',
                 [
                     'token' => $token, 'FirstName' => $FirstName, 'LastName' => $LastName, 'Email' => $Email,
@@ -115,7 +123,7 @@ class RegisterController extends Controller
                     $message->to($request->Email);
                     $message->subject('New Registered User');
                 }
-            ); */
+            );
         } catch (\Exception $e) {
             print_r($e->getMessage());
             exit;

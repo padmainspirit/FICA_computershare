@@ -54,6 +54,11 @@ class GetStartedController extends Controller
 
         // dd($Customerid);
         $customer = Customer::getCustomerDetails($Customerid);
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer['Client_Icon'];
+
+
 
         //print_r($Customerid);exit;
         /* $Logo = $customerBrand['Client_Logo'];
@@ -68,7 +73,10 @@ class GetStartedController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        return view('start-fica-process')->with('customer', $customer);
+        return view('start-fica-process')->with('Logo', $Logo)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function getStarted(Request $request)

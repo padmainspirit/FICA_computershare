@@ -753,7 +753,7 @@ class UserVerificationController extends Controller
         } catch (\Exception $e) {
             app('debugbar')->info($e);
         }
-        /*********************************** here we want to returnCustomerDetailsAndSources furthur code ends here *************************************/
+        /**************************** here we want to returnCustomerDetailsAndSources furthur code ends here ******************************/
     }
 
     public function verifyClientBankAccount(Request $request)
