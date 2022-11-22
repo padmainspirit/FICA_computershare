@@ -241,12 +241,24 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
+
         $user = CustomerUser::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
         $customers = Customer::pluck('RegistrationName', 'Id');
         $userBelongsToCustomer = $user->CustomerId;
-        return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'));
+        return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'))
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     /**
@@ -258,6 +270,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
         /* $this->validate($request, [
             'FirstName' => 'required',
             'LastName' => 'required',
@@ -302,8 +320,12 @@ class UserController extends Controller
         // $role = DB::table('roles')->where('name',$request['roles'])->first();
         // $assignrole = DB::table('model_has_roles')->insert(['role_id' => $role->id,'model_id'=>$id,'model_type'=>'App\Models\CustomerUser']);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+        return redirect()->route('admin-display')
+            ->with('success', 'User updated successfully')
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     /**

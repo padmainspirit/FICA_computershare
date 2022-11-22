@@ -110,7 +110,6 @@ Route::post('/admin-actions', [App\Http\Controllers\CustomerVerification::class,
 Route::get('/admin-dashboard', [App\Http\Controllers\AdminController::class, 'ShowDashboard'])->name('admin-dashboard');
 
 Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
-Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerDisplay'])->name('admin-client');
 Route::get('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'EditCustomer'])->name('client-show');
 
 Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index'])->name('admin-display');
@@ -150,5 +149,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::post('/users.admincreate', [App\Http\Controllers\UserController::class, 'adminstore'])->name('users.adminstore');
 Route::get('/users.admincreate', [App\Http\Controllers\UserController::class, 'admincreate'])->name('users.admincreate');
-Route::post('/users.edit', [App\Http\Controllers\UserController::class, 'update'])->name('edit');
-Route::get('/users-edit', [App\Http\Controllers\UserController::class, 'edit'])->name('edit-user');
+Route::get('/admin-client', [App\Http\Controllers\UserController::class, 'edit'])->name('edit');
