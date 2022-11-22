@@ -5,13 +5,9 @@
 @endsection
 
 @section('css')
-
-
-
 @endsection
 
 @section('content')
-
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
@@ -34,10 +30,10 @@
                                 <div class="card-body">
 
                                     @if (Session::get('success'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{-- {{ Session::get('success') }} --}}
-                                        Conglomerate details have been changed.
-                                    </div>
+                                        <div class="alert alert-success" role="alert">
+                                            {{-- {{ Session::get('success') }} --}}
+                                            Conglomerate details have been changed.
+                                        </div>
                                     @endif
 
                                     <form class="form-horizontal" method="GET" action="{{ route('edit-details') }}">
@@ -49,16 +45,18 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Trading Name:</label>
-                                                    <input class="form-control" type="text" id="FirstName" name="FirstName" placeholder="Trading Name"
-                                                    style="padding-left: 1.75rem;" value="{{ $TradingName }}">
+                                                    <input class="form-control" type="text" id="TradingName"
+                                                        name="TradingName" placeholder="Trading Name"
+                                                        style="padding-left: 1.75rem;" value="{{ $TradingName }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Registered Name:</label>
-                                                    <input class="form-control" type="text" id="CustomerName" name="CustomerName" placeholder="Registered Name"
-                                                    style="padding-left: 1.75rem;" value="{{ $Customer_Name }}">
+                                                    <input class="form-control" type="text" id="RegistrationName"
+                                                        name="RegistrationName" placeholder="Registered Name"
+                                                        style="padding-left: 1.75rem;" value="{{ $RegistrationName }}">
 
                                                 </div>
                                             </div>
@@ -67,16 +65,18 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Registration Number:</label>
-                                                    <input class="form-control" type="text" id="RegistrationNumber" name="RegistrationNumber" placeholder="Registration Number"
-                                                    style="padding-left: 1.75rem;" value="{{ $RegistrationNumber }}">
+                                                    <input class="form-control" type="text" id="RegistrationNumber"
+                                                        name="RegistrationNumber" placeholder="Registration Number"
+                                                        style="padding-left: 1.75rem;" value="{{ $RegistrationNumber }}">
 
                                                 </div>
-                                                
+
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Branch Location:</label>
-                                                    <input class="form-control" type="text" id="BranchLocation" name="BranchLocation" placeholder="Branch Location"
-                                                    style="padding-left: 1.75rem;" value="{{ $BranchLocation }}">
+                                                    <input class="form-control" type="text" id="BranchLocation"
+                                                        name="BranchLocation" placeholder="Branch Location"
+                                                        style="padding-left: 1.75rem;" value="{{ $BranchLocation }}">
 
                                                 </div>
                                             </div>
@@ -88,16 +88,18 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Physical Address:</label>
-                                                    <input class="form-control" type="text" id="PhysicalAddress" name="PhysicalAddress" placeholder="Physical Address"
-                                                    style="padding-left: 1.75rem;" value="{{ $PhysicalAddress }}">
+                                                    <input class="form-control" type="text" id="PhysicalAddress"
+                                                        name="PhysicalAddress" placeholder="Physical Address"
+                                                        style="padding-left: 1.75rem;" value="{{ $PhysicalAddress }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Business Type:</label>
-                                                    <input class="form-control" type="text" id="TypeOfBusiness" name="TypeOfBusiness" placeholder="Business Type"
-                                                    style="padding-left: 1.75rem;" value="{{ $TypeOfBusiness }}">
+                                                    <input class="form-control" type="text" id="TypeOfBusiness"
+                                                        name="TypeOfBusiness" placeholder="Business Type"
+                                                        style="padding-left: 1.75rem;" value="{{ $TypeOfBusiness }}">
 
                                                 </div>
                                             </div>
@@ -106,8 +108,9 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Telephone Number:</label>
-                                                    <input class="form-control" type="text" id="TelephoneNumber" name="TelephoneNumber" placeholder="Telephone Number"
-                                                    style="padding-left: 1.75rem;" value="{{ $TelephoneNumber }}">
+                                                    <input class="form-control" type="text" id="TelephoneNumber"
+                                                        name="TelephoneNumber" placeholder="Telephone Number"
+                                                        style="padding-left: 1.75rem;" value="{{ $TelephoneNumber }}">
 
                                                 </div>
                                             </div>
@@ -123,7 +126,7 @@
                                                         class="btn btn-primary w-lg waves-effect waves-light">Save</button>
                                                 </div>
                                             </div>
-        
+
                                             {{-- <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <button type="button" id="clearall" name="clearall"
@@ -131,7 +134,7 @@
                                                         class="btn btn-danger w-lg waves-effect waves-light">Clear</button>
                                                 </div>
                                             </div> --}}
-        
+
                                         </div>
 
                                     </form>
@@ -145,12 +148,10 @@
                 </div>
             </div>
         </div>
-    </div>    
-
+    </div>
 @endsection
 
 @section('script')
-
     {{-- <script>
         function clearAll() {
             document.getElementById("FirstName").value = '';
@@ -163,5 +164,4 @@
 
         btn.addEventListener("click", clearAll);
     </script> --}}
-
 @endsection

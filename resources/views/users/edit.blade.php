@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit New User</h2>
+                <h2>Edit User's Details</h2>
             </div>
             {{-- <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('admin-client') }}"> Back</a>
@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
+                <strong>First Name:</strong>
                 {!! Form::text('FirstName', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
             </div>
         </div>
