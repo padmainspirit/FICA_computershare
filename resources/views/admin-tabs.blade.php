@@ -447,8 +447,7 @@
                                                                                 <td class="col-md-4">
                                                                                     @if ($Gender == 'Male')
                                                                                         Male
-                                                                                        @elseif
-                                                                                        ($Gender == 'Female')
+                                                                                    @else
                                                                                         Female
                                                                                     @endif
                                                                                 </td>
@@ -1568,8 +1567,7 @@
                                                                                                 <td>
                                                                                                     @if ($VerifDeseaDate == null)
                                                                                                         N/A
-                                                                                                        @elseif
-                                                                                                        ($VerifDeseaDate != null)
+                                                                                                    @else
                                                                                                         {{ $VerifDeseaDate }}
                                                                                                     @endif
                                                                                                 </td>
@@ -1590,8 +1588,7 @@
                                                                                                 <td>
                                                                                                     @if ($VerifDeathCause == null)
                                                                                                         N/A
-                                                                                                        @elseif
-                                                                                                        ($VerifDeathCause != null)
+                                                                                                    @else
                                                                                                         {{ $VerifDeathCause }}
                                                                                                     @endif
                                                                                                 </td>

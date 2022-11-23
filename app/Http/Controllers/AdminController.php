@@ -224,83 +224,98 @@ class AdminController extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Consumerid = Auth::user()->Id;
-        $LogUserName = Auth::user()->FirstName;
-        $LogUserSurname = Auth::user()->LastName;
-        $Customerid = Auth::user()->CustomerId;
+        $client = Auth::user();
+        $loggedInUserId = $client->Id;
+        $LogUserName = $client->FirstName;
+        $LogUserSurname = $client->LastName;
+        $Customerid = $client->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
+
+        // dd($client);
 
         $Logo = $customer->Client_Logo;
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
 
-        if (session()->has('LoggedUser')) {
-            session()->pull('idnumber');
-            session()->pull('FirstName');
-            session()->pull('Surname');
-            session()->pull('maritialstatus');
-            session()->pull('nationality');
-            session()->pull('ResidentialAddress');
-            session()->pull('Sources');
-            session()->pull('TotalSourcesUsed');
-            session()->pull('IDStatus');
-            session()->pull('KYCStatusInd');
-            session()->pull('Account_no');
-            session()->pull('Branch_code');
-            session()->pull('AccountType');
-            session()->pull('Bank_name');
-            session()->pull('ACCOUNT_OPEN');
-            session()->pull('Identity_Document_TYPE');
-            session()->pull('INITIALS');
-            session()->pull('SURNAME');
-            session()->pull('IDNUMBER');
-            session()->pull('Email');
-            session()->pull('CellularNo');
-            session()->pull('Income_taxno');
-            session()->pull('ACCOUNTDORMANT');
-            session()->pull('ACCOUNTOPENFORATLEASTTHREEMONTHS');
-            session()->pull('ACCOUNTACCEPTSDEBITS');
-            session()->pull('ACCOUNTACCEPTSCREDITS');
-            session()->pull('BankTypeid');
-            session()->pull('ConsumerIDPhotoMatch');
-            session()->pull('DeceasedStatus');
-            session()->pull('MatchResponseCode');
-            session()->pull('LivenessDetectionResult');
-            session()->pull('Latitude');
-            session()->pull('Longitude');
-            session()->pull('email');
-            session()->pull('ConsumerIDPhoto');
-            session()->pull('ConsumerCapturedPhoto');
-            session()->pull('SearchConsumerID');
-            session()->pull('SearchFica');
-            session()->pull('FICAStatusbyFICA');
-            session()->pull('RiskStatusbyFICA');
-            session()->pull('ProgressbyFICA');
-            session()->pull('IDDoc');
-            session()->pull('AddressDoc');
-            session()->pull('BankDoc');
-            session()->pull('kycstatus');
-            session()->pull('bankstatus');
-            session()->pull('facialrecognitionstatus');
-            session()->pull('compliancestatus');
-            session()->pull('FetchComplianceSanct');
-            session()->pull('FetchComplianceAdd');
-            session()->pull('residential');
-            session()->pull('insidedata');
-            session()->pull('ComplianceData');
-            session()->pull('firstname');
-            session()->pull('surname');
-            session()->pull('consumerid');
-            session()->pull('TitleDesc');
-            session()->pull('ContactNumbers');
-            session()->pull('message');
-            session()->pull('SNameMatch');
-            session()->pull('IDMatch');
-            session()->pull('EmailMatch');
-            session()->pull('TaxNumMatch');
-            session()->pull('Tax_Number');
-            // session()->pull('exception');
+        if ($loggedInUserId) {
+
+            $FirstName = $LogUserName;
+            $IDNUMBER = $LogUserName;
+            $SURNAME = $LogUserSurname;
+            $INITIALS = $LogUserName;
+            $Email = $LogUserName;
+            // $FirstName = $LogUserName;
+            // $FirstName = $LogUserName;
+            // dd($FirstName);
         }
+
+        // if (session()->has('LoggedUser')) {
+        //     session()->pull('idnumber');
+        //     session()->pull('FirstName');
+        //     session()->pull('Surname');
+        //     session()->pull('maritialstatus');
+        //     session()->pull('nationality');
+        //     session()->pull('ResidentialAddress');
+        //     session()->pull('Sources');
+        //     session()->pull('TotalSourcesUsed');
+        //     session()->pull('IDStatus');
+        //     session()->pull('KYCStatusInd');
+        //     session()->pull('Account_no');
+        //     session()->pull('Branch_code');
+        //     session()->pull('AccountType');
+        //     session()->pull('Bank_name');
+        //     session()->pull('ACCOUNT_OPEN');
+        //     session()->pull('Identity_Document_TYPE');
+        //     session()->pull('INITIALS');
+        //     session()->pull('SURNAME');
+        //     session()->pull('IDNUMBER');
+        //     session()->pull('Email');
+        //     session()->pull('CellularNo');
+        //     session()->pull('Income_taxno');
+        //     session()->pull('ACCOUNTDORMANT');
+        //     session()->pull('ACCOUNTOPENFORATLEASTTHREEMONTHS');
+        //     session()->pull('ACCOUNTACCEPTSDEBITS');
+        //     session()->pull('ACCOUNTACCEPTSCREDITS');
+        //     session()->pull('BankTypeid');
+        //     session()->pull('ConsumerIDPhotoMatch');
+        //     session()->pull('DeceasedStatus');
+        //     session()->pull('MatchResponseCode');
+        //     session()->pull('LivenessDetectionResult');
+        //     session()->pull('Latitude');
+        //     session()->pull('Longitude');
+        //     session()->pull('email');
+        //     session()->pull('ConsumerIDPhoto');
+        //     session()->pull('ConsumerCapturedPhoto');
+        //     session()->pull('SearchConsumerID');
+        //     session()->pull('SearchFica');
+        //     session()->pull('FICAStatusbyFICA');
+        //     session()->pull('RiskStatusbyFICA');
+        //     session()->pull('ProgressbyFICA');
+        //     session()->pull('IDDoc');
+        //     session()->pull('AddressDoc');
+        //     session()->pull('BankDoc');
+        //     session()->pull('kycstatus');
+        //     session()->pull('bankstatus');
+        //     session()->pull('facialrecognitionstatus');
+        //     session()->pull('compliancestatus');
+        //     session()->pull('FetchComplianceSanct');
+        //     session()->pull('FetchComplianceAdd');
+        //     session()->pull('residential');
+        //     session()->pull('insidedata');
+        //     session()->pull('ComplianceData');
+        //     session()->pull('firstname');
+        //     session()->pull('surname');
+        //     session()->pull('consumerid');
+        //     session()->pull('TitleDesc');
+        //     session()->pull('ContactNumbers');
+        //     session()->pull('message');
+        //     session()->pull('SNameMatch');
+        //     session()->pull('IDMatch');
+        //     session()->pull('EmailMatch');
+        //     session()->pull('TaxNumMatch');
+        //     session()->pull('Tax_Number');
+        //     // session()->pull('exception');
+        // }
 
         return view('admin-findusers')
             ->with('LogUserName', $LogUserName)
@@ -394,7 +409,9 @@ class AdminController extends Controller
 
         // app('debugbar')->info($noUserLastName);
 
-        $customerid = $request->session()->get('Customerid');
+        // $customerid = $request->session()->get('Customerid');
+        $client = Auth::user();
+        $customerid = $client->CustomerId;;
         // $customerid = "4717E73D-1F3F-4ACE-BE1A-0244770D6272";
         $IDNUMBER = $request->IDNumber;
         $SURNAME = $request->LastName;
