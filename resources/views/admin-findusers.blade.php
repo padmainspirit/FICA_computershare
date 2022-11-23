@@ -324,7 +324,8 @@
                                         <div class="mb-3">
                                             <button type="button" id="clearall" name="clearall"
                                                 style="background-color: #1a4f6e; border-color: #1a4f6e"
-                                                class="btn btn-danger w-lg waves-effect waves-light">Clear</button>
+                                                class="btn btn-danger w-lg waves-effect waves-light"
+                                                onclick="{{ Session()->pull('exception') }}}">Clear</button>
                                         </div>
                                     </div>
 

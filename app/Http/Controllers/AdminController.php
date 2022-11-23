@@ -237,18 +237,6 @@ class AdminController extends Controller
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
 
-        if ($loggedInUserId) {
-
-            $FirstName = $LogUserName;
-            $IDNUMBER = $LogUserName;
-            $SURNAME = $LogUserSurname;
-            $INITIALS = $LogUserName;
-            $Email = $LogUserName;
-            // $FirstName = $LogUserName;
-            // $FirstName = $LogUserName;
-            // dd($FirstName);
-        }
-
         // if (session()->has('LoggedUser')) {
         //     session()->pull('idnumber');
         //     session()->pull('FirstName');
