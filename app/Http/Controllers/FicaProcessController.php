@@ -185,17 +185,17 @@ class FicaProcessController extends Controller
             }
         }
 
-        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         $TelCell  = null;
         $TelHome = null;
         $TelWork  = null;
         if ($Telephone) {
             foreach ($Telephone as $tele) {
-                if ($tele['TelephoneTypeInd'] == 16) {
+                if ($tele['TelephoneTypeInd'] == 12) {
                     $TelCell = $tele;
-                } else if ($tele['TelephoneTypeInd'] == 15) {
+                } else if ($tele['TelephoneTypeInd'] == 11) {
                     $TelHome = $tele;
-                } else if ($tele['TelephoneTypeInd'] == 14) {
+                } else if ($tele['TelephoneTypeInd'] == 10) {
                     $TelWork = $tele;
                 }
             }
@@ -225,33 +225,38 @@ class FicaProcessController extends Controller
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all();
         foreach ($industryOccupation as $industry) {
-            array_push($occupation, strtoupper($industry->Industry_occupation));
+            // array_push($occupation, strtoupper($industry->Industry_occupation));
+            array_push($occupation, $industry->Industry_occupation);
         }
 
         //Get Nationality
         $nationality = Nationality::all();
         foreach ($nationality as $country) {
-            array_push($countries, strtoupper($country->Nationality));
+            // array_push($countries, strtoupper($country->Nationality));
+            array_push($countries, $country->Nationality);
         }
         sort($countries);
 
         //Get SourceOfFunds
         $sourceOfFunds = SourceOfFunds::all();
         foreach ($sourceOfFunds as $sourceoffund) {
-            array_push($funds, strtoupper($sourceoffund->Funds));
+            // array_push($funds, strtoupper($sourceoffund->Funds));
+            array_push($funds, $sourceoffund->Funds);
         }
         sort($funds);
 
         //Geting banks
         $banks = Banks::all();
         foreach ($banks as $bank) {
-            array_push($bankNames, strtoupper($bank->bankname));
+            // array_push($bankNames, strtoupper($bank->bankname));
+            array_push($bankNames, $bank->bankname);
         }
 
         //Geting Provinces
         $provinces = Provinces::all();
         foreach ($provinces as $province) {
-            array_push($provincesNames, strtoupper($province->Province_name));
+            array_push($provincesNames, $province->Province_name);
+            array_push($provincesNames, $province->Province_name);
         }
         sort($provincesNames);
 
@@ -392,22 +397,21 @@ class FicaProcessController extends Controller
             }
         }
 
-        $Telephone = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         $TelCell  = null;
         $TelHome = null;
         $TelWork  = null;
         if ($Telephone) {
             foreach ($Telephone as $tele) {
-                if ($tele['TelephoneTypeInd'] == 16) {
+                if ($tele['TelephoneTypeInd'] == 12) {
                     $TelCell = $tele;
-                } else if ($tele['TelephoneTypeInd'] == 15) {
+                } else if ($tele['TelephoneTypeInd'] == 11) {
                     $TelHome = $tele;
-                } else if ($tele['TelephoneTypeInd'] == 14) {
+                } else if ($tele['TelephoneTypeInd'] == 10) {
                     $TelWork = $tele;
                 }
             }
         }
-
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 
@@ -427,35 +431,40 @@ class FicaProcessController extends Controller
         //Get Nationality
         $nationality = Nationality::all();
         foreach ($nationality as $country) {
-            array_push($countries, strtoupper($country->Nationality));
+            // array_push($countries, strtoupper($country->Nationality));
+            array_push($countries, $country->Nationality);
         }
         sort($countries);
 
         //Get SourceOfFunds
         $sourceOfFunds = SourceOfFunds::all();
         foreach ($sourceOfFunds as $sourceoffund) {
-            array_push($funds, strtoupper($sourceoffund->Funds));
+            // array_push($funds, strtoupper($sourceoffund->Funds));
+            array_push($funds, $sourceoffund->Funds);
         }
         sort($funds);
 
         //Geting banks
         $banks = Banks::all();
         foreach ($banks as $bank) {
-            array_push($bankNames, strtoupper($bank->bankname));
+            // array_push($bankNames, strtoupper($bank->bankname));
+            array_push($bankNames, $bank->bankname);
         }
         sort($bankNames);
 
         //Geting Provinces
         $provinces = Provinces::all();
         foreach ($provinces as $province) {
-            array_push($provincesNames, strtoupper($province->Province_name));
+            // array_push($provincesNames, strtoupper($province->Province_name));
+            array_push($provincesNames, $province->Province_name);
         }
         sort($provincesNames);
 
         //Geting Cities
         $cities = Cities::all();
         foreach ($cities as $city) {
-            array_push($citiesNames, strtoupper($city->cityName));
+            // array_push($citiesNames, strtoupper($city->cityName));
+            array_push($citiesNames, $city->cityName);
         }
         sort($citiesNames);
 
