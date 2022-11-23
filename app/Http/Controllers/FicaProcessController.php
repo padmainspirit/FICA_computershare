@@ -230,7 +230,8 @@ class FicaProcessController extends Controller
         }
 
         //Get Nationality
-        $nationality = Nationality::all()->sort($countries);
+        // $nationality = Nationality::all()->sort($countries);
+        $nationality = Nationality::all();
         foreach ($nationality as $country) {
             // array_push($countries, strtoupper($country->Nationality));
             array_push($countries, $country->Nationality);
@@ -238,7 +239,7 @@ class FicaProcessController extends Controller
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sort($funds);
+        $sourceOfFunds = SourceOfFunds::all();
         foreach ($sourceOfFunds as $sourceoffund) {
             // array_push($funds, strtoupper($sourceoffund->Funds));
             array_push($funds, $sourceoffund->Funds);
@@ -253,7 +254,7 @@ class FicaProcessController extends Controller
         }
 
         //Geting Provinces
-        $provinces = Provinces::all()->sort($provincesNames);
+        $provinces = Provinces::all();
         foreach ($provinces as $province) {
             // array_push($provincesNames, $province->Province_name);
             array_push($provincesNames, $province->Province_name);
@@ -429,7 +430,7 @@ class FicaProcessController extends Controller
         }
 
         //Get Nationality
-        $nationality = Nationality::all()->sort($countries);
+        $nationality = Nationality::all();
         foreach ($nationality as $country) {
             // array_push($countries, strtoupper($country->Nationality));
             array_push($countries, $country->Nationality);
@@ -437,7 +438,7 @@ class FicaProcessController extends Controller
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sort($funds);
+        $sourceOfFunds = SourceOfFunds::all();
         foreach ($sourceOfFunds as $sourceoffund) {
             // array_push($funds, strtoupper($sourceoffund->Funds));
             array_push($funds, $sourceoffund->Funds);
@@ -445,7 +446,7 @@ class FicaProcessController extends Controller
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all()->sort($bankNames);
+        $banks = Banks::all();
         foreach ($banks as $bank) {
             // array_push($bankNames, strtoupper($bank->bankname));
             array_push($bankNames, $bank->bankname);
@@ -453,7 +454,7 @@ class FicaProcessController extends Controller
         // sort($bankNames);
 
         //Geting Provinces
-        $provinces = Provinces::all()->sort($provincesNames);
+        $provinces = Provinces::all();
         foreach ($provinces as $province) {
             // array_push($provincesNames, strtoupper($province->Province_name));
             array_push($provincesNames, $province->Province_name);
@@ -461,7 +462,7 @@ class FicaProcessController extends Controller
         // sort($provincesNames);
 
         //Geting Cities
-        $cities = Cities::all()->sort($citiesNames);
+        $cities = Cities::all();
         foreach ($cities as $city) {
             // array_push($citiesNames, strtoupper($city->cityName));
             array_push($citiesNames, $city->cityName);
