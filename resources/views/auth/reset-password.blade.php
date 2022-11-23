@@ -308,7 +308,7 @@
     @section('content')
     
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($Logo) }}"  style="max-width: 300px; max-height: 300px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset($Logo) }}"  style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -316,7 +316,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="card overflow-hidden">
-                            <div style="background-image: linear-gradient(#0e425b, #056895);">
+                            <div style="background-image: linear-gradient(#93186c, #93186c);">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="text-white p-4">

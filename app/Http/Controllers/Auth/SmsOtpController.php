@@ -15,14 +15,14 @@ class SmsOtpController extends Controller
 
     public function sendOTP($phoneNumber)
     {
-        $apiKey = 'c7fda9ca-7795-4be1-891f-7686ca2db620';
-        $apiSecret = '7pCeMsdU5/1wvlsye6DA87llcahaWEXU';
+        $apiKey = config('app.API_OTP_KEY');
+        $apiSecret = config('app.API_OTP_SECRET');
         $accountApiCredentials = $apiKey . ':' . $apiSecret;
 
         $base64Credentials = base64_encode($accountApiCredentials);
         $authHeader = 'Authorization: Basic ' . $base64Credentials;
 
-        $authEndpoint = 'https://rest.mymobileapi.com/Authentication';
+        $authEndpoint = config('app.API_OTP_AUTH_ENDPOINT');
         //$phoneNumber = '0844675067';
         $authOptions = array(
             'http' => array(
@@ -49,11 +49,11 @@ class SmsOtpController extends Controller
             var_dump($authResult);
         }
 
-        $sendUrl = 'https://rest.mymobileapi.com/bulkmessages';
+        $sendUrl = config("app.API_OTP_SEND_URL");
 
         $authHeader = 'Authorization: Bearer ' . $authToken;
 
-        $sendData = "{ 'messages' : [ { 'content' : 'Your IFICA OTP verification code is: $this->opt', 'destination' : '$phoneNumber' } ] }";
+        $sendData = "{ 'messages' : [ { 'content' : 'Your FICA OTP verification code is: $this->opt', 'destination' : '$phoneNumber' } ] }";
 
         // dd($phoneNumber);
         $options = array(

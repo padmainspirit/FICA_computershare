@@ -2534,10 +2534,17 @@ class CustomerVerification extends Controller
 
     public function UserInbox(Request $request)
     {
+        $client = Auth::user();
+        $idnumber = $client->Id;
+        dd($client);
 
-        $idnumber = $request->session()->get('idnumber');
+        $LogUserName = $client->FirstName;
+        $LogUserSurname = $client->LastName;
+
+
 
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->first();
+
         $SearchCustomerUSERID = $useridentitynum['Id'];
 
         $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $SearchCustomerUSERID)->first();
@@ -2547,13 +2554,12 @@ class CustomerVerification extends Controller
         $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
         $SearchFica = $getSearchFica['FICA_ID'];
 
-        $Consumerid = $request->session()->get('LoggedUser');
-        $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
+        // $Consumerid = $request->session()->get('LoggedUser');
+        // $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
         // dd($SearchConsumerID);
 
-        $LogUserName = $getLogUser['FirstName'];
-        $LogUserSurname = $getLogUser['LastName'];
+
 
         $sentemails = SendEmail::where('Consumerid', '=', $SearchConsumerID)->get();
 

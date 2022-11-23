@@ -38,7 +38,7 @@
         top: 0;
         width: 1em;
         height: 1em;
-        background: #6FD103;
+        background: #91c60f;
         clip: rect(0 1em 1em .5em);
         transform: rotate(180deg);
         transition: 1.05s;
@@ -54,7 +54,7 @@
         top: 0em;
         right: 0;
         bottom: 0;
-        background: #6FD103;
+        background: #91c60f;
         content: '';
     }
 

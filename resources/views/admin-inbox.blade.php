@@ -16,7 +16,7 @@
 
         .heading-fica-id {
             height: 10%;
-            background-image: linear-gradient(#0e425b, #056895);
+            background-image: linear-gradient(#93186c, #93186c);
         }
     </style>
 @endsection
@@ -59,7 +59,7 @@
                                                     <div class="mb-2" style="margin-left: 14px;">
     
                                                         <button type="button" class="btn btn-block waves-effect waves-light"
-                                                            style="background-color: #1a4f6e; border-color: #1a4f6e; color:white;"
+                                                            style="background-color: #93186c; border-color: #93186c; color:white;"
                                                             data-bs-toggle="modal" data-bs-target="#composemessage">
                                                             Compose
                                                         </button>
@@ -99,7 +99,7 @@
                                             <div class="table-responsive" style="margin-left: 14px;">
                                                 <table class="table table-sm mb-0 w-auto h-auto" style="height: 480px;">
     
-                                                    <thead style="background-color: #1a4f6e;border-bottom-color: #1a4f6e">
+                                                    <thead style="background-color: #93186c;border-bottom-color: #93186c">
                                                         <tr hei>
                                                             <th class="col-md-3 font-size-12" style="color:#ffffff;">From Email</th>
                                                             <th class="col-md-3 font-size-12" style="color:#ffffff;">To Email</th>
@@ -152,11 +152,11 @@
                                                             </div>
                                                             <div class="modal-body">
     
-                                                                {{-- <div class="mb-3">
+                                                                <div class="mb-3">
                                                                     <input type="email" id="Email" name="Email"
                                                                         required class="form-control"
                                                                         value="{{ $Email }}" readonly>
-                                                                </div> --}}
+                                                                </div>
     
                                                                 <div class="mb-3">
                                                                     <input type="text" id="Subject" name="Subject"
@@ -173,10 +173,10 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
-                                                                    style="background-color: #1a4f6e; border-color: #1a4f6e; color:white; width:78px"
+                                                                    style="background-color: #93186c; border-color: #93186c; color:white; width:78px"
                                                                     data-bs-dismiss="modal">Close</button>
                                                                 <button type="submit" class="btn btn-primary"
-                                                                    style="background-color: #1a4f6e; border-color: #1a4f6e; color:white;">Send
+                                                                    style="background-color: #93186c; border-color: #93186c; color:white;">Send
                                                                     <i class="fab fa-telegram-plane ms-1"></i></button>
                                                             </div>
                                                         </div>
@@ -394,7 +394,7 @@
                                                                                 <div class="col-lg-1">
                                                                                     <button type="submit"
                                                                                         class="btn btn-primary w-md"
-                                                                                        style="background-color: #1a4f6e; border-color: #1a4f6e">Save</button>
+                                                                                        style="background-color: #93186c; border-color: #93186c">Save</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -408,7 +408,7 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-sm mb-0 w-auto h-auto" style="height: 480px;">
     
-                                                            <thead style="background-color: #1a4f6e;border-bottom-color: #1a4f6e">
+                                                            <thead style="background-color: #93186c;border-bottom-color: #93186c">
                                                                 <tr>
                                                                     <th class="col-md-2 font-size-13" style="color:#ffffff;">Admin</th>
                                                                     <th class="col-md-2 font-size-13" style="color:#ffffff;">Consumer

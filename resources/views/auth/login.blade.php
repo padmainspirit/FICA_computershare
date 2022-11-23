@@ -20,12 +20,12 @@
                 class="img-fluid">
         </div> --}}
 
-        {{-- @if ($customer->RegistrationName == 'ComputerShare')
+        {{-- @if ($customerName == 'ComputerShare')
             <div class="row d-flex justify-content-center mb-3 mt-5">
                 <img src="{{ URL::asset('/assets/images/logo/computershare.png') }}" style="width: 190px; height: 35px;"
                     alt="" class="img-fluid">
             </div>
-        @elseif($customer->RegistrationName == 'InspiritData')
+        @elseif($customerName == 'InspiritData')
             <div class="row d-flex justify-content-center mb-3 mt-3">
                 <img src="{{ URL::asset('/assets/images/logo/inspirit.png') }}" style="width: 23%" alt=""
                     class="img-fluid">
@@ -33,7 +33,8 @@
         @endif --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+                class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -42,7 +43,7 @@
                     <div class="col-md-5">
                         <div class="card overflow-hidden">
 
-                            <div style="background-image: linear-gradient(#0e425b, #056895);">
+                            <div style="background-image: linear-gradient(#93186c, #93186c);">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="text-white p-4">
@@ -111,15 +112,16 @@
                                         </div> --}}
 
                                         {{-- store Recaptcha token --}}
-                                        <input type="hidden" name="g-recaptcha-response-login" id="g-recaptcha-response-login">
+                                        <input type="hidden" name="g-recaptcha-response-login"
+                                            id="g-recaptcha-response-login">
 
                                         <div class="mt-3 text-center">
 
                                             <button type="button" class="btn w-md text-white" id="login-btn"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e;">Log In</button>
+                                                style="background-color: #93186c; border-color: #93186c;">Log In</button>
 
                                             <button type="button" id="clearall" onClick="window.location.reload();"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                style="background-color: #93186c; border-color: #93186c"
                                                 class="btn w-md text-white">Clear</button>
 
                                         </div>
@@ -132,8 +134,9 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <a href="{{ route('forget', ['customer' => $customer->RegistrationName]) }}" class="fw-medium text-primary">
-                                                Forgot your password?
+                                            <a href="{{ route('forget', ['customer' => $customer->RegistrationName]) }}"
+                                                class="fw-medium text-primary">
+                                                <span style="color: #93186c">Forgot your password?</span>
                                             </a>
                                         </div>
 
@@ -141,7 +144,7 @@
                                             <p>Not registered yet? <a
                                                     href="{{ route('register', ['customer' => $customer->RegistrationName]) }}"
                                                     class="fw-medium text-primary">
-                                                    Register now </a>
+                                                    <span style="color: #93186c">Register now</span></a>
                                             </p>
                                         </div>
 
@@ -149,16 +152,17 @@
                                             <p>
                                                 <a type="button" class="fw-medium text-primary" data-bs-toggle="modal"
                                                     data-bs-target="#TandC">
-                                                    Terms and Conditions
+                                                    <span style="color: #93186c">Terms and Conditions</span>
                                                 </a>
                                                 /
                                                 <a type="button" class="fw-medium text-primary" data-bs-toggle="modal"
                                                     data-bs-target="#Privacy">
-                                                    Privacy Policy
+                                                    <span style="color: #93186c">Privacy Policy</span>
                                                 </a>
                                             </p>
                                         </div>
 
+                                        <!-- start T and C-->
                                         <div>
                                             <!-- sample modal content -->
                                             <div id="TandC" class="modal fade" tabindex="-1"
@@ -360,14 +364,16 @@
                                                         <div class="modal-footer">
                                                             <button type="button"
                                                                 class="btn btn-primary waves-effect waves-light"
+                                                                style="background-color: #93186c;border-color: #93186c"
                                                                 data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
                                             </div><!-- /.modal -->
                                         </div>
-                                        <!-- end preview-->
+                                        <!-- end T and C-->
 
+                                        <!-- start Validation-->
                                         <div>
                                             <!-- sample modal content -->
                                             <div id="Privacy" class="modal fade" tabindex="-1"
@@ -728,16 +734,17 @@
                                                         <div class="modal-footer">
                                                             <button type="button"
                                                                 class="btn btn-primary waves-effect waves-light"
+                                                                style="background-color: #93186c;border-color: #93186c"
                                                                 data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
                                             </div><!-- /.modal -->
                                         </div>
-                                        <!-- end preview-->
+                                        <!-- end Validation-->
 
                                         <div class="mt-1 text-center">
-                                            <p style="font-size: 10px;">© {{$customer->RegistrationName}}
+                                            <p style="font-size: 10px;">© {{ $customer->RegistrationName }}
                                                 <script>
                                                     document.write(new Date().getFullYear())
                                                 </script>

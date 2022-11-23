@@ -7,7 +7,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-    --bs-blue: #1a4f6e;
+    --bs-blue: #93186c;
     --bs-indigo: #564ab1;
     --bs-purple: #6f42c1;
     --bs-red: #f46a6a;
@@ -28,7 +28,7 @@
     --bs-gray-700: #495057;
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
-    --bs-primary: #1a4f6e;
+    --bs-primary: #93186c;
     --bs-secondary: #74788d;
     --bs-success: #34c38f;
     --bs-info: #50a5f1;
@@ -256,7 +256,7 @@ sup {
 }
 
 a {
-    color: #1a4f6e;
+    color: #93186c;
     text-decoration: none
 }
 
@@ -2934,8 +2934,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input:checked {
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .form-check-input:checked[type=checkbox] {
@@ -2947,8 +2947,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input[type=checkbox]:indeterminate {
-    background-color: #1a4f6e;
-    border-color: #1a4f6e;
+    background-color: #93186c;
+    border-color: #93186c;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3E%3C/svg%3E")
 }
 
@@ -3044,7 +3044,7 @@ textarea.form-control-lg {
     width: 1rem;
     height: 1rem;
     margin-top: -.25rem;
-    background-color: #1a4f6e;
+    background-color: #93186c;
     border: 0;
     border-radius: 1rem;
     -webkit-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
@@ -3079,7 +3079,7 @@ textarea.form-control-lg {
 .form-range::-moz-range-thumb {
     width: 1rem;
     height: 1rem;
-    background-color: #1a4f6e;
+    background-color: #93186c;
     border: 0;
     border-radius: 1rem;
     -moz-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -3600,16 +3600,18 @@ fieldset:disabled .btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus,
 .btn-primary:hover {
     color: #fff;
-    background-color: #485ec4;
-    border-color: #4458b8
+    background-color: #93186c;
+    border-color: #93186c
+    /* background-color: #485ec4;
+    border-color: #4458b8 */
 }
 
 .btn-check:focus+.btn-primary,
@@ -3640,8 +3642,8 @@ fieldset:disabled .btn {
 .btn-primary.disabled,
 .btn-primary:disabled {
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .btn-secondary {
@@ -4013,14 +4015,14 @@ fieldset:disabled .btn {
 }
 
 .btn-outline-primary {
-    color: #1a4f6e;
-    border-color: #1a4f6e
+    color: #93186c;
+    border-color: #93186c
 }
 
 .btn-outline-primary:hover {
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .btn-check:focus+.btn-outline-primary,
@@ -4035,8 +4037,8 @@ fieldset:disabled .btn {
 .btn-outline-primary.dropdown-toggle.show,
 .btn-outline-primary:active {
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .btn-check:active+.btn-outline-primary:focus,
@@ -4050,7 +4052,7 @@ fieldset:disabled .btn {
 
 .btn-outline-primary.disabled,
 .btn-outline-primary:disabled {
-    color: #1a4f6e;
+    color: #93186c;
     background-color: transparent
 }
 
@@ -4392,7 +4394,7 @@ fieldset:disabled .btn {
 
 .btn-link {
     font-weight: 400;
-    color: #1a4f6e;
+    color: #93186c;
     text-decoration: none
 }
 
@@ -4892,7 +4894,7 @@ fieldset:disabled .btn {
 .nav-link {
     display: block;
     padding: .5rem 1rem;
-    color: #1a4f6e;
+    color: #93186c;
     -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out
 }
@@ -4962,7 +4964,7 @@ fieldset:disabled .btn {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
     color: #fff;
-    background-color: #1a4f6e
+    background-color: #93186c
 }
 
 .nav-fill .nav-item,
@@ -6094,8 +6096,8 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .page-item.disabled .page-link {
@@ -6327,7 +6329,7 @@ fieldset:disabled .btn {
     color: #fff;
     text-align: center;
     white-space: nowrap;
-    background-color: #1a4f6e;
+    background-color: #93186c;
     -webkit-transition: width .6s ease;
     transition: width .6s ease
 }
@@ -6427,8 +6429,8 @@ fieldset:disabled .btn {
 .list-group-item.active {
     z-index: 2;
     color: #fff;
-    background-color: #1a4f6e;
-    border-color: #1a4f6e
+    background-color: #93186c;
+    border-color: #93186c
 }
 
 .list-group-item+.list-group-item {
@@ -8061,7 +8063,7 @@ fieldset:disabled .btn {
 }
 
 .link-primary {
-    color: #1a4f6e
+    color: #93186c
 }
 
 .link-primary:focus,
@@ -8566,7 +8568,7 @@ fieldset:disabled .btn {
 }
 
 .border-primary {
-    border-color: #1a4f6e !important
+    border-color: #93186c !important
 }
 
 .border-secondary {
@@ -14468,13 +14470,13 @@ label {
 }
 
 .badge-soft-primary {
-    color: #1a4f6e;
+    color: #93186c;
     background-color: rgba(85, 110, 230, .18)
 }
 
 .badge-soft-primary[href]:focus,
 .badge-soft-primary[href]:hover {
-    color: #1a4f6e;
+    color: #93186c;
     text-decoration: none;
     background-color: rgba(85, 110, 230, .4)
 }
@@ -14857,7 +14859,7 @@ button {
 
 .nav-tabs-custom .nav-item .nav-link:after {
     content: "";
-    background: #1a4f6e;
+    background: #93186c;
     height: 2px;
     position: absolute;
     width: 100%;
@@ -14870,7 +14872,7 @@ button {
 }
 
 .nav-tabs-custom .nav-item .nav-link.active {
-    color: #1a4f6e
+    color: #93186c
 }
 
 .nav-tabs-custom .nav-item .nav-link.active:after {

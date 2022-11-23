@@ -23,7 +23,8 @@
 
     @section('content')
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+                class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -32,7 +33,7 @@
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card overflow-hidden">
 
-                            <div style="background-image: linear-gradient(#0e425b, #056895);">
+                            <div style="background-image: linear-gradient(#93186c, #93186c);">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="text-white p-4">
@@ -99,11 +100,11 @@
                                         <div class="mt-3 text-center">
 
                                             <button type="button" class="btn w-md text-white" id="forget-btn"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e;">Send</button>
+                                                style="background-color: #93186c; border-color: #93186c;">Send</button>
 
                                             <button type="button" id="clearall"
                                                 onClick="document.getElementById('Email').value = ''"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                style="background-color: #93186c; border-color: #93186c"
                                                 class="btn w-md text-white">Clear</button>
 
                                         </div>
@@ -111,8 +112,10 @@
                                 </form>
 
                                 <div class="mt-5 text-center">
-                                    <p>Remember It? <a href="{{ route('login', ['customer' => $customer->RegistrationName]) }}"
-                                        class="fw-medium text-primary">Sign In here</a>
+                                    <p>Remember It? <a
+                                            href="{{ route('login', ['customer' => $customer->RegistrationName]) }}"
+                                            class="fw-medium text-primary"><span style="color: #93186c">Sign In
+                                                here</span></a>
                                     </p>
 
                                     <p>© {{ $customer->RegistrationName }}
