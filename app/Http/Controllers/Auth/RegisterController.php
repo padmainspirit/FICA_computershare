@@ -108,8 +108,8 @@ class RegisterController extends Controller
 
             // $Customerid = $request->CustomerId;
             // $customer = Customer::where('Id', '=',  $Customerid)->first();
-            $Logo = $customer['Client_Logo'];
-            $TradingName = $customer['TradingName'];
+            // $Logo = $customer['Client_Logo'];
+            // $TradingName = $customer['TradingName'];
 
             // dd($Customerid);
 
@@ -117,7 +117,7 @@ class RegisterController extends Controller
                 'auth.emailreg',
                 [
                     'token' => $token, 'FirstName' => $FirstName, 'LastName' => $LastName, 'Email' => $Email,
-                    'Password' => $Password, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow
+                    'Password' => $Password, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
                 ],
                 function ($message) use ($request) {
                     $message->to($request->Email);
