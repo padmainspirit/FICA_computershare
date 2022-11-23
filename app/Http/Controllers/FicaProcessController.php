@@ -231,34 +231,34 @@ class FicaProcessController extends Controller
 
         //Get Nationality
         // $nationality = Nationality::all()->sort($countries);
-        $nationality = Nationality::all();
-        foreach ($nationality as $country) {
-            // array_push($countries, strtoupper($country->Nationality));
-            array_push($countries, $country->Nationality);
-        }
+        $countries = Nationality::all()->sortBy($countries);
+        // foreach ($nationality as $country) {
+        //     // array_push($countries, strtoupper($country->Nationality));
+        //     array_push($countries, $country->Nationality);
+        // }
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all();
-        foreach ($sourceOfFunds as $sourceoffund) {
-            // array_push($funds, strtoupper($sourceoffund->Funds));
-            array_push($funds, $sourceoffund->Funds);
-        }
+        $funds = SourceOfFunds::all()->sortBy($funds);
+        // foreach ($sourceOfFunds as $sourceoffund) {
+        //     // array_push($funds, strtoupper($sourceoffund->Funds));
+        //     array_push($funds, $sourceoffund->Funds);
+        // }
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all();
-        foreach ($banks as $bank) {
-            // array_push($bankNames, strtoupper($bank->bankname));
-            array_push($bankNames, $bank->bankname);
-        }
+        $bankNames = Banks::all();
+        // foreach ($banks as $bank) {
+        //     // array_push($bankNames, strtoupper($bank->bankname));
+        //     array_push($bankNames, $bank->bankname);
+        // }
 
         //Geting Provinces
-        $provinces = Provinces::all();
-        foreach ($provinces as $province) {
-            // array_push($provincesNames, $province->Province_name);
-            array_push($provincesNames, $province->Province_name);
-        }
+        $provincesNames = Provinces::all()->sortBy($provincesNames);
+        // foreach ($provinces as $province) {
+        //     // array_push($provincesNames, $province->Province_name);
+        //     array_push($provincesNames, $province->Province_name);
+        // }
         // sort($provincesNames);
 
         // Geting Cities but we changed it to input boxes so the drop down is disabled and this fucntion is pointless
@@ -430,43 +430,43 @@ class FicaProcessController extends Controller
         }
 
         //Get Nationality
-        $nationality = Nationality::all();
-        foreach ($nationality as $country) {
-            // array_push($countries, strtoupper($country->Nationality));
-            array_push($countries, $country->Nationality);
-        }
+        $countries = Nationality::all()->sortBy($countries);
+        // foreach ($nationality as $country) {
+        //     // array_push($countries, strtoupper($country->Nationality));
+        //     array_push($countries, $country->Nationality);
+        // }
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all();
-        foreach ($sourceOfFunds as $sourceoffund) {
-            // array_push($funds, strtoupper($sourceoffund->Funds));
-            array_push($funds, $sourceoffund->Funds);
-        }
+        $funds = SourceOfFunds::all()->sortBy($funds);
+        // foreach ($sourceOfFunds as $sourceoffund) {
+        //     // array_push($funds, strtoupper($sourceoffund->Funds));
+        //     array_push($funds, $sourceoffund->Funds);
+        // }
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all();
-        foreach ($banks as $bank) {
-            // array_push($bankNames, strtoupper($bank->bankname));
-            array_push($bankNames, $bank->bankname);
-        }
+        $bankNames = Banks::all()->sortBy($bankNames);
+        // foreach ($banks as $bank) {
+        //     // array_push($bankNames, strtoupper($bank->bankname));
+        //     array_push($bankNames, $bank->bankname);
+        // }
         // sort($bankNames);
 
         //Geting Provinces
-        $provinces = Provinces::all();
-        foreach ($provinces as $province) {
-            // array_push($provincesNames, strtoupper($province->Province_name));
-            array_push($provincesNames, $province->Province_name);
-        }
+        $provincesNames = Provinces::all()->sortBy($provincesNames);
+        // foreach ($provinces as $province) {
+        //     // array_push($provincesNames, strtoupper($province->Province_name));
+        //     array_push($provincesNames, $province->Province_name);
+        // }
         // sort($provincesNames);
 
         //Geting Cities
-        $cities = Cities::all();
-        foreach ($cities as $city) {
-            // array_push($citiesNames, strtoupper($city->cityName));
-            array_push($citiesNames, $city->cityName);
-        }
+        $citiesNames = Cities::all()->sortBy($citiesNames);
+        // foreach ($cities as $city) {
+        //     // array_push($citiesNames, strtoupper($city->cityName));
+        //     array_push($citiesNames, $city->cityName);
+        // }
         // sort($citiesNames);
 
         //Update fica progress bar 
