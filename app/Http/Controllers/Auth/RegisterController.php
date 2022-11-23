@@ -79,7 +79,7 @@ class RegisterController extends Controller
         $responseData = json_decode((string)$response->getBody());
 
         $scoreResponse = $responseData->score;
-        //Check if user in not a robot using Recaptcha
+        //Check if user is not a robot using Recaptcha
         //$responseData->score = 0.4;
         // dd($responseData);
         if ($scoreResponse < 0.5) {
@@ -106,8 +106,8 @@ class RegisterController extends Controller
             $Password = $request->Password;
 
 
-            $Customerid = $request->CustomerId;
-            $customer = Customer::where('Id', '=',  $Customerid)->first();
+            // $Customerid = $request->CustomerId;
+            // $customer = Customer::where('Id', '=',  $Customerid)->first();
             $Logo = $customer['Client_Logo'];
             $TradingName = $customer['TradingName'];
 
