@@ -2283,15 +2283,16 @@ class CustomerVerification extends Controller
     public function SendMessage(Request $request)
     {
 
+        $client = Auth::user();
         // $Consumerid = $request->session()->get('LoggedUser');
         $SearchConsumerID = $request->session()->get('SearchConsumerID');
 
-        $Customerid = session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
+        // $Customerid = session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
 
-        $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
-        $customerName = $customer['RegistrationName'];
+        $Logo = $client['Client_Logo'];
+        $Icon = $client['Client_Icon'];
+        $customerName = $client['RegistrationName'];
 
         // $request->session()->put('Consumerid', $Consumerid);
 
@@ -2324,12 +2325,14 @@ class CustomerVerification extends Controller
 
         $ConsumerCapturedPhoto = $request->session()->get('ConsumerCapturedPhoto');
 
-        $idnumber = $request->session()->get('idnumber');
+        $idnumber = $request->session()->get('IDNUMBER');
 
         $YearNow = Carbon::now()->year;
         $TradingName = $request->session()->get('TradingName');
 
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
+
+
         // $consumerid = Consumer::where('Consumerid', '=', $useridentitynum->Consumerid)->first();
         // $recipientid = Consumer::where('Consumerid', '=', $request->Email)->first();
 
@@ -2394,12 +2397,14 @@ class CustomerVerification extends Controller
         $request->session()->put('surname', $surname);
         // $request->session()->put('email', $email);
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = $client->CustomerId;
         $getCustomerid = Customer::where('Id', '=',  $Customerid)->first();
         $CustomerEmail = $getCustomerid['Customer_Email'];
         $request->session()->put('CustomerEmail', $CustomerEmail);
 
         app('debugbar')->info($CustomerEmail);
+
+        // dd($CustomerEmail);
 
         // $getreceive = Consumer::all()->where('Email', '=', $request->Email);
 
@@ -2505,11 +2510,11 @@ class CustomerVerification extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
-        $customerName = $customer['RegistrationName'];
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $Logo = $client['Client_Logo'];
+        $Icon = $client['Client_Icon'];
+        $customerName = $client['RegistrationName'];
 
         return view('admin-inbox', compact('sentemails'), [])
             ->with('NotificationLink', $NotificationLink)
@@ -2534,10 +2539,23 @@ class CustomerVerification extends Controller
 
     public function UserInbox(Request $request)
     {
-        $client = Auth::user();
-        $idnumber = $client->Id;
-        dd($client);
 
+
+        $idnumber = $request->session()->get('IDNUMBER');
+
+        $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->first();
+        $SearchCustomerUSERID = $useridentitynum['Id'];
+
+        $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $SearchCustomerUSERID)->first();
+        $SearchConsumerID = $getSearchConsumerID['Consumerid'];
+
+        $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
+        $SearchFica = $getSearchFica['FICA_ID'];
+
+
+
+
+        $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
 
@@ -2595,12 +2613,12 @@ class CustomerVerification extends Controller
 
         // ];
 
-        $Customerid = $request->session()->get('Customerid');
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $Logo = $client['Client_Logo'];
+        $Icon = $client['Client_Icon'];
+        $customerName = $client['RegistrationName'];
+        $Icon = $client['Client_Icon'];
 
 
         // dd($DisplaySideData);
