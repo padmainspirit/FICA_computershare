@@ -75,7 +75,7 @@ class AdminCreateController extends Controller
         // $GetAllUsers = CustomerUser::all();
         $getCustomerId = $request->input('SelectClient');
         $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();  //computershare
-        // dd($getCustomerId);
+        //dd($GetAllConglomerateDetails);
 
         $TradingName = $GetAllConglomerateDetails->TradingName != '' ? $GetAllConglomerateDetails->TradingName : null;
         $RegistrationName = $GetAllConglomerateDetails->RegistrationName != '' ? $GetAllConglomerateDetails->RegistrationName : null;
@@ -105,10 +105,33 @@ class AdminCreateController extends Controller
 
     public function EditDetails(Request $request)
     {
-        $getCustomerId = $request->input('SelectClient');
-        $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();
 
-        // dd($GetAllConglomerateDetails);
+        $customerName = $request->RegistrationName;
+        $GetAllConglomerateDetails = Customer::where('RegistrationName', '=', $customerName)->first();
+
+        $Customerid = $GetAllConglomerateDetails->Id;
+        $Logo = $GetAllConglomerateDetails['Client_Logo'];
+        $customerName = $GetAllConglomerateDetails['RegistrationName'];
+        $Icon = $GetAllConglomerateDetails['Client_Icon'];
+
+
+        Customer::where('Id', '=', $Customerid)->update([
+
+            'TradingName' => $request->input('TradingName'),
+            'RegistrationName' => $request->input('RegistrationName'),
+            'RegistrationNumber' => $request->input('RegistrationNumber'),
+            'BranchLocation' => $request->input('BranchLocation'),
+            'PhysicalAddress' => $request->input('PhysicalAddress'),
+            'TypeOfBusiness' => $request->input('TypeOfBusiness'),
+            'TelephoneNumber' => $request->input('TelephoneNumber'),
+
+        ]);
+
+        return redirect()->route('admin-display')
+            ->with('success', 'User updated successfully')
+            ->with('customerName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
     }
 
     public function ShowCustomerDisplay(Request $request)
