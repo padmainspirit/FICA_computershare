@@ -47,6 +47,7 @@ class AdminCreateController extends Controller
             ->with('Logo', $Logo);
     }
 
+
     public function ShowConglomerateEdit(Request $request)
     {
 
@@ -74,7 +75,7 @@ class AdminCreateController extends Controller
         // $GetAllUsers = CustomerUser::all();
         $getCustomerId = $request->input('SelectClient');
         $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();  //computershare
-        // dd($GetAllConglomerateDetails);
+        // dd($getCustomerId);
 
         $TradingName = $GetAllConglomerateDetails->TradingName != '' ? $GetAllConglomerateDetails->TradingName : null;
         $RegistrationName = $GetAllConglomerateDetails->RegistrationName != '' ? $GetAllConglomerateDetails->RegistrationName : null;
