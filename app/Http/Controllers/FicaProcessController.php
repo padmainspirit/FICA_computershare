@@ -231,7 +231,7 @@ class FicaProcessController extends Controller
 
         //Get Nationality
         // $nationality = Nationality::all()->sort($countries);
-        $nationality = Nationality::all()->sortBy($countries);
+        $nationality = Nationality::all()->sortBy('Nationality');
         foreach ($nationality as $country) {
             // array_push($countries, strtoupper($country->Nationality));
             array_push($countries, $country->Nationality);
@@ -239,7 +239,7 @@ class FicaProcessController extends Controller
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sortBy($funds);
+        $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
         foreach ($sourceOfFunds as $sourceoffund) {
             // array_push($funds, strtoupper($sourceoffund->Funds));
             array_push($funds, $sourceoffund->Funds);
@@ -254,7 +254,7 @@ class FicaProcessController extends Controller
         }
 
         //Geting Provinces
-        $provinces = Provinces::all()->sortBy($provincesNames);
+        $provinces = Provinces::all()->sortBy('Province_name');
         foreach ($provinces as $province) {
             // array_push($provincesNames, $province->Province_name);
             array_push($provincesNames, $province->Province_name);
@@ -331,7 +331,7 @@ class FicaProcessController extends Controller
         $Telephones = [];
 
         //try {
-        $loggedInUserId = Auth::user()->Id;
+        $loggedInUserId = $client->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
@@ -429,8 +429,9 @@ class FicaProcessController extends Controller
             array_push($occupation, $industry->Industry_occupation);
         }
 
+
         //Get Nationality
-        $nationality = Nationality::all()->sortBy($countries);
+        $nationality = Nationality::all()->sortBy('Nationality');
         foreach ($nationality as $country) {
             // array_push($countries, strtoupper($country->Nationality));
             array_push($countries, $country->Nationality);
@@ -438,7 +439,7 @@ class FicaProcessController extends Controller
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sortBy($funds);
+        $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
         foreach ($sourceOfFunds as $sourceoffund) {
             // array_push($funds, strtoupper($sourceoffund->Funds));
             array_push($funds, $sourceoffund->Funds);
@@ -446,7 +447,7 @@ class FicaProcessController extends Controller
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all()->sortBy($bankNames);
+        $banks = Banks::all()->sortBy('bankname');
         foreach ($banks as $bank) {
             // array_push($bankNames, strtoupper($bank->bankname));
             array_push($bankNames, $bank->bankname);
@@ -454,7 +455,7 @@ class FicaProcessController extends Controller
         // sort($bankNames);
 
         //Geting Provinces
-        $provinces = Provinces::all()->sortBy($provincesNames);
+        $provinces = Provinces::all()->sortBy('Province_name');
         foreach ($provinces as $province) {
             // array_push($provincesNames, strtoupper($province->Province_name));
             array_push($provincesNames, $province->Province_name);
@@ -462,11 +463,11 @@ class FicaProcessController extends Controller
         // sort($provincesNames);
 
         //Geting Cities
-        $citiesNames = Cities::all()->sortBy($citiesNames);
-        // foreach ($cities as $city) {
-        //     // array_push($citiesNames, strtoupper($city->cityName));
-        //     array_push($citiesNames, $city->cityName);
-        // }
+        $cities = Cities::all()->sortBy('cityName');
+        foreach ($cities as $city) {
+            // array_push($citiesNames, strtoupper($city->cityName));
+            array_push($citiesNames, $city->cityName);
+        }
         // sort($citiesNames);
 
         //Update fica progress bar 
