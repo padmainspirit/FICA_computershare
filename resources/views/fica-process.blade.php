@@ -798,8 +798,8 @@
 
                                                         <input autocomplete="off" type="date" class="form-control"
                                                             style="height: 27px;padding-left: 10%;padding-bottom: 2px;padding-top: 2px; font-size:12px; text-transform: uppercase;"
-                                                            id="dob-input" name="dob-input"
-                                                            value="{{ substr($DOB, 0, 10) }}" readonly>
+                                                            id="dob-input" name="dob-input" value="{{ $DOB }}"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1525,47 +1525,47 @@
                                                                 </option>
 
                                                                 <option value="Eastern Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Eastern Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Eastern Cape' ? 'selected' : '' }}>
                                                                     Eastern Cape
                                                                 </option>
 
                                                                 <option value="Free State" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Free State' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Free State' ? 'selected' : '' }}>
                                                                     Free State
                                                                 </option>
 
                                                                 <option value="KwaZulu-Natal" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'KwaZulu-Natal' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'KwaZulu-Natal' ? 'selected' : '' }}>
                                                                     KwaZulu-Natal
                                                                 </option>
 
                                                                 <option value="Gauteng" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Gauteng' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Gauteng' ? 'selected' : '' }}>
                                                                     Gauteng
                                                                 </option>
 
                                                                 <option value="Limpopo" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Limpopo' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Limpopo' ? 'selected' : '' }}>
                                                                     Limpopo
                                                                 </option>
 
                                                                 <option value="Mpumalanga" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Mpumalanga' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Mpumalanga' ? 'selected' : '' }}>
                                                                     Mpumalanga
                                                                 </option>
 
                                                                 <option value="North West" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'North West' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'North West' ? 'selected' : '' }}>
                                                                     North West
                                                                 </option>
 
                                                                 <option value="Northern Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Northern Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Northern Cape' ? 'selected' : '' }}>
                                                                     Northern Cape
                                                                 </option>
 
                                                                 <option value="Western Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Western Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Western Cape' ? 'selected' : '' }}>
                                                                     Western Cape
                                                                 </option>
 

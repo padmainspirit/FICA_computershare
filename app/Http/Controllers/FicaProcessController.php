@@ -192,11 +192,11 @@ class FicaProcessController extends Controller
         if ($Telephone) {
             foreach ($Telephone as $tele) {
                 if ($tele['TelephoneTypeInd'] == 12) {
-                    $TelCell = $tele;
+                    $TelCell = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $TelHome = $tele;
+                    $TelHome = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $TelWork = $tele;
+                    $TelWork = $tele->TelephoneCode . $tele->TelephoneNo;
                 }
             }
         }
@@ -405,11 +405,11 @@ class FicaProcessController extends Controller
         if ($Telephone) {
             foreach ($Telephone as $tele) {
                 if ($tele['TelephoneTypeInd'] == 12) {
-                    $TelCell = $tele;
+                    $TelCell = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $TelHome = $tele;
+                    $TelHome = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $TelWork = $tele;
+                    $TelWork = $tele->TelephoneCode . $tele->TelephoneNo;
                 }
             }
         }
