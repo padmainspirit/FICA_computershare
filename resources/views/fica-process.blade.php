@@ -1471,7 +1471,6 @@
                                                                 id="employeer-city-input"
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                                 name="employeer-city-input" placeholder="Enter City"
-
                                                                 value="{{ $Work != null ? $Work->OriginalAddress3 : '' }}">
 
 
@@ -2989,7 +2988,6 @@
                                                     style="border-bottom-width: 2px;border-top-width: 2px;border-right-width: 2px;border-left-width: 2px;margin-top: 5%;">
 
                                                 {{-- <label class="form-check-label" for="salary-checkbox" style="padding-left:15px;font-size: 12px; color: rgb(0, 0, 0);padding-top: 0.25em;">
-
                                                         I agree to the 
                                                         <a style="color: red" href="{{ $customer->CustomerTerms_URL }}" target="_blank">
                                                             Terms and Conditions 
@@ -3010,7 +3008,6 @@
                                                         {{ $message = 'Field is required' }}
                                                     </div>
                                                 @enderror
-
 
                                             </div>
                                         </div>
@@ -3058,7 +3055,6 @@
     <div>
         <!-- sample modal content -->
         <div id="TandC" class="modal fade" tabindex="-1" aria-labelledby="TandCLabel" aria-hidden="true">
-
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -3255,7 +3251,6 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary waves-effect waves-light"
-
                             data-bs-dismiss="modal">Close</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -3337,7 +3332,6 @@
                                 </p>
                                 <p class="font-size-14 mb-2" style="color: #1a4f6e">Document is encrypted or unreadable.
                                 </p>
-
                                 <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
                                 {{-- <p class="text-muted font-size-14 mb-4" style="color: #1a4f6e" id="pid">
                                     We can not determine a valid ID Number.
@@ -3379,8 +3373,9 @@
                                     <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
                                     <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1"
                                         id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px"
-                                        required>
-
+                                        required>                                        
+                                        <span id= "error-py-street-line-1" class="text-danger" role="alert">
+                                            </span>
                                     {{-- @if ($errors->has('py-street-line-1'))
                                         <span class="text-danger">{{ $errors->first('py-street-line-1') }}</span>
                                     @endif --}}
@@ -3392,7 +3387,8 @@
                                     <input type="type" class="form-control" id="py-street-line-2"
                                         style="padding-left: 24px" name="py-street-line-2"
                                         placeholder="ENTER ADDRESS LINE 2" required>
-
+                                    <span id= "error-py-street-line-2" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3404,8 +3400,8 @@
                                         <input type="text" class="form-control"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                             id="py-city" name="py-city" placeholder="ENTER CITY" required>
-
-
+                                        <span id= "error-py-city" class="text-danger" role="alert">
+                                            </span>
                                         {{-- <select class="form-select" autocomplete="off"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                             id="py-city" name="py-city" required>
@@ -3436,6 +3432,8 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <span id= "error-py-state" class="text-danger" role="alert">
+                                            </span>
                                     </div>
                                 </div>
                             </div>
@@ -3444,8 +3442,9 @@
                                     <label for="py-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="py-zip"
                                         style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" required>
-
-                                </div>
+                                    <span id= "error-py-zip" class="text-danger" role="alert">
+                                            </span>
+                                    </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
@@ -3469,7 +3468,8 @@
                                     <input type="type" class="form-control" id="po-street-line-1"
                                         name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1"
                                         style="padding-left: 24px">
-
+                                    <span id= "error-po-street-line-1" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3478,7 +3478,8 @@
                                     <input type="type" class="form-control" id="po-street-line-2"
                                         name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2"
                                         style="padding-left: 24px">
-
+                                    <span id= "error-po-street-line-2" class="text-danger" role="alert">
+                                            </span>
 
                                 </div>
                             </div>
@@ -3492,6 +3493,8 @@
                                     <input autocomplete="off" type="text" class="form-control"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                         id="po-city" name="po-city" placeholder="ENTER CITY">
+                                    <span id= "error-po-city" class="text-danger" role="alert">
+                                            </span>
 
                                     {{-- <select class="form-select" autocomplete="off"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
@@ -3523,6 +3526,8 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    <span id= "error-po-state" class="text-danger" role="alert">
+                                            </span>
 
                                 </div>
                             </div>
@@ -3530,14 +3535,17 @@
                                 <div class="mb-3">
                                     <label for="po-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="po-zip" name="po-zip"
-                                        placeholder="ENTER ZIP" style="padding-left: 24px">
-
+                                        placeholder="ENTER ZIP" style="padding-left: 24px" autocomplete="off">
+                                    <span id= "error-po-zip" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             {{-- <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="po-country" class="form-label">Country</label>
                                 <input type="type" class="form-control" id="po-country" name="po-country">
+                                <span id= "error-po-country" class="text-danger" role="alert">
+                                            </span>
                             </div>
                         </div> --}}
 
@@ -3857,7 +3865,6 @@
                                 </p>
                                 <p class="font-size-14 mb-2" style="color: #1a4f6e">Document is encrypted or unreadable.
                                 </p>
-
                                 <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
 
                                 {{-- <h4 style="color: #1a4f6e">We can not determine a valid ID Number, document is encrypted or unreadable.</h4>
@@ -4016,9 +4023,8 @@
                 <hr>
                 <div class="text-center mb-3">
                     <form id="logout-form"
-                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customerName]) }}"
+                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customer->RegistrationName]) }}"
                         method="POST">
-
                         @csrf
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
                             style="width: 150px">Logout</button>
@@ -4199,6 +4205,16 @@
             $('#fileUpload-address-input').on('submit', function(e) {
                 //  var verified = '<?php $IDN; ?>';
                 e.preventDefault();
+                $('#error-po-street-line-1').hide();
+                $('#error-po-street-line-2').hide();
+                $('#error-po-city').hide();
+                $('#error-po-state').hide();
+                $('#error-po-zip').hide();
+                $('#error-py-street-line-1').hide();
+                $('#error-py-street-line-2').hide();
+                $('#error-py-city').hide();
+                $('#error-py-state').hide();
+                $('#error-py-zip').hide();
                 var form_data = new FormData(this);
                 $.ajax({
                     url: '{{ route('proofofaddress') }}',
@@ -4228,8 +4244,15 @@
                         }
 
                     },
-                    error: function() {
+                    error: function(response) {
                         console.log('ERROR');
+                        var errorRes = response.responseJSON.errors;
+                        console.log(errorRes);
+                        for (var key in errorRes) {
+                            var value = errorRes[key][0];
+                            $('#error-'+key).html(value);
+                            $('#error-'+key).show();
+                        }
                         // $("#btn-hidden-failed").click();
                     }
 

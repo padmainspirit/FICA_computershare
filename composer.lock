@@ -58,16 +58,17 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.245.1",
+            "version": "3.246.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab"
+                "reference": "34c2e3d699d08bc8f212d57f0d7a374a7404c653"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab",
-                "reference": "abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/34c2e3d699d08bc8f212d57f0d7a374a7404c653",
+                "reference": "34c2e3d699d08bc8f212d57f0d7a374a7404c653",
+
                 "shasum": ""
             },
             "require": {
@@ -146,9 +147,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.245.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.246.1"
             },
-            "time": "2022-11-17T19:21:17+00:00"
+            "time": "2022-11-19T22:48:18+00:00"
         },
         {
             "name": "brick/math",
@@ -3350,16 +3351,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "5.5.16",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "e57a67b51a02cbfcd074ed68786897db1dbbf2fa"
+                "reference": "76dd1533294e6a48877f17fdc2b499cff16d4661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/e57a67b51a02cbfcd074ed68786897db1dbbf2fa",
-                "reference": "e57a67b51a02cbfcd074ed68786897db1dbbf2fa",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/76dd1533294e6a48877f17fdc2b499cff16d4661",
+                "reference": "76dd1533294e6a48877f17fdc2b499cff16d4661",
                 "shasum": ""
             },
             "require": {
@@ -3420,7 +3421,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/5.5.16"
+                "source": "https://github.com/spatie/laravel-permission/tree/5.6.0"
             },
             "funding": [
                 {
@@ -3428,7 +3429,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-10-23T02:49:28+00:00"
+            "time": "2022-11-19T02:06:18+00:00"
         },
         {
             "name": "symfony/console",

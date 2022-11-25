@@ -49,6 +49,11 @@ class TwoStepVerificationController extends Controller
         $client = Auth::user();
 
         // dd($client);
+        $this->validate($request, [
+            'otp-input' => 'required',
+        ], [
+            'otp-input.required' => 'The OTP field is required.',
+        ]);
 
         $consumer = Consumer::where('Email', '=', Auth::user()->Email)->where('CustomerUSERID', '=', Auth::user()->Id)->first();
         $minute = $this->dateDiffenceInMinutes(Auth::user()->OTP_Date, date("Y-m-d H:i:s"));
@@ -74,9 +79,7 @@ class TwoStepVerificationController extends Controller
         }
 
 
-        $this->validate($request, [
-            'otp' => 'required',
-        ]);
+        
     }
 
     public function reSendOTP(Request $request)

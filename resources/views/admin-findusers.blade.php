@@ -373,7 +373,8 @@
                                     </thead>
 
                                     <tbody id="tablebody">
-                                        <form method="POST" action="{{ route('display-admin-findusers') }}" id="returnid">
+                                        <form method="POST" action="{{ route('display-admin-findusers') }}"
+                                            id="returnid">
                                             <tr>
                                                 {{-- <td>
                                                     <!-- Button trigger modal -->
@@ -548,11 +549,11 @@
                             // IdGeneretor(idNumber);
                         }
                         $("#tablebody").after(newRows);
-                        
+
                         $('button.idnumber').on('click', function(value) {
                             var readIdNumber = this.id;
                             var IdButton = $('#' + readIdNumber).text();
-                            
+
                             // console.log(IdButton)
                             $("#idnumberResult").val(IdButton)
                             $("#testresult-btn").click();

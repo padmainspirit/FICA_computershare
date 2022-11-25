@@ -39,7 +39,6 @@ use App\Models\LookupDatas;
 use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Exists;
 
 use function Symfony\Component\String\b;
 
@@ -48,6 +47,7 @@ class FicaProcessController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
+        $this->middleware('permission:customeruser-fica', ['only' => ['fica','uploadfile']]);
     }
 
     public function ReadNotification(Request $request)
@@ -55,27 +55,25 @@ class FicaProcessController extends Controller
 
         $NotificationLink = $request->session()->get('NotificationLink');
 
-
+        $Consumerid = Auth::user()->Id;
+        $SearchCustomerId = CustomerUser::where('Id', '=', $Consumerid)->first();
+        $Customerid = Auth::user()->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
 
         // $customerName =  $request->session()->get('customerName');
         $client = Auth::user();
         $customerName = $client->FirstName . ' ' . $client->LastName;
+
         $EmailID = $request->emailid;
         //   app('debugbar')->info($EmailID);
-
-        $Customerid = Auth::user()->CustomerId;
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
 
         SendEmail::where('EmailID', '=', $EmailID)->update([
             'IsRead' => 0,
         ]);
 
         return redirect()->back()
-            ->with('Logo', $Logo)
-            ->with('Icon', $Icon)
+            // ->with('Logo', $Logo)
+            // ->with('Icon', $Icon)
             ->with('customerName', $customerName)
             ->with('NotificationLink', $NotificationLink);
     }
@@ -202,7 +200,6 @@ class FicaProcessController extends Controller
                     $TelWork = $tele;
                 }
             }
-
         }
 
         //Telephone
@@ -295,7 +292,6 @@ class FicaProcessController extends Controller
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
             'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
-
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -335,6 +331,7 @@ class FicaProcessController extends Controller
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        // dd($fica);
         $LoggedInConsumerId = $fica['Consumerid'];
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -410,8 +407,8 @@ class FicaProcessController extends Controller
                     $TelWork = $tele;
                 }
             }
-
         }
+
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 
@@ -505,7 +502,6 @@ class FicaProcessController extends Controller
             app('debugbar')->info($pdfPath);
             $imagePath = $this->convertingPdfToImages($pdfPath);
         } else {
-
             $request->file->move(public_path('tempImages'), $fileName);
             $imagePath = 'tempImages/' . $fileName;
         }
@@ -690,7 +686,6 @@ class FicaProcessController extends Controller
             }
         }
     }
-
     //Delete a sing file
     public function removeImage($path)
     {
