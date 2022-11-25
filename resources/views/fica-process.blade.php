@@ -891,9 +891,9 @@
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                                 <option value=""> Select Country </option>
                                                                 @foreach ($countries as $country)
-                                                                    <option value="{{ $country }}"
+                                                                    <option value="{{ $country->Nationality }}"
                                                                         {{ $country == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}>
-                                                                        {{ $country }}
+                                                                        {{ $country->Nationality }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1394,10 +1394,10 @@
                                                                 <option value=""> Select Industry Of Occupation
                                                                 </option>
                                                                 @foreach ($occupation as $industry)
-                                                                    <option value="{{ $industry }}"
+                                                                    <option value="{{ $industry->Industry_occupation }}"
                                                                         {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
                                                                         {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}>
-                                                                        {{ $industry }}
+                                                                        {{ $industry->Industry_occupation }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1696,10 +1696,10 @@
                                                             {{ $fica->Financial_status !== null ? 'disabled' : '' }}>
                                                             <option selected disabled> Select Source of Funds </option>
                                                             @foreach ($funds as $fund)
-                                                                <option value="{{ $fund }}"
+                                                                <option value="{{ $fund->Funds }}"
                                                                     {{ old('funds-input') == $fund ? 'selected' : '' }}
                                                                     {{ isset($selectSourceOfFunds) && $fund == $selectSourceOfFunds ? 'selected' : '' }}>
-                                                                    {{ $fund }}
+                                                                    {{ $fund->Funds }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -3376,9 +3376,9 @@
                                     <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
                                     <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1"
                                         id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px"
-                                        autocomplete="off" required>                                        
-                                        <span id= "error-py-street-line-1" class="text-danger" role="alert">
-                                            </span>
+                                        autocomplete="off" required>
+                                    <span id="error-py-street-line-1" class="text-danger" role="alert">
+                                    </span>
                                     {{-- @if ($errors->has('py-street-line-1'))
                                         <span class="text-danger">{{ $errors->first('py-street-line-1') }}</span>
                                     @endif --}}
@@ -3389,9 +3389,9 @@
                                     <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
                                     <input type="type" class="form-control" id="py-street-line-2"
                                         style="padding-left: 24px" name="py-street-line-2"
-                                        placeholder="ENTER ADDRESS LINE 2" autocomplete="off"  required>
-                                    <span id= "error-py-street-line-2" class="text-danger" role="alert">
-                                            </span>
+                                        placeholder="ENTER ADDRESS LINE 2" autocomplete="off" required>
+                                    <span id="error-py-street-line-2" class="text-danger" role="alert">
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3402,9 +3402,10 @@
 
                                         <input type="text" class="form-control"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                            id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
-                                        <span id= "error-py-city" class="text-danger" role="alert">
-                                            </span>
+                                            id="py-city" name="py-city" placeholder="ENTER CITY"
+                                            autocomplete="off" required>
+                                        <span id="error-py-city" class="text-danger" role="alert">
+                                        </span>
                                         {{-- <select class="form-select" autocomplete="off"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                             id="py-city" name="py-city" required>
@@ -3430,13 +3431,13 @@
                                             id="py-state" name="py-state" required>
                                             <option hidden>Select Province</option>
                                             @foreach ($provincesNames as $province)
-                                                <option value="{{ isset($province) ? $province : null }}">
-                                                    {{ $province }}
+                                                <option value="{{ $province->Province_name }}">
+                                                    {{ $province->Province_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <span id= "error-py-state" class="text-danger" role="alert">
-                                            </span>
+                                        <span id="error-py-state" class="text-danger" role="alert">
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -3444,10 +3445,11 @@
                                 <div class="mb-3">
                                     <label for="py-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="py-zip"
-                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" required>
-                                    <span id= "error-py-zip" class="text-danger" role="alert">
-                                            </span>
-                                    </div>
+                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP"
+                                        autocomplete="off" required>
+                                    <span id="error-py-zip" class="text-danger" role="alert">
+                                    </span>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
@@ -3472,8 +3474,8 @@
                                     <input type="type" class="form-control" id="po-street-line-1"
                                         name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1" autocomplete="off"
                                         style="padding-left: 24px">
-                                    <span id= "error-po-street-line-1" class="text-danger" role="alert">
-                                            </span>
+                                    <span id="error-po-street-line-1" class="text-danger" role="alert">
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3482,8 +3484,8 @@
                                     <input type="type" class="form-control" id="po-street-line-2"
                                         name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off"
                                         style="padding-left: 24px">
-                                    <span id= "error-po-street-line-2" class="text-danger" role="alert">
-                                            </span>
+                                    <span id="error-po-street-line-2" class="text-danger" role="alert">
+                                    </span>
 
                                 </div>
                             </div>
@@ -3497,8 +3499,8 @@
                                     <input autocomplete="off" type="text" class="form-control"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                         id="po-city" name="po-city" autocomplete="off" placeholder="ENTER CITY">
-                                    <span id= "error-po-city" class="text-danger" role="alert">
-                                            </span>
+                                    <span id="error-po-city" class="text-danger" role="alert">
+                                    </span>
 
                                     {{-- <select class="form-select" autocomplete="off"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
@@ -3530,8 +3532,8 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <span id= "error-po-state" class="text-danger" role="alert">
-                                            </span>
+                                    <span id="error-po-state" class="text-danger" role="alert">
+                                    </span>
 
                                 </div>
                             </div>
@@ -3540,8 +3542,8 @@
                                     <label for="po-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="po-zip" name="po-zip"
                                         placeholder="ENTER ZIP" style="padding-left: 24px" autocomplete="off">
-                                    <span id= "error-po-zip" class="text-danger" role="alert">
-                                            </span>
+                                    <span id="error-po-zip" class="text-danger" role="alert">
+                                    </span>
                                 </div>
                             </div>
                             {{-- <div class="col-md-12">
@@ -3743,8 +3745,8 @@
                                             id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
                                             <option hidden>Select Bank Name</option>
                                             @foreach ($bankNames as $bank)
-                                                <option value="{{ isset($bank) ? $bank : null }}">
-                                                    {{ $bank }}
+                                                <option value="{{ $bank->bankname }}">
+                                                    {{ $bank->bankname }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -4261,8 +4263,8 @@
                         console.log(errorRes);
                         for (var key in errorRes) {
                             var value = errorRes[key][0];
-                            $('#error-'+key).html(value);
-                            $('#error-'+key).show();
+                            $('#error-' + key).html(value);
+                            $('#error-' + key).show();
                         }
                         // $("#btn-hidden-failed").click();
                     }

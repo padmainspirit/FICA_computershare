@@ -1539,7 +1539,9 @@ class CustomerVerification extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Customerid = $request->session()->get('Customerid');
+        // $Customerid = $request->session()->get('Customerid');
+        $client = Auth::user();
+        $Customerid = $client->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $Icon = $customer['Client_Icon'];
@@ -1897,7 +1899,8 @@ class CustomerVerification extends Controller
     public function ScreeningDetailsCreate(Request $request)
     {
 
-        $idnumber = $request->session()->get('idnumber');
+
+        $idnumber = $request->session()->get('IDNUMBER');
         $SearchFica = $request->session()->get('SearchFica');
 
 
@@ -2074,8 +2077,8 @@ class CustomerVerification extends Controller
 
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
-
-        $Customerid = $request->session()->get('Customerid');
+        $client = Auth::user();
+        $Customerid = $client->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $Icon = $customer['Client_Icon'];
