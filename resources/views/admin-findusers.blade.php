@@ -44,7 +44,7 @@
 
         .heading-fica-id {
             height: 10%;
-            background-image: linear-gradient(#0e425b, #056895);
+            background-image: linear-gradient(#93186c, #93186c);
         }
     </style>
 @endsection
@@ -315,7 +315,7 @@
                                     <div class="col-md-2">
                                         <div class="mb-3">
                                             <button type="submit" id="submit"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                            style="background-color: #93186c; border-color: #93186c"
                                                 class="btn btn-primary w-lg waves-effect waves-light">Search</button>
                                         </div>
                                     </div>
@@ -323,7 +323,7 @@
                                     <div class="col-md-2">
                                         <div class="mb-3">
                                             <button type="button" id="clearall" name="clearall"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                style="background-color: #93186c; border-color: #93186c"
                                                 class="btn btn-danger w-lg waves-effect waves-light">Clear</button>
                                         </div>
                                     </div>
@@ -373,8 +373,7 @@
                                     </thead>
 
                                     <tbody id="tablebody">
-                                        <form method="POST" action="{{ route('display-admin-findusers') }}"
-                                            id="returnid">
+                                        <form method="POST" action="{{ route('display-admin-findusers') }}" id="returnid">
                                             <tr>
                                                 {{-- <td>
                                                     <!-- Button trigger modal -->
@@ -549,11 +548,11 @@
                             // IdGeneretor(idNumber);
                         }
                         $("#tablebody").after(newRows);
-
+                        
                         $('button.idnumber').on('click', function(value) {
                             var readIdNumber = this.id;
                             var IdButton = $('#' + readIdNumber).text();
-
+                            
                             // console.log(IdButton)
                             $("#idnumberResult").val(IdButton)
                             $("#testresult-btn").click();

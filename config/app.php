@@ -44,7 +44,7 @@ return [
     'debug' => (bool) env('APP_DEBUG', true),
 
     /* set default role to user, that is 3 */
-    
+
 
     /*
     |--------------------------------------------------------------------------

@@ -4,7 +4,7 @@
     <style>
         /* Firefox */
         html {
-            scrollbar-color: #1a4f6e white;
+            scrollbar-color: #93186c white;
             scrollbar-width: 10px;
         }
 
@@ -16,7 +16,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #1a4f6e;
+            background: #93186c;
             border-radius: 5px;
         }
 
@@ -25,12 +25,12 @@
         }
 
         input:hover {
-            border: 2px solid #1a4f6e;
+            border: 2px solid #93186c;
             /* border: 2px solid #93186c; */
         }
 
         select:hover {
-            border: 2px solid #1a4f6e;
+            border: 2px solid #93186c;
             /* border: 2px solid #93186c; */
         }
 
@@ -178,7 +178,7 @@
         }
 
         .step-title {
-            color: #1a4f6e;
+            color: #93186c;
             padding-top: 10px;
             height: 50px;
             margin-top: 20px;
@@ -188,12 +188,12 @@
         }
 
         .line-header {
-            color: #1a4f6e;
+            color: #93186c;
             border-top-style: solid;
             border-top-width: 2.5px;
             border-bottom-width: 2.5px;
-            border: 1px solid #1a4f6e;
-            background-color: #1a4f6e;
+            border: 1px solid #93186c;
+            background-color: #93186c;
             margin-top: 0;
             opacity: 100%;
         }
@@ -246,7 +246,7 @@
         .heading-fica-id {
             /* height: 49px; */
             font-size: 18px;
-            background-image: linear-gradient(#0e425b, #056895);
+            background-image: linear-gradient(#93186c, #93186c);
         }
 
         .section-style {
@@ -256,7 +256,7 @@
         #rcorners2 {
             margin-left: 5%;
             border-radius: 30px;
-            border: 5px solid #1a4f6e;
+            border: 5px solid #93186c;
             padding: 20px;
             width: 1500px;
             height: auto;
@@ -310,7 +310,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <span>
-                                                    <h4 class="aligncenter" style="color: #1a4f6e">Please wait while your
+                                                    <h4 class="aligncenter" style="color: #696969">Please wait while your
                                                         document is being processed
                                                     </h4>
                                                 </span>
@@ -328,12 +328,10 @@
                                         @csrf
                                         <div id="image-upload-identity">
                                             <p
-                                                style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;  font-weight: bold; ">
-                                                Upload your
-                                                Identity
-                                                document by simply clicking the icon below.
+                                                style="font-size: 18px; padding-bottom:20px; color:#696969; font-weight: bold; ">
+                                                Upload your Identity document by simply clicking the icon below.
                                             </p>
-                                            <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e; "> Once uploaded,
+                                            <p style="font-size: 18px; padding-bottom:20px; color:#696969; "> Once uploaded,
                                                 please click<span> <b>Submit.</b></span>
                                             </p>
                                             <div class="image-upload">
@@ -356,7 +354,7 @@
                                                 <div class="col-md-12">
                                                     <button type="submit" name="submit" id="submit-id"
                                                         class="btn btn-primary" value="Upload"
-                                                        style="width: 100px; padding:.28rem; height:fit-content;">Submit
+                                                        style="width: 100px; padding:.28rem; height:fit-content; background-color: #93186c; border-color: #93186c">Submit
                                                     </button>
                                                     <button type="button" class="btn btn-primary" id="btn-hidden-id"
                                                         data-bs-toggle="modal" data-bs-target="#composemodal-id">
@@ -374,7 +372,7 @@
                             @else
                                 <div class="text-center">
 
-                                    <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
+                                    <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step Completed</p>
                                     {{-- <br><br><br><br> --}}
 
                                 </div>
@@ -414,7 +412,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <span>
-                                                    <h4 class="aligncenter" style="color: #1a4f6e">Please wait while your
+                                                    <h4 class="aligncenter" style="color: #696969">Please wait while your
                                                         document is being processed
                                                     </h4>
                                                 </span>
@@ -427,10 +425,10 @@
                                 <br>
                                 <div id="image-upload-bank">
                                     <div class="center-input">
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;">Upload
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#696969;">Upload
                                             your Proof of Address document by simply clicking the icon below.
                                         </p>
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;"> Once uploaded,
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#696969;"> Once uploaded,
                                             please
                                             click<span> <b>Submit.</b></span></p>
                                         <form action="{{ route('fica') }}" method="post" enctype="multipart/form-data"
@@ -454,7 +452,7 @@
                                                 <div class="col-md-12">
                                                     <button type="submit" name="submit" id="submit-address"
                                                         class="btn btn-primary" value="Upload"
-                                                        style="width: 100px; padding:.28rem; height:fit-content;">Submit
+                                                        style="width: 100px; padding:.28rem; height:fit-content; background-color: #93186c; border-color: #93186c">Submit
                                                     </button>
                                                     <button type="button" class="btn btn-primary"
                                                         id="btn-hidden-address" data-bs-toggle="modal"
@@ -469,7 +467,8 @@
                             @else
                                 <div class="text-center">
 
-                                    <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
+                                    <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step Completed
+                                    </p>
 
                                     {{-- <br><br><br><br>
                                     <div class="card border w-75 mx-auto"
@@ -526,7 +525,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <span>
-                                                    <h4 class="aligncenter" style="color: #1a4f6e">Please wait while your
+                                                    <h4 class="aligncenter" style="color: #696969">Please wait while your
                                                         document is being processed
                                                     </h4>
                                                 </span>
@@ -539,10 +538,10 @@
                                 <br>
                                 <div id="image-upload-bank">
                                     <div class="center-input">
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e;">Upload
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#696969;">Upload
                                             your Proof of Bank document by simply clicking the icon below.
                                         </p>
-                                        <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e; ">Once uploaded,
+                                        <p style="font-size: 18px; padding-bottom:20px; color:#696969; ">Once uploaded,
                                             please
                                             click<span> <b>Submit.</b></span></p>
                                         <div id="loader-bank" class="center"></div>
@@ -567,7 +566,7 @@
                                                 <div class="col-md-12">
                                                     <button type="submit" name="submit" id="submit-bank"
                                                         class="btn btn-primary" value="Upload"
-                                                        style="width: 100px; padding:.28rem; height:fit-content;">Submit
+                                                        style="width: 100px; padding:.28rem; height:fit-content; background-color: #93186c; border-color: #93186c">Submit
                                                     </button>
                                                     <button type="button" class="btn btn-primary" id="btn-hidden-bank"
                                                         data-bs-toggle="modal" data-bs-target="#composemodal-bank">
@@ -581,7 +580,8 @@
                             @else
                                 <div class="text-center">
 
-                                    <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed</p>
+                                    <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step Completed
+                                    </p>
 
                                     {{-- <br><br><br><br>
                                     <div class="card border w-75 mx-auto"
@@ -636,7 +636,7 @@
                                             width="100px" />
                                     </div>
                                     <br><br>
-                                    <p style="font-size: 18px; padding-bottom:20px; color:#1a4f6e; ">Send a seflie link
+                                    <p style="font-size: 18px; padding-bottom:20px; color:#696969; ">Send a seflie link
                                         to you phone by simply clicking the <span><b>Selfie Link</b></span> button below.
                                     </p>
                                     <br>
@@ -650,7 +650,7 @@
                                                 <br><br>
                                                 <button type="submit" name="submit" id="submit-facial"
                                                     class="btn btn-primary"
-                                                    style="width: 100px; padding:.28rem; height:fit-content;">Selfie
+                                                    style="width: 100px; padding:.28rem; height:fit-content; background-color: #93186c; border-color: #93186c">Selfie
                                                     Link
                                                 </button>
 
@@ -671,8 +671,8 @@
                                 @else
                                     <div class="text-center">
 
-                                        <p style="color: #000 ; background-color: #ffffff;font-size: 18px">Step Completed
-                                        </p>
+                                        <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step
+                                            Completed</p>
 
                                         {{-- <br><br><br><br>
                                         <div class="card border w-75 mx-auto"
@@ -798,8 +798,8 @@
 
                                                         <input autocomplete="off" type="date" class="form-control"
                                                             style="height: 27px;padding-left: 10%;padding-bottom: 2px;padding-top: 2px; font-size:12px; text-transform: uppercase;"
-                                                            id="dob-input" name="dob-input"
-                                                            value="{{ substr($DOB, 0, 10) }}" readonly>
+                                                            id="dob-input" name="dob-input" value="{{ $DOB }}"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1525,47 +1525,47 @@
                                                                 </option>
 
                                                                 <option value="Eastern Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Eastern Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Eastern Cape' ? 'selected' : '' }}>
                                                                     Eastern Cape
                                                                 </option>
 
                                                                 <option value="Free State" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Free State' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Free State' ? 'selected' : '' }}>
                                                                     Free State
                                                                 </option>
 
                                                                 <option value="KwaZulu-Natal" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'KwaZulu-Natal' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'KwaZulu-Natal' ? 'selected' : '' }}>
                                                                     KwaZulu-Natal
                                                                 </option>
 
                                                                 <option value="Gauteng" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Gauteng' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Gauteng' ? 'selected' : '' }}>
                                                                     Gauteng
                                                                 </option>
 
                                                                 <option value="Limpopo" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Limpopo' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Limpopo' ? 'selected' : '' }}>
                                                                     Limpopo
                                                                 </option>
 
                                                                 <option value="Mpumalanga" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Mpumalanga' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Mpumalanga' ? 'selected' : '' }}>
                                                                     Mpumalanga
                                                                 </option>
 
                                                                 <option value="North West" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'North West' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'North West' ? 'selected' : '' }}>
                                                                     North West
                                                                 </option>
 
                                                                 <option value="Northern Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Northern Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Northern Cape' ? 'selected' : '' }}>
                                                                     Northern Cape
                                                                 </option>
 
                                                                 <option value="Western Cape" style="font-size: 12px;"
-                                                                    {{ isset($workAddress->OriginalAddress4) && $workAddress->OriginalAddress4 == 'Western Cape' ? 'selected' : '' }}>
+                                                                    {{ isset($Work->OriginalAddress4) && $Work->OriginalAddress4 == 'Western Cape' ? 'selected' : '' }}>
                                                                     Western Cape
                                                                 </option>
 
@@ -1614,29 +1614,29 @@
                                         <div id="personal-edit-btn">
                                             <button type="button" class="btn text-center w-md text-white"
                                                 id="personal-edit-btn"
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Edit
                                             </button>
                                         </div>
                                     @else
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="personal-cancel-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     @endif
                                     <div id="personal-save-btn">
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="personal-cancel-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     </div>
@@ -1844,29 +1844,29 @@
                                         <div id="edit-financial-btn" style="display: box">
                                             <button type="button" class="btn text-center w-md text-white"
                                                 id="edit-financial-btn"
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Edit
                                             </button>
                                         </div>
                                     @else
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-financial-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     @endif
                                     <div id="save-and-cancel-financial-btn" style="display: none">
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-financial-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     </div>
@@ -2086,29 +2086,29 @@
                                         <div style="display: box">
                                             <button type="button" class="btn text-center w-md text-white"
                                                 id="edit-screen-btn"
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Edit
                                             </button>
                                         </div>
                                     @else
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-screen-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     @endif
                                     <div id="save-and-cancel-screen-btn" style="display: none">
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-screen-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     </div>
@@ -2437,7 +2437,7 @@
                                         <input {{-- class="form-check-input big-checkbox @error('stamp-duty-reserve-tax-checkbox') is-invalid @enderror" --}} class="form-check-input big-checkbox"
                                             type="checkbox" value=1 id="stamp-duty-reserve-tax-checkbox"
                                             name="stamp-duty-reserve-tax-checkbox"
-                                            style="width: 20px; height:20px; color:rgb(0, 0, 0)"
+                                            style="width: 20px; height:20px; color:rgb(0, 0, 0);border-color: #93186c"
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}
                                             {{ isset($declaration->StampDuty) && $declaration->StampDuty == 1 ? 'checked' : '' }}>
 
@@ -2461,29 +2461,29 @@
                                         <div style="display: box">
                                             <button type="button" class="btn text-center w-md text-white"
                                                 id="edit-declaration-btn"
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Edit
                                             </button>
                                         </div>
                                     @else
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-declaration-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     @endif
                                     <div id="save-and-cancel-declaration-btn" style="display: none">
                                         <button type="button" class="btn text-center w-md text-white"
                                             id="cancel-declaration-btn"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                             Previous
                                         </button>
                                         <button type="submit" class="btn text-center w-md text-white"
-                                            style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                            style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                             Continue
                                         </button>
                                     </div>
@@ -2516,7 +2516,7 @@
                             </div>
                             <br>
                             <div class="text-center" id="validation-loading">
-                                <i class="fas fa-sync fa-spin fa-5x" style="color:#1a4f6e"></i>
+                                <i class="fas fa-sync fa-spin fa-5x" style="color:#93186c"></i>
                             </div>
                             <div id="fica-validation-status">
                                 @if ($fica->Validation_Status != null || $fica->Correction_Status != null)
@@ -2539,7 +2539,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <span>
-                                            <h5 class="aligncenter" style="color: #1a4f6e">Please wait </h5>
+                                            <h5 class="aligncenter" style="color: #696969">Please wait </h5>
                                         </span>
                                         <img src="{{ URL::asset('/assets/images/loading.gif') }}" alt="cloud upload"
                                             width="50px" />
@@ -2846,13 +2846,13 @@
                                         @if ($fica->Validation_Status !== null)
                                             <button type="submit" name="validation-submit" id="validation-submit"
                                                 class="btn text-center w-md text-white" disabled
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Validate
                                             </button>
                                         @else
                                             <button type="submit" name="validation-submit" id="validation-submit"
                                                 class="btn text-center w-md text-white"
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                                 Validate
                                             </button>
                                         @endif
@@ -2860,13 +2860,13 @@
                                             @if ($fica->FICAStatus !== 'Failed')
                                                 <button type="button" name="continue-validation"
                                                     id="continue-validation" class="btn text-center w-md text-white"
-                                                    style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                    style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                                     Continue
                                                 </button>
                                             @else
                                                 <button type="button" name="continue-validation"
                                                     class="btn text-center w-md text-white"
-                                                    style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;"
+                                                    style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;"
                                                     data-bs-toggle="modal" data-bs-target="#validation-failed-model">
                                                     Continue
                                                 </button>
@@ -2874,7 +2874,7 @@
                                         @else
                                             <button type="button" name="continue-validation" id="continue-validation"
                                                 class="btn text-center w-md text-white" disabled
-                                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                                style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;">
                                                 Continue
                                             </button>
                                         @endif
@@ -3018,13 +3018,13 @@
                                     <div class="row justify-content-center" style="padding-top:6%">
                                         @if ($fica->FICAStatus == 'Completed')
                                             <button type="submit" class="btn text-center text-white w-md mt-4" disabled
-                                                style="width: 15%; background-color: #1a4f6e; border-color: #1a4f6e"
+                                                style="width: 15%; background-color: #93186c; border-color: #93186c"
                                                 {{-- data-bs-toggle="modal" data-bs-target="#acknowledgement-success-model" --}}>
                                                 Submit
                                             </button>
                                         @else
                                             <button type="submit" class="btn text-center text-white w-md mt-4"
-                                                style="width: 15%; background-color: #1a4f6e; border-color: #1a4f6e">
+                                                style="width: 15%; background-color: #93186c; border-color: #93186c">
                                                 {{-- data-bs-toggle="modal" data-bs-target="#acknowledgement-success-model" --}}
                                                 Submit </button>
                                         @endif
@@ -3060,8 +3060,8 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="TandCLabel">Terms and
                             Conditions</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" style="border-color: #93186c;background-color: #93186c"
+                            class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
@@ -3268,15 +3268,15 @@
                 <div class="modal-body" style="padding-botton:20px ">
                     <br>
                     <div class="text-center mb-4">
-                        <img src="{{ URL::asset('/assets/images/success1.png') }}" width="90px" />
+                        <img src="{{ URL::asset('/assets/images/success2.svg') }}" width="90px" />
 
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Please confirm identity number.</h4>
-                                <h4 style="color: #1a4f6e">ID Number:
+                                <h4 style="color: #696969">Please confirm identity number.</h4>
+                                <h4 style="color: #696969">ID Number:
                                     <span>
-                                        <strong id="textid" style="color: #1a4f6e">
+                                        <strong id="textid" style="color: #696969">
                                         </strong>
                                     </span>
                                 </h4>
@@ -3294,7 +3294,7 @@
                             @csrf
                             {{-- <a href="javascript:window.location = window.location"> --}}
                             <button type="submit" class="btn btn-primary" id='id-model-yes'
-                                style="width: 120px">Yes
+                                style="width: 120px; background-color: #93186c; border-color: #93186c">Yes
                             </button>
                             {{-- </a> --}}
                         </form>
@@ -3303,7 +3303,8 @@
                     <a href="javascript:window.history.forward(1)">
                         <div style="padding-left:2px">
                             <button type="button" class="btn btn-secondary" id='id-model-no'
-                                data-bs-dismiss="modal" style="width: 120px">No</button>
+                                data-bs-dismiss="modal"
+                                style="width: 120px; background-color: #5e7b00; border-color: #5e7b00">No</button>
                         </div>
                     </a>
                 </div>
@@ -3327,12 +3328,12 @@
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Document upload failed.</h4>
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved.
+                                <h4 style="color: #696969">Document upload failed.</h4>
+                                <p class="font-size-14 mb-2" style="color: #696969">Account number cannot be retrieved.
                                 </p>
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Document is encrypted or unreadable.
+                                <p class="font-size-14 mb-2" style="color: #696969">Document is encrypted or unreadable.
                                 </p>
-                                <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
+                                <p class="font-size-14" style="color: #696969">Please upload an image.</p>
                                 {{-- <p class="text-muted font-size-14 mb-4" style="color: #1a4f6e" id="pid">
                                     We can not determine a valid ID Number.
                                 </p> --}}
@@ -3344,7 +3345,8 @@
                 <div class="text-center mb-3">
                     {{-- <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
                     style="width: 150px">No</button> --}}
-                    <button type="button" class="btn btn-primary" id="btn-reupload" style="width: 150px">OK
+                    <button type="button" class="btn btn-primary" id="btn-reupload"
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK
                     </button>
                 </div>
 
@@ -3366,14 +3368,15 @@
                         @csrf
                         <div class="col">
                             <div class=" text-center">
-                                <h4 class="card-title mb-4"><strong>Physical Address</strong></h4>
+                                <h4 class="card-title mb-4" style="color: #93186c"><strong>Physical Address</strong>
+                                </h4>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
                                     <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1"
                                         id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px"
-                                        required>                                        
+                                        autocomplete="off" required>                                        
                                         <span id= "error-py-street-line-1" class="text-danger" role="alert">
                                             </span>
                                     {{-- @if ($errors->has('py-street-line-1'))
@@ -3386,7 +3389,7 @@
                                     <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
                                     <input type="type" class="form-control" id="py-street-line-2"
                                         style="padding-left: 24px" name="py-street-line-2"
-                                        placeholder="ENTER ADDRESS LINE 2" required>
+                                        placeholder="ENTER ADDRESS LINE 2" autocomplete="off"  required>
                                     <span id= "error-py-street-line-2" class="text-danger" role="alert">
                                             </span>
                                 </div>
@@ -3399,7 +3402,7 @@
 
                                         <input type="text" class="form-control"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                            id="py-city" name="py-city" placeholder="ENTER CITY" required>
+                                            id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
                                         <span id= "error-py-city" class="text-danger" role="alert">
                                             </span>
                                         {{-- <select class="form-select" autocomplete="off"
@@ -3441,7 +3444,7 @@
                                 <div class="mb-3">
                                     <label for="py-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="py-zip"
-                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" required>
+                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" required>
                                     <span id= "error-py-zip" class="text-danger" role="alert">
                                             </span>
                                     </div>
@@ -3450,7 +3453,8 @@
                                 <div class="mb-3">
                                     <div class="form-check mb-4">
                                         <input class="form-check-input" type="checkbox" id="checkbox-address"
-                                            name="checkbox-address" checked>
+                                            name="checkbox-address"
+                                            style="background-color: #93186c; border-color: #93186c" checked>
                                         <label class="form-check-label" for="horizontalLayout-Check">
                                             Same as Physical Address
                                         </label>
@@ -3460,13 +3464,13 @@
                         </div>
                         <div class="col" id="postalId">
                             <div class=" text-center">
-                                <h4 class="card-title mb-4"><strong> Postal Address</strong></h4>
+                                <h4 class="card-title mb-4" style="color: #93186c"><strong> Postal Address</strong></h4>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="po-street-line-1" class="form-label">Postal Address Line 1</label>
                                     <input type="type" class="form-control" id="po-street-line-1"
-                                        name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1"
+                                        name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1" autocomplete="off"
                                         style="padding-left: 24px">
                                     <span id= "error-po-street-line-1" class="text-danger" role="alert">
                                             </span>
@@ -3476,7 +3480,7 @@
                                 <div class="mb-3">
                                     <label for="po-street-line-2" class="form-label">Postal Address Line 2</label>
                                     <input type="type" class="form-control" id="po-street-line-2"
-                                        name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2"
+                                        name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off"
                                         style="padding-left: 24px">
                                     <span id= "error-po-street-line-2" class="text-danger" role="alert">
                                             </span>
@@ -3492,7 +3496,7 @@
 
                                     <input autocomplete="off" type="text" class="form-control"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                        id="po-city" name="po-city" placeholder="ENTER CITY">
+                                        id="po-city" name="po-city" autocomplete="off" placeholder="ENTER CITY">
                                     <span id= "error-po-city" class="text-danger" role="alert">
                                             </span>
 
@@ -3551,7 +3555,8 @@
 
                         </div>
                         <div class=" text-center">
-                            <button type="submit" class="btn btn-primary w-md">Submit</button>
+                            <button type="submit" class="btn btn-primary w-md"
+                                style="background-color: #93186c; border-color: #93186c">Submit</button>
                             <button type="button" class="btn btn-primary" id="btn-hidden-address-modal"
                                 data-bs-toggle="modal" data-bs-target="#composemodal-address-model-success">
                                 Show PopUp
@@ -3576,12 +3581,12 @@
                 <div class="modal-body" style="padding-botton:20px ">
                     <br>
                     <div class="text-center mb-4">
-                        <img src="{{ URL::asset('/assets/images/success1.png') }}" width="90px" />
+                        <img src="{{ URL::asset('/assets/images/success2.svg') }}" width="90px" />
 
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Information matches document.</h4>
+                                <h4 style="color: #696969">Information matches document.</h4>
                                 {{-- <h4 style="color: #1a4f6e">ID Number: <span><strong id="textid" style="color: #1a4f6e">
                                     </strong> </span></h4> --}}
                             </div>
@@ -3594,7 +3599,7 @@
                     {{-- <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
                         style="width: 150px">No</button> --}}
                     <button type="button" class="btn btn-primary" id="btn-address-success-model"
-                        style="width: 150px">OK</button>
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK</button>
                 </div>
 
                 <br>
@@ -3617,9 +3622,9 @@
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Please try again.</h4>
-                                <h4 style="color: #1a4f6e">Data differs from document.</h4>
-                                <p class="text-muted font-size-14 mb-4" style="color: #1a4f6e"
+                                <h4 style="color: #696969">Please try again.</h4>
+                                <h4 style="color: #696969">Data differs from document.</h4>
+                                <p class="text-muted font-size-14 mb-4" style="color: #696969"
                                     id="address-failed-model">
                                     {{-- Document date is more then 3 --}}
                                 </p>
@@ -3632,7 +3637,7 @@
                     {{-- <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
                     style="width: 150px">No</button> --}}
                     <button type="button" class="btn btn-primary" id="btn-refresh-address"
-                        style="width: 150px">OK</button>
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK</button>
                 </div>
 
                 <br>
@@ -3657,7 +3662,7 @@
 
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Address failed to validate.</h4>
+                                <h4 style="color: #696969">Address failed to validate.</h4>
                                 <p class="text-muted font-size-14 mb-4">Document date is more then 3 month
                                 </p>
                             </div>
@@ -3665,7 +3670,8 @@
                     </div>
                 </div>
                 <div class="modal-footer mb-3">
-                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" style="background-color: #5e7b00; border-color: #5e7b00"
+                        class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                     <button type="button" class="btn btn-primary" id="btnYes-failed">Yes</button>
                 </div>
             </div>
@@ -3685,13 +3691,15 @@
                         @csrf
                         <div class="col">
                             <div class=" text-center">
-                                <h4 class="card-title mb-4"><strong> Bank Account Details</strong></h4>
+                                <h4 class="card-title mb-4" style="color: #93186c"><strong> Bank Account
+                                        Details</strong></h4>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="initials" class="form-label">Initials</label>
                                     <input type="type" class="form-control @error('initials') is-invalid @enderror"
-                                        id="initials" name="initials" autocomplete="off">
+                                        id="initials" name="initials" placeholder="ENTER INITIALS"
+                                        autocomplete="off">
                                     @error('initials')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3704,7 +3712,7 @@
                                     <label for="surname"
                                         class="form-label  @error('surname') is-invalid @enderror">Surname</label>
                                     <input type="type" class="form-control" id="surname" name="surname"
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="ENTER SURNAME">
                                     @error('surname')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3717,7 +3725,7 @@
                                     <label for="acc-number" class="form-label">Account Number</label>
                                     <input type="type"
                                         class="form-control @error('acc-number') is-invalid @enderror" id="acc-number"
-                                        name="acc-number" autocomplete="off">
+                                        autocomplete="off" name="acc-number" placeholder="ENTER ACCOUNT NUMBER">
                                     @error('acc-number')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3731,8 +3739,8 @@
                                     <div class="input-group" style="height: 35px; width: 100%;">
                                         <select class="form-select @error('bank-name-dd') is-invalid @enderror"
                                             autocomplete="off"
-                                            style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                            id="bank-name-dd" name="bank-name-dd">
+                                            style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
+                                            id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
                                             <option hidden>Select Bank Name</option>
                                             @foreach ($bankNames as $bank)
                                                 <option value="{{ isset($bank) ? $bank : null }}">
@@ -3755,7 +3763,7 @@
                                     <div class="input-group" style="height: 35px; width: 100%;">
                                         <select class="form-select @error('BankTypeid') is-invalid @enderror"
                                             autocomplete="off"
-                                            style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
+                                            style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                             id="BankTypeid" name="BankTypeid">
                                             @if ($bankTpye->count())
                                                 <option hidden>Select Bank Type</option>
@@ -3779,7 +3787,8 @@
                                 <div class="mb-3">
                                     <label for="branch" class="form-label">Branch Code</label>
                                     <input type="type" class="form-control @error('branch') is-invalid @enderror"
-                                        id="branch" name="branch" autocomplete="off">
+                                        autocomplete="off" autocomplete="off" id="branch" name="branch"
+                                        placeholder="ENTER BRANCH CODE">
                                     @error('branch')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
@@ -3790,7 +3799,7 @@
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn text-center w-md text-white"
-                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e">
+                                style="width: 10%; background-color: #93186c; border-color: #93186c">
                                 Submit
                             </button>
 
@@ -3819,12 +3828,12 @@
                 <div class="modal-body" style="padding-botton:20px ">
                     <br>
                     <div class="text-center mb-4">
-                        <img src="{{ URL::asset('/assets/images/success1.png') }}" width="90px" />
+                        <img src="{{ URL::asset('/assets/images/success2.svg') }}" width="90px" />
 
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Information matches document.</h4>
+                                <h4 style="color: #696969">Information matches document.</h4>
                                 {{-- <h4 style="color: #1a4f6e">ID Number: <span><strong id="textid" style="color: #1a4f6e">
                                     </strong> </span></h4> --}}
                             </div>
@@ -3835,7 +3844,7 @@
                 <hr>
                 <div class="text-center mb-3">
                     <button type="button" class="btn btn-primary" id="btn-bank-refresh"
-                        style="width: 150px">OK</button>
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK</button>
                 </div>
 
                 <br>
@@ -3859,13 +3868,13 @@
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e">Please try again.</h4>
+                                <h4 style="color: #696969">Please try again.</h4>
 
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Account number cannot be retrieved.
+                                <p class="font-size-14 mb-2" style="color: #696969">Account number cannot be retrieved.
                                 </p>
-                                <p class="font-size-14 mb-2" style="color: #1a4f6e">Document is encrypted or unreadable.
+                                <p class="font-size-14 mb-2" style="color: #696969">Document is encrypted or unreadable.
                                 </p>
-                                <p class="font-size-14" style="color: #1a4f6e">Please upload an image.</p>
+                                <p class="font-size-14" style="color: #696969">Please upload an image.</p>
 
                                 {{-- <h4 style="color: #1a4f6e">We can not determine a valid ID Number, document is encrypted or unreadable.</h4>
                                 <h4 style="color: #1a4f6e">Please upload again or take a picture.</h4> --}}
@@ -3877,7 +3886,7 @@
                 <hr>
                 <div class="text-center mb-3">
                     <button type="button" class="btn btn-primary" id="btn-bank-refresh2"
-                        style="width: 150px">OK</button>
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK</button>
                 </div>
 
                 <br>
@@ -3907,7 +3916,7 @@
                             <div class="row justify-content-center">
                                 <br>
                                 <div class="col-xl-10" id="selfie-link-title">
-                                    <h4 style="color: #1a4f6e">Selfie Link SMS has been sent.
+                                    <h4 style="color: #696969">Selfie Link SMS has been sent.
                                     </h4>
                                 </div>
                                 <div id="alertSuccess" class="alert alert-success" role="alert">
@@ -3926,7 +3935,7 @@
                                 your phone to take a
                                 selfie.
                             </p> --}}
-                            <p class="text-muted font-size-14 mb-4" style="color:#1a4f6e;margin-bottom: 3%;">Please
+                            <p class="text-muted font-size-14 mb-4" style="color:#696969;margin-bottom: 3%;">Please
                                 click the
                                 button below to continue.
                             </p>
@@ -3934,24 +3943,24 @@
                         <div class="text-center mb-3">
                             {{-- <div id="save-and-cancel-declaration-btn" style="display: none"> --}}
                             <button type="submit" id="submitBtn" class="btn text-center w-md text-white"
-                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;">
+                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;">
                                 Continue
                             </button>
 
                             <button type="button" id="selfie-continue" class="btn text-center w-md text-white"
-                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;"
+                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;"
                                 disabled data-bs-dismiss="modal">
                                 Continue
                             </button>
 
                             <button type="button" id="selfie-cancel" class="btn text-center w-md text-white"
-                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;"
+                                style="width: 10%; background-color: #5e7b00; border-color: #5e7b00;margin-bottom: 3%;"
                                 data-bs-dismiss="modal">
                                 Cancel
                             </button>
 
                             <button type="button" class="btn text-center w-md text-white" id="btn-Okay"
-                                style="width: 10%; background-color: #1a4f6e; border-color: #1a4f6e;margin-bottom: 3%;"
+                                style="width: 10%; background-color: #93186c; border-color: #93186c;margin-bottom: 3%;"
                                 data-bs-dismiss="modal">
                                 OK
                             </button>
@@ -3981,7 +3990,7 @@
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h4 style="color: #1a4f6e"> Your submission requires additional verification. An
+                                <h4 style="color: #696969"> Your submission requires additional verification. An
                                     administrator will be in touch.
                                 </h4>
                             </div>
@@ -3992,7 +4001,7 @@
                 <hr>
                 <div class="text-center mb-3">
                     <button type="button" class="btn btn-primary" id="btn-bank-refresh" data-bs-dismiss="modal"
-                        style="width: 150px">OK</button>
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK</button>
                 </div>
                 <br>
             </div>
@@ -4008,11 +4017,11 @@
                 <div class="modal-body" style="padding-botton:20px ">
                     <br>
                     <div class="text-center mb-4">
-                        <img src="{{ URL::asset('/assets/images/success1.png') }}" width="90px" />
+                        <img src="{{ URL::asset('/assets/images/success2.svg') }}" width="90px" />
                         <br><br>
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
-                                <h5 style="color: #1a4f6e"> Congratulations, your Fica has been Completed, click logout
+                                <h5 style="color: #696969"> Congratulations, your Fica has been Completed, click logout
                                     button to logout.
                                 </h5>
                             </div>
@@ -4023,11 +4032,11 @@
                 <hr>
                 <div class="text-center mb-3">
                     <form id="logout-form"
-                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customer->RegistrationName]) }}"
+                        action="{{ route('logout', ['customer' => $customer, 'customerName' => $customerName]) }}"
                         method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
-                            style="width: 150px">Logout</button>
+                        <button type="submit" style="background-color: #93186c;border-color: #93186c"
+                            class="btn btn-primary" data-bs-dismiss="modal" style="width: 150px">Logout</button>
                     </form>
                 </div>
                 <br>
@@ -4049,17 +4058,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Your Session is About to Expire</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" style="background-color: #93186c;border-color: #93186c" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Your Session will expire in 2 mins, please click on the logout button to logout or on stay connected
-                        to continue.</p>
+                    <p style="color: #696969">Your Session will expire in 2 mins, please click on the logout button to
+                        logout or on stay connected to continue.</p>
                 </div>
                 <div class="modal-footer">
                     <button id="logoutbtn" type="button" onclick="logout()" class="btn btn-light"
                         data-bs-dismiss="modal">Logout</button>
-                    <button id="staybtn" type="button" onclick="stayconnected()" class="btn btn-primary"
-                        data-bs-dismiss="modal">Stay Connected</button>
+                    <button id="staybtn" style="background-color: #93186c; border-color: #93186c" type="button"
+                        onclick="stayconnected()" class="btn btn-primary" data-bs-dismiss="modal">Stay
+                        Connected</button>
                 </div>
             </div>
         </div>

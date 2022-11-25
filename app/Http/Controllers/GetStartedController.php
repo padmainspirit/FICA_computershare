@@ -31,7 +31,7 @@ class GetStartedController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
-        $this->middleware('permission:customeruser-fica', ['only' => ['startFica','getStarted']]);
+        $this->middleware('permission:customeruser-fica', ['only' => ['startFica', 'getStarted']]);
     }
 
     public function startFica(Request $request)
@@ -73,7 +73,7 @@ class GetStartedController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        return view('start-fica-process')->with('customer', $customer)->with('LogUserName',Auth::user()->FirstName)->with('LogUserSurname',Auth::user()->LastName);
+        return view('start-fica-process')->with('customer', $customer)->with('LogUserName', Auth::user()->FirstName)->with('LogUserSurname', Auth::user()->LastName);
     }
 
     public function getStarted(Request $request)
@@ -450,7 +450,7 @@ class GetStartedController extends Controller
             'Province' => NULL,
         ]);
 
-        
+
         //FINANCIAL
         $financial = Financial::create([
             'ConsumerFinancial' => $consumerFinancial,

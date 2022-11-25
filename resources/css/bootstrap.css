@@ -3618,15 +3618,19 @@ fieldset:disabled .btn {
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #485ec4;
-    border-color: #4458b8;
+    background-color: #93186c;
+    border-color: #93186c;
+    /* background-color: #485ec4;
+    border-color: #4458b8; */
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
     color: #fff;
-    background-color: #485ec4;
-    border-color: #4458b8;
+    background-color: #93186c;
+    border-color: #93186c;
+    /* background-color: #485ec4;
+    border-color: #4458b8; */
     -webkit-box-shadow: 0 0 0 0.15rem rgba(111, 132, 234, 0.5);
     box-shadow: 0 0 0 0.15rem rgba(111, 132, 234, 0.5);
 }

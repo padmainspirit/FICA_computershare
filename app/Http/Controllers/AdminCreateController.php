@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use DB;
+
 
 class AdminCreateController extends Controller
 {
@@ -42,6 +47,7 @@ class AdminCreateController extends Controller
             ->with('Logo', $Logo);
     }
 
+
     public function ShowConglomerateEdit(Request $request)
     {
 
@@ -58,20 +64,21 @@ class AdminCreateController extends Controller
         }
 
         $client = Auth::user();
-        $customer = Customer::getCustomerDetails($client->CustomerId);
+        $customer = Customer::getCustomerDetails($client->CustomerId); //inspirit
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
+
         $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
+        $RegistrationName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
 
         // $GetAllUsers = CustomerUser::all();
         $getCustomerId = $request->input('SelectClient');
-        $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();
-        // dd($GetAllConglomerateDetails);
+        $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();  //computershare
+        //dd($GetAllConglomerateDetails);
 
         $TradingName = $GetAllConglomerateDetails->TradingName != '' ? $GetAllConglomerateDetails->TradingName : null;
-        $Customer_Name = $GetAllConglomerateDetails->Customer_Name != '' ? $GetAllConglomerateDetails->Customer_Name : null;
+        $RegistrationName = $GetAllConglomerateDetails->RegistrationName != '' ? $GetAllConglomerateDetails->RegistrationName : null;
         $RegistrationNumber = $GetAllConglomerateDetails->RegistrationNumber != '' ? $GetAllConglomerateDetails->RegistrationNumber : null;
         $BranchLocation = $GetAllConglomerateDetails->BranchLocation != '' ? $GetAllConglomerateDetails->BranchLocation : null;
         $PhysicalAddress = $GetAllConglomerateDetails->PhysicalAddress != '' ? $GetAllConglomerateDetails->PhysicalAddress : null;
@@ -83,13 +90,45 @@ class AdminCreateController extends Controller
 
             ->with('UserFullName', $UserFullName)
             ->with('TradingName', $TradingName)
-            ->with('Customer_Name', $Customer_Name)
+            ->with('RegistrationName', $RegistrationName)
             ->with('RegistrationNumber', $RegistrationNumber)
             ->with('BranchLocation', $BranchLocation)
             ->with('PhysicalAddress', $PhysicalAddress)
             ->with('TypeOfBusiness', $TypeOfBusiness)
             ->with('TelephoneNumber', $TelephoneNumber)
 
+            ->with('customerName', $RegistrationName)
+            ->with('Icon', $Icon)
+            ->with('Logo', $Logo);
+    }
+
+
+    public function EditDetails(Request $request)
+    {
+
+        $customerName = $request->RegistrationName;
+        $GetAllConglomerateDetails = Customer::where('RegistrationName', '=', $customerName)->first();
+
+        $Customerid = $GetAllConglomerateDetails->Id;
+        $Logo = $GetAllConglomerateDetails['Client_Logo'];
+        $customerName = $GetAllConglomerateDetails['RegistrationName'];
+        $Icon = $GetAllConglomerateDetails['Client_Icon'];
+
+
+        Customer::where('Id', '=', $Customerid)->update([
+
+            'TradingName' => $request->input('TradingName'),
+            'RegistrationName' => $request->input('RegistrationName'),
+            'RegistrationNumber' => $request->input('RegistrationNumber'),
+            'BranchLocation' => $request->input('BranchLocation'),
+            'PhysicalAddress' => $request->input('PhysicalAddress'),
+            'TypeOfBusiness' => $request->input('TypeOfBusiness'),
+            'TelephoneNumber' => $request->input('TelephoneNumber'),
+
+        ]);
+
+        return redirect()->route('admin-display')
+            ->with('success', 'User updated successfully')
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
             ->with('Logo', $Logo);
@@ -159,6 +198,79 @@ class AdminCreateController extends Controller
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
             ->with('Logo', $Logo);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $user = CustomerUser::find($id);
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->all();
+        $customers = Customer::pluck('RegistrationName', 'Id');
+        $userBelongsToCustomer = $user->CustomerId;
+        return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        /* $this->validate($request, [
+            'FirstName' => 'required',
+            'LastName' => 'required',
+            'Email' => 'required|email|unique:customerusers,Email,'.$id,
+            'password' => 'same:confirm-password',
+            'roles' => 'required'
+        ]); */
+        $this->validate($request, [
+            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
+            'LastName' => ['required', 'string', 'min:2', 'max:255'],
+            'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,' . $id,
+            'Email' => 'required|email|unique:CustomerUsers,Email,' . $id,
+            'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,' . $id,
+            'Password' => [
+                'nullable',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+                "same:confirm-passkey"
+            ],
+            'confirm-passkey' => ['nullable', 'string', 'min:8'],
+            'roles' => 'required'
+        ], [
+            'unique'        => 'The :attribute already been registered.',
+            'IDNumber.required' => 'The ID number field is required.',
+            'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+            'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
+        ]);
+
+        $input = $request->all();
+        if (!empty($input['Password'])) {
+            $input['Password'] = Hash::make($input['Password']);
+        } else {
+            $input = Arr::except($input, array('Password'));
+        }
+
+        $user = CustomerUser::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('roles'));
+
+        // $role = DB::table('roles')->where('name',$request['roles'])->first();
+        // $assignrole = DB::table('model_has_roles')->insert(['role_id' => $role->id,'model_id'=>$id,'model_type'=>'App\Models\CustomerUser']);
+
+        return redirect()->route('admin-display')
+            ->with('success', 'User updated successfully');
     }
 
     public function ShowCustomerCreate(Request $request)
@@ -237,7 +349,7 @@ class AdminCreateController extends Controller
             'Customer_Email' => NULL,
             'Client_Icon' => NULL,
 
-            'Customer_Name' => $request->RegistrationName,
+            'RegistrationName' => $request->RegistrationName,
         ]);
         // dd($newclient);
         $newclient->save();

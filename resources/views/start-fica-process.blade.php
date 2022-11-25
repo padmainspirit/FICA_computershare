@@ -10,10 +10,10 @@
 
     <style>
         #card {
-            border-top-color: #1a4f6e;
-            border-bottom-color: #1a4f6e;
-            border-left-color: #1a4f6e;
-            border-right-color: #1a4f6e;
+            border-top-color: #93186c;
+            border-bottom-color: #93186c;
+            border-left-color: #93186c;
+            border-right-color: #93186c;
         }
     </style>
 @endsection
@@ -35,7 +35,7 @@
 
         .heading-fica-id {
             height: 49px;
-            background-image: linear-gradient(#0e425b, #056895);
+            background-image: linear-gradient(#93186c, #93186c);
         }
     </style>
     
@@ -43,7 +43,7 @@
         <div class="col-md-6">
 
             <div class="card overflow-hidden">
-                <div style="background-image: linear-gradient(#0e425b, #1a4f6e);">
+                <div style="background-image: linear-gradient(#93186c, #93186c);">
                     <div class="row">
                         <div class="col-12">
                             <div class="text-white p-4">
@@ -61,7 +61,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="avatar-sm me-2">
                             <span class="avatar-title rounded-circle bg-primary bg-soft text-primary"
-                                style="background-color: #1a4f6e; background-image: linear-gradient(315deg, #1a4f6e 0%, #1a4f6e 74%);">
+                                style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
                                 <i class="mdi mdi-account-box-multiple-outline font-size-24" style="color: rgb(255, 255, 255);"></i>
                             </span>
                         </div>
@@ -79,7 +79,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="avatar-sm me-2">
                             <span class="avatar-title rounded-circle bg-primary bg-soft text-primary"
-                                style="background-color: #1a4f6e; background-image: linear-gradient(315deg, #1a4f6e 0%, #1a4f6e 74%);">
+                                style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
                                 <i class="mdi mdi-account-circle-outline font-size-24" style="color: rgb(255, 255, 255);"></i>
                             </span>
                         </div>
@@ -97,7 +97,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="avatar-sm me-2">
                             <span class="avatar-title rounded-circle bg-primary bg-soft text-primary"
-                                style="background-color: #1a4f6e; background-image: linear-gradient(315deg, #1a4f6e 0%, #1a4f6e 74%);">
+                                style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
                                 <i class="mdi mdi-content-save-edit-outline font-size-24" style="color: rgb(255, 255, 255);"></i>
                             </span>
                         </div>
@@ -115,7 +115,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="avatar-sm me-2">
                             <span class="avatar-title rounded-circle bg-primary bg-soft text-primary"
-                                style="background-color: #1a4f6e; background-image: linear-gradient(315deg, #1a4f6e 0%, #1a4f6e 74%);">
+                                style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
                                 <i class="mdi mdi-file-star-outline font-size-24" style="color: rgb(255, 255, 255);"></i>
                             </span>
                         </div>
@@ -135,7 +135,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="avatar-sm me-2">
                             <span class="avatar-title rounded-circle bg-primary bg-soft text-primary"
-                                style="background-color: #1a4f6e; background-image: linear-gradient(315deg, #1a4f6e 0%, #1a4f6e 74%);">
+                                style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
                                 <i class="mdi mdi-check-decagram font-size-24" style="color: rgb(255, 255, 255);"></i>
                             </span>
                         </div>
@@ -156,7 +156,7 @@
         @csrf
         <div class="row justify-content-center mt-3">
             <button type="submit" class="btn text-center w-md text-white"
-                style="width: 20%; background-color: #1a4f6e; border-color: #1a4f6e">
+                style="width: 20%; background-color: #93186c; border-color: #93186c">
                 Get Started
             </button>
         </div>

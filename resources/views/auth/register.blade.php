@@ -84,7 +84,7 @@
         }
 
         .button {
-            background-color: #1a4f6e;
+            background-color: #93186c;
             padding: 1rem 2rem;
             border: none;
             border-radius: .25rem;
@@ -309,15 +309,16 @@
 
     @section('content')
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+                class="img-fluid">
         </div>
 
-        {{-- @if ($customer->RegistrationName == 'ComputerShare')
+        {{-- @if ($customerName == 'ComputerShare')
             <div class="row d-flex justify-content-center mb-3 mt-5">
                 <img src="{{ URL::asset('/assets/images/computershare.png') }}" style="width: 190px; height: 35px;"
                     alt="" class="img-fluid">
             </div>
-        @elseif($customer->RegistrationName == 'Vodacom')
+        @elseif($customerName == 'Vodacom')
             <div class="row d-flex justify-content-center mb-3 mt-5">
                 <img src="{{ URL::asset('/assets/images/vodacom-logo.png') }}" style="width: 190px;" alt=""
                     class="img-fluid">
@@ -331,7 +332,7 @@
                     <div class="col-md-5">
 
                         <div class="card overflow-hidden">
-                            <div style="background-image: linear-gradient(#0e425b, #056895);">
+                            <div style="background-image: linear-gradient(#93186c, #93186c);">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="text-white p-4">
@@ -344,7 +345,8 @@
 
                             <!--form container-->
                             <form method="POST" class="form-horizontal"
-                                action="{{ route('register', ['customer' => $customer->RegistrationName]) }}" id="register-form">
+                                action="{{ route('register', ['customer' => $customer->RegistrationName]) }}"
+                                id="register-form">
                                 <div class="card-body pt-0">
                                     <div class="p-2">
 
@@ -454,7 +456,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            <p style="color:#1a4f6e;">Your password must contain:</p>
+                                            <p style="color:#93186c;">Your password must contain:</p>
                                             <ul class="list-unstyled">
                                                 <li class="">
                                                     <span class="low-upper-case">
@@ -507,14 +509,14 @@
                                         <div class="mt-3 text-center">
 
                                             <button type="button" class="btn w-md text-white" id="register-btn"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e;">Register</button>
+                                                style="background-color: #93186c; border-color: #93186c;">Register</button>
 
                                             <button type="button" id="clearall" onClick="window.location.reload();"
-                                                style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                style="background-color: #93186c; border-color: #93186c"
                                                 class="btn w-md text-white">Clear</button>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
 

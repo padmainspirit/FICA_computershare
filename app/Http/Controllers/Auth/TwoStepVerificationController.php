@@ -115,8 +115,7 @@ class TwoStepVerificationController extends Controller
                 $message->subject('OTP Verification');
             }
         );*/
-        DB::table('CustomerUsers')->where('Id', $client->Id)->update(['OTP' => $sendotp]);
-        DB::table('CustomerUsers')->where('Id', $client->Id)->update(['OTP_Date' => date("Y-m-d H:i:s")]);
+        DB::table('CustomerUsers')->where('Id', $client->Id)->update(['OTP' => $sendotp, 'OTP_Date' => date("Y-m-d H:i:s")]);
 
         app('debugbar')->info($request);
         return redirect()->route('otp');

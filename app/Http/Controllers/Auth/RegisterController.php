@@ -79,7 +79,7 @@ class RegisterController extends Controller
         $responseData = json_decode((string)$response->getBody());
 
         $scoreResponse = $responseData->score;
-        //Check if user in not a robot using Recaptcha
+        //Check if user is not a robot using Recaptcha
         //$responseData->score = 0.4;
         // dd($responseData);
         if ($scoreResponse < 0.5) {
@@ -106,10 +106,10 @@ class RegisterController extends Controller
             $Password = $request->Password;
 
 
-            $Customerid = $request->CustomerId;
-            $customer = Customer::where('Id', '=',  $Customerid)->first();
-            $Logo = $customer['Client_Logo'];
-            $TradingName = $customer['TradingName'];
+            // $Customerid = $request->CustomerId;
+            // $customer = Customer::where('Id', '=',  $Customerid)->first();
+            // $Logo = $customer['Client_Logo'];
+            // $TradingName = $customer['TradingName'];
 
             // dd($Customerid);
 
@@ -117,7 +117,7 @@ class RegisterController extends Controller
                 'auth.emailreg',
                 [
                     'token' => $token, 'FirstName' => $FirstName, 'LastName' => $LastName, 'Email' => $Email,
-                    'Password' => $Password, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow
+                    'Password' => $Password, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
                 ],
                 function ($message) use ($request) {
                     $message->to($request->Email);

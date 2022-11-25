@@ -11,11 +11,12 @@
 
     @section('content')
         {{-- <div class="row d-flex justify-content-center mb-3 mt-4">
-        <img src="{{ URL::asset($customer->Client_Logo) }}" style="width: 190px; height: 35px;" alt="" class="img-fluid">
+        <img src="{{ URL::asset($Logo) }}" style="width: 190px; height: 35px;" alt="" class="img-fluid">
     </div> --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}"  style="max-width: 300px; max-height: 300px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+                class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -37,7 +38,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="card overflow-hidden">
-                            <div style="background-image: linear-gradient(#0e425b, #056895);">
+                            <div style="background-image: linear-gradient(#93186c, #93186c);">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="text-white p-4">
@@ -120,7 +121,6 @@
                                                     </div>
                                                 </div>
                                             </div> --}}
-                                            
                                             @if (Session::get('fail'))
                                                 <div class="alert alert-danger" role="alert">
                                                     {{ Session::get('fail') }}
@@ -147,7 +147,7 @@
                                             <div class="mt-3 text-center">
 
                                                 <button type="submit" class="btn w-md text-white"
-                                                    style="background-color: #1a4f6e; border-color: #1a4f6e;">Confirm</button>
+                                                    style="background-color: #93186c; border-color: #93186c;">Confirm</button>
 
                                             </div>
 
@@ -158,12 +158,15 @@
                                                 @csrf
                                                 <div>
                                                     <p>Have not received message? <span><button type="submit"
-                                                                style="color: blue;  background: none; border: none;">Resend
+                                                                style="color: blue;  background: none; border: none;"><span
+                                                                    style="color: #93186c">Resend</span>
                                                             </button></span></p>
-                                                    <p>© {{$customer->RegistrationName}}
+                                                    <p>Copyright ©
                                                         <script>
                                                             document.write(new Date().getFullYear())
-                                                        </script>
+                                                        </script> {{ $customer->RegistrationName }} South
+                                                        Africa. All rights reserved.
+
                                                         | Powered by Inspirit Data.
                                                     </p>
                                                 </div>
