@@ -76,7 +76,7 @@
                                             <span class="messg"></span>
                                             @error('Email')
                                                 <span class="text-danger" role="alert">
-                                                    <small>{{ $message }}</small>
+                                                    {{ $message }}
                                                 </span>
                                             @enderror
                                         </div>

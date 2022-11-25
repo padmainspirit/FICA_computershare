@@ -47,6 +47,7 @@ class FicaProcessController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
+        $this->middleware('permission:customeruser-fica', ['only' => ['fica','uploadfile']]);
     }
 
     public function ReadNotification(Request $request)

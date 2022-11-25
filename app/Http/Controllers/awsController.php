@@ -503,6 +503,37 @@ class awsController extends Controller
     function proofOfAddress(Request $request)
     {
         // try {
+        $this->validate($request, [
+            'py-street-line-1' => ['required', 'string', 'min:2', 'max:255'],
+            'py-street-line-2' => ['required', 'string', 'min:2', 'max:255'],
+            'py-city' => ['required'],
+            'py-state' => ['required'],
+            'py-zip' => ['required'],
+            'checkbox-address' => 'sometimes',
+            'po-street-line-1' => ['required_without:checkbox-address','max:255'],
+            'po-street-line-2' => ['required_without:checkbox-address','max:255'],
+            'po-city' => ['required_without:checkbox-address'],
+            'po-state' => ['required_without:checkbox-address'],
+            'po-zip' => ['required_without:checkbox-address'],
+        ], 
+        [
+            'py-street-line-1.required' => 'The address line 1 is required.',
+            'py-street-line-1.min' => 'The address line 1 must be at least 2 characters..',
+            'py-street-line-2.required' => 'The address line 2 is required.',
+            'py-street-line-2.min' => 'The address line 2 must be at least 2 characters..',
+            'py-city.required' => 'The city is required.',
+            'py-state.required' => 'The state is required.',
+            'py-zip.required' => 'The zip is required.',
+
+            'po-street-line-1.required_without' => 'The address line 1 is required.',
+            //'po-street-line-1.min' => 'The address line 1 must be at least 2 characters..',
+            'po-street-line-2.required_without' => 'The address line 2 is required.',
+            //'po-street-line-2.min' => 'The address line 2 must be at least 2 characters..',
+            'po-city.required_without' => 'The city is required.',
+            'po-state.required_without' => 'The state is required.',
+            'po-zip.required_without' => 'The zip is required.',
+        ]);
+
         $etextractedData =  $request->session()->get('dataTextracted');
         $documentDate =   $request->session()->get('docDate');
         $currentdate = date("Y-m-d");

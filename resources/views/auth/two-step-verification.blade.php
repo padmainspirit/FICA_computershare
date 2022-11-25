@@ -135,6 +135,11 @@
                                                             style="padding-top: 0%;padding-bottom: 0%;padding-left: 0%;padding-right: 0%;"
                                                             class="form-control form-control-lg text-center two-step"
                                                             id="otp-input" name="otp-input" maxLength="6">
+                                                            @error('otp-input')
+                                                                <span class="text-danger" role="alert">
+                                                                    {{ $message }}
+                                                                </span>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                             </div>

@@ -3376,7 +3376,9 @@
                                     <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
                                     <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1"
                                         id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px"
-                                        autocomplete="off" required>
+                                        autocomplete="off" required>                                        
+                                        <span id= "error-py-street-line-1" class="text-danger" role="alert">
+                                            </span>
                                     {{-- @if ($errors->has('py-street-line-1'))
                                         <span class="text-danger">{{ $errors->first('py-street-line-1') }}</span>
                                     @endif --}}
@@ -3387,7 +3389,9 @@
                                     <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
                                     <input type="type" class="form-control" id="py-street-line-2"
                                         style="padding-left: 24px" name="py-street-line-2"
-                                        placeholder="ENTER ADDRESS LINE 2" autocomplete="off" required>
+                                        placeholder="ENTER ADDRESS LINE 2" autocomplete="off"  required>
+                                    <span id= "error-py-street-line-2" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3398,9 +3402,9 @@
 
                                         <input type="text" class="form-control"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
-                                            id="py-city" name="py-city" placeholder="ENTER CITY"
-                                            autocomplete="off" required>
-
+                                            id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
+                                        <span id= "error-py-city" class="text-danger" role="alert">
+                                            </span>
                                         {{-- <select class="form-select" autocomplete="off"
                                             style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                             id="py-city" name="py-city" required>
@@ -3431,6 +3435,8 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <span id= "error-py-state" class="text-danger" role="alert">
+                                            </span>
                                     </div>
                                 </div>
                             </div>
@@ -3438,9 +3444,10 @@
                                 <div class="mb-3">
                                     <label for="py-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="py-zip"
-                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP"
-                                        autocomplete="off" required>
-                                </div>
+                                        style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" required>
+                                    <span id= "error-py-zip" class="text-danger" role="alert">
+                                            </span>
+                                    </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
@@ -3465,6 +3472,8 @@
                                     <input type="type" class="form-control" id="po-street-line-1"
                                         name="po-street-line-1" placeholder="ENTER ADDRESS LINE 1" autocomplete="off"
                                         style="padding-left: 24px">
+                                    <span id= "error-po-street-line-1" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3473,6 +3482,8 @@
                                     <input type="type" class="form-control" id="po-street-line-2"
                                         name="po-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off"
                                         style="padding-left: 24px">
+                                    <span id= "error-po-street-line-2" class="text-danger" role="alert">
+                                            </span>
 
                                 </div>
                             </div>
@@ -3486,6 +3497,8 @@
                                     <input autocomplete="off" type="text" class="form-control"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
                                         id="po-city" name="po-city" autocomplete="off" placeholder="ENTER CITY">
+                                    <span id= "error-po-city" class="text-danger" role="alert">
+                                            </span>
 
                                     {{-- <select class="form-select" autocomplete="off"
                                         style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;"
@@ -3517,6 +3530,8 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    <span id= "error-po-state" class="text-danger" role="alert">
+                                            </span>
 
                                 </div>
                             </div>
@@ -3524,13 +3539,17 @@
                                 <div class="mb-3">
                                     <label for="po-zip" class="form-label">ZIP</label>
                                     <input type="type" class="form-control" id="po-zip" name="po-zip"
-                                        placeholder="ENTER ZIP" autocomplete="off" style="padding-left: 24px">
+                                        placeholder="ENTER ZIP" style="padding-left: 24px" autocomplete="off">
+                                    <span id= "error-po-zip" class="text-danger" role="alert">
+                                            </span>
                                 </div>
                             </div>
                             {{-- <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="po-country" class="form-label">Country</label>
                                 <input type="type" class="form-control" id="po-country" name="po-country">
+                                <span id= "error-po-country" class="text-danger" role="alert">
+                                            </span>
                             </div>
                         </div> --}}
 
@@ -4197,6 +4216,16 @@
             $('#fileUpload-address-input').on('submit', function(e) {
                 //  var verified = '<?php $IDN; ?>';
                 e.preventDefault();
+                $('#error-po-street-line-1').hide();
+                $('#error-po-street-line-2').hide();
+                $('#error-po-city').hide();
+                $('#error-po-state').hide();
+                $('#error-po-zip').hide();
+                $('#error-py-street-line-1').hide();
+                $('#error-py-street-line-2').hide();
+                $('#error-py-city').hide();
+                $('#error-py-state').hide();
+                $('#error-py-zip').hide();
                 var form_data = new FormData(this);
                 $.ajax({
                     url: '{{ route('proofofaddress') }}',
@@ -4226,8 +4255,15 @@
                         }
 
                     },
-                    error: function() {
+                    error: function(response) {
                         console.log('ERROR');
+                        var errorRes = response.responseJSON.errors;
+                        console.log(errorRes);
+                        for (var key in errorRes) {
+                            var value = errorRes[key][0];
+                            $('#error-'+key).html(value);
+                            $('#error-'+key).show();
+                        }
                         // $("#btn-hidden-failed").click();
                     }
 
