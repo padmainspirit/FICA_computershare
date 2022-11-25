@@ -47,7 +47,7 @@ class FicaProcessController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
-        $this->middleware('permission:customeruser-fica', ['only' => ['fica','uploadfile']]);
+        $this->middleware('permission:customeruser-fica', ['only' => ['fica', 'uploadfile']]);
     }
 
     public function ReadNotification(Request $request)
@@ -662,7 +662,7 @@ class FicaProcessController extends Controller
 
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
-            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
+            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
             'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
             'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'citiesNames' => $citiesNames, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
             'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
