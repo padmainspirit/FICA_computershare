@@ -47,7 +47,7 @@ class FicaProcessController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
-        $this->middleware('permission:customeruser-fica', ['only' => ['fica','uploadfile']]);
+        $this->middleware('permission:customeruser-fica', ['only' => ['fica', 'uploadfile']]);
     }
 
     public function ReadNotification(Request $request)
@@ -224,42 +224,39 @@ class FicaProcessController extends Controller
 
 
         //Get IndustryOccupation
-        $industryOccupation = IndustryOccupation::all();
-        foreach ($industryOccupation as $industry) {
-            // array_push($occupation, strtoupper($industry->Industry_occupation));
-            array_push($occupation, $industry->Industry_occupation);
-        }
+        $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
+        // foreach ($industryOccupation as $industry) {
+        //     // array_push($occupation, strtoupper($industry->Industry_occupation));
+        //     array_push($occupation, $industry->Industry_occupation);
+        // }
 
         //Get Nationality
         // $nationality = Nationality::all()->sort($countries);
-        $nationality = Nationality::all()->sortBy('Nationality');
-        foreach ($nationality as $country) {
-            // array_push($countries, strtoupper($country->Nationality));
-            array_push($countries, $country->Nationality);
-        }
+        $nationality = Nationality::all('Nationality')->sortBy('Nationality');
+        // foreach ($nationality as $country) {
+        //     // array_push($countries, strtoupper($country->Nationality));
+        //     array_push($countries, $country->Nationality);
+        // }
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
-        foreach ($sourceOfFunds as $sourceoffund) {
-            // array_push($funds, strtoupper($sourceoffund->Funds));
-            array_push($funds, $sourceoffund->Funds);
-        }
+        $sourceOfFunds = SourceOfFunds::all('Funds')->sortBy('Funds');
+        // foreach ($sourceOfFunds as $sourceoffund) {
+        //     // array_push($funds, strtoupper($sourceoffund->Funds));
+        //     array_push($funds, $sourceoffund->Funds);
+        // }
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all();
-        foreach ($banks as $bank) {
-            // array_push($bankNames, strtoupper($bank->bankname));
-            array_push($bankNames, $bank->bankname);
-        }
+        $banks = Banks::all('bankname')->sortBy('bankname');
+
 
         //Geting Provinces
-        $provinces = Provinces::all()->sortBy('Province_name');
-        foreach ($provinces as $province) {
-            // array_push($provincesNames, $province->Province_name);
-            array_push($provincesNames, $province->Province_name);
-        }
+        $provinces = Provinces::all('Province_name')->sortBy('Province_name');
+        // foreach ($provinces as $province) {
+        //     // array_push($provincesNames, $province->Province_name);
+        //     array_push($provincesNames, $province->Province_name);
+        // }
         // sort($provincesNames);
 
         // Geting Cities but we changed it to input boxes so the drop down is disabled and this fucntion is pointless
@@ -294,9 +291,9 @@ class FicaProcessController extends Controller
 
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work,
-            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
-            'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
-            'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
+            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
             'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
         ]);
         // } catch (\Exception $e) {
@@ -425,50 +422,56 @@ class FicaProcessController extends Controller
         $NotificationLink = $request->session()->get('NotificationLink');
 
         //Get IndustryOccupation
-        $industryOccupation = IndustryOccupation::all();
-        foreach ($industryOccupation as $industry) {
-            array_push($occupation, $industry->Industry_occupation);
-        }
+        // $industryOccupation = IndustryOccupation::all();
+        $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
+        // foreach ($industryOccupation as $industry) {
+        //     array_push($occupation, $industry->Industry_occupation);
+        // }
 
 
         //Get Nationality
-        $nationality = Nationality::all()->sortBy('Nationality');
-        foreach ($nationality as $country) {
-            // array_push($countries, strtoupper($country->Nationality));
-            array_push($countries, $country->Nationality);
-        }
+        // $nationality = Nationality::all()->sortBy('Nationality');
+        $nationality = Nationality::all('Nationality')->sortBy('Nationality');
+        // foreach ($nationality as $country) {
+        //     // array_push($countries, strtoupper($country->Nationality));
+        //     array_push($countries, $country->Nationality);
+        // }
         // sort($countries);
 
         //Get SourceOfFunds
-        $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
-        foreach ($sourceOfFunds as $sourceoffund) {
-            // array_push($funds, strtoupper($sourceoffund->Funds));
-            array_push($funds, $sourceoffund->Funds);
-        }
+        // $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
+        $sourceOfFunds = SourceOfFunds::all('Funds')->sortBy('Funds');
+        // foreach ($sourceOfFunds as $sourceoffund) {
+        //     // array_push($funds, strtoupper($sourceoffund->Funds));
+        //     array_push($funds, $sourceoffund->Funds);
+        // }
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all()->sortBy('bankname');
-        foreach ($banks as $bank) {
-            // array_push($bankNames, strtoupper($bank->bankname));
-            array_push($bankNames, $bank->bankname);
-        }
+        // $banks = Banks::all()->sortBy('bankname');
+        $banks = Banks::all('bankname')->sortBy('bankname');
+        // foreach ($banks as $bank) {
+        //     // array_push($bankNames, strtoupper($bank->bankname));
+        //     array_push($bankNames, $bank->bankname);
+        // }
         // sort($bankNames);
 
         //Geting Provinces
-        $provinces = Provinces::all()->sortBy('Province_name');
-        foreach ($provinces as $province) {
-            // array_push($provincesNames, strtoupper($province->Province_name));
-            array_push($provincesNames, $province->Province_name);
-        }
+        // $provinces = Provinces::all()->sortBy('Province_name');
+        $provinces = Provinces::all('Province_name')->sortBy('Province_name');
+        // foreach ($provinces as $province) {
+        //     // array_push($provincesNames, strtoupper($province->Province_name));
+        //     array_push($provincesNames, $province->Province_name);
+        // }
         // sort($provincesNames);
 
         //Geting Cities
-        $cities = Cities::all()->sortBy('cityName');
-        foreach ($cities as $city) {
-            // array_push($citiesNames, strtoupper($city->cityName));
-            array_push($citiesNames, $city->cityName);
-        }
+        // $cities = Cities::all()->sortBy('cityName');
+        $cities = Cities::all('cityName')->sortBy('cityName');
+        // foreach ($cities as $city) {
+        //     // array_push($citiesNames, strtoupper($city->cityName));
+        //     array_push($citiesNames, $city->cityName);
+        // }
         // sort($citiesNames);
 
         //Update fica progress bar 
@@ -662,9 +665,9 @@ class FicaProcessController extends Controller
 
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
-            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $occupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $countries,
-            'funds' => $funds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $bankNames,
-            'validationCheck' => $validationCheck, 'provincesNames' => $provincesNames, 'citiesNames' => $citiesNames, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
+            'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'citiesNames' => $cities, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
             'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
         ]);
         // } catch (\Exception $e) {

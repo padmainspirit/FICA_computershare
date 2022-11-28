@@ -6,6 +6,7 @@ use App\Models\Consumer;
 use Illuminate\Http\Request;
 use App\Models\ConsumerIdentity;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use SebastianBergmann\Type\NullType;
 use  Webpatser\Uuid\Uuid;
@@ -97,7 +98,9 @@ class VerificationDataController extends Controller
             // dd($idas_api_data);
             //saving data to the TBL_Consumer_IDENTITY table
             // if ($len > 0) {
-            $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+            $client = Auth::user()->Id;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $client)->first();
+
             //app('debugbar')->info($consumer);
 
             if ($consumer != null) {
