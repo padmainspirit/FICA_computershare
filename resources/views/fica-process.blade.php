@@ -3702,11 +3702,13 @@
                                     <input type="type" class="form-control @error('initials') is-invalid @enderror"
                                         id="initials" name="initials" placeholder="ENTER INITIALS"
                                         autocomplete="off">
-                                    @error('initials')
+                                    <span id="error-initials" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('initials')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3715,11 +3717,13 @@
                                         class="form-label  @error('surname') is-invalid @enderror">Surname</label>
                                     <input type="type" class="form-control" id="surname" name="surname"
                                         autocomplete="off" placeholder="ENTER SURNAME">
-                                    @error('surname')
+                                    <span id="error-surname" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('surname')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3728,11 +3732,13 @@
                                     <input type="type"
                                         class="form-control @error('acc-number') is-invalid @enderror" id="acc-number"
                                         autocomplete="off" name="acc-number" placeholder="ENTER ACCOUNT NUMBER">
-                                    @error('acc-number')
+                                    <span id="error-acc-number" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('acc-number')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3750,11 +3756,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('bank-name-dd')
+                                        <span id="error-bank-name-dd" class="text-danger" role="alert">
+                                        </span>
+                                        {{-- @error('bank-name-dd')
                                             <div style="color: red">
                                                 {{ $message = 'Field is required' }}
                                             </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -3777,11 +3785,13 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                        @error('BankTypeid')
+                                        <span id="error-BankTypeid" class="text-danger" role="alert">
+                                        </span>
+                                        {{-- @error('BankTypeid')
                                             <div style="color: red">
                                                 {{ $message = 'Field is required' }}
                                             </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -3791,11 +3801,13 @@
                                     <input type="type" class="form-control @error('branch') is-invalid @enderror"
                                         autocomplete="off" autocomplete="off" id="branch" name="branch"
                                         placeholder="ENTER BRANCH CODE">
-                                    @error('branch')
+                                    <span id="error-branch" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('branch')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                         </div>
@@ -4213,6 +4225,7 @@
         });
     </script>
 
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#fileUpload-address-input').on('submit', function(e) {
@@ -4369,6 +4382,12 @@
 
             $('#fileUpload-bank-model').on('submit', function(e) {
                 e.preventDefault();
+                $('#error-initials').hide();
+                $('#error-surname').hide();
+                $('#error-acc-number').hide();
+                $('#error-bank-name-dd').hide();
+                $('#error-BankTypeid').hide();
+                $('#error-branch').hide();
                 var form_data = new FormData(this);
                 $.ajax({
                     url: '{{ route('proofofbank') }}',
