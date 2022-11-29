@@ -25,7 +25,7 @@
     <div class="navbar-header">
 
         <div class="logo-lg">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" alt="" width="150" style="margin-left: 20%;">
+            <img src="{{ URL::asset($Logo) }}" alt="" width="150" style="margin-left: 20%;">
         </div>
 
         <div class="d-flex flex-wrap">
@@ -103,8 +103,8 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
                             key="t-logout">@lang('translation.Logout')</span></a>
-                    <form id="logout-form" action="{{ route('logout', ['customer' => $customer->RegistrationName]) }}" method="POST"
-                        style="display: none;">
+                    <form id="logout-form" action="{{ route('logout', ['customer' => $RegistrationName]) }}"
+                        method="POST" style="display: none;">
 
                         @csrf
                     </form>

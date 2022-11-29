@@ -982,7 +982,7 @@ class awsController extends Controller
                 'acc-number.required' => 'The account number is required.',
                 'acc-number.numeric' => 'The account number must be numeric.',
                 'bank-name-dd.required' => 'The bank name is required.',
-                'BankTypeid.required' => 'The Bank Type is required.',
+                'BankTypeid.required' => 'The Bank Code is required.',
                 'branch.required' => 'The Bank Type is required.',
             ]
         );

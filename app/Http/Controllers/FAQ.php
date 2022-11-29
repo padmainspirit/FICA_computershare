@@ -16,10 +16,9 @@ class FAQ extends Controller
                 $client = Auth::user();
                 $Customerid = $client->CustomerId;
                 $customer = Customer::where('Id', '=',  $Customerid)->first();
-                $Logo = $customer['Client_Logo'];
-                $customerName = $customer['RegistrationName'];
-                $Icon = $customer['Client_Icon'];
-
+                $Icon = $customer->Client_Icon;
+                $Logo = $customer->Client_Logo;
+                $RegistrationName = $customer->RegistrationName;
 
                 $LogUserName = $LogUserName = $client->FirstName;
                 $LogUserSurname = $client->LastName;
@@ -30,15 +29,7 @@ class FAQ extends Controller
 
                 // $Customerid = session()->get('Customerid');
 
-
-                $customerBrand = Customer::where('Id', '=',  $Customerid)->first();
-
-                // dd($customerBrand);
-                $Logo = $customerBrand['Client_Logo'];
-                $Icon = $customerBrand['Client_Icon'];
-                $customerName = $customerBrand['RegistrationName'];
-
-                app('debugbar')->info($customerBrand);
+                app('debugbar')->info($customer);
 
                 return view('FAQ', [])
 
@@ -47,7 +38,7 @@ class FAQ extends Controller
                         ->with('NotificationLink', $NotificationLink)
                         ->with('LogUserName', $LogUserName)
                         ->with('LogUserSurname', $LogUserSurname)
-                        ->with('customerName', $customerName)
+                        ->with('RegistrationName', $RegistrationName)
                         ->with('Icon', $Icon)
                         ->with('Logo', $Logo);
         }

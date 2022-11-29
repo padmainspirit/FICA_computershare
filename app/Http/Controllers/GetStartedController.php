@@ -73,7 +73,13 @@ class GetStartedController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        return view('start-fica-process')->with('customer', $customer)->with('LogUserName', Auth::user()->FirstName)->with('LogUserSurname', Auth::user()->LastName);
+        return view('start-fica-process')
+            ->with('customer', $customer)
+            ->with('Logo', $Logo)
+            ->with('RegistrationName', $customerName)
+            ->with('Icon', $Icon)
+            ->with('LogUserName', Auth::user()->FirstName)
+            ->with('LogUserSurname', Auth::user()->LastName);
     }
 
     public function getStarted(Request $request)
@@ -101,6 +107,10 @@ class GetStartedController extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
+        $Icon = $customer->Client_Icon;
+        $Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+
 
         // $NotificationLink = $request->session()->get('NotificationLink');
 

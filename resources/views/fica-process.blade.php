@@ -4421,7 +4421,15 @@
                         //location.reload();
 
                     },
-                    error: function() {
+                    error: function(response) {
+                        console.log('ERROR');
+                        var errorResBank = response.responseJSON.errors;
+                        console.log(errorResBank);
+                        for (var key in errorResBank) {
+                            var value = errorResBank[key][0];
+                            $('#error-' + key).html(value);
+                            $('#error-' + key).show();
+                        }
                         // $("#btn-hidden-failed").click();
                     }
 
