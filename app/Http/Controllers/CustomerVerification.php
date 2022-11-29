@@ -470,7 +470,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'BirthDate' => $testing != '' ? $testing[0]->BirthDate : null,
+            'DOB' => $testing != '' ? $testing[0]->DOB : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -562,7 +562,7 @@ class CustomerVerification extends Controller
             // 'Surname' => $testing[0]->Surname,
             // 'TelephoneNo' => $testing[0]->TelephoneNo,
             // 'Nationality' => $testing[0]->Nationality,
-            // 'BirthDate' => $testing[0]->BirthDate,
+            // 'DOB' => $testing[0]->DOB,
             // 'ID_CountryResidence' => $testing[0]->ID_CountryResidence,
             // 'ID_DateofIssue' => $testing[0]->ID_DateofIssue,
 
@@ -1073,7 +1073,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'BirthDate' => $testing != '' ? $testing[0]->BirthDate : null,
+            'DOB' => $testing != '' ? $testing[0]->DOB : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -1247,7 +1247,7 @@ class CustomerVerification extends Controller
         //             'SecondName' => $request->SecondName,
         //             'GenderInd' => $request->GenderInd,
         //             'Email' => $request->Email,
-        //             // 'BirthDate' => date(Y-m-d, strtotime($request->BirthDate)),
+        //             // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
         //             'Married_under' => $request->Married_under,
         //             'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
 
@@ -1275,7 +1275,7 @@ class CustomerVerification extends Controller
         //             'GenderInd' => $request->GenderInd,
         //             'Email' => $request->Email,
 
-        //             // 'BirthDate' => date(Y-m-d, strtotime($request->BirthDate)),
+        //             // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
         //             'Married_under' => $request->Married_under,
         //             'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
 
@@ -1330,7 +1330,7 @@ class CustomerVerification extends Controller
                 // 'SecondName' => $request->SecondName,
                 // 'GenderInd' => $request->GenderInd,
                 'Email' => $request->Email,
-                // 'BirthDate' => date(Y-m-d, strtotime($request->BirthDate)),
+                // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
                 // 'Married_under' => $request->Married_under,
                 // 'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
 

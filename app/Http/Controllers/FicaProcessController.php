@@ -196,14 +196,14 @@ class FicaProcessController extends Controller
         $TelWork  = null;
 
         if ($Telephone['TelCell'] ?? null !== null) {
-            $TelCell  = $Addresses['TelCell'];
+            $TelCell  = $Telephone['TelCell'];
         }
         if ($Telephone['TelHome'] ?? null !== null) {
-            $TelHome = $Addresses['TelHome'];
+            $TelHome = $Telephone['TelHome'];
         }
 
         if ($Telephone['TelWork'] ?? null !== null) {
-            $TelWork  = $Addresses['TelWork'];
+            $TelWork  = $Telephone['TelWork'];
         }
 
         $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
@@ -370,36 +370,37 @@ class FicaProcessController extends Controller
         // $postalAddressExist =  $postalAddress != null ? true : false;
         // $workAddressExist =  $workAddress != null ? true : false;
 
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Addresses = Address::getAllAddresses();
         $Home  = null;
         $Postal = null;
         $Work  = null;
-        if ($Addresses) {
-            foreach ($Addresses as $address) {
-                if ($address['AddressTypeInd'] == 16) {
-                    $Home = $address;
-                } else if ($address['AddressTypeInd'] == 15) {
-                    $Postal = $address;
-                } else if ($address['AddressTypeInd'] == 14) {
-                    $Work = $address;
-                }
-            }
+
+        if ($Addresses['Home'] ?? null !== null) {
+            $Home  = $Addresses['Home'];
+        }
+        if ($Addresses['Postal'] ?? null !== null) {
+            $Postal = $Addresses['Postal'];
         }
 
-        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        if ($Addresses['Work'] ?? null !== null) {
+            $Work  = $Addresses['Work'];
+        }
+
+
+
+        $Telephone = Telephones::getAllTelephones();
         $TelCell  = null;
         $TelHome = null;
         $TelWork  = null;
-        if ($Telephone) {
-            foreach ($Telephone as $tele) {
-                if ($tele['TelephoneTypeInd'] == 12) {
-                    $TelCell = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $TelHome = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $TelWork = $tele->TelephoneCode . $tele->TelephoneNo;
-                }
-            }
+        if ($Telephone['TelCell'] ?? null !== null) {
+            $TelCell  = $Telephone['TelCell'];
+        }
+        if ($Telephone['TelHome'] ?? null !== null) {
+            $TelHome = $Telephone['TelHome'];
+        }
+
+        if ($Telephone['TelWork'] ?? null !== null) {
+            $TelWork  = $Telephone['TelWork'];
         }
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));

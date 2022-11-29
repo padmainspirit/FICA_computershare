@@ -64,17 +64,17 @@ class ConsumerFicaProcess extends Controller
         //app('debugbar')->info($request);
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        // $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
 
         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
-        $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
-        $bankTpye = BankAccountType::all();
+        // $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $bankTpye = BankAccountType::all();
 
-        $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
-        $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
+        // $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
+        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
         $industryOccupation = IndustryOccupation::all();
         foreach ($industryOccupation as $industry) {
@@ -96,12 +96,45 @@ class ConsumerFicaProcess extends Controller
         $addressLookUpPostalValue = LookupDatas::where('ID', '=',  $PostalAddressIDType)->first();
         $addressLookUpWorkValue = LookupDatas::where('ID', '=',  $WorkAddressIDType)->first();
 
-        $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpHomeValue->Value)->first();
-        $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpPostalValue->Value)->first();
-        $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpWorkValue->Value)->first();
+        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpHomeValue->Value)->first();
+        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpPostalValue->Value)->first();
+        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpWorkValue->Value)->first();
 
-        $telephoneNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->get();
-        $workTelephonNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->get();
+        // $telephoneNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->get();
+        // $workTelephonNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->get();
+
+        $Addresses = Address::getAllAddresses();
+        $homeAddress  = null;
+        $postalAddress = null;
+        $workAddress  = null;
+
+        if ($Addresses['Home'] ?? null !== null) {
+            $homeAddress  = $Addresses['Home'];
+        }
+        if ($Addresses['Postal'] ?? null !== null) {
+            $postalAddress = $Addresses['Postal'];
+        }
+
+        if ($Addresses['Work'] ?? null !== null) {
+            $workAddress  = $Addresses['Work'];
+        }
+
+
+
+        $Telephone = Telephones::getAllTelephones();
+
+
+        $telephoneNumber = null;
+        $workTelephonNumber  = null;
+
+        if ($Telephone['TelHome'] ?? null !== null) {
+            $telephoneNumber = $Telephone['TelHome'];
+        }
+
+        if ($Telephone['TelWork'] ?? null !== null) {
+            $workTelephonNumber  = $Telephone['TelWork'];
+        }
+
 
         // $telephone1 = Telephones::select('*')
         //     ->where('ConsumerID', '=',  $consumer->Consumerid)
@@ -130,11 +163,11 @@ class ConsumerFicaProcess extends Controller
         // app('debugbar')->info($ficaProgress);
 
         //get user input
-        //Field(s) in TBL_Consumer table
-        $surname = $request->input('surname-input');
-        $name = $request->input('name-input');
-        $idnumber = $request->input('idnumber-input');
-        $dob = $request->input('dob-input');
+        // //Field(s) in TBL_Consumer table
+        // $surname = $request->input('surname-input');
+        // $name = $request->input('name-input');
+        // $idnumber = $request->input('idnumber-input');
+        // $dob = $request->input('dob-input');
         $title = $request->input('titleId');
         // $idIssuedDate = $request->input('id-issuedate-input');
 
@@ -351,12 +384,15 @@ class ConsumerFicaProcess extends Controller
         $telLength = strlen($telephoneHome);
         //Check the length of the telephone number
         if ($telLength == 10) {
-            if (Count($telephoneNumber) > 0) {
-                foreach ($telephoneNumber as $number) {
-                    //dd($number);
-                    Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 11)->update(['RecordStatusInd' => 0]);
-                }
+            // if (Count($telephoneNumber) > 0) {
+            //     foreach ($telephoneNumber as $number) {
+            //dd($number);
+            if ($telephoneNumber != null) {
+                Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 11)->update(['RecordStatusInd' => 0]);
             }
+
+            //     }
+            // }
             app('debugbar')->info($telLength);
             // if ($telLength == 10) {
             $extension = substr($telephoneHome, 0, 3);
@@ -378,12 +414,14 @@ class ConsumerFicaProcess extends Controller
         $telLength = strlen($workNumber);
         //Check the length of the telephone number
         if ($telLength == 10) {
-            if (Count($workTelephonNumber) > 0) {
-                foreach ($workTelephonNumber as $number) {
-                    //dd($number);
-                    Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 10)->update(['RecordStatusInd' => 0]);
-                }
+            // if (Count($workTelephonNumber) > 0) {
+            //     foreach ($workTelephonNumber as $number) {
+            //dd($number);
+            if ($workTelephonNumber != null) {
+                Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 10)->update(['RecordStatusInd' => 0]);
             }
+            //     }
+            // }
             app('debugbar')->info($telLength);
             // if ($telLength == 10) {
             $extension = substr($workNumber, 0, 3);
@@ -449,8 +487,8 @@ class ConsumerFicaProcess extends Controller
             $taxNumber = $request->input('tax-number-input');
             $taxObligations  = $request->input('Tax_Oblig_outside_SA');
             $foreignTaxNmber = $request->input('foreign-tax-number-input');
-            $countryOfTaxCode = $request->input('country-of-tax-code-input');
-            $noForeignTaxNumberReason = $request->input('no-foreign-tax-number-reason-input');
+            // $countryOfTaxCode = $request->input('country-of-tax-code-input');
+            // $noForeignTaxNumberReason = $request->input('no-foreign-tax-number-reason-input');
 
             $sourceOfFunds = $request->input('funds-input');
 
@@ -711,7 +749,7 @@ class ConsumerFicaProcess extends Controller
             app('debugbar')->info($request);
 
             $termsAndConditions = $request->input('terms-and-conditions-checkbox');
-            $fullName = $request->input('fullname-input');
+            // $fullName = $request->input('fullname-input');
             $signedPlace = $request->input('signed-place-input');
 
             // $old = [

@@ -42,9 +42,9 @@ class Telephones extends Model
                 if ($tele['TelephoneTypeInd'] == 12) {
                     $telephones['TelCell'] = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $telephones['TelHome '] = $tele->TelephoneCode . $tele->TelephoneNo;
+                    $telephones['TelHome'] = $tele->TelephoneCode . $tele->TelephoneNo;
                 } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $telephones['TelWork '] = $tele->TelephoneCode . $tele->TelephoneNo;
+                    $telephones['TelWork'] = $tele->TelephoneCode . $tele->TelephoneNo;
                 }
             }
         }

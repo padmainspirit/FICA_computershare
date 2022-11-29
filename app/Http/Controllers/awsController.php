@@ -365,9 +365,26 @@ class awsController extends Controller
             $request->session()->put('dataTextracted', $texts);
 
 
-            $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-            $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-            $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+            // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+            // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+            // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+
+            $Addresses = Address::getAllAddresses();
+            $homeAddress  = null;
+            $postalAddress = null;
+            $workAddress  = null;
+
+            if ($Addresses['Home'] ?? null !== null) {
+                $homeAddress  = $Addresses['Home'];
+            }
+            if ($Addresses['Postal'] ?? null !== null) {
+                $postalAddress = $Addresses['Postal'];
+            }
+
+            if ($Addresses['Work'] ?? null !== null) {
+                $workAddress  = $Addresses['Work'];
+            }
+
 
             $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
             $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
@@ -646,9 +663,24 @@ class awsController extends Controller
         $request->session()->put('FICAProgress', $fica->FICAProgress);
 
         //get addresses
-        $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        $Addresses = Address::getAllAddresses();
+        $homeAddress  = null;
+        $postalAddress = null;
+        $workAddress  = null;
+
+        if ($Addresses['Home'] ?? null !== null) {
+            $homeAddress  = $Addresses['Home'];
+        }
+        if ($Addresses['Postal'] ?? null !== null) {
+            $postalAddress = $Addresses['Postal'];
+        }
+
+        if ($Addresses['Work'] ?? null !== null) {
+            $workAddress  = $Addresses['Work'];
+        }
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
         $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
@@ -982,8 +1014,8 @@ class awsController extends Controller
                 'acc-number.required' => 'The account number is required.',
                 'acc-number.numeric' => 'The account number must be numeric.',
                 'bank-name-dd.required' => 'The bank name is required.',
-                'BankTypeid.required' => 'The Bank Code is required.',
-                'branch.required' => 'The Bank Type is required.',
+                'BankTypeid.required' => 'The Bank Type is required.',
+                'branch.required' => 'The Bank Code is required.',
             ]
         );
 

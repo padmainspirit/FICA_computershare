@@ -519,7 +519,7 @@
                                                                                     Date of Birth
                                                                                 </td>
                                                                                 <td>
-                                                                                    {{ $BirthDate }}
+                                                                                    {{ $DOB }}
                                                                                 </td>
                                                                                 <td style="font-weight: bold;">
                                                                                     Country of Birth
@@ -1874,9 +1874,9 @@
                                                     <div class="mb-3">
                                                         <div class="input-group" style="height: 27px; width: 225px;">
 
-                                                            <input class="form-control" type="date" id="BirthDate"
-                                                                name="BirthDate"
-                                                                value="{{ substr($BirthDate, 0, 10) }}"
+                                                            <input class="form-control" type="date" id="DOB"
+                                                                name="DOB"
+                                                                value="{{ substr($DOB, 0, 10) }}"
                                                                 style="height: 27px;padding-left: 21px; font-size: 12px;
                                                                 padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;"
                                                                 readonly>
@@ -4686,7 +4686,7 @@
                     ['Full Name(s):', '{{ $TitleDesc }} {{ $FirstName }} {{ $SecondName }} {{ $SURNAME }}','Gender', '{{ $Gender }}'],
                     ['Email:', '{{ $Email }}', 'Nationality:', '{{ $Nationality }}'],
                     ['Telephone (W):', '{{ $WorkTelCode }}{{ $WorkTelNo }}', 'Telephone (H):', '{{ $HomeTelCode }}{{ $HomeTelNo }}'],
-                    ['Telephone (C):', '{{ $CellCode }}{{ $CellNo }}','Date of Birth:', '{{ $BirthDate }}'],
+                    ['Telephone (C):', '{{ $CellCode }}{{ $CellNo }}','Date of Birth:', '{{ $DOB }}'],
                     ['ID Date of Issue:', '{{ $ID_DateofIssue }}','Country of Birth:', '{{ $ID_CountryResidence }}'],
                     ['Employment Industry:', '{{ $Industryofoccupation }}','Employment Status:', '{{ $Employmentstatus }}'],
                     ['Name Of Employer:', '{{ $Nameofemployer }}'],
