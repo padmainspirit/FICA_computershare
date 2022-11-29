@@ -2128,7 +2128,7 @@ class CustomerVerification extends Controller
 
     public function OtherDetailsCreate(Request $request)
     {
-        $idnumber = $request->session()->get('idnumber');
+        $idnumber = $request->session()->get('IDNUMBER');
         $useridentitynum = ConsumerIdentity::where('Identity_Document_ID', '=', $idnumber)->first();
         // $userfica = ConsumerAVS::where('FICA_id', '=', $useridentitynum->FICA_id)->first();
 
@@ -2234,7 +2234,7 @@ class CustomerVerification extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $Icon = $customer['Client_Icon'];

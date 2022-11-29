@@ -132,7 +132,7 @@ Route::post('/admin-tabs-personal', [CustomerVerification::class, 'PersonalDetai
 Route::post('/admin-tabs-address', [CustomerVerification::class, 'AddressDetailsUpdate'])->name('admin-tabs-address');
 Route::post('/admin-tabs-financial', [CustomerVerification::class, 'FinancialDetailsUpdate'])->name('admin-tabs-financial');
 Route::post('/admin-tabs-screening', [CustomerVerification::class, 'ScreeningDetailsCreate'])->name('admin-tabs-screening');
-Route::post('/admin-tabs-other', [tomerVerification::class, 'OtherDetailsCreate'])->name('admin-tabs-other');
+Route::post('/admin-tabs-other', [CustomerVerification::class, 'OtherDetailsCreate'])->name('admin-tabs-other');
 Route::get('/admin-comments', [CustomerVerification::class, 'UserComments'])->name('admin-comments');
 Route::get('/admin-inbox', [CustomerVerification::class, 'UserInbox'])->name('admin-inbox');
 Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name('admin-inbox-message');
