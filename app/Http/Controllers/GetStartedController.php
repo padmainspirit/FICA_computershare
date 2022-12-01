@@ -31,6 +31,7 @@ class GetStartedController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
+        $this->middleware('auth');
         $this->middleware('permission:customeruser-fica', ['only' => ['startFica', 'getStarted']]);
     }
 

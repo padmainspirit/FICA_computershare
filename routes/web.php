@@ -38,7 +38,9 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
+
+Route::fallback(function(){ return response()->view('errors.404', [], 404); });
 
 Auth::routes();
 
