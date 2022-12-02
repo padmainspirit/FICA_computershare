@@ -892,7 +892,9 @@
                                                                 <option value=""> Select Country </option>
                                                                 @foreach ($countries as $country)
                                                                     <option value="{{ $country->Nationality }}"
-                                                                        {{ $country == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}>
+                                                                        {{ old('country-input') == $country ? 'selected' : '' }}
+                                                                        {{-- {{ $country == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}> --}}
+                                                                        {{ isset($consumerIdentity->ID_CountryResidence) && $country->Nationality == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}>
                                                                         {{ $country->Nationality }}
                                                                     </option>
                                                                 @endforeach
@@ -1224,17 +1226,27 @@
                                                         style="font-size: 12px; color: rgb(0, 0, 0);">Home
                                                         Telephone:</label>
                                                 </div>
+                                                {{-- <span style="color: red; font-size: 20px;" class="required">
+                                                    *
+                                                </span> --}}
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <input autocomplete="off" type="text"
-                                                        class="form-control input-sm"
-                                                        style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;"
+                                                        class="form-control input-sm @error('telephone-home-input') is-invalid @enderror"
+                                                        style="height:
+                                                        27px; padding-left: 24px; width: 200px; font-size:12px;
+                                                        text-transform: uppercase;"
                                                         id="telephone-home-input" name="telephone-home-input"
                                                         {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                                         placeholder="Enter Telephone Home"
                                                         value="{{ isset($TelHome) ? $TelHome : null }}">
                                                 </div>
+                                                @error('telephone-home-input')
+                                                    <div class="text-danger" role="alert" style="color: red">
+                                                        {{ $message = 'The home number has to be 10 digits.' }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
@@ -1286,7 +1298,7 @@
                                                 <div class="mb-3">
                                                     <div class="input-group" style="height: 27px; width: 200px;">
                                                         <input autocomplete="off" type="text"
-                                                            class="form-control input-sm"
+                                                            class="form-control input-sm @error('work-number-input') is-invalid @enderror"
                                                             style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size: 12px; text-transform: uppercase;"
                                                             id="work-number-input" name="work-number-input"
                                                             {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
@@ -1294,6 +1306,12 @@
                                                             value="{{ isset($TelWork) ? $TelWork : null }}">
 
                                                     </div>
+
+                                                    @error('work-number-input')
+                                                        <div class="text-danger" role="alert" style="color: red">
+                                                            {{ $message = 'The work number has to be 10 digits.' }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -1396,7 +1414,8 @@
                                                                 @foreach ($occupation as $industry)
                                                                     <option value="{{ $industry->Industry_occupation }}"
                                                                         {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
-                                                                        {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}>
+                                                                        {{-- {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}> --}}
+                                                                        {{ isset($selectedIndustryofoccupation) && $industry->Industry_occupation == $selectedIndustryofoccupation ? 'selected' : '' }}>
                                                                         {{ $industry->Industry_occupation }}
                                                                     </option>
                                                                 @endforeach
@@ -1698,7 +1717,7 @@
                                                             @foreach ($funds as $fund)
                                                                 <option value="{{ $fund->Funds }}"
                                                                     {{ old('funds-input') == $fund ? 'selected' : '' }}
-                                                                    {{ isset($selectSourceOfFunds) && $fund == $selectSourceOfFunds ? 'selected' : '' }}>
+                                                                    {{ isset($selectSourceOfFunds) && $fund->Funds == $selectSourceOfFunds ? 'selected' : '' }}>
                                                                     {{ $fund->Funds }}
                                                                 </option>
                                                             @endforeach
@@ -1951,7 +1970,8 @@
                                             <div class="form-check">
                                                 <input class="form-check-input big-checkbox" type="checkbox"
                                                     value="FPPO (Foreign Prominent Public Officials)"
-                                                    id="public-offical-eppo-checkbox" name="public-offical-eppo-checkbox"
+                                                    id="public-offical-eppo-checkbox"
+                                                    name="public-offical-eppo-checkbox"
                                                     style="width: 20px; height:20px;"
                                                     {{ isset($financial->Public_official_type_FPPO) && $financial->Public_official_type_FPPO == 'FPPO (Foreign Prominent Public Officials)' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="salary-checkbox"
@@ -3702,11 +3722,13 @@
                                     <input type="type" class="form-control @error('initials') is-invalid @enderror"
                                         id="initials" name="initials" placeholder="ENTER INITIALS"
                                         autocomplete="off">
-                                    @error('initials')
+                                    <span id="error-initials" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('initials')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3715,11 +3737,13 @@
                                         class="form-label  @error('surname') is-invalid @enderror">Surname</label>
                                     <input type="type" class="form-control" id="surname" name="surname"
                                         autocomplete="off" placeholder="ENTER SURNAME">
-                                    @error('surname')
+                                    <span id="error-surname" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('surname')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3728,11 +3752,13 @@
                                     <input type="type"
                                         class="form-control @error('acc-number') is-invalid @enderror" id="acc-number"
                                         autocomplete="off" name="acc-number" placeholder="ENTER ACCOUNT NUMBER">
-                                    @error('acc-number')
+                                    <span id="error-acc-number" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('acc-number')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -3750,11 +3776,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('bank-name-dd')
+                                        <span id="error-bank-name-dd" class="text-danger" role="alert">
+                                        </span>
+                                        {{-- @error('bank-name-dd')
                                             <div style="color: red">
                                                 {{ $message = 'Field is required' }}
                                             </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -3777,11 +3805,13 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                        @error('BankTypeid')
+                                        <span id="error-BankTypeid" class="text-danger" role="alert">
+                                        </span>
+                                        {{-- @error('BankTypeid')
                                             <div style="color: red">
                                                 {{ $message = 'Field is required' }}
                                             </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -3791,11 +3821,13 @@
                                     <input type="type" class="form-control @error('branch') is-invalid @enderror"
                                         autocomplete="off" autocomplete="off" id="branch" name="branch"
                                         placeholder="ENTER BRANCH CODE">
-                                    @error('branch')
+                                    <span id="error-branch" class="text-danger" role="alert">
+                                    </span>
+                                    {{-- @error('branch')
                                         <div style="color: red">
                                             {{ $message = 'Field is required' }}
                                         </div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                             </div>
                         </div>
@@ -4213,6 +4245,7 @@
         });
     </script>
 
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#fileUpload-address-input').on('submit', function(e) {
@@ -4369,6 +4402,12 @@
 
             $('#fileUpload-bank-model').on('submit', function(e) {
                 e.preventDefault();
+                $('#error-initials').hide();
+                $('#error-surname').hide();
+                $('#error-acc-number').hide();
+                $('#error-bank-name-dd').hide();
+                $('#error-BankTypeid').hide();
+                $('#error-branch').hide();
                 var form_data = new FormData(this);
                 $.ajax({
                     url: '{{ route('proofofbank') }}',
@@ -4402,7 +4441,15 @@
                         //location.reload();
 
                     },
-                    error: function() {
+                    error: function(response) {
+                        console.log('ERROR');
+                        var errorResBank = response.responseJSON.errors;
+                        console.log(errorResBank);
+                        for (var key in errorResBank) {
+                            var value = errorResBank[key][0];
+                            $('#error-' + key).html(value);
+                            $('#error-' + key).show();
+                        }
                         // $("#btn-hidden-failed").click();
                     }
 
