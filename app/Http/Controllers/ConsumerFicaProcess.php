@@ -60,7 +60,7 @@ class ConsumerFicaProcess extends Controller
 
         // dd($request);
         $occupation = [];
-        $countries = [];
+        // $countries = [];
         $Telephones = [];
 
         //dd($request);
@@ -79,7 +79,7 @@ class ConsumerFicaProcess extends Controller
         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
+        // $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         // $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         // $bankTpye = BankAccountType::all();
 
@@ -114,36 +114,36 @@ class ConsumerFicaProcess extends Controller
         // $workTelephonNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->get();
 
         $Addresses = Address::getAllAddresses();
-        $homeAddress  = null;
-        $postalAddress = null;
-        $workAddress  = null;
+        $homeAddress  = $Addresses['Home'];
+        $postalAddress = $Addresses['Postal'];
+        $workAddress  = $Addresses['Work'];
 
-        if ($Addresses['Home'] ?? null !== null) {
-            $homeAddress  = $Addresses['Home'];
-        }
-        if ($Addresses['Postal'] ?? null !== null) {
-            $postalAddress = $Addresses['Postal'];
-        }
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $homeAddress  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $postalAddress = $Addresses['Postal'];
+        // }
 
-        if ($Addresses['Work'] ?? null !== null) {
-            $workAddress  = $Addresses['Work'];
-        }
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $workAddress  = $Addresses['Work'];
+        // }
 
 
 
         $Telephone = Telephones::getAllTelephones();
 
 
-        $telephoneNumber = null;
-        $workTelephonNumber  = null;
+        $telephoneNumber = $Telephone['TelHome'];
+        $workTelephonNumber  = $Telephone['TelWork'];
 
-        if ($Telephone['TelHome'] ?? null !== null) {
-            $telephoneNumber = $Telephone['TelHome'];
-        }
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $telephoneNumber = $Telephone['TelHome'];
+        // }
 
-        if ($Telephone['TelWork'] ?? null !== null) {
-            $workTelephonNumber  = $Telephone['TelWork'];
-        }
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $workTelephonNumber  = $Telephone['TelWork'];
+        // }
 
 
         // $telephone1 = Telephones::select('*')
@@ -166,7 +166,7 @@ class ConsumerFicaProcess extends Controller
         $homeAddressExist =  $homeAddress != null ? true : false;
         $postalAddressExist =  $postalAddress != null ? true : false;
         $workAddressExist =  $workAddress != null ? true : false;
-        $telephoneExist =  $telephone  != null ? true : false;
+        // $telephoneExist =  $telephone  != null ? true : false;
 
 
         $ficaProgress = ($fica->Personal_Status == null) ? $fica->FICAProgress + 1 : $fica->FICAProgress;
@@ -223,10 +223,10 @@ class ConsumerFicaProcess extends Controller
         $telephoneHome = $request->input('telephone-home-input');
         $workNumber = $request->input('work-number-input');
 
-        $mobile = $request->input('mobile-input');
+        // $mobile = $request->input('mobile-input');
 
         //Field(s) in TBL_Consumer and CustomerUsers table
-        $email = $request->input('email-input');
+        // $email = $request->input('email-input');
 
 
         //-----------------------------------------------------ADDRESS ----------------------------------------------
@@ -460,17 +460,17 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
         // app('debugbar')->info($request);
 
         return back()->withSuccess('successfully')
             // ->with($old)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     public function FinancialDetails(Request $request)
@@ -528,13 +528,15 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Screening(Request $request)
@@ -611,13 +613,14 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Declarations(Request $request)
@@ -730,13 +733,15 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Acknowledgement(Request $request)
@@ -808,12 +813,14 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 }
