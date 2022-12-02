@@ -92,12 +92,12 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        $occupation = [];
-        $countries = [];
-        $funds = [];
-        $bankNames = [];
-        $provincesNames = [];
-        $citiesNames = [];
+        // $occupation = [];
+        // $countries = [];
+        // $funds = [];
+        // $bankNames = [];
+        // $provincesNames = [];
+        // $citiesNames = [];
         $Telephones = [];
 
         //try {
@@ -154,11 +154,14 @@ class FicaProcessController extends Controller
 
         $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
 
+
+
         //select values from the dropdowlist
         $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
         $selectedBankType = ($avs->BankTypeid != null) ?  $avs->BankTypeid : null;
         $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
+
 
 
         //get addresses
@@ -170,51 +173,41 @@ class FicaProcessController extends Controller
         // $postalAddressExist =  $postalAddress != null ? true : false;
         // $workAddressExist =  $workAddress != null ? true : false;
 
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $Home  = null;
-        $Postal = null;
-        $Work  = null;
-        if ($Addresses) {
-            foreach ($Addresses as $address) {
-                if ($address['AddressTypeInd'] == 16) {
-                    $Home = $address;
-                } else if ($address['AddressTypeInd'] == 15) {
-                    $Postal = $address;
-                } else if ($address['AddressTypeInd'] == 14) {
-                    $Work = $address;
-                }
-            }
-        }
 
-        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $TelCell  = null;
-        $TelHome = null;
-        $TelWork  = null;
-        if ($Telephone) {
-            foreach ($Telephone as $tele) {
-                if ($tele['TelephoneTypeInd'] == 12) {
-                    $TelCell = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $TelHome = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $TelWork = $tele->TelephoneCode . $tele->TelephoneNo;
-                }
-            }
-        }
 
-        //Telephone
-        // $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        // $worktelephone = Telephones::where('ConsumerID', '=',   $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
+        $Addresses = Address::getAllAddresses();
+        $Home  = $Addresses['Home'];
+        $Postal = $Addresses['Postal'];
+        $Work  = $Addresses['Work'];
 
-        // $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-        // $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
-
-        //Check if addresses exist
-        // if ($telephone != null) {
-        //     $homeTelephoneNumebr =  $telephone->TelephoneCode . $telephone->TelephoneNo;
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $Home  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $Postal = $Addresses['Postal'];
         // }
 
-        // app('debugbar')->info($homeTelephoneNumebr);
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $Work  = $Addresses['Work'];
+        // }
+
+
+
+        $Telephone = Telephones::getAllTelephones();
+        $TelCell  = $Telephone['TelCell'];
+        $TelHome = $Telephone['TelHome'];
+        $TelWork  = $Telephone['TelWork'];
+
+        // if ($Telephone['TelCell'] ?? null !== null) {
+        //     $TelCell  = $Telephone['TelCell'];
+        // }
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $TelHome = $Telephone['TelHome'];
+        // }
+
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $TelWork  = $Telephone['TelWork'];
+        // }
 
         $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
 
@@ -225,6 +218,8 @@ class FicaProcessController extends Controller
 
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
+
+        // dd($industryOccupation);
         // foreach ($industryOccupation as $industry) {
         //     // array_push($occupation, strtoupper($industry->Industry_occupation));
         //     array_push($occupation, $industry->Industry_occupation);
@@ -318,14 +313,14 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        $occupation = [];
-        $countries = [];
-        $funds = [];
+        // $occupation = [];
+        // $countries = [];
+        // $funds = [];
         $images = [];
         $extractedData = [];
-        $bankNames = [];
-        $provincesNames = [];
-        $citiesNames = [];
+        // $bankNames = [];
+        // $provincesNames = [];
+        // $citiesNames = [];
         $Telephones = [];
 
         //try {
@@ -380,37 +375,39 @@ class FicaProcessController extends Controller
         // $postalAddressExist =  $postalAddress != null ? true : false;
         // $workAddressExist =  $workAddress != null ? true : false;
 
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $Home  = null;
-        $Postal = null;
-        $Work  = null;
-        if ($Addresses) {
-            foreach ($Addresses as $address) {
-                if ($address['AddressTypeInd'] == 16) {
-                    $Home = $address;
-                } else if ($address['AddressTypeInd'] == 15) {
-                    $Postal = $address;
-                } else if ($address['AddressTypeInd'] == 14) {
-                    $Work = $address;
-                }
-            }
-        }
+        $Addresses = Address::getAllAddresses();
+        $Home  =  $Addresses['Home'];
+        $Postal = $Addresses['Postal'];
+        $Work  = $Addresses['Work'];
 
-        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
-        $TelCell  = null;
-        $TelHome = null;
-        $TelWork  = null;
-        if ($Telephone) {
-            foreach ($Telephone as $tele) {
-                if ($tele['TelephoneTypeInd'] == 12) {
-                    $TelCell = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 11) {
-                    $TelHome = $tele->TelephoneCode . $tele->TelephoneNo;
-                } else if ($tele['TelephoneTypeInd'] == 10) {
-                    $TelWork = $tele->TelephoneCode . $tele->TelephoneNo;
-                }
-            }
-        }
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $Home  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $Postal = $Addresses['Postal'];
+        // }
+
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $Work  = $Addresses['Work'];
+        // }
+
+
+
+        $Telephone = Telephones::getAllTelephones();
+        $TelCell  = $Telephone['TelCell'];
+        $TelHome = $Telephone['TelHome'];
+        $TelWork  = $Telephone['TelWork'];
+
+        // if ($Telephone['TelCell'] ?? null !== null) {
+        //     $TelCell  = $Telephone['TelCell'];
+        // }
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $TelHome = $Telephone['TelHome'];
+        // }
+
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $TelWork  = $Telephone['TelWork'];
+        // }
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 

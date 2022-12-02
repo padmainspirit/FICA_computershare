@@ -35,22 +35,32 @@ class ConsumerFicaProcess extends Controller
     public function PersonalDetails(Request $request)
     {
 
-        $this->validate($request, [
-            'street-address-line1' => 'required',
-            'street-address-line2' => 'required',
-            'city-physical' => 'required',
-            'province-physical' => 'required',
-            'zip-physical' => 'required',
-            'country-input' => 'required',
-            'employee-status-input' => 'required',
-            'industry-of-occupation-input' => 'required',
-            // 'id-issuedate-input' => 'required',
-            'titleId' => 'required'
-        ]);
+        $this->validate(
+            $request,
+            [
+                'work-number-input' => ['numeric', 'min:10'],
+                'telephone-home-input' => ['numeric', 'min:10'],
+                'street-address-line1' => 'required',
+                'street-address-line2' => 'required',
+                'city-physical' => 'required',
+                'province-physical' => 'required',
+                'zip-physical' => 'required',
+                'country-input' => 'required',
+                'employee-status-input' => 'required',
+                'industry-of-occupation-input' => 'required',
+                // 'id-issuedate-input' => 'required',
+                'titleId' => 'required'
+            ],
+
+            [
+                'work-number-input.min' => 'The work number has to be 10 digits.',
+                'telephone-home-input.min' => 'The home number has to be 10 digits.',
+            ]
+        );
 
         // dd($request);
         $occupation = [];
-        $countries = [];
+        // $countries = [];
         $Telephones = [];
 
         //dd($request);
@@ -64,17 +74,17 @@ class ConsumerFicaProcess extends Controller
         //app('debugbar')->info($request);
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        // $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
 
         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
-        $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
-        $bankTpye = BankAccountType::all();
+        // $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
+        // $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+        // $bankTpye = BankAccountType::all();
 
-        $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
-        $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
+        // $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
+        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
         $industryOccupation = IndustryOccupation::all();
         foreach ($industryOccupation as $industry) {
@@ -96,12 +106,45 @@ class ConsumerFicaProcess extends Controller
         $addressLookUpPostalValue = LookupDatas::where('ID', '=',  $PostalAddressIDType)->first();
         $addressLookUpWorkValue = LookupDatas::where('ID', '=',  $WorkAddressIDType)->first();
 
-        $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpHomeValue->Value)->first();
-        $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpPostalValue->Value)->first();
-        $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpWorkValue->Value)->first();
+        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpHomeValue->Value)->first();
+        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpPostalValue->Value)->first();
+        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', $addressLookUpWorkValue->Value)->first();
 
-        $telephoneNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->get();
-        $workTelephonNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->get();
+        // $telephoneNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->get();
+        // $workTelephonNumber = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->get();
+
+        $Addresses = Address::getAllAddresses();
+        $homeAddress  = $Addresses['Home'];
+        $postalAddress = $Addresses['Postal'];
+        $workAddress  = $Addresses['Work'];
+
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $homeAddress  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $postalAddress = $Addresses['Postal'];
+        // }
+
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $workAddress  = $Addresses['Work'];
+        // }
+
+
+
+        $Telephone = Telephones::getAllTelephones();
+
+
+        $telephoneNumber = $Telephone['TelHome'];
+        $workTelephonNumber  = $Telephone['TelWork'];
+
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $telephoneNumber = $Telephone['TelHome'];
+        // }
+
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $workTelephonNumber  = $Telephone['TelWork'];
+        // }
+
 
         // $telephone1 = Telephones::select('*')
         //     ->where('ConsumerID', '=',  $consumer->Consumerid)
@@ -123,18 +166,18 @@ class ConsumerFicaProcess extends Controller
         $homeAddressExist =  $homeAddress != null ? true : false;
         $postalAddressExist =  $postalAddress != null ? true : false;
         $workAddressExist =  $workAddress != null ? true : false;
-        $telephoneExist =  $telephone  != null ? true : false;
+        // $telephoneExist =  $telephone  != null ? true : false;
 
 
         $ficaProgress = ($fica->Personal_Status == null) ? $fica->FICAProgress + 1 : $fica->FICAProgress;
         // app('debugbar')->info($ficaProgress);
 
         //get user input
-        //Field(s) in TBL_Consumer table
-        $surname = $request->input('surname-input');
-        $name = $request->input('name-input');
-        $idnumber = $request->input('idnumber-input');
-        $dob = $request->input('dob-input');
+        // //Field(s) in TBL_Consumer table
+        // $surname = $request->input('surname-input');
+        // $name = $request->input('name-input');
+        // $idnumber = $request->input('idnumber-input');
+        // $dob = $request->input('dob-input');
         $title = $request->input('titleId');
         // $idIssuedDate = $request->input('id-issuedate-input');
 
@@ -180,10 +223,10 @@ class ConsumerFicaProcess extends Controller
         $telephoneHome = $request->input('telephone-home-input');
         $workNumber = $request->input('work-number-input');
 
-        $mobile = $request->input('mobile-input');
+        // $mobile = $request->input('mobile-input');
 
         //Field(s) in TBL_Consumer and CustomerUsers table
-        $email = $request->input('email-input');
+        // $email = $request->input('email-input');
 
 
         //-----------------------------------------------------ADDRESS ----------------------------------------------
@@ -351,12 +394,15 @@ class ConsumerFicaProcess extends Controller
         $telLength = strlen($telephoneHome);
         //Check the length of the telephone number
         if ($telLength == 10) {
-            if (Count($telephoneNumber) > 0) {
-                foreach ($telephoneNumber as $number) {
-                    //dd($number);
-                    Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 11)->update(['RecordStatusInd' => 0]);
-                }
+            // if (Count($telephoneNumber) > 0) {
+            //     foreach ($telephoneNumber as $number) {
+            //dd($number);
+            if ($telephoneNumber != null) {
+                Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 11)->update(['RecordStatusInd' => 0]);
             }
+
+            //     }
+            // }
             app('debugbar')->info($telLength);
             // if ($telLength == 10) {
             $extension = substr($telephoneHome, 0, 3);
@@ -378,12 +424,14 @@ class ConsumerFicaProcess extends Controller
         $telLength = strlen($workNumber);
         //Check the length of the telephone number
         if ($telLength == 10) {
-            if (Count($workTelephonNumber) > 0) {
-                foreach ($workTelephonNumber as $number) {
-                    //dd($number);
-                    Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 10)->update(['RecordStatusInd' => 0]);
-                }
+            // if (Count($workTelephonNumber) > 0) {
+            //     foreach ($workTelephonNumber as $number) {
+            //dd($number);
+            if ($workTelephonNumber != null) {
+                Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 10)->update(['RecordStatusInd' => 0]);
             }
+            //     }
+            // }
             app('debugbar')->info($telLength);
             // if ($telLength == 10) {
             $extension = substr($workNumber, 0, 3);
@@ -412,17 +460,17 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
         // app('debugbar')->info($request);
 
         return back()->withSuccess('successfully')
             // ->with($old)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     public function FinancialDetails(Request $request)
@@ -449,8 +497,8 @@ class ConsumerFicaProcess extends Controller
             $taxNumber = $request->input('tax-number-input');
             $taxObligations  = $request->input('Tax_Oblig_outside_SA');
             $foreignTaxNmber = $request->input('foreign-tax-number-input');
-            $countryOfTaxCode = $request->input('country-of-tax-code-input');
-            $noForeignTaxNumberReason = $request->input('no-foreign-tax-number-reason-input');
+            // $countryOfTaxCode = $request->input('country-of-tax-code-input');
+            // $noForeignTaxNumberReason = $request->input('no-foreign-tax-number-reason-input');
 
             $sourceOfFunds = $request->input('funds-input');
 
@@ -480,13 +528,15 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Screening(Request $request)
@@ -563,13 +613,14 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Declarations(Request $request)
@@ -682,13 +733,15 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 
     public function Acknowledgement(Request $request)
@@ -711,7 +764,7 @@ class ConsumerFicaProcess extends Controller
             app('debugbar')->info($request);
 
             $termsAndConditions = $request->input('terms-and-conditions-checkbox');
-            $fullName = $request->input('fullname-input');
+            // $fullName = $request->input('fullname-input');
             $signedPlace = $request->input('signed-place-input');
 
             // $old = [
@@ -760,12 +813,14 @@ class ConsumerFicaProcess extends Controller
 
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer['Client_Logo'];
+        // $customerName = $customer['RegistrationName'];
+        // $Icon = $customer['Client_Icon'];
 
-        return back()->withSuccess('successfully')->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+        return back()->withSuccess('successfully')
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon);
     }
 }

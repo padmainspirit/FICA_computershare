@@ -16,13 +16,14 @@ class FAQ extends Controller
                 $client = Auth::user();
                 $Customerid = $client->CustomerId;
                 $customer = Customer::where('Id', '=',  $Customerid)->first();
-                $Logo = $customer['Client_Logo'];
-                $customerName = $customer['RegistrationName'];
-                $Icon = $customer['Client_Icon'];
 
+                // dd($customer);
+                // $Icon = $customer->Client_Icon;
+                // $Logo = $customer->Client_Logo;
+                // $RegistrationName = $customer->RegistrationName;
 
-                $LogUserName = $LogUserName = $client->FirstName;
-                $LogUserSurname = $client->LastName;
+                // $LogUserName  = $client->FirstName;
+                // $LogUserSurname = $client->LastName;
                 $NotificationLink = $request->session()->get('NotificationLink');
                 // $Customerid = $request->session()->get('Customerid');
 
@@ -30,25 +31,18 @@ class FAQ extends Controller
 
                 // $Customerid = session()->get('Customerid');
 
-
-                $customerBrand = Customer::where('Id', '=',  $Customerid)->first();
-
-                // dd($customerBrand);
-                $Logo = $customerBrand['Client_Logo'];
-                $Icon = $customerBrand['Client_Icon'];
-                $customerName = $customerBrand['RegistrationName'];
-
-                app('debugbar')->info($customerBrand);
+                app('debugbar')->info($customer);
 
                 return view('FAQ', [])
 
                         ->with('Questions', $Questions)
 
                         ->with('NotificationLink', $NotificationLink)
-                        ->with('LogUserName', $LogUserName)
-                        ->with('LogUserSurname', $LogUserSurname)
-                        ->with('customerName', $customerName)
-                        ->with('Icon', $Icon)
-                        ->with('Logo', $Logo);
+                        ->with('customer', $customer)
+                        ->with('LogUserName', $client->FirstName)
+                        ->with('LogUserSurname', $client->LastName)
+                        ->with('RegistrationName', $customer->RegistrationName)
+                        ->with('Icon', $customer->Client_Icon)
+                        ->with('Logo', $customer->Client_Logo);
         }
 }
