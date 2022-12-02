@@ -62,6 +62,7 @@ class UserController extends Controller
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
+            ->with('customer', $customer)
             ->with('Logo', $Logo);
     }
 
@@ -85,6 +86,7 @@ class UserController extends Controller
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
+            ->with('customer', $customer)
             ->with('Logo', $Logo);
     }
 

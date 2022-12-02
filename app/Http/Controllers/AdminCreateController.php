@@ -45,7 +45,7 @@ class AdminCreateController extends Controller
 
         return view('admin-display', [])
 
-            // ->with('GetAllUsers', $GetAllUsers)
+             ->with('customer', $customer)
             ->with('GetAllCustomers', $GetAllCustomers)
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customerName)

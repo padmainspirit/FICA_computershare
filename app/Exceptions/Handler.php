@@ -83,12 +83,7 @@ class Handler extends ExceptionHandler
                     return response()->view('errors.403', ['message'=>$e->getMessage(),'url'=>$url], 403);
                 }    
             }
-            // if ($e instanceof AccessDeniedHttpException) { 
-            //     return response()->view('errors.404', ['message'=>$e->getMessage(),'url'=>$url], 404);
-            // }
-            //if($e->getStatusCode() == 404){ print_r($url);exit;
-            if ($e instanceof NotFoundHttpException) {print_r($url);exit;
-                //$url = ; 
+            if ($e instanceof NotFoundHttpException) {
                 return response()->view('errors.404', ['message'=>$e->getMessage(),'url'=>$url], 404);
             }
         });
