@@ -38,6 +38,11 @@ class Telephones extends Model
         $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         $telephones = [];
         if ($Telephone) {
+
+            $telephones['TelCell'] = null;
+            $telephones['TelHome'] = null;
+            $telephones['TelWork'] = null;
+
             foreach ($Telephone as $tele) {
                 if ($tele['TelephoneTypeInd'] == 12) {
                     $telephones['TelCell'] = $tele->TelephoneCode . $tele->TelephoneNo;

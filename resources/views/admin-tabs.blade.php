@@ -2621,7 +2621,7 @@
                                                                                         <div class="input-group" style="height: 27px; width: 225px;">
                                                                                             <select class="form-select" autocomplete="off"
                                                                                                 style="height: 27px;padding-top: 3px; text-transform: uppercase;
-                                                                padding-left: 20px;padding-bottom: 3px;font-size: 12px;"
+                                                                                                      padding-left: 20px;padding-bottom: 3px;font-size: 12px;"
                                                                                                 id="ResProvince" name="ResProvince">
                                                                                                 <option selected
                                                                                                     style="text-transform: uppercase;font-size: 12px;"

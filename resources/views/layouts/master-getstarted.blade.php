@@ -6,7 +6,7 @@
     <title> @yield('title') | FICA - V1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
-    <link rel="icon" href="{{ URL::asset($Icon) }}">
+    <link rel="icon" href="{{ URL::asset($customer->Client_Icon) }}">
     @include('layouts.head-css')
 </head>
 

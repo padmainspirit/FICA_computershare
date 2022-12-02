@@ -1206,23 +1206,6 @@ class CustomerVerification extends Controller
                 'WorkTelephoneNo' => 'required|regex:/[0-9]{10}/',
                 'HomeTelephoneNo' => 'required|regex:/[0-9]{10}/',
                 'CellularNo' => ['required', 'numeric', 'min:10'],
-            ],
-            [
-                'FirstName.required' => 'The First Name is required.',
-                'FirstName.min' => 'The surname  must be at least 2 characters..',
-                'FirstName.max' => 'The surname  can not have more than 255 characters..',
-                'SURNAME.required' => 'The surname is required.',
-                'SURNAME.min' => 'The surname  must be at least 2 characters..',
-                'SURNAME.max' => 'The surname  can not have more than 255 characters..',
-                'Gender.required' => 'The Gender is required.',
-                'Email.required' => 'The Email is required.',
-                'Email.email' => 'The Email is invalid.',
-                'ID_CountryResidence.required' => 'The country of issue is required.',
-                'WorkTelephoneNo.min' => 'The Work Telephone No needs to be 10 characters.',
-                'HomeTelephoneNo.min' => 'The Home Telephone No needs to be 10 characters.',
-                'CellularNo.required' => 'The cell number is required.',
-                'CellularNo.min' => 'The cell number needs to be 10 characters.',
-
             ]
         );
 
@@ -2535,11 +2518,6 @@ class CustomerVerification extends Controller
         // ->with('NotificationLink', $NotificationLink)
     }
 
-    // public function UserComments()
-    // {
-    //     return view('admin-comments');
-    // }
-
     public function AdminActions(Request $request)
     {
         // try{
@@ -2708,10 +2686,4 @@ class CustomerVerification extends Controller
             ->with('Icon', $Icon)
             ->with('Logo', $Logo);
     }
-    // catch (\Exception $e) {
-    //     app('debugbar')->info($e);
-
-
-
-    // }
 }

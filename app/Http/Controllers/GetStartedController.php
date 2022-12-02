@@ -54,9 +54,9 @@ class GetStartedController extends Controller
 
         // dd($Customerid);
         $customer = Customer::getCustomerDetails($Customerid);
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer['Client_Icon'];
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer['Client_Icon'];
 
 
 
@@ -75,9 +75,9 @@ class GetStartedController extends Controller
 
         return view('start-fica-process')
             ->with('customer', $customer)
-            ->with('Logo', $Logo)
-            ->with('RegistrationName', $customerName)
-            ->with('Icon', $Icon)
+            ->with('Logo', $customer->Client_Logo)
+            ->with('RegistrationName', $customer->RegistrationName)
+            ->with('Icon', $customer['Client_Icon'])
             ->with('LogUserName', Auth::user()->FirstName)
             ->with('LogUserSurname', Auth::user()->LastName);
     }
@@ -106,10 +106,10 @@ class GetStartedController extends Controller
 
 
         $Customerid = Auth::user()->CustomerId;
-        $customer = Customer::getCustomerDetails($Customerid);
-        $Icon = $customer->Client_Icon;
-        $Logo = $customer->Client_Logo;
-        $RegistrationName = $customer->RegistrationName;
+        // $customer = Customer::getCustomerDetails($Customerid);
+        // $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
 
 
         // $NotificationLink = $request->session()->get('NotificationLink');

@@ -355,9 +355,9 @@ class awsController extends Controller
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
-            $addressLookUpHomeValue = LookupDatas::where('ID', '=',  $this->homeAddressIDType)->first();
-            $addressLookUpPostalValue = LookupDatas::where('ID', '=',   $this->PostalAddressIDType)->first();
-            $addressLookUpWorkValue = LookupDatas::where('ID', '=',   $this->WorkAddressIDType)->first();
+            // $addressLookUpHomeValue = LookupDatas::where('ID', '=',  $this->homeAddressIDType)->first();
+            // $addressLookUpPostalValue = LookupDatas::where('ID', '=',   $this->PostalAddressIDType)->first();
+            // $addressLookUpWorkValue = LookupDatas::where('ID', '=',   $this->WorkAddressIDType)->first();
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             //  $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
@@ -370,29 +370,29 @@ class awsController extends Controller
             // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
 
             $Addresses = Address::getAllAddresses();
-            $homeAddress  = null;
-            $postalAddress = null;
-            $workAddress  = null;
+            // $homeAddress  = null;
+            // $postalAddress = null;
+            // $workAddress  = null;
 
-            if ($Addresses['Home'] ?? null !== null) {
-                $homeAddress  = $Addresses['Home'];
-            }
-            if ($Addresses['Postal'] ?? null !== null) {
-                $postalAddress = $Addresses['Postal'];
-            }
+            // if ($Addresses['Home'] ?? null !== null) {
+            //     $homeAddress  = $Addresses['Home'];
+            // }
+            // if ($Addresses['Postal'] ?? null !== null) {
+            //     $postalAddress = $Addresses['Postal'];
+            // }
 
-            if ($Addresses['Work'] ?? null !== null) {
-                $workAddress  = $Addresses['Work'];
-            }
+            // if ($Addresses['Work'] ?? null !== null) {
+            //     $workAddress  = $Addresses['Work'];
+            // }
 
 
             $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
             $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
             //Check if addresses exist
-            $homeAddressExist =  $homeAddress != null ? true : false;
-            $postalAddressExist =  $postalAddress != null ? true : false;
-            $workAddressExist =  $workAddress != null ? true : false;
+            $homeAddressExist =  $Addresses['Home'] != null ? true : false;
+            $postalAddressExist =  $Addresses['Postal'] != null ? true : false;
+            $workAddressExist =  $Addresses['Work'] != null ? true : false;
             $isDateValide = false;
 
             $addressResponse = ([

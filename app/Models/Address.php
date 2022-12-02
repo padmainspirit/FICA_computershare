@@ -39,6 +39,10 @@ class Address extends Model
         $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         $address = [];
         if ($Addresses) {
+            $address['Home'] = null;
+            $address['Postal'] = null;
+            $address['Work'] = null;
+
             foreach ($Addresses as $add) {
                 if ($add['AddressTypeInd'] == 16) {
                     $address['Home'] = $add;

@@ -176,38 +176,38 @@ class FicaProcessController extends Controller
 
 
         $Addresses = Address::getAllAddresses();
-        $Home  = null;
-        $Postal = null;
-        $Work  = null;
+        $Home  = $Addresses['Home'];
+        $Postal = $Addresses['Postal'];
+        $Work  = $Addresses['Work'];
 
-        if ($Addresses['Home'] ?? null !== null) {
-            $Home  = $Addresses['Home'];
-        }
-        if ($Addresses['Postal'] ?? null !== null) {
-            $Postal = $Addresses['Postal'];
-        }
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $Home  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $Postal = $Addresses['Postal'];
+        // }
 
-        if ($Addresses['Work'] ?? null !== null) {
-            $Work  = $Addresses['Work'];
-        }
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $Work  = $Addresses['Work'];
+        // }
 
 
 
         $Telephone = Telephones::getAllTelephones();
-        $TelCell  = null;
-        $TelHome = null;
-        $TelWork  = null;
+        $TelCell  = $Telephone['TelCell'];
+        $TelHome = $Telephone['TelHome'];
+        $TelWork  = $Telephone['TelWork'];
 
-        if ($Telephone['TelCell'] ?? null !== null) {
-            $TelCell  = $Telephone['TelCell'];
-        }
-        if ($Telephone['TelHome'] ?? null !== null) {
-            $TelHome = $Telephone['TelHome'];
-        }
+        // if ($Telephone['TelCell'] ?? null !== null) {
+        //     $TelCell  = $Telephone['TelCell'];
+        // }
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $TelHome = $Telephone['TelHome'];
+        // }
 
-        if ($Telephone['TelWork'] ?? null !== null) {
-            $TelWork  = $Telephone['TelWork'];
-        }
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $TelWork  = $Telephone['TelWork'];
+        // }
 
         $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
 
@@ -313,14 +313,14 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        $occupation = [];
-        $countries = [];
-        $funds = [];
+        // $occupation = [];
+        // $countries = [];
+        // $funds = [];
         $images = [];
         $extractedData = [];
-        $bankNames = [];
-        $provincesNames = [];
-        $citiesNames = [];
+        // $bankNames = [];
+        // $provincesNames = [];
+        // $citiesNames = [];
         $Telephones = [];
 
         //try {
@@ -376,37 +376,38 @@ class FicaProcessController extends Controller
         // $workAddressExist =  $workAddress != null ? true : false;
 
         $Addresses = Address::getAllAddresses();
-        $Home  = null;
-        $Postal = null;
-        $Work  = null;
+        $Home  =  $Addresses['Home'];
+        $Postal = $Addresses['Postal'];
+        $Work  = $Addresses['Work'];
 
-        if ($Addresses['Home'] ?? null !== null) {
-            $Home  = $Addresses['Home'];
-        }
-        if ($Addresses['Postal'] ?? null !== null) {
-            $Postal = $Addresses['Postal'];
-        }
+        // if ($Addresses['Home'] ?? null !== null) {
+        //     $Home  = $Addresses['Home'];
+        // }
+        // if ($Addresses['Postal'] ?? null !== null) {
+        //     $Postal = $Addresses['Postal'];
+        // }
 
-        if ($Addresses['Work'] ?? null !== null) {
-            $Work  = $Addresses['Work'];
-        }
+        // if ($Addresses['Work'] ?? null !== null) {
+        //     $Work  = $Addresses['Work'];
+        // }
 
 
 
         $Telephone = Telephones::getAllTelephones();
-        $TelCell  = null;
-        $TelHome = null;
-        $TelWork  = null;
-        if ($Telephone['TelCell'] ?? null !== null) {
-            $TelCell  = $Telephone['TelCell'];
-        }
-        if ($Telephone['TelHome'] ?? null !== null) {
-            $TelHome = $Telephone['TelHome'];
-        }
+        $TelCell  = $Telephone['TelCell'];
+        $TelHome = $Telephone['TelHome'];
+        $TelWork  = $Telephone['TelWork'];
 
-        if ($Telephone['TelWork'] ?? null !== null) {
-            $TelWork  = $Telephone['TelWork'];
-        }
+        // if ($Telephone['TelCell'] ?? null !== null) {
+        //     $TelCell  = $Telephone['TelCell'];
+        // }
+        // if ($Telephone['TelHome'] ?? null !== null) {
+        //     $TelHome = $Telephone['TelHome'];
+        // }
+
+        // if ($Telephone['TelWork'] ?? null !== null) {
+        //     $TelWork  = $Telephone['TelWork'];
+        // }
 
         $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 
