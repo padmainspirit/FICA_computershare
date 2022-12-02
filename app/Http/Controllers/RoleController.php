@@ -45,9 +45,10 @@ class RoleController extends Controller
         return view('roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5)
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
@@ -101,9 +102,10 @@ class RoleController extends Controller
 
         return view('roles.show', compact('role', 'rolePermissions'))
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
@@ -128,9 +130,10 @@ class RoleController extends Controller
 
         return view('roles.edit', compact('role', 'permission', 'rolePermissions'))
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**

@@ -34,9 +34,9 @@ class AdminCreateController extends Controller
         // $Customerid = $request->session()->get('Customerid');
         // $customer = Customer::where('Id', '=',  $Customerid)->first();
         // $Logo = $customer['Client_Logo'];
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         // $GetAllUsers = CustomerUser::all();
         $GetAllCustomers = Customer::all();
@@ -48,9 +48,10 @@ class AdminCreateController extends Controller
             // ->with('GetAllUsers', $GetAllUsers)
             ->with('GetAllCustomers', $GetAllCustomers)
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
 
@@ -77,6 +78,7 @@ class AdminCreateController extends Controller
         $Logo = $customer->Client_Logo;
         $RegistrationName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
+        $GetAllCustomers = Customer::all();
 
         // $GetAllUsers = CustomerUser::all();
         $getCustomerId = $request->input('SelectClient');
@@ -102,10 +104,12 @@ class AdminCreateController extends Controller
             ->with('PhysicalAddress', $PhysicalAddress)
             ->with('TypeOfBusiness', $TypeOfBusiness)
             ->with('TelephoneNumber', $TelephoneNumber)
-
-            ->with('customerName', $RegistrationName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('GetAllCustomers', $GetAllCustomers)
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
 
@@ -146,9 +150,9 @@ class AdminCreateController extends Controller
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         $getCustomerUserSearchID = $request->input('SelectClient');
 
@@ -159,10 +163,11 @@ class AdminCreateController extends Controller
         return view('admin-client', [])
 
             ->with('CustomerSearchID', $CustomerSearchID)
-            ->with('customerName', $customerName)
+            ->with('customerName', $customer->RegistrationName)
             ->with('UserFullName', $UserFullName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     public function ShowCustomerEdit(Request $request)
@@ -201,9 +206,10 @@ class AdminCreateController extends Controller
             ->with('OTP', $OTP)
             ->with('UserFullName', $UserFullName)
 
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
@@ -285,15 +291,16 @@ class AdminCreateController extends Controller
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         return view('admin-customer')
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     public function CreateCustomer(Request $request)
@@ -364,8 +371,9 @@ class AdminCreateController extends Controller
 
         return view('admin-customer')
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 }
