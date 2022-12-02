@@ -97,6 +97,7 @@ class CustomerVerification extends Controller
             session()->pull('exception');
         }
         $idnumber = $request->idnumberResult;
+
         // $LoggedUser = $request->session()->get('LoggedUser');
         $Customerid = $client->CustomerId;
 
@@ -147,6 +148,7 @@ class CustomerVerification extends Controller
 
         $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
         $SearchFica = $getSearchFica['FICA_ID'];
+
 
         // dd($SearchFica);
 
@@ -1193,113 +1195,37 @@ class CustomerVerification extends Controller
     public function PersonalDetailsUpdate(Request $request)
     {
 
+        $this->validate(
+            $request,
+            [
+                'FirstName' => ['required', 'string', 'min:2', 'max:255'],
+                'SURNAME' => ['required', 'string', 'min:2', 'max:255'],
+                'Gender' => 'required',
+                'Email' => ['required', 'email'],
+                'ID_CountryResidence' => ['required', 'numeric'],
+                'WorkTelephoneNo' => 'required|regex:/[0-9]{10}/',
+                'HomeTelephoneNo' => 'required|regex:/[0-9]{10}/',
+                'CellularNo' => ['required', 'numeric', 'min:10'],
+            ],
+            [
+                'FirstName.required' => 'The First Name is required.',
+                'FirstName.min' => 'The surname  must be at least 2 characters..',
+                'FirstName.max' => 'The surname  can not have more than 255 characters..',
+                'SURNAME.required' => 'The surname is required.',
+                'SURNAME.min' => 'The surname  must be at least 2 characters..',
+                'SURNAME.max' => 'The surname  can not have more than 255 characters..',
+                'Gender.required' => 'The Gender is required.',
+                'Email.required' => 'The Email is required.',
+                'Email.email' => 'The Email is invalid.',
+                'ID_CountryResidence.required' => 'The country of issue is required.',
+                'WorkTelephoneNo.min' => 'The Work Telephone No needs to be 10 characters.',
+                'HomeTelephoneNo.min' => 'The Home Telephone No needs to be 10 characters.',
+                'CellularNo.required' => 'The cell number is required.',
+                'CellularNo.min' => 'The cell number needs to be 10 characters.',
 
+            ]
+        );
 
-        // $Consumerid = $request->session()->get('LoggedUser');
-        // $NotificationLink = SendEmail::where('Consumerid', '=',  $Consumerid)->where('IsRead', '=', '1')->get();
-
-        // $idnumber = $request->input('idnumberResult');
-        // //$consumerid = 2D12F5FB-BE59-4A50-BD6A-3896720D8F89;
-        // $consumer = Consumer::where('IDNUMBER', '=',  $idnumber)->first();
-
-        // $personal2 = DB::connection(sqlsrv2)->select('TBL_Consumer')->where('IDNUMBER', '=',  $idnumber)->first()->update('FirstName', $request->FirstName);
-
-        // $personal = Consumer::where('IDNUMBER', '=',  $idnumber)->first()->update(['FirstName' => $FirstName['FirstName']]);
-
-        // $useridentitynum = ConsumerIdentity::where('Identity_Document_ID', '=', $idnumber)->first();
-        // $userfica = AVS::where('FICA_id', '=', $SearchFica)->first();
-        // $userconsumerid = Address::where('Consumerid', '=', $SearchConsumerID)->first();
-
-        // $userid = Consumer::where('IDNUMBER', '=', $idnumber)->first();
-
-        // $userdateissue = ['ID_DateofIssue' => $useridentitynum->ID_DateofIssue]; 
-
-
-
-        //----------------------------------------------------- PERSONAL ----------------------------------------------
-
-        // $personalDetails = Consumer::where('Consumerid', '=',  $userconsumerid->Consumerid)->where('Readonly', '=', 0)->first();
-
-
-        // // app('debugbar')->info($homeAddress);
-
-        // //Check if addresses exist
-        // $homeAddressExist =  $personalDetails != null ? true : false;
-
-
-        // // HOME ADDRESS
-        // if ($homeAddressExist == true) {
-        //     if (
-        //         $personalDetails->FirstName == $request->FirstName && $personalDetails->SURNAME == $request->SURNAME &&
-        //         $personalDetails->SecondName == $request->SecondName && $personalDetails->GenderInd == $request->GenderInd &&
-        //         $personalDetails->Email == $request->Email && $personalDetails->Married_under == $request->Married_under &&
-        //         $personalDetails->Marriage_date == $request->Marriage_date && $personalDetails->Employmentstatus == $request->Employmentstatus &&
-        //         $personalDetails->Nameofemployer == $request->Nameofemployer && $personalDetails->Industryofoccupation == $request->Industryofoccupation
-        //     ) {
-        //     } else {
-        //         // app('debugbar')->info('Address testing');
-        //         //If Home Address Exist change the RecordStatusInd to 0
-        //         Consumer::where("ConsumerUSERID", $personalDetails->USERID)->update(['Readonly' => 0]);
-        //         $HomeAddress = Consumer::create([
-        //             'Consumerid' => $userconsumerid->Consumerid,
-        //             'FirstName' => $request->FirstName,
-        //             'SURNAME' => $request->SURNAME,
-        //             'SecondName' => $request->SecondName,
-        //             'GenderInd' => $request->GenderInd,
-        //             'Email' => $request->Email,
-        //             // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
-        //             'Married_under' => $request->Married_under,
-        //             'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
-
-        //             // 'FaxNumber' => $request->FaxNumber,
-
-        //             'Employmentstatus' => $request->Employmentstatus,
-        //             'Nameofemployer' => $request->Nameofemployer,
-        //             // 'EmpPostalCode' => $request->EmpPostalCode,
-        //             // 'EmployerAddress' => $request->EmployerAddress,
-        //             'Industryofoccupation' => $request->Industryofoccupation,
-
-        //             'Readonly' => 1,
-        //             'CreatedOnDate' => date("Y-m-d H:i:s"),
-        //             'LastUpdatedDate' => date("Y-m-d H:i:s"),
-        //         ]);
-        //     }
-        // } else {
-        //     if (isset($request->FirstName) && isset($request->SURNAME) && isset($request->GenderInd) && isset($request->Email) && isset($request->Married_under) &&
-        //     (date("Y-m-d", strtotime($request->Marriage_date))) && isset($request->Employmentstatus) && isset($request->Nameofemployer) && isset($request->Industryofoccupation)) {
-        //         $PersonalDetail = Consumer::create([
-        //             'Consumerid' => $userconsumerid->Consumerid,
-        //             'FirstName' => $request->FirstName,
-        //             'SURNAME' => $request->SURNAME,
-        //             'SecondName' => $request->SecondName,
-        //             'GenderInd' => $request->GenderInd,
-        //             'Email' => $request->Email,
-
-        //             // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
-        //             'Married_under' => $request->Married_under,
-        //             'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
-
-        //             // 'FaxNumber' => $request->FaxNumber,
-
-        //             'Employmentstatus' => $request->Employmentstatus,
-        //             'Nameofemployer' => $request->Nameofemployer,
-        //             // 'EmpPostalCode' => $request->EmpPostalCode,
-        //             // 'EmployerAddress' => $request->EmployerAddress,
-        //             'Industryofoccupation' => $request->Industryofoccupation,
-
-        //             'Readonly' => 1,
-        //             'CreatedOnDate' => date("Y-m-d H:i:s"),
-        //             'LastUpdatedDate' => date("Y-m-d H:i:s"),
-        //         ]);
-        //     }
-        // }
-
-        //-----------------------------------------------------END PERSONAL ----------------------------------------------
-
-
-        // $testthething = ConsumerIdentity::where('FICA_id', '=',  $SearchFica)->first();
-
-        // dd($request);
 
         $idnumber = $request->session()->get('idnumber');
         $SearchConsumerID = $request->session()->get('SearchConsumerID');
@@ -1431,8 +1357,6 @@ class CustomerVerification extends Controller
                 $CellNumber->TelephoneNo == substr($request->CellularNo, 3, 10)
             ) {
             } else {
-                // app('debugbar')->info('Work number testing');
-                //If Work Number exists change the RecordStatusInd to 0
                 Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 12)->update(['RecordStatusInd' => 0]);
                 $HomeNumber = Telephones::create([
                     'ConsumerID' => $SearchConsumerID,
@@ -1460,42 +1384,6 @@ class CustomerVerification extends Controller
             }
         }
 
-        // Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 10)->where('RecordStatusInd', '=', 1)->update(
-        //     array(
-
-        //     'TelephoneCode' => substr($request->WorkTelephoneNo, 0, 3),
-        //     'TelephoneNo' => substr($request->WorkTelephoneNo, 3, 10),
-        //     // 'HomeTelephoneNo' => $request->HomeTelephoneNo,
-        //     // 'CellularNo' => $request->CellularNo,
-
-        //     )
-        // );
-
-        // Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 11)->where('RecordStatusInd', '=', 1)->update(
-        //     array(
-
-        //     'TelephoneCode' => substr($request->HomeTelephoneNo, 0, 3),
-        //     'TelephoneNo' => substr($request->HomeTelephoneNo, 3, 10),
-
-        //     )
-        // );
-
-        // Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 12)->where('RecordStatusInd', '=', 1)->update(
-        //     array(
-
-        //     'TelephoneCode' => substr($request->CellularNo, 0, 3),
-        //     'TelephoneNo' => substr($request->CellularNo, 3, 10),
-
-        //     )
-        // );
-
-        // app('debugbar')->info($contact);
-
-        // if (request()->filled('ID_DateofIssue')) {
-        //     $update1['ID_DateofIssue'] = date("Y-m-d", strtotime($request->ID_DateofIssue));
-        // } else {
-        //     $update1['ID_DateofIssue'] = null;
-        // }
 
         $insidedata = $this->StoredProc($SearchConsumerID);
 
@@ -1534,12 +1422,6 @@ class CustomerVerification extends Controller
 
         $TitleDesc = $request->session()->get('TitleDesc');
 
-        // $this->TestResult($request);
-
-        // $Logo =  $request->session()->get('Logo');
-        // $customerName =  $request->session()->get('customerName');
-
-        // $Customerid = $request->session()->get('Customerid');
         $client = Auth::user();
         $Customerid = $client->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();

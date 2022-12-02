@@ -92,12 +92,12 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($Logo);
 
-        $occupation = [];
-        $countries = [];
-        $funds = [];
-        $bankNames = [];
-        $provincesNames = [];
-        $citiesNames = [];
+        // $occupation = [];
+        // $countries = [];
+        // $funds = [];
+        // $bankNames = [];
+        // $provincesNames = [];
+        // $citiesNames = [];
         $Telephones = [];
 
         //try {
@@ -154,11 +154,14 @@ class FicaProcessController extends Controller
 
         $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
 
+
+
         //select values from the dropdowlist
         $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
         $selectedBankType = ($avs->BankTypeid != null) ?  $avs->BankTypeid : null;
         $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
+
 
 
         //get addresses
@@ -215,6 +218,8 @@ class FicaProcessController extends Controller
 
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
+
+        // dd($industryOccupation);
         // foreach ($industryOccupation as $industry) {
         //     // array_push($occupation, strtoupper($industry->Industry_occupation));
         //     array_push($occupation, $industry->Industry_occupation);

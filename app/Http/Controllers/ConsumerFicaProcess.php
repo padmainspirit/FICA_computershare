@@ -35,18 +35,28 @@ class ConsumerFicaProcess extends Controller
     public function PersonalDetails(Request $request)
     {
 
-        $this->validate($request, [
-            'street-address-line1' => 'required',
-            'street-address-line2' => 'required',
-            'city-physical' => 'required',
-            'province-physical' => 'required',
-            'zip-physical' => 'required',
-            'country-input' => 'required',
-            'employee-status-input' => 'required',
-            'industry-of-occupation-input' => 'required',
-            // 'id-issuedate-input' => 'required',
-            'titleId' => 'required'
-        ]);
+        $this->validate(
+            $request,
+            [
+                'work-number-input' => ['numeric', 'min:10'],
+                'telephone-home-input' => ['numeric', 'min:10'],
+                'street-address-line1' => 'required',
+                'street-address-line2' => 'required',
+                'city-physical' => 'required',
+                'province-physical' => 'required',
+                'zip-physical' => 'required',
+                'country-input' => 'required',
+                'employee-status-input' => 'required',
+                'industry-of-occupation-input' => 'required',
+                // 'id-issuedate-input' => 'required',
+                'titleId' => 'required'
+            ],
+
+            [
+                'work-number-input.min' => 'The work number has to be 10 digits.',
+                'telephone-home-input.min' => 'The home number has to be 10 digits.',
+            ]
+        );
 
         // dd($request);
         $occupation = [];

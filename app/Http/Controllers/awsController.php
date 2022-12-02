@@ -1000,8 +1000,8 @@ class awsController extends Controller
         $this->validate(
             $request,
             [
-                'initials' => ['required', 'string', 'min:2', 'max:255'],
-                'surname' => ['required', 'string', 'min:5', 'max:255'],
+                'initials' => ['required', 'string', 'min:1', 'max:255'],
+                'surname' => ['required', 'string', 'min:2', 'max:255'],
                 'acc-number' => ['required', 'numeric'],
                 'bank-name-dd' => ['required'],
                 'BankTypeid' => ['required'],
@@ -1010,7 +1010,7 @@ class awsController extends Controller
             [
                 'initials.required' => 'The initials is required.',
                 'surname.required' => 'The surname is required.',
-                'surname.min' => 'The surname  must be at least 5 characters..',
+                'surname.min' => 'The surname  must be at least 2 characters..',
                 'acc-number.required' => 'The account number is required.',
                 'acc-number.numeric' => 'The account number must be numeric.',
                 'bank-name-dd.required' => 'The bank name is required.',
