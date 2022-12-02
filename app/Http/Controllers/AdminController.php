@@ -23,6 +23,7 @@ class AdminController extends Controller
      */
     function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('permission:admin-dashboard', ['only' => ['ShowDashboard']]);
         $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
     }
