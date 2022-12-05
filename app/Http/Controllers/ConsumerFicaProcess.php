@@ -145,7 +145,6 @@ class ConsumerFicaProcess extends Controller
         //     $workTelephonNumber  = $Telephone['TelWork'];
         // }
 
-
         // $telephone1 = Telephones::select('*')
         //     ->where('ConsumerID', '=',  $consumer->Consumerid)
         //     ->where('RecordStatusInd', '=', 1)
@@ -166,14 +165,14 @@ class ConsumerFicaProcess extends Controller
         $homeAddressExist =  $homeAddress != null ? true : false;
         $postalAddressExist =  $postalAddress != null ? true : false;
         $workAddressExist =  $workAddress != null ? true : false;
-        // $telephoneExist =  $telephone  != null ? true : false;
+        // $telephoneExist =  $telephone != null ? true : false;
 
 
         $ficaProgress = ($fica->Personal_Status == null) ? $fica->FICAProgress + 1 : $fica->FICAProgress;
         // app('debugbar')->info($ficaProgress);
 
         //get user input
-        // //Field(s) in TBL_Consumer table
+        //Field(s) in TBL_Consumer table
         // $surname = $request->input('surname-input');
         // $name = $request->input('name-input');
         // $idnumber = $request->input('idnumber-input');
@@ -354,8 +353,6 @@ class ConsumerFicaProcess extends Controller
 
         //-----------------------------------------------------END ADDRESS ----------------------------------------------
 
-
-
         //update Consumer detalis
         Consumer::where('Consumerid', $consumer->Consumerid)->update(
             array(
@@ -501,7 +498,6 @@ class ConsumerFicaProcess extends Controller
             // $noForeignTaxNumberReason = $request->input('no-foreign-tax-number-reason-input');
 
             $sourceOfFunds = $request->input('funds-input');
-
 
             Financial::where('FICA_id',  $fica->FICA_id)->update(
                 array(

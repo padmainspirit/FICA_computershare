@@ -92,8 +92,9 @@ class LoginController extends Controller
 
         //$is_role = Auth::user()->getRoleNames();
         $getRoleName = CustomerUser::getCustomerUserRoleName();
+        $YearNow = Carbon::now()->year;
 
-        // dd($getRoleName);
+
 
         if ($getRoleName) {
             if ($getRoleName == 'SuperAdmin') {
@@ -105,6 +106,7 @@ class LoginController extends Controller
                 $otp = new SmsOtpController();
                 $sendotp = $otp->sendOTP($client->PhoneNumber, $customer->RegistrationName);
 
+
                 DB::table('CustomerUsers')
                     ->where('Id', $client->Id)
                     ->update([
@@ -112,14 +114,15 @@ class LoginController extends Controller
                         'OTP_Date' => date("Y-m-d H:i:s")
                     ]);
 
-                // Mail::send(
-                //     'auth.emailotp',
-                //     ['otp' => $sendotp, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow],
-                //     function ($message) use ($request) {
-                //         $message->to($request->session()->get('Email'));
-                //         $message->subject('OTP Verification');
-                //     }
-                // );
+                Mail::send(
+                    'auth.emailotp',
+                    ['otp' => $sendotp, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow],
+                    function ($message) use ($request) {
+                        $client = Auth::user();
+                        $message->to($client->Email);
+                        $message->subject('OTP Verification');
+                    }
+                );
 
 
                 return $request->wantsJson()

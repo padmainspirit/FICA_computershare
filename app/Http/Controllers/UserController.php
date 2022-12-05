@@ -60,10 +60,11 @@ class UserController extends Controller
         $customers = Customer::pluck('RegistrationName', 'Id',);
         return view('users.create', compact('roles', 'customers'))
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
-            ->with('Logo', $Logo);
+            ->with('Logo', $customer->Client_Logo);
+
     }
 
     /**
@@ -76,18 +77,19 @@ class UserController extends Controller
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         $roles = Role::pluck('name', 'name')->all();
         $customers = Customer::pluck('RegistrationName', 'Id',);
         return view('users.admincreate', compact('roles', 'customers'))
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
-            ->with('Logo', $Logo);
+            ->with('Logo', $customer->Client_Logo);
+
     }
 
     /**
@@ -121,6 +123,8 @@ class UserController extends Controller
         ]);
 
         $input = $request->all();
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
         //$input['password'] = Hash::make($input['password']);
 
         //$user = CustomerUser::create($input);
@@ -153,7 +157,11 @@ class UserController extends Controller
 
         // return redirect()->route('users.index')
         return redirect()->route('admin-display')
-            ->with('success', 'User created successfully');
+            ->with('success', 'User created successfully')
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
 
@@ -188,6 +196,8 @@ class UserController extends Controller
         ]);
 
         $input = $request->all();
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
         //$input['password'] = Hash::make($input['password']);
 
         //$user = CustomerUser::create($input);
@@ -220,7 +230,11 @@ class UserController extends Controller
 
         // return redirect()->route('users.index')
         return redirect()->route('admin-display')
-            ->with('success', 'User created successfully');
+            ->with('success', 'User created successfully')
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
@@ -247,9 +261,9 @@ class UserController extends Controller
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         $user = CustomerUser::find($id);
         $roles = Role::pluck('name', 'name')->all();
@@ -258,9 +272,10 @@ class UserController extends Controller
         $userBelongsToCustomer = $user->CustomerId;
         return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'))
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
@@ -325,9 +340,10 @@ class UserController extends Controller
         return redirect()->route('admin-display')
             ->with('success', 'User updated successfully')
             ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
-            ->with('Logo', $Logo);
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
     }
 
     /**
