@@ -2336,7 +2336,7 @@
                                                         id="broker-name-input" name="broker-name-input"
                                                         {{ $fica->Declaration_status !== null ? 'disabled' : '' }}
                                                         placeholder="Enter Broker Name"
-                                                        value="{{ $declaration->Broker != null ? $consumer->Broker : '' }}">
+                                                        value="{{ $declaration->Broker != null ? $declaration->Broker : '' }}">
 
                                                     @error('broker-name-input')
                                                         <div style="color: red">

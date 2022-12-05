@@ -1116,7 +1116,7 @@ class UserVerificationController extends Controller
     {
         $soapUrlLive = config("app.API_SOAP_URL_LIVE_VERIFY_COMPLIANCE");
         $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_COMPLIANCE");
-        $soapUrlLive = $soapUrlLive; //here we are changing the url to the demo/dev/testing environment
+        // $soapUrlLive = $soapUrlLive; //here we are changing the url to the demo/dev/testing environment
 
         // $username = $this->xdsusername;
         // $password = $this->xdspassword;

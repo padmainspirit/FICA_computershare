@@ -87,26 +87,17 @@ class FicaProcessController extends Controller
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
 
-        // $Logo =  $request->session()->get('Logo');
-        // $customerName =  $request->session()->get('customerName');
-
-        // app('debugbar')->info($Logo);
-
-        // $occupation = [];
-        // $countries = [];
-        // $funds = [];
-        // $bankNames = [];
-        // $provincesNames = [];
-        // $citiesNames = [];
         $Telephones = [];
-
         //try {
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $consumerid = $consumer->Consumerid;
+
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
-        $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        $LoggedInConsumerId = $fica['Consumerid'];
+        $fica = FICA::where('Consumerid', '=',  $consumerid)->first();
+        // dd($fica);
+        $LoggedInConsumerId = $consumerid;
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -114,25 +105,66 @@ class FicaProcessController extends Controller
         $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
         $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
-
-
-
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $LoggedInConsumerId = $consumer['Consumerid'];
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         $request->session()->put('NotificationLink', $NotificationLink);
 
+        //CONSUMER IDENTITY
+        if ($consumerIdentity == null) {
+            $consumeriden = ConsumerIdentity::create([
+                'Identity_ID' => Str::upper(Str::uuid()),
+                'FICA_id' =>  $fica->FICA_id,
+                'Identity_Document_ID' => $consumer->IDNUMBER,
+            ]);
+            $consumeriden->save();
+        }
+
+        //KYC
+        if ($kyc == null) {
+            $kycuser = KYC::create([
+                'KYC_id' => Str::upper(Str::uuid()),
+                'FICA_id' => $fica->FICA_id,
+            ]);
+            $kycuser->save();
+        }
+
+        //AVS
+        if ($avs == null) {
+            $avsuser = AVS::create([
+                'Bank_id' => Str::upper(Str::uuid()),
+                'FICA_id' => $fica->FICA_id,
+            ]);
+            $avsuser->save();
+        }
+
+        //COMPLIANCE
+        if ($comply == null) {
+            $compliance = Compliance::create([
+                'Compliance_id' => Str::upper(Str::uuid()),
+                'FICA_id' => $fica->FICA_id,
+            ]);
+            $compliance->save();
+        }
+
+        //DOVS
+        if ($dovs == null) {
+            $dovsuser = DOVS::create([
+                'DOVS_id' => Str::upper(Str::uuid()),
+                'FICA_id' => $fica->FICA_id,
+            ]);
+            $dovsuser->save();
+        }
         app('debugbar')->info($NotificationLink);
 
         $bankTpye = BankAccountType::all();
-        $lookupdata = LookupDatas::all();
+        // $lookupdata = LookupDatas::all();
 
         //Telephones on LookUpData Table
-        foreach ($lookupdata as  $telephone) {
-            if ($telephone->Type == 'Telephone Type Indicator') {
-                array_push($Telephones, [$telephone->Text => $telephone->Value]);
-            }
-        }
+        // foreach ($lookupdata as  $telephone) {
+        //     if ($telephone->Type == 'Telephone Type Indicator') {
+        //         array_push($Telephones, [$telephone->Text => $telephone->Value]);
+        //     }
+        // }
         // $test = [];
 
         // foreach ($Telephones as $tel) {
@@ -147,23 +179,26 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($NotificationLink);
 
-        $customer = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
-        // $NotificationLink = $request->session()->get('NotificationLink');
-        //app('debugbar')->info($avs);
-        // app('debugbar')->info($consumer2);
+        $DOB = null;
+        $selectedIndustryofoccupation = null;
+        // $selectedBankType = null;
+        $selectSourceOfFunds = null;
 
-        $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
+        if ($consumerIdentity != null) {
+            $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
+        }
 
+        if ($consumer != null) {
+            $selectedIndustryofoccupation = ($consumer->Industryofoccupation != null) ? $consumer->Industryofoccupation : null;
+        }
 
+        // if($avs != null){
+        //     $selectedBankType = ($avs!= null) ?  $avs->BankTypeid : null;
+        // }
 
-        //select values from the dropdowlist
-        $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
-
-        $selectedBankType = ($avs->BankTypeid != null) ?  $avs->BankTypeid : null;
-        $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
-
-
-
+        if ($financial != null) {
+            $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
+        }
         //get addresses
         // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
         // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
@@ -171,9 +206,25 @@ class FicaProcessController extends Controller
 
         // $homeAddressExist =  $homeAddress != null ? true : false;
         // $postalAddressExist =  $postalAddress != null ? true : false;
-        // $workAddressExist =  $workAddress != null ? true : false;
+        // $workAddressExist =  $workAddress != null ? true : false;    
 
+        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        // $Home  = null;
+        // $Postal = null;
+        // $Work  = null;
+        // if ($Addresses) {
+        //     foreach ($Addresses as $address) {
+        //         if ($address['AddressTypeInd'] == 16) {
+        //             $Home = $address;
+        //         } else if ($address['AddressTypeInd'] == 15) {
+        //             $Postal = $address;
+        //         } else if ($address['AddressTypeInd'] == 14) {
+        //             $Work = $address;
+        //         }
+        //     }
+        // }
 
+        // dd($Work);
 
         $Addresses = Address::getAllAddresses();
         $Home  = $Addresses['Home'];
@@ -191,8 +242,6 @@ class FicaProcessController extends Controller
         //     $Work  = $Addresses['Work'];
         // }
 
-
-
         $Telephone = Telephones::getAllTelephones();
         $TelCell  = $Telephone['TelCell'];
         $TelHome = $Telephone['TelHome'];
@@ -209,6 +258,20 @@ class FicaProcessController extends Controller
         //     $TelWork  = $Telephone['TelWork'];
         // }
 
+        //Telephone
+        // $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
+        // $worktelephone = Telephones::where('ConsumerID', '=',   $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
+
+        // $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
+        // $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
+
+        //Check if addresses exist
+        // if ($telephone != null) {
+        //     $homeTelephoneNumebr =  $telephone->TelephoneCode . $telephone->TelephoneNo;
+        // }
+
+        // app('debugbar')->info($homeTelephoneNumebr);
+
         $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
 
         // app('debugbar')->info('stepState: ' . $stepState);
@@ -218,8 +281,6 @@ class FicaProcessController extends Controller
 
         //Get IndustryOccupation
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
-
-        // dd($industryOccupation);
         // foreach ($industryOccupation as $industry) {
         //     // array_push($occupation, strtoupper($industry->Industry_occupation));
         //     array_push($occupation, $industry->Industry_occupation);
@@ -285,7 +346,7 @@ class FicaProcessController extends Controller
         // return view('fica');
 
         return view('fica-process', [
-            'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work,
+            'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'countries' => $nationality,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
             'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
@@ -312,25 +373,17 @@ class FicaProcessController extends Controller
         // $customerName =  $request->session()->get('customerName');
 
         // app('debugbar')->info($Logo);
-
-        // $occupation = [];
-        // $countries = [];
-        // $funds = [];
         $images = [];
         $extractedData = [];
-        // $bankNames = [];
-        // $provincesNames = [];
-        // $citiesNames = [];
         $Telephones = [];
 
         //try {
         $loggedInUserId = $client->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
-        // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-        // dd($fica);
-        $LoggedInConsumerId = $fica['Consumerid'];
+        $LoggedInConsumerId = $fica->Consumerid;
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -342,8 +395,6 @@ class FicaProcessController extends Controller
         $LoggedInConsumerId = $consumer['Consumerid'];
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
-
-
 
         $bankTpye = BankAccountType::all();
         $aws = new awsController();
@@ -391,8 +442,6 @@ class FicaProcessController extends Controller
         //     $Work  = $Addresses['Work'];
         // }
 
-
-
         $Telephone = Telephones::getAllTelephones();
         $TelCell  = $Telephone['TelCell'];
         $TelHome = $Telephone['TelHome'];
@@ -409,11 +458,36 @@ class FicaProcessController extends Controller
         //     $TelWork  = $Telephone['TelWork'];
         // }
 
-        $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
+        $DOB = null;
+        $selectedIndustryofoccupation = null;
+        // $selectedBankType = null;
+        $selectSourceOfFunds = null;
+
+        if ($consumerIdentity != null) {
+            $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
+        }
+
+        if ($consumer != null) {
+            $selectedIndustryofoccupation = ($consumer->Industryofoccupation != null) ? $consumer->Industryofoccupation : null;
+        }
+
+        // if($avs != null){
+        //     $selectedBankType = ($avs!= null) ?  $avs->BankTypeid : null;
+        // }
+
+        if ($financial != null) {
+            $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
+        }
+
+        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
+        // $selectedBankType = ($avs!= null) ?  $avs->BankTypeid : null;
+        // $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
+
+        // $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
 
         //select values from the dropdowlist
-        $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
-        $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
+        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
+        // $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
         // $selectSourceOfFunds = $financial->Sources_Funds;
 
         $NotificationLink = $request->session()->get('NotificationLink');
