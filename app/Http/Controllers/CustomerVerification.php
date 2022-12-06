@@ -472,7 +472,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? $testing[0]->DOB : null,
+            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -622,7 +622,7 @@ class CustomerVerification extends Controller
 
         // $request->session()->put('insidedata', $insidedata);
 
-        // app('debugbar')->info($insidedata);
+        app('debugbar')->info($insidedata);
 
 
         // $compliance = Compliance::where('HA_IDNO', '=', $idnumber)->first();
@@ -1075,7 +1075,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? $testing[0]->DOB : null,
+            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -1522,9 +1522,14 @@ class CustomerVerification extends Controller
 
         //----------------------------------------------------- ADDRESS ----------------------------------------------
 
-        $homeAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        $postalAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        $workAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        // $homeAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+        // $postalAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+        // $workAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+
+        $Addresses = Address::getAllAddressesAdmin();
+        $homeAddress  = $Addresses['Home'];
+        $postalAddress = $Addresses['Postal'];
+        $workAddress  = $Addresses['Work'];
 
         // app('debugbar')->info($homeAddress);
 
@@ -1545,14 +1550,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Home Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $homeAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $HomeAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     // 'AddressTypeInd' => $addressLookUpHomeValue->Value,
                     'AddressTypeInd' => 16,
                     'OriginalAddress1' => $request->OriginalAddress1,
                     'OriginalAddress2' => $request->OriginalAddress2,
                     'OriginalAddress3' => $request->OriginalAddress3,
-                    'Province' => $request->ResProvince,
+                    'OriginalAddress4' => $request->ResProvince,
                     'OriginalPostalCode' => $request->OriginalPostalCode,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
@@ -1561,14 +1566,14 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->OriginalAddress1) && isset($request->OriginalAddress2) && isset($request->OriginalAddress3) && isset($request->ResProvince) && isset($request->OriginalPostalCode)) {
-                $HomeAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     // 'AddressTypeInd' => $addressLookUpHomeValue->Value,
                     'AddressTypeInd' => 16,
                     'OriginalAddress1' => $request->OriginalAddress1,
                     'OriginalAddress2' => $request->OriginalAddress2,
                     'OriginalAddress3' => $request->OriginalAddress3,
-                    'Province' => $request->ResProvince,
+                    'OriginalAddress4' => $request->ResProvince,
                     'OriginalPostalCode' => $request->OriginalPostalCode,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
@@ -1588,14 +1593,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Postal Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $postalAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $PostalAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 15,
                     'OriginalAddress1' => $request->PostOriginalAddress1,
                     'OriginalAddress2' => $request->PostOriginalAddress2,
                     'OriginalAddress3' => $request->PostOriginalAddress3,
+                    'OriginalAddress4' => $request->PostProvince,
                     'OriginalPostalCode' => $request->PostOriginalPostalCode,
-                    'Province' => $request->PostProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1603,12 +1608,13 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->PostOriginalAddress1) && isset($request->PostOriginalAddress2) && isset($request->PostOriginalAddress3) &&  isset($request->PostOriginalPostalCode) && isset($request->PostProvince)) {
-                $PostalAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 15,
                     'OriginalAddress1' => $request->PostOriginalAddress1,
                     'OriginalAddress2' => $request->PostOriginalAddress2,
                     'OriginalAddress3' => $request->PostOriginalAddress3,
+                    'OriginalAddress4' => $request->PostProvince,
                     'OriginalPostalCode' => $request->PostOriginalPostalCode,
                     'Province' => $request->PostProvince,
                     'RecordStatusInd' => 1,
@@ -1629,14 +1635,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Work Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $workAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $WorkAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 14,
                     'OriginalAddress1' => $request->WorkOriginalAddress1,
                     'OriginalAddress2' => $request->WorkOriginalAddress2,
                     'OriginalAddress3' => $request->WorkOriginalAddress3,
+                    'OriginalAddress4' => $request->WorkProvince,
                     'OriginalPostalCode' => $request->WorkOriginalPostalCode,
-                    'Province' => $request->WorkProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1644,14 +1650,14 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->WorkOriginalAddress1) && isset($request->WorkOriginalAddress2) && isset($request->WorkOriginalAddress3) &&  isset($request->WorkOriginalPostalCode) && isset($request->WorkProvince)) {
-                $WorkAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 14,
                     'OriginalAddress1' => $request->WorkOriginalAddress1,
                     'OriginalAddress2' => $request->WorkOriginalAddress2,
                     'OriginalAddress3' => $request->WorkOriginalAddress3,
+                    'OriginalAddress4' => $request->WorkProvince,
                     'OriginalPostalCode' => $request->WorkOriginalPostalCode,
-                    'Province' => $request->WorkProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1665,7 +1671,7 @@ class CustomerVerification extends Controller
         // $NotificationLink = $request->session()->get('NotificationLink');
         $LogUserName = $request->session()->get('LogUserName');
         $LogUserSurname = $request->session()->get('LogUserSurname');
-        $Email = $request->session()->get('Email');
+        // $Email = $request->session()->get('Email');
 
         $ConsumerCapturedPhoto = $request->session()->get('ConsumerCapturedPhoto');
 
@@ -2673,11 +2679,11 @@ class CustomerVerification extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         // dd($customerName);
 

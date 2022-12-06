@@ -36,7 +36,32 @@ class Address extends Model
     {
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Addresses = Address::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $address = [];
+        if ($Addresses) {
+            $address['Home'] = null;
+            $address['Postal'] = null;
+            $address['Work'] = null;
+
+            foreach ($Addresses as $add) {
+                if ($add['AddressTypeInd'] == 16) {
+                    $address['Home'] = $add;
+                } else if ($add['AddressTypeInd'] == 15) {
+                    $address['Postal'] = $add;
+                } else if ($add['AddressTypeInd'] == 14) {
+                    $address['Work'] = $add;
+                }
+            }
+        }
+        return $address;
+    }
+
+    public static function getAllAddressesAdmin()
+    {
+        $SearchConsumerID = session()->get('SearchConsumerID');
+        // dd($SearchConsumerID);
+        // $consumer = Consumer::where('IDNUMBER', '=',  $loggedInUserId)->first();
+        $Addresses = Address::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->get();
         $address = [];
         if ($Addresses) {
             $address['Home'] = null;

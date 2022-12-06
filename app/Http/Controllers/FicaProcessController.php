@@ -208,7 +208,7 @@ class FicaProcessController extends Controller
         // $postalAddressExist =  $postalAddress != null ? true : false;
         // $workAddressExist =  $workAddress != null ? true : false;    
 
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        // $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         // $Home  = null;
         // $Postal = null;
         // $Work  = null;

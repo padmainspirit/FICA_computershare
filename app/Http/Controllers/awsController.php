@@ -100,13 +100,13 @@ class awsController extends Controller
     //Green book or Smart Card ID
     function smartCardAndGreenBookID($texts, Request $request)
     {
-        $IDNO = array();
+        // $IDNO = array();
         $IdAndConfidence = array();
         $IssueDate = [];
         $Nationality = [];
         $IssueDateResultResponse = [];
         $tempData = [];
-        $IdResult = '';
+        // $IdResult = '';
 
         try {
             for ($i = 0; $i <= count($texts); $i++) {
@@ -142,13 +142,13 @@ class awsController extends Controller
                     //Find green book Issue Date
                     if (preg_match('(DATE ISSUED)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -3);
+                        $IssueDateResult = substr($IssueDate, 0, -4);
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
                     //Find smart card Issue Date
                     if (preg_match('(Date of Issue)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -3);
+                        $IssueDateResult = substr($IssueDate, 0, -4);
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
                     // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
@@ -161,8 +161,9 @@ class awsController extends Controller
             }
             array_push($IdAndConfidence, isset($IssueDateResultResponse[0]) ? $IssueDateResultResponse[0] : null);
             array_push($IdAndConfidence, $Nationality[0], isset($Nationality[0]) ? $Nationality[0] : null);
-            app('debugbar')->info($tempData);
+            // app('debugbar')->info($tempData);
             app('debugbar')->info($IdAndConfidence);
+            app('debugbar')->info($IssueDate);
             //ID Data formarted
 
             $IDResults = ([
@@ -181,7 +182,8 @@ class awsController extends Controller
             if (isset($IdAndConfidence[0], $IdAndConfidence[1])) {
                 $IdData = ['Id' => $IdAndConfidence[0], 'Score' => $IdAndConfidence[1], 'IdType' => isset($IdAndConfidence[2]) ? $IdAndConfidence[2] : null, 'DateOfIssue' => isset($IdAndConfidence[3]) ? date('Y-m-d', strtotime($IdAndConfidence[3])) : null, 'Nationality' => $IdAndConfidence[4]];
                 $IdDataResult = (object) $IdData;
-                app('debugbar')->info($IdDataResult);
+                // app('debugbar')->info($IdDataResult, 'DATA RESULT');
+                // app('debugbar')->info($IdDataResult->Id);
                 if (strlen($IdDataResult->Id) == 13 && $IdDataResult->Score >= 50) {
                     //1.save to database
                     $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
@@ -208,7 +210,7 @@ class awsController extends Controller
                     ConsumerIdentity::where('Identity_Document_ID', $dataValidated)->update(
                         array(
                             'Identity_Document_TYPE' =>  $IdDataResult->IdType,
-                            'ID_DateofIssue' => isset($IdDataResult->DateOfIssue) ? $IdDataResult->DateOfIssue : null,
+                            'ID_DateofIssue' => isset($IssueDateResult) ? $IssueDateResult : null,
                             'ID_CountryResidence' => $IdDataResult->Nationality
                         )
                     );
@@ -242,6 +244,8 @@ class awsController extends Controller
                         'message' => 'ID Document submited successfully',
                         'status' => true
                     ]);
+
+                    app('debugbar')->info($dataValidated);
                 } else if (strlen($IdDataResult->Id) >= 11 || $IdDataResult->Id < 13 && $IdDataResult->Score >= 50) {
                     $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
                     $IdResult =  $dataValidated;
