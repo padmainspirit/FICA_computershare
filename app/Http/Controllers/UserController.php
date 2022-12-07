@@ -64,7 +64,6 @@ class UserController extends Controller
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);
-
     }
 
     /**
@@ -72,25 +71,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function admincreate()
-    {
-        $client = Auth::user();
-        $customer = Customer::getCustomerDetails($client->CustomerId);
-        $UserFullName = $client->FirstName . ' ' . $client->LastName;
-        // $Logo = $customer->Client_Logo;
-        // $customerName = $customer->RegistrationName;
-        // $Icon = $customer->Client_Icon;
+    // public function admincreate()
+    // {
+    //     $client = Auth::user();
+    //     $customer = Customer::getCustomerDetails($client->CustomerId);
+    //     $UserFullName = $client->FirstName . ' ' . $client->LastName;
+    //     // $Logo = $customer->Client_Logo;
+    //     // $customerName = $customer->RegistrationName;
+    //     // $Icon = $customer->Client_Icon;
 
-        $roles = Role::pluck('name', 'name')->all();
-        $customers = Customer::pluck('RegistrationName', 'Id',);
-        return view('users.admincreate', compact('roles', 'customers'))
-            ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customer->RegistrationName)
-            ->with('Icon', $customer->Client_Icon)
-            ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
-
-    }
+    //     $roles = Role::pluck('name', 'name')->all();
+    //     $customers = Customer::pluck('RegistrationName', 'Id',);
+    //     return view('users.admincreate', compact('roles', 'customers'))
+    //         ->with('UserFullName', $UserFullName)
+    //         ->with('customerName', $customer->RegistrationName)
+    //         ->with('Icon', $customer->Client_Icon)
+    //         ->with('customer', $customer)
+    //         ->with('Logo', $customer->Client_Logo);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -125,6 +123,15 @@ class UserController extends Controller
         $input = $request->all();
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
+
+        if ($input['roles'] == 'CustomerUser') {
+
+            $isadmin = 0;
+        } elseif ($input['roles'] == 'CustomerAdmin') {
+            $isadmin = 1;
+        }
+
+        // dd($input['roles']);
         //$input['password'] = Hash::make($input['password']);
 
         //$user = CustomerUser::create($input);
@@ -136,7 +143,7 @@ class UserController extends Controller
             'PhoneNumber' => rand(),
             'Password' => Hash::make($input['Password']),
             'IDNumber' => rand(),
-            'IsAdmin' => 0,
+            'IsAdmin' => $isadmin,
             'Status' => NULL,
             'CustomerId' => $input['CustomerId'],
             'Code' => NULL,
@@ -171,71 +178,71 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function adminstore(Request $request)
-    {
-        $this->validate($request, [
-            'FirstName' => ['required', 'string', 'min:2', 'max:255'],
-            'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
-            'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
-            'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
-            'Password' => [
-                'required',
-                'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
-            ],
-            'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
-            'roles' => 'required',
-            'CustomerId' => 'required'
-        ], [
-            'unique'        => 'The :attribute already been registered.',
-            'IDNumber.required' => 'The ID number field is required.',
-            'CustomerId.required' => 'The Customer ID field is required.',
-            'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
-            'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
-        ]);
+    // public function adminstore(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'FirstName' => ['required', 'string', 'min:2', 'max:255'],
+    //         'LastName' => ['required', 'string', 'min:2', 'max:255'],
+    //         'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+    //         'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
+    //         'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
+    //         'Password' => [
+    //             'required',
+    //             'min:8',
+    //             'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+    //         ],
+    //         'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
+    //         'roles' => 'required',
+    //         'CustomerId' => 'required'
+    //     ], [
+    //         'unique'        => 'The :attribute already been registered.',
+    //         'IDNumber.required' => 'The ID number field is required.',
+    //         'CustomerId.required' => 'The Customer ID field is required.',
+    //         'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+    //         'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
+    //     ]);
 
-        $input = $request->all();
-        $client = Auth::user();
-        $customer = Customer::getCustomerDetails($client->CustomerId);
-        //$input['password'] = Hash::make($input['password']);
+    //     $input = $request->all();
+    //     $client = Auth::user();
+    //     $customer = Customer::getCustomerDetails($client->CustomerId);
+    //     //$input['password'] = Hash::make($input['password']);
 
-        //$user = CustomerUser::create($input);
-        $user  = CustomerUser::create([
-            //'Id' =>  Str::upper(Str::uuid()),
-            'FirstName' => $input['FirstName'],
-            'LastName' => $input['LastName'],
-            'Email' => $input['Email'],
-            'PhoneNumber' => rand(),
-            'Password' => Hash::make($input['Password']),
-            'IDNumber' => rand(),
-            'IsAdmin' => 1,
-            'Status' => NULL,
-            'CustomerId' => $input['CustomerId'],
-            'Code' => NULL,
-            'SubscriptionId' => NULL,
-            'Message' => NULL,
-            'CreatedDate' =>  date("Y-m-d H:i:s"),
-            'CreatedBy' => NULL,
-            'ModifiedDate' => date("Y-m-d H:i:s"),
-            'ModifiedBy' => NULL,
-            'ActivatedBy' => NULL,
-            'IsUserLoggedIn' => 1,
-            'IsRestricted' => 0,
-            'LastPasswordResetDate' =>  date("Y-m-d H:i:s"),
-            'ActivatedDate' => date("Y-m-d H:i:s"),
-            'LastLoginDate' =>  date("Y-m-d H:i:s"),
-        ]);
-        $user->assignRole($request->input('roles'));
+    //     //$user = CustomerUser::create($input);
+    //     $user  = CustomerUser::create([
+    //         //'Id' =>  Str::upper(Str::uuid()),
+    //         'FirstName' => $input['FirstName'],
+    //         'LastName' => $input['LastName'],
+    //         'Email' => $input['Email'],
+    //         'PhoneNumber' => rand(),
+    //         'Password' => Hash::make($input['Password']),
+    //         'IDNumber' => rand(),
+    //         'IsAdmin' => 1,
+    //         'Status' => NULL,
+    //         'CustomerId' => $input['CustomerId'],
+    //         'Code' => NULL,
+    //         'SubscriptionId' => NULL,
+    //         'Message' => NULL,
+    //         'CreatedDate' =>  date("Y-m-d H:i:s"),
+    //         'CreatedBy' => NULL,
+    //         'ModifiedDate' => date("Y-m-d H:i:s"),
+    //         'ModifiedBy' => NULL,
+    //         'ActivatedBy' => NULL,
+    //         'IsUserLoggedIn' => 1,
+    //         'IsRestricted' => 0,
+    //         'LastPasswordResetDate' =>  date("Y-m-d H:i:s"),
+    //         'ActivatedDate' => date("Y-m-d H:i:s"),
+    //         'LastLoginDate' =>  date("Y-m-d H:i:s"),
+    //     ]);
+    //     $user->assignRole($request->input('roles'));
 
-        // return redirect()->route('users.index')
-        return redirect()->route('admin-display')
-            ->with('success', 'User created successfully')
-            ->with('customerName', $customer->RegistrationName)
-            ->with('Icon', $customer->Client_Icon)
-            ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
-    }
+    //     // return redirect()->route('users.index')
+    //     return redirect()->route('admin-display')
+    //         ->with('success', 'User created successfully')
+    //         ->with('customerName', $customer->RegistrationName)
+    //         ->with('Icon', $customer->Client_Icon)
+    //         ->with('customer', $customer)
+    //         ->with('Logo', $customer->Client_Logo);
+    // }
 
     /**
      * Display the specified resource.
@@ -290,9 +297,9 @@ class UserController extends Controller
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
         /* $this->validate($request, [
             'FirstName' => 'required',
             'LastName' => 'required',

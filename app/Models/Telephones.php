@@ -35,7 +35,31 @@ class Telephones extends Model
     {
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-        $Telephone = Telephones::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $Telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        $telephones = [];
+        if ($Telephone) {
+
+            $telephones['TelCell'] = null;
+            $telephones['TelHome'] = null;
+            $telephones['TelWork'] = null;
+
+            foreach ($Telephone as $tele) {
+                if ($tele['TelephoneTypeInd'] == 12) {
+                    $telephones['TelCell'] = $tele->TelephoneCode . $tele->TelephoneNo;
+                } else if ($tele['TelephoneTypeInd'] == 11) {
+                    $telephones['TelHome'] = $tele->TelephoneCode . $tele->TelephoneNo;
+                } else if ($tele['TelephoneTypeInd'] == 10) {
+                    $telephones['TelWork'] = $tele->TelephoneCode . $tele->TelephoneNo;
+                }
+            }
+        }
+        return $telephones;
+    }
+
+    public static function getAllTelephonesAdmin()
+    {
+        $SearchConsumerID = session()->get('SearchConsumerID');
+        $Telephone = Telephones::where('ConsumerID', '=', $SearchConsumerID)->where('RecordStatusInd', '=', 1)->get();
         $telephones = [];
         if ($Telephone) {
 

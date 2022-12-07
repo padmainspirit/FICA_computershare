@@ -183,8 +183,10 @@ class FicaProcessController extends Controller
         $selectedIndustryofoccupation = null;
         // $selectedBankType = null;
         $selectSourceOfFunds = null;
+        $selectedCountry = null;
 
         if ($consumerIdentity != null) {
+            $selectedCountry = ($consumerIdentity->ID_CountryResidence != null) ? $consumerIdentity->ID_CountryResidence : null;
             $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
         }
 
@@ -348,7 +350,7 @@ class FicaProcessController extends Controller
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'countries' => $nationality,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
-            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
             'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
         ]);
@@ -462,8 +464,10 @@ class FicaProcessController extends Controller
         $selectedIndustryofoccupation = null;
         // $selectedBankType = null;
         $selectSourceOfFunds = null;
+        $selectedCountry = null;
 
         if ($consumerIdentity != null) {
+            $selectedCountry = ($consumerIdentity->ID_CountryResidence != null) ? $consumerIdentity->ID_CountryResidence : null;
             $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
         }
 
@@ -737,7 +741,7 @@ class FicaProcessController extends Controller
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
-            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'citiesNames' => $cities, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
             'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
         ]);

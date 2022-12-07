@@ -29,20 +29,34 @@ use Illuminate\Support\Facades\Auth;
 
 class awsController extends Controller
 {
-    protected $homeAddressIDType = '4AA3F8D1-0DF0-45C7-A772-869ECD88AB4D'; //HOME:16 
-    protected $PostalAddressIDType = '41B4799E-B1CC-44D1-B067-F963B17694EA'; //POSTAL:15
-    protected $WorkAddressIDType = 'C3E57D4F-3100-4973-A717-E17355321983'; //WORK:14
-
-    protected $IDAS_ID = '3B5FCCCA-106A-4545-BC02-88D1C15D8626'; //IDAS_ID
-
+    protected $homeAddressIDType;
+    protected $PostalAddressIDType;
+    protected $WorkAddressIDType;
+    protected $IDAS_ID;
+    // protected $Key;
+    // protected $Secret;
+    // protected $Region;
 
     public function __construct()
     {
+        $this->homeAddressIDType = config("app.HOME_LOOKUP_TABLE_ID"); //HOME:16 
+        $this->PostalAddressIDType = config("app.POSTAL_LOOKUP_TABLE_ID"); //POSTAL:15
+        $this->WorkAddressIDType = config("app.WORK_LOOKUP_TABLE_ID"); //WORK:14
+        $this->IDAS_ID = config("app.IDAS_ID"); //IDAS_ID
+
+        // $this->Key = config("app.AWS_ACCESS_KEY_ID");
+        // $this->Secret = config("app.AWS_SECRET_ACCESS_KEY");
+        // $this->Region = config("app.AWS_DEFAULT_REGION");
+
         date_default_timezone_set('Africa/Johannesburg');
     }
+
     public function TextractAmazonOCR($path, Request $request)
     {
         //app('debugbar')->info('abc');
+        $Key = config("app.AWS_ACCESS_KEY_ID");
+        $Secret = config("app.AWS_SECRET_ACCESS_KEY");
+        $Region = config("app.AWS_DEFAULT_REGION");
 
         $texts = array();
         $data = new OCRdata();
@@ -142,13 +156,17 @@ class awsController extends Controller
                     //Find green book Issue Date
                     if (preg_match('(DATE ISSUED)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -4);
+                        // $IssueDateResult = substr($IssueDate, 0, -4);
+                        $date = date_create($IssueDate);
+                        $IssueDateResult = date_format($date, "Y/m/d");
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
                     //Find smart card Issue Date
                     if (preg_match('(Date of Issue)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -4);
+                        // $IssueDateResult = substr($IssueDate, 0, -4);
+                        $date = date_create($IssueDate);
+                        $IssueDateResult = date_format($date, "Y/m/d");
                         array_push($IssueDateResultResponse, $IssueDateResult);
                     }
                     // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {

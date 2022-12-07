@@ -22,7 +22,7 @@
                                 <th>Last Name</th>
                                 <th>ID Number</th>
                                 <th>Email</th>
-                                <th>Password</th>
+                                {{-- <th>Password</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                     <td>{{ $item->LastName }}</td>
                                     <td>{{ $item->IDNumber }}</td>
                                     <td>{{ $item->Email }}</td>
-                                    <td>{{ $item->Password }}</td>
+                                    {{-- <td>{{ $item->Password }}</td> --}}
                                     <td>
                                         {{-- <form method="GET" action="{{ route('users.edit', $item->Id) }}"> --}}
                                         {{-- @csrf --}}

@@ -38,6 +38,8 @@ class RegisterController extends Controller
     * save the customer and trigger a mail*/
     public function register(Request $request)
     {
+        $Secret = config("app.GOOGLE_API_SECRET");
+        $EndpointURL = config("app.GOOGLE_API_ENDPOINT_URL");
         $customer = Customer::getCustomerDetailsByUrl();
         $YearNow = Carbon::now()->year;
 
@@ -67,11 +69,11 @@ class RegisterController extends Controller
         $client = new Client;
         //verify user that is not a robot
         $response = $client->post(
-            'https://www.google.com/recaptcha/api/siteverify',
+            $EndpointURL,
             [
                 'form_params' =>
                 [
-                    'secret' => '6LcWWaQhAAAAAID-WVERnHfeVgvy5A3LIvmle0bg',
+                    'secret' => $Secret,
                     'response' => $token
                 ]
             ]

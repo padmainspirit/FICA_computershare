@@ -890,11 +890,20 @@
                                                                 id="country-input" name="country-input"
                                                                 {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                                 <option value=""> Select Country </option>
+
+                                                                {{-- @foreach ($occupation as $industry)
+                                                                <option value="{{ $industry->Industry_occupation }}"
+                                                                    {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
+                                                                    {{ isset($selectedIndustryofoccupation) && $industry->Industry_occupation == $selectedIndustryofoccupation ? 'selected' : '' }}>
+                                                                    {{ $industry->Industry_occupation }}
+                                                                </option>
+                                                                @endforeach --}}
+
                                                                 @foreach ($countries as $country)
                                                                     <option value="{{ $country->Nationality }}"
-                                                                        {{ old('country-input') == $country ? 'selected' : '' }}
+                                                                        {{ old('country-input') == $country->Nationality ? 'selected' : '' }}
                                                                         {{-- {{ $country == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}> --}}
-                                                                        {{ isset($consumerIdentity->ID_CountryResidence) && $country->Nationality == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}>
+                                                                        {{ Str::upper(isset($selectedCountry)) && Str::upper($country->Nationality) == Str::upper($selectedCountry) ? 'selected' : '' }}>
                                                                         {{ $country->Nationality }}
                                                                     </option>
                                                                 @endforeach
@@ -1413,7 +1422,7 @@
                                                                 </option>
                                                                 @foreach ($occupation as $industry)
                                                                     <option value="{{ $industry->Industry_occupation }}"
-                                                                        {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
+                                                                        {{ old('industry-of-occupation-input') == $industry->Industry_occupation ? 'selected' : '' }}
                                                                         {{-- {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}> --}}
                                                                         {{ isset($selectedIndustryofoccupation) && $industry->Industry_occupation == $selectedIndustryofoccupation ? 'selected' : '' }}>
                                                                         {{ $industry->Industry_occupation }}
@@ -5099,6 +5108,7 @@
                     $('#employeer-province-input').prop('disabled', true);
                     $('#employeer-postal-code-input').prop('disabled', true);
                     $('#employeer-city-input').prop('disabled', true);
+                    $('#industry-of-occupation-input').prop('disabled', true);
 
                 } else if (value == 'Employed') {
                     $('#employeer-name-input').prop('disabled', false);
@@ -5108,6 +5118,7 @@
                     $('#employeer-province-input').prop('disabled', false);
                     $('#employeer-postal-code-input').prop('disabled', false);
                     $('#employeer-city-input').prop('disabled', false);
+                    $('#industry-of-occupation-input').prop('disabled', false);
                 }
             });
 
