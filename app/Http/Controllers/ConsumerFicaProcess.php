@@ -38,8 +38,8 @@ class ConsumerFicaProcess extends Controller
         $this->validate(
             $request,
             [
-                'work-number-input' => ['numeric', 'min:10'],
-                'telephone-home-input' => ['numeric', 'min:10'],
+                // 'work-number-input' => ['numeric', 'min:10'],
+                // 'telephone-home-input' => ['numeric', 'min:10'],
                 'street-address-line1' => 'required',
                 'street-address-line2' => 'required',
                 'city-physical' => 'required',
@@ -53,8 +53,8 @@ class ConsumerFicaProcess extends Controller
             ],
 
             [
-                'work-number-input.min' => 'The work number has to be 10 digits.',
-                'telephone-home-input.min' => 'The home number has to be 10 digits.',
+                // 'work-number-input.min' => 'The work number has to be 10 digits.',
+                // 'telephone-home-input.min' => 'The home number has to be 10 digits.',
             ]
         );
 
@@ -86,11 +86,12 @@ class ConsumerFicaProcess extends Controller
         // $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
         // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
 
-        $industryOccupation = IndustryOccupation::all();
-        foreach ($industryOccupation as $industry) {
-            array_push($occupation, $industry->Industry_occupation);
-        }
+        // $industryOccupation = IndustryOccupation::all();
+        // foreach ($industryOccupation as $industry) {
+        //     array_push($occupation, $industry->Industry_occupation);
+        // }
 
+        // $industryOccupation =  IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
         // Commented out dropdown on view
 
         //Get Nationality
@@ -192,10 +193,10 @@ class ConsumerFicaProcess extends Controller
 
 
         //Field(s) in TBL_Consumer_IDENTITY table
-        $country2 = $request->input('country-input');
-        app('debugbar')->info($country2);
+        $country = $request->input('country-input');
+        app('debugbar')->info($country);
 
-        // dd($country2);
+        // dd($country);
         //Field(s) in TBL_Consumer_Addresses table
         //Home Address
         $streetAddressLine1 = $request->input('street-address-line1');
@@ -368,7 +369,7 @@ class ConsumerFicaProcess extends Controller
         //update ConsumerIdentity detalis
         ConsumerIdentity::where('FICA_id', $fica->FICA_id)->update(
             array(
-                'ID_CountryResidence' => $country2,
+                'ID_CountryResidence' => $country,
                 // 'ID_DateofIssue' => $idIssuedDate
             )
         );

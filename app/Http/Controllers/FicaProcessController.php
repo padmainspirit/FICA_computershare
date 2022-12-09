@@ -38,6 +38,7 @@ use App\Models\Cities;
 use App\Models\LookupDatas;
 use App\Models\Telephones;
 use Carbon\Carbon;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Auth;
 
 use function Symfony\Component\String\b;
@@ -183,8 +184,10 @@ class FicaProcessController extends Controller
         $selectedIndustryofoccupation = null;
         // $selectedBankType = null;
         $selectSourceOfFunds = null;
+        $selectedCountry = null;
 
         if ($consumerIdentity != null) {
+            $selectedCountry = ($consumerIdentity->ID_CountryResidence != null) ? $consumerIdentity->ID_CountryResidence : null;
             $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
         }
 
@@ -208,7 +211,7 @@ class FicaProcessController extends Controller
         // $postalAddressExist =  $postalAddress != null ? true : false;
         // $workAddressExist =  $workAddress != null ? true : false;    
 
-        $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+        // $Addresses = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->get();
         // $Home  = null;
         // $Postal = null;
         // $Work  = null;
@@ -348,7 +351,7 @@ class FicaProcessController extends Controller
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'countries' => $nationality,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
-            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
             'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
         ]);
@@ -360,19 +363,27 @@ class FicaProcessController extends Controller
     public function uploadfile(Request $request)
     {
 
+        $this->validate(
+            $request,
+            [
+
+                'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
+
+            ],
+            [
+                'file.required' => 'Wrong document format. Please upload a PDF or Image file',
+            ]
+        );
+
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
-        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        // $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
         $Logo = $customer->Client_Logo;
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
 
 
-        // $Logo =  $request->session()->get('Logo');
-        // $customerName =  $request->session()->get('customerName');
-
-        // app('debugbar')->info($Logo);
         $images = [];
         $extractedData = [];
         $Telephones = [];
@@ -408,62 +419,28 @@ class FicaProcessController extends Controller
             }
         }
 
-        // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
-
-        //Telephone
-        // $telephone = Telephones::where('ConsumerID', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        // $worktelephone = Telephones::where('ConsumerID', '=',   $fica->Consumerid)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
-
-        // $homeTelephoneNumber = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-        // $workTelephoneNumber = ($worktelephone != null) ? $worktelephone->TelephoneCode . $worktelephone->TelephoneNo : null;
-        // $homeTelephoneNumebr = ($telephone != null) ? $telephone->TelephoneCode . $telephone->TelephoneNo : null;
-
-        // app('debugbar')->info($homeTelephoneNumebr);
-
-        // $homeAddressExist =  $homeAddress != null ? true : false;
-        // $postalAddressExist =  $postalAddress != null ? true : false;
-        // $workAddressExist =  $workAddress != null ? true : false;
 
         $Addresses = Address::getAllAddresses();
         $Home  =  $Addresses['Home'];
         $Postal = $Addresses['Postal'];
         $Work  = $Addresses['Work'];
 
-        // if ($Addresses['Home'] ?? null !== null) {
-        //     $Home  = $Addresses['Home'];
-        // }
-        // if ($Addresses['Postal'] ?? null !== null) {
-        //     $Postal = $Addresses['Postal'];
-        // }
 
-        // if ($Addresses['Work'] ?? null !== null) {
-        //     $Work  = $Addresses['Work'];
-        // }
 
         $Telephone = Telephones::getAllTelephones();
         $TelCell  = $Telephone['TelCell'];
         $TelHome = $Telephone['TelHome'];
         $TelWork  = $Telephone['TelWork'];
 
-        // if ($Telephone['TelCell'] ?? null !== null) {
-        //     $TelCell  = $Telephone['TelCell'];
-        // }
-        // if ($Telephone['TelHome'] ?? null !== null) {
-        //     $TelHome = $Telephone['TelHome'];
-        // }
-
-        // if ($Telephone['TelWork'] ?? null !== null) {
-        //     $TelWork  = $Telephone['TelWork'];
-        // }
 
         $DOB = null;
         $selectedIndustryofoccupation = null;
         // $selectedBankType = null;
         $selectSourceOfFunds = null;
+        $selectedCountry = null;
 
         if ($consumerIdentity != null) {
+            $selectedCountry = ($consumerIdentity->ID_CountryResidence != null) ? $consumerIdentity->ID_CountryResidence : null;
             $DOB = ($consumerIdentity->DOB != null) ? date('Y-m-d', strtotime($consumerIdentity->DOB)) : null;
         }
 
@@ -471,81 +448,27 @@ class FicaProcessController extends Controller
             $selectedIndustryofoccupation = ($consumer->Industryofoccupation != null) ? $consumer->Industryofoccupation : null;
         }
 
-        // if($avs != null){
-        //     $selectedBankType = ($avs!= null) ?  $avs->BankTypeid : null;
-        // }
-
         if ($financial != null) {
             $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
         }
 
-        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
-        // $selectedBankType = ($avs!= null) ?  $avs->BankTypeid : null;
-        // $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
 
-        // $DOB =  date('Y-m-d', strtotime($consumerIdentity->DOB));
-
-        //select values from the dropdowlist
-        // $selectedIndustryofoccupation =  $consumer->Industryofoccupation;
-        // $selectSourceOfFunds = ($financial->Sources_Funds != null) ?  $financial->Sources_Funds : null;
-        // $selectSourceOfFunds = $financial->Sources_Funds;
 
         $NotificationLink = $request->session()->get('NotificationLink');
 
-        //Get IndustryOccupation
-        // $industryOccupation = IndustryOccupation::all();
+
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
-        // foreach ($industryOccupation as $industry) {
-        //     array_push($occupation, $industry->Industry_occupation);
-        // }
 
-
-        //Get Nationality
-        // $nationality = Nationality::all()->sortBy('Nationality');
         $nationality = Nationality::all('Nationality')->sortBy('Nationality');
-        // foreach ($nationality as $country) {
-        //     // array_push($countries, strtoupper($country->Nationality));
-        //     array_push($countries, $country->Nationality);
-        // }
-        // sort($countries);
 
-        //Get SourceOfFunds
-        // $sourceOfFunds = SourceOfFunds::all()->sortBy('Funds');
         $sourceOfFunds = SourceOfFunds::all('Funds')->sortBy('Funds');
-        // foreach ($sourceOfFunds as $sourceoffund) {
-        //     // array_push($funds, strtoupper($sourceoffund->Funds));
-        //     array_push($funds, $sourceoffund->Funds);
-        // }
-        // sort($funds);
 
-        //Geting banks
-        // $banks = Banks::all()->sortBy('bankname');
         $banks = Banks::all('bankname')->sortBy('bankname');
-        // foreach ($banks as $bank) {
-        //     // array_push($bankNames, strtoupper($bank->bankname));
-        //     array_push($bankNames, $bank->bankname);
-        // }
-        // sort($bankNames);
 
-        //Geting Provinces
-        // $provinces = Provinces::all()->sortBy('Province_name');
         $provinces = Provinces::all('Province_name')->sortBy('Province_name');
-        // foreach ($provinces as $province) {
-        //     // array_push($provincesNames, strtoupper($province->Province_name));
-        //     array_push($provincesNames, $province->Province_name);
-        // }
-        // sort($provincesNames);
 
-        //Geting Cities
-        // $cities = Cities::all()->sortBy('cityName');
         $cities = Cities::all('cityName')->sortBy('cityName');
-        // foreach ($cities as $city) {
-        //     // array_push($citiesNames, strtoupper($city->cityName));
-        //     array_push($citiesNames, $city->cityName);
-        // }
-        // sort($citiesNames);
 
-        //Update fica progress bar 
         $request->session()->put('FICAProgress', $fica->FICAProgress);
 
         $validator = Validator::make($request->all(), [
@@ -554,6 +477,9 @@ class FicaProcessController extends Controller
 
         $type = substr($request->file->getClientMimeType(), -3);
         $size = $request->file->getSize();
+
+
+
         // $path = '';
         $url = config('app.API_UPLOAD_PATH');
         $urlFile = '';
@@ -577,7 +503,6 @@ class FicaProcessController extends Controller
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-
         if ($type == 'pdf') {
             $request->file->move(public_path('pdf'), $fileName);
             //$firstPage =  $fileName . '[0]';
@@ -586,11 +511,13 @@ class FicaProcessController extends Controller
 
             app('debugbar')->info($pdfPath);
             $imagePath = $this->convertingPdfToImages($pdfPath);
-        } else {
+        } elseif ($type == 'jpg'  || 'jpeg' || 'tiff' || 'png') {
             $request->file->move(public_path('tempImages'), $fileName);
             $imagePath = 'tempImages/' . $fileName;
-        }
+        } else {
 
+            unlink($imagePath);
+        }
 
         //Get all the images on the tempImages
         $files = File::files(public_path('tempImages/'));
@@ -694,8 +621,9 @@ class FicaProcessController extends Controller
             $bank =  $aws->bankDetails($mergedData, $request);
 
             // if ($docDate <= 10) {
-            // Store Proof Of Address document in S3 if document date is less than 3 months
+            // Store Bank document in S3 if document date is less than 3 months
             $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
+
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
                 $pdfTempPath = public_path('pdf/' . $fileName);
@@ -704,6 +632,7 @@ class FicaProcessController extends Controller
                 Storage::disk('s3')->put($filePath, file_get_contents(public_path('tempImages/' . $fileName)));
             }
             $urlFile =   $url . $filePath;
+            app('debugbar')->info('urlFile', $urlFile);
 
             //Storing Documents url to the database
             AVS::where('FICA_id', $fica->FICA_id)->update(
@@ -737,7 +666,7 @@ class FicaProcessController extends Controller
         return view('fica-process', [
             'fica' => $fica, 'consumer' => $consumer, 'Home' => $Home, 'Postal' => $Postal, 'Work' => $Work, 'consumerIdentity' => $consumerIdentity, 'customerUser' => $customerUser,
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
-            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks,
+            'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'citiesNames' => $cities, 'Telephones' => $Telephones, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
             'NotificationLink' => $NotificationLink, 'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
         ]);

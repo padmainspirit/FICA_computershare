@@ -71,7 +71,7 @@
                                 <div class="d-flex">
                                     <div class="avatar-xs me-3">
                                         <span class="avatar-title rounded-circle font-size-16"
-                                            style="background-color: #1a4f6e;">
+                                            style="background-color: #93186c;">
                                             <i class="bx text-white bx-user"></i>
                                         </span>
                                     </div>
@@ -92,7 +92,8 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Image Not Found" style="width: 25px;height: 25px;">
+                    <img class="rounded-circle header-profile-user" src="assets/images/users/user.png"
+                        alt="Image Not Found" style="width: 25px;height: 25px;">
                     {{-- <img class="rounded-circle header-profile-user"
                         src="{{ isset(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('/assets/images/users/avatar-3.jpg') }}"
                         alt="Header Avatar"> --}}
@@ -111,7 +112,8 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
                             key="t-logout">@lang('translation.Logout')</span></a>
-                    <form id="logout-form" action="{{ route('logout', ['customer' => $customer->RegistrationName]) }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout', ['customer' => $customer->RegistrationName]) }}"
+                        method="POST" style="display: none;">
                         @csrf
                     </form>
                 </div>
@@ -160,7 +162,7 @@
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e; color:white;">Mark As Read
+                            style="background-color: #93186c; border-color: #93186c; color:white;">Mark As Read
                         </button>
                     </div>
                 </div>

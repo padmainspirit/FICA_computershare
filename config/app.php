@@ -263,6 +263,7 @@ return [
 
     // Google api code call for register, login, forget and reset views
     'GOOGLE_API_SECRET' => env("GOOGLE_API_SECRET", "6LcWWaQhAAAAAID-WVERnHfeVgvy5A3LIvmle0bg"),
+    'GOOGLE_API_ENDPOINT_URL' => env("GOOGLE_API_ENDPOINT_URL", "https://www.google.com/recaptcha/api/siteverify"),
 
     // OTP auth credentials for sending code via provider
     'API_OTP_KEY' => env("API_OTP_KEY", "c7fda9ca-7795-4be1-891f-7686ca2db620"),
@@ -296,8 +297,16 @@ return [
     'API_UPLOAD_PATH' => env("API_UPLOAD_PATH", "https://file-upload-fica.s3.amazonaws.com/"),
 
     //  AWS CONTROLLER CREDENTIALS
+    'HOME_LOOKUP_TABLE_ID' => env('HOME_LOOKUP_TABLE_ID', '4AA3F8D1-0DF0-45C7-A772-869ECD88AB4D'), //HOME:16 
+    'POSTAL_LOOKUP_TABLE_ID' => env('POSTAL_LOOKUP_TABLE_ID', '41B4799E-B1CC-44D1-B067-F963B17694EA'), //POSTAL:15
+    'WORK_LOOKUP_TABLE_ID' => env('WORK_LOOKUP_TABLE_ID', 'C3E57D4F-3100-4973-A717-E17355321983'), //WORK:14
+
+    'IDAS_ID' => env('IDAS_ID', '3B5FCCCA-106A-4545-BC02-88D1C15D8626'),
+
     'TEXTRACT_CLIENT_KEY' => env("TEXTRACT_CLIENT_KEY", "AKIA4IKI2GCK2MKU65VF"),
     'TEXTRACT_CLIENT_SECRET' => env("TEXTRACT_CLIENT_SECRET", "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"),
+    'TEXTRACT_CLIENT_REGION' => env("TEXTRACT_CLIENT_REGION", "us-east-1"),
+
 
     // Role Id for Register Controller
     'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3),

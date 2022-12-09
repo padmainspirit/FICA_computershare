@@ -29,30 +29,47 @@ use Illuminate\Support\Facades\Auth;
 
 class awsController extends Controller
 {
-    protected $homeAddressIDType = '4AA3F8D1-0DF0-45C7-A772-869ECD88AB4D'; //HOME:16 
-    protected $PostalAddressIDType = '41B4799E-B1CC-44D1-B067-F963B17694EA'; //POSTAL:15
-    protected $WorkAddressIDType = 'C3E57D4F-3100-4973-A717-E17355321983'; //WORK:14
-
-    protected $IDAS_ID = '3B5FCCCA-106A-4545-BC02-88D1C15D8626'; //IDAS_ID
-
+    protected $homeAddressIDType;
+    protected $PostalAddressIDType;
+    protected $WorkAddressIDType;
+    protected $IDAS_ID;
+    // protected $Key;
+    // protected $Secret;
+    // protected $Region;
 
     public function __construct()
     {
+        $this->homeAddressIDType = config("app.HOME_LOOKUP_TABLE_ID"); //HOME:16 
+        $this->PostalAddressIDType = config("app.POSTAL_LOOKUP_TABLE_ID"); //POSTAL:15
+        $this->WorkAddressIDType = config("app.WORK_LOOKUP_TABLE_ID"); //WORK:14
+        $this->IDAS_ID = config("app.IDAS_ID"); //IDAS_ID
+
+        // $this->Key = config("app.AWS_ACCESS_KEY_ID");
+        // $this->Secret = config("app.AWS_SECRET_ACCESS_KEY");
+        // $this->Region = config("app.AWS_DEFAULT_REGION");
+
         date_default_timezone_set('Africa/Johannesburg');
     }
+
     public function TextractAmazonOCR($path, Request $request)
     {
-        //app('debugbar')->info('abc');
+
+
+        $Key = config("app.TEXTRACT_CLIENT_KEY");
+        $Secret = config("app.TEXTRACT_CLIENT_SECRET");
+        $Region = config("app.TEXTRACT_CLIENT_REGION");
+
 
         $texts = array();
         $data = new OCRdata();
 
+
         $client = new TextractClient([
-            'region' => 'us-east-1',
+            'region' => $Region,
             'version' => 'latest',
             'credentials' => [
-                'key'    => 'AKIA4IKI2GCK2MKU65VF', //move to .env file
-                'secret' => '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' //move to .env file
+                'key'    => $Key,
+                'secret' =>  $Secret
             ]
         ]);
 
@@ -67,6 +84,7 @@ class awsController extends Controller
             ],
             'FeatureTypes' => ['FORMS'],
         ];
+
         //Extract data from the document using aws Textract
         $result = $client->detectDocumentText($options);
         $blocks = $result['Blocks'];
@@ -86,6 +104,11 @@ class awsController extends Controller
                 }
             }
         }
+        return $texts;
+
+
+        // if($$request->)
+
 
         //app('debugbar')->info($texts);
         //$this->address($texts, $request); //uncomment
@@ -94,19 +117,19 @@ class awsController extends Controller
         // app('debugbar')->info($test);
         // $request->session()->put('IDNUMBER', $IdDataResult->Id);
         //$this->proofOfAddress($request);
-        return $texts;
+
     }
 
     //Green book or Smart Card ID
     function smartCardAndGreenBookID($texts, Request $request)
     {
-        $IDNO = array();
+        // $IDNO = array();
         $IdAndConfidence = array();
         $IssueDate = [];
         $Nationality = [];
         $IssueDateResultResponse = [];
         $tempData = [];
-        $IdResult = '';
+        // $IdResult = '';
 
         try {
             for ($i = 0; $i <= count($texts); $i++) {
@@ -142,14 +165,32 @@ class awsController extends Controller
                     //Find green book Issue Date
                     if (preg_match('(DATE ISSUED)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -3);
-                        array_push($IssueDateResultResponse, $IssueDateResult);
+                        // $IssueDateResult = substr($IssueDate, 0, -4);
+                        if (strtotime($IssueDate)) {
+                            $date = date_create($IssueDate);
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        } else {
+
+                            $date = date_create("1900-01-01-99");
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        }
                     }
                     //Find smart card Issue Date
                     if (preg_match('(Date of Issue)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
-                        $IssueDateResult = substr($IssueDate, 0, -3);
-                        array_push($IssueDateResultResponse, $IssueDateResult);
+                        // $IssueDateResult = substr($IssueDate, 0, -4);
+                        if (strtotime($IssueDate)) {
+                            $date = date_create($IssueDate);
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        } else {
+
+                            $date = date_create("1900-01-01-99");
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        }
                     }
                     // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
                     //     array_push($Nationality, 'SOUTH AFRICA');
@@ -161,8 +202,10 @@ class awsController extends Controller
             }
             array_push($IdAndConfidence, isset($IssueDateResultResponse[0]) ? $IssueDateResultResponse[0] : null);
             array_push($IdAndConfidence, $Nationality[0], isset($Nationality[0]) ? $Nationality[0] : null);
-            app('debugbar')->info($tempData);
+            // app('debugbar')->info($tempData);
             app('debugbar')->info($IdAndConfidence);
+            app('debugbar')->info($IssueDate);
+
             //ID Data formarted
 
             $IDResults = ([
@@ -181,7 +224,8 @@ class awsController extends Controller
             if (isset($IdAndConfidence[0], $IdAndConfidence[1])) {
                 $IdData = ['Id' => $IdAndConfidence[0], 'Score' => $IdAndConfidence[1], 'IdType' => isset($IdAndConfidence[2]) ? $IdAndConfidence[2] : null, 'DateOfIssue' => isset($IdAndConfidence[3]) ? date('Y-m-d', strtotime($IdAndConfidence[3])) : null, 'Nationality' => $IdAndConfidence[4]];
                 $IdDataResult = (object) $IdData;
-                app('debugbar')->info($IdDataResult);
+                // app('debugbar')->info($IdDataResult, 'DATA RESULT');
+                // app('debugbar')->info($IdDataResult->Id);
                 if (strlen($IdDataResult->Id) == 13 && $IdDataResult->Score >= 50) {
                     //1.save to database
                     $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
@@ -208,7 +252,7 @@ class awsController extends Controller
                     ConsumerIdentity::where('Identity_Document_ID', $dataValidated)->update(
                         array(
                             'Identity_Document_TYPE' =>  $IdDataResult->IdType,
-                            'ID_DateofIssue' => isset($IdDataResult->DateOfIssue) ? $IdDataResult->DateOfIssue : null,
+                            'ID_DateofIssue' => isset($IssueDateResult) ? $IssueDateResult : null,
                             'ID_CountryResidence' => $IdDataResult->Nationality
                         )
                     );
@@ -242,6 +286,8 @@ class awsController extends Controller
                         'message' => 'ID Document submited successfully',
                         'status' => true
                     ]);
+
+                    app('debugbar')->info($dataValidated);
                 } else if (strlen($IdDataResult->Id) >= 11 || $IdDataResult->Id < 13 && $IdDataResult->Score >= 50) {
                     $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
                     $IdResult =  $dataValidated;
@@ -439,7 +485,7 @@ class awsController extends Controller
 
                     $isDateValide = true;
                     $addressResponse = ([
-                        'message' => 'date is valide',
+                        'message' => 'date is valid',
                         'status' => true
                     ]);
 
@@ -459,7 +505,7 @@ class awsController extends Controller
 
                     $isDateValide = true;
                     $addressResponse = ([
-                        'message' => 'date is valide',
+                        'message' => 'date is valid',
                         'status' => true
                     ]);
 
@@ -502,7 +548,7 @@ class awsController extends Controller
             return  $months;
         } catch (\Exception $e) {
             $addressResponse = ([
-                'message' => 'date is not valide',
+                'message' => 'date is not valid',
                 'status' => false
             ]);
         }
@@ -963,7 +1009,6 @@ class awsController extends Controller
                 }
             }
             $resultBank = array_unique($bankData);
-            //app('debugbar')->info($resultBank[0]);
             $request->session()->put('bankTextractedDetails', $texts);
             // $this->proofOfBank($request);
 

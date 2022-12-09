@@ -472,7 +472,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? $testing[0]->DOB : null,
+            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -622,7 +622,7 @@ class CustomerVerification extends Controller
 
         // $request->session()->put('insidedata', $insidedata);
 
-        // app('debugbar')->info($insidedata);
+        app('debugbar')->info($insidedata);
 
 
         // $compliance = Compliance::where('HA_IDNO', '=', $idnumber)->first();
@@ -1075,7 +1075,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? $testing[0]->DOB : null,
+            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -1194,23 +1194,33 @@ class CustomerVerification extends Controller
 
     public function PersonalDetailsUpdate(Request $request)
     {
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'FirstName' => ['required', 'string', 'min:2', 'max:255'],
+        //         'SURNAME' => ['required', 'string', 'min:2', 'max:255'],
+        //         'Gender' => 'required',
+        //         'Email' => ['required', 'email'],
+        //         'ID_CountryResidence' => ['required', 'numeric'],
+        //         'WorkTelephoneNo' => 'required|regex:/[0-9]{10}/',
+        //         'HomeTelephoneNo' => 'required|regex:/[0-9]{10}/',
+        //         'CellularNo' => ['required', 'numeric', 'min:10'],
+        //     ],
 
-        $this->validate(
-            $request,
-            [
-                'FirstName' => ['required', 'string', 'min:2', 'max:255'],
-                'SURNAME' => ['required', 'string', 'min:2', 'max:255'],
-                'Gender' => 'required',
-                'Email' => ['required', 'email'],
-                'ID_CountryResidence' => ['required', 'numeric'],
-                'WorkTelephoneNo' => 'required|regex:/[0-9]{10}/',
-                'HomeTelephoneNo' => 'required|regex:/[0-9]{10}/',
-                'CellularNo' => ['required', 'numeric', 'min:10'],
-            ]
-        );
+        //     [
+        //         'FirstName.required' => 'The FirstName is required.',
+        //         'SURNAME.required' => 'The SURNAME is required.',
+        //         'Gender.required' => 'The Gender is required.',
+        //         'Email.required' => 'The Email is required.',
+        //         'ID_CountryResidence.required' => 'The Issue date is required.',
+        //         'WorkTelephoneNo.required' => 'The Work Telephone No is required.',
+        //         'HomeTelephoneNo.required' => 'The Home Telephone No is required.',
+        //         'CellularNo.required' => 'The Cellular No is required.',
+        //     ]
+        // );
+        // dd($request);
 
-
-        $idnumber = $request->session()->get('idnumber');
+        // $idnumber = $request->session()->get('idnumber');
         $SearchConsumerID = $request->session()->get('SearchConsumerID');
         $SearchFica = $request->session()->get('SearchFica');
 
@@ -1236,14 +1246,7 @@ class CustomerVerification extends Controller
 
                 'FirstName' => $request->FirstName,
                 'SURNAME' => $request->SURNAME,
-                // 'SecondName' => $request->SecondName,
-                // 'GenderInd' => $request->GenderInd,
                 'Email' => $request->Email,
-                // 'DOB' => date(Y-m-d, strtotime($request->DOB)),
-                // 'Married_under' => $request->Married_under,
-                // 'Marriage_date' => date("Y-m-d", strtotime($request->Marriage_date)),
-
-                // 'FaxNumber' => $request->FaxNumber,
 
                 'Employmentstatus' => $request->Employmentstatus,
                 'Nameofemployer' => $request->Nameofemployer,
@@ -1253,19 +1256,27 @@ class CustomerVerification extends Controller
 
         );
 
-        $WorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
-        $HomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        $CellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 12)->first();
+        // $WorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
+        // $HomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
+        // $CellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 12)->first();
+
+        $Telephone = Telephones::getAllTelephonesAdmin();
+        $CellNumber  = $Telephone['TelCell'];
+        $HomeNumber = $Telephone['TelHome'];
+        $WorkNumber  = $Telephone['TelWork'];
 
         $WorkNumberExist =  $WorkNumber != null ? true : false;
         $HomeNumberExist =  $HomeNumber != null ? true : false;
         $CellNumberExist =  $CellNumber != null ? true : false;
 
+
+
         // WORK NUMBER
         if ($WorkNumberExist == true) {
             if (
-                $WorkNumber->TelephoneCode == substr($request->WorkTelephoneNo, 0, 3) &&
-                $WorkNumber->TelephoneNo == substr($request->WorkTelephoneNo, 3, 10)
+                // $WorkNumber->TelephoneCode == substr($request->WorkTelephoneNo, 0, 3) &&
+                // $WorkNumber->TelephoneNo == substr($request->WorkTelephoneNo, 3, 10)
+                $WorkNumber == $request->WorkTelephoneNo
             ) {
             } else {
                 // app('debugbar')->info('Work number testing');
@@ -1300,8 +1311,10 @@ class CustomerVerification extends Controller
         // HOME NUMBER
         if ($HomeNumberExist == true) {
             if (
-                $HomeNumber->TelephoneCode == substr($request->HomeTelephoneNo, 0, 3) &&
-                $HomeNumber->TelephoneNo == substr($request->HomeTelephoneNo, 3, 10)
+                // $HomeNumber->TelephoneCode == substr($request->HomeTelephoneNo, 0, 3) &&
+                // $HomeNumber->TelephoneNo == substr($request->HomeTelephoneNo, 3, 10)
+                $HomeNumber == $request->HomeTelephoneNo
+
             ) {
             } else {
                 // app('debugbar')->info('Work number testing');
@@ -1336,8 +1349,10 @@ class CustomerVerification extends Controller
         // CELL NUMBER
         if ($CellNumberExist == true) {
             if (
-                $CellNumber->TelephoneCode == substr($request->CellularNo, 0, 3) &&
-                $CellNumber->TelephoneNo == substr($request->CellularNo, 3, 10)
+                // $CellNumber->TelephoneCode == substr($request->CellularNo, 0, 3) &&
+                // $CellNumber->TelephoneNo == substr($request->CellularNo, 3, 10)
+                $CellNumber == $request->CellularNo
+
             ) {
             } else {
                 Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 12)->update(['RecordStatusInd' => 0]);
@@ -1411,6 +1426,8 @@ class CustomerVerification extends Controller
         $Logo = $customer['Client_Logo'];
         $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
+
+
 
         return view('admin-tabs')
 
@@ -1522,9 +1539,14 @@ class CustomerVerification extends Controller
 
         //----------------------------------------------------- ADDRESS ----------------------------------------------
 
-        $homeAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        $postalAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        $workAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+        // $homeAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+        // $postalAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+        // $workAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
+
+        $Addresses = Address::getAllAddressesAdmin();
+        $homeAddress  = $Addresses['Home'];
+        $postalAddress = $Addresses['Postal'];
+        $workAddress  = $Addresses['Work'];
 
         // app('debugbar')->info($homeAddress);
 
@@ -1545,14 +1567,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Home Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $homeAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $HomeAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     // 'AddressTypeInd' => $addressLookUpHomeValue->Value,
                     'AddressTypeInd' => 16,
                     'OriginalAddress1' => $request->OriginalAddress1,
                     'OriginalAddress2' => $request->OriginalAddress2,
                     'OriginalAddress3' => $request->OriginalAddress3,
-                    'Province' => $request->ResProvince,
+                    'OriginalAddress4' => $request->ResProvince,
                     'OriginalPostalCode' => $request->OriginalPostalCode,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
@@ -1561,14 +1583,14 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->OriginalAddress1) && isset($request->OriginalAddress2) && isset($request->OriginalAddress3) && isset($request->ResProvince) && isset($request->OriginalPostalCode)) {
-                $HomeAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     // 'AddressTypeInd' => $addressLookUpHomeValue->Value,
                     'AddressTypeInd' => 16,
                     'OriginalAddress1' => $request->OriginalAddress1,
                     'OriginalAddress2' => $request->OriginalAddress2,
                     'OriginalAddress3' => $request->OriginalAddress3,
-                    'Province' => $request->ResProvince,
+                    'OriginalAddress4' => $request->ResProvince,
                     'OriginalPostalCode' => $request->OriginalPostalCode,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
@@ -1588,14 +1610,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Postal Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $postalAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $PostalAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 15,
                     'OriginalAddress1' => $request->PostOriginalAddress1,
                     'OriginalAddress2' => $request->PostOriginalAddress2,
                     'OriginalAddress3' => $request->PostOriginalAddress3,
+                    'OriginalAddress4' => $request->PostProvince,
                     'OriginalPostalCode' => $request->PostOriginalPostalCode,
-                    'Province' => $request->PostProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1603,12 +1625,13 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->PostOriginalAddress1) && isset($request->PostOriginalAddress2) && isset($request->PostOriginalAddress3) &&  isset($request->PostOriginalPostalCode) && isset($request->PostProvince)) {
-                $PostalAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 15,
                     'OriginalAddress1' => $request->PostOriginalAddress1,
                     'OriginalAddress2' => $request->PostOriginalAddress2,
                     'OriginalAddress3' => $request->PostOriginalAddress3,
+                    'OriginalAddress4' => $request->PostProvince,
                     'OriginalPostalCode' => $request->PostOriginalPostalCode,
                     'Province' => $request->PostProvince,
                     'RecordStatusInd' => 1,
@@ -1629,14 +1652,14 @@ class CustomerVerification extends Controller
                 app('debugbar')->info('Address testing');
                 //If Work Address Exist change the RecordStatusInd to 0
                 Address::where("ConsumerAddressID", $workAddress->ConsumerAddressID)->update(['RecordStatusInd' => 0]);
-                $WorkAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 14,
                     'OriginalAddress1' => $request->WorkOriginalAddress1,
                     'OriginalAddress2' => $request->WorkOriginalAddress2,
                     'OriginalAddress3' => $request->WorkOriginalAddress3,
+                    'OriginalAddress4' => $request->WorkProvince,
                     'OriginalPostalCode' => $request->WorkOriginalPostalCode,
-                    'Province' => $request->WorkProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1644,14 +1667,14 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->WorkOriginalAddress1) && isset($request->WorkOriginalAddress2) && isset($request->WorkOriginalAddress3) &&  isset($request->WorkOriginalPostalCode) && isset($request->WorkProvince)) {
-                $WorkAddress = Address::create([
+                Address::create([
                     'ConsumerID' => $userconsumerid->ConsumerID,
                     'AddressTypeInd' => 14,
                     'OriginalAddress1' => $request->WorkOriginalAddress1,
                     'OriginalAddress2' => $request->WorkOriginalAddress2,
                     'OriginalAddress3' => $request->WorkOriginalAddress3,
+                    'OriginalAddress4' => $request->WorkProvince,
                     'OriginalPostalCode' => $request->WorkOriginalPostalCode,
-                    'Province' => $request->WorkProvince,
                     'RecordStatusInd' => 1,
                     'CreatedOnDate' => date("Y-m-d H:i:s"),
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1665,7 +1688,7 @@ class CustomerVerification extends Controller
         // $NotificationLink = $request->session()->get('NotificationLink');
         $LogUserName = $request->session()->get('LogUserName');
         $LogUserSurname = $request->session()->get('LogUserSurname');
-        $Email = $request->session()->get('Email');
+        // $Email = $request->session()->get('Email');
 
         $ConsumerCapturedPhoto = $request->session()->get('ConsumerCapturedPhoto');
 
@@ -2150,24 +2173,12 @@ class CustomerVerification extends Controller
 
     public function SendMessage(Request $request)
     {
-
-        $client = Auth::user();
-        // $Consumerid = $request->session()->get('LoggedUser');
         $SearchConsumerID = $request->session()->get('SearchConsumerID');
-
-        // $Customerid = session()->get('Customerid');
-        // $customer = Customer::where('Id', '=',  $Customerid)->first();
-
-        $Logo = $client['Client_Logo'];
-        $Icon = $client['Client_Icon'];
-        $customerName = $client['RegistrationName'];
-
-        // $request->session()->put('Consumerid', $Consumerid);
-
-        // $Customerid = $request->session()->get('Customerid');
-        // $getCustomerid = Customer::where('Id', '=',  $Customerid)->first();
-
-
+        $Customerid = Auth::user()->CustomerId;
+        $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $Logo = $customer['Client_Logo'];
+        $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
 
@@ -2265,7 +2276,6 @@ class CustomerVerification extends Controller
         $request->session()->put('surname', $surname);
         // $request->session()->put('email', $email);
 
-        $Customerid = $client->CustomerId;
         $getCustomerid = Customer::where('Id', '=',  $Customerid)->first();
         $CustomerEmail = $getCustomerid['Customer_Email'];
         $request->session()->put('CustomerEmail', $CustomerEmail);
@@ -2280,35 +2290,27 @@ class CustomerVerification extends Controller
         // $getreceiptconsumerid = ['Consumerid' => $getreceive->Consumerid];
         // // Get the Value for Single Array
         // $receiptid = $getreceiptconsumerid['Consumerid'];
+        $client = Auth::user();
+        $SearchConsumerID = $request->session()->get('SearchConsumerID');
+        $consumer = Consumer::where('Consumerid', '=', $SearchConsumerID)->first();
 
 
         $usersend = SendEmail::create([
 
-            $SearchConsumerID = $request->session()->get('SearchConsumerID'),
-            $firstname = $request->session()->get('firstname'),
-            $surname = $request->session()->get('surname'),
-            $Email = $request->session()->get('Email'),
 
-            // $Customerid = $request->session()->get('Customerid'),
-
-            $LogUserName = $request->session()->get('LogUserName'),
-            $LogUserSurname = $request->session()->get('LogUserSurname'),
-            // $email = $request->session()->get('email'),
-
-            // $CustomerEmail = $request->session()->get('CustomerEmail'),
 
             'EmailID' => Str::upper(Str::uuid()),
             'Consumerid' => $SearchConsumerID,
-            'Consumer_Firstname' => $firstname,
-            'Consumer_Surname' => $surname,
+            'Consumer_Firstname' => $consumer->FirstName,
+            'Consumer_Surname' => $consumer->Surname,
             'EMailType' => "Sent",
             'EmailMessage' => $request->EmailMessage,
             'CustomerAdminId' => 1,
-            'Admin_Name' => $LogUserName,
-            'Admin_Surname' => $LogUserSurname,
+            'Admin_Name' => $client->FirstName,
+            'Admin_Surname' => $client->LastName,
             'EmailDate' => Carbon::now(),
             'Send' =>  'hello@inspirit.co.za',
-            'Receive' => $request->Email,
+            'Receive' => $consumer->Email,
             'IsRead' => 1,
             'Subject' => $request->Subject,
 
@@ -2380,9 +2382,6 @@ class CustomerVerification extends Controller
 
         // $Customerid = $request->session()->get('Customerid');
         // $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $client['Client_Logo'];
-        $Icon = $client['Client_Icon'];
-        $customerName = $client['RegistrationName'];
 
         return view('admin-inbox', compact('sentemails'), [])
             ->with('NotificationLink', $NotificationLink)
@@ -2407,8 +2406,6 @@ class CustomerVerification extends Controller
 
     public function UserInbox(Request $request)
     {
-
-
         $idnumber = $request->session()->get('IDNUMBER');
 
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->first();
@@ -2420,23 +2417,10 @@ class CustomerVerification extends Controller
         $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
         $SearchFica = $getSearchFica['FICA_ID'];
 
-
-
-
-        $client = Auth::user();
-        $LogUserName = $client->FirstName;
-        $LogUserSurname = $client->LastName;
-
-
-
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->first();
-
         $SearchCustomerUSERID = $useridentitynum['Id'];
-
         $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $SearchCustomerUSERID)->first();
         $SearchConsumerID = $getSearchConsumerID['Consumerid'];
-
-
         $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
         $SearchFica = $getSearchFica['FICA_ID'];
 
@@ -2444,8 +2428,6 @@ class CustomerVerification extends Controller
         // $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
         // dd($SearchConsumerID);
-
-
 
         $sentemails = SendEmail::where('Consumerid', '=', $SearchConsumerID)->get();
 
@@ -2483,14 +2465,15 @@ class CustomerVerification extends Controller
 
         // $Customerid = $request->session()->get('Customerid');
         // $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $client['Client_Logo'];
-        $Icon = $client['Client_Icon'];
-        $customerName = $client['RegistrationName'];
-        $Icon = $client['Client_Icon'];
+        $client = Auth::user();
+        $LogUserName = $client->FirstName;
+        $LogUserSurname = $client->LastName;
 
-
-        // dd($DisplaySideData);
-
+        $Customerid = Auth::user()->CustomerId;
+        $customer = Customer::where('Id', '=',  $Customerid)->first();
+        $Logo = $customer['Client_Logo'];
+        $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         return view('admin-inbox')
 
@@ -2517,6 +2500,7 @@ class CustomerVerification extends Controller
             ->with('ConsumerCapturedPhoto', $ConsumerCapturedPhoto);
         // ->with('NotificationLink', $NotificationLink)
     }
+
 
     public function AdminActions(Request $request)
     {
@@ -2673,11 +2657,11 @@ class CustomerVerification extends Controller
         // $Logo =  $request->session()->get('Logo');
         // $customerName =  $request->session()->get('customerName');
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
+        $Icon = $customer['Client_Icon'];
 
         // dd($customerName);
 
