@@ -364,6 +364,12 @@
                                                         data-bs-toggle="modal" data-bs-target="#composemodal-failed">
                                                         Show PopUp
                                                     </button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        id="btn-invalid-upload-format" data-bs-toggle="modal"
+                                                        data-bs-target="#invalid-upload-format" hidden>
+                                                        Show PopUp
+                                                    </button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -459,6 +465,13 @@
                                                         data-bs-target="#composemodal-address">
                                                         Show PopUp
                                                     </button>
+
+                                                    <button type="button" class="btn btn-primary"
+                                                        id="btn-invalid-addupload-format" data-bs-toggle="modal"
+                                                        data-bs-target="#invalid-upload-format" hidden>
+                                                        Show PopUp
+                                                    </button>
+
                                                 </div>
                                             </div>
                                         </form>
@@ -572,6 +585,11 @@
                                                         data-bs-toggle="modal" data-bs-target="#composemodal-bank">
                                                         Show PopUp
                                                     </button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        id="btn-invalid-bankupload-format" data-bs-toggle="modal"
+                                                        data-bs-target="#invalid-upload-format" hidden>
+                                                        Show PopUp
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -644,7 +662,7 @@
                                     <form action="{{ route('selfie') }}" method="post" enctype="multipart/form-data"
                                         id="selfieLink">
                                         @csrf
-                                        <div class="image-upload">
+                                        <div class="image-upload" id="selfie-upload-box">
 
                                             <div class="col-md-12">
                                                 <br><br>
@@ -4087,12 +4105,41 @@
         </div>
     </div>
 
+    {{-- Invalid Format --}}
+    <div class="modal fade" id="invalid-upload-format" tabindex="-1" role="dialog"
+        aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="padding-botton:20px ">
+                    <br>
+                    <div class="text-center mb-4">
+                        <img src="{{ URL::asset('/assets/images/fail-cross.svg') }}" width="90px" />
+                        <br><br>
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10">
+                                <h5 style="color: #696969">Wrong document format. Please upload a PDF or Image file
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="text-center mb-3">
+                    <button type="button" class="btn btn-primary" id="btn-wrongformat"
+                        style="width: 150px; background-color: #93186c; border-color: #93186c">OK
+                    </button>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+
     <!-- Static Backdrop modal Button -->
     <button id="modalbtn" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
         data-bs-target="#staticBackdrop" hidden>
         Static backdrop modal
     </button>
-
 
     <!-- Static Backdrop Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -4173,7 +4220,7 @@
                         }
                     },
                     error: function(response) {
-                        //$("#btn-hidden-id").click();
+                        $("#btn-invalid-upload-format").click();
                         //  console.log('error')
                         // $("#btn-hidden-failed").click();
                     }
@@ -4182,6 +4229,9 @@
             });
 
             $("#btnYes").click(function() {
+                location.reload();
+            });
+            $("#btn-wrongformat").click(function() {
                 location.reload();
             });
             $("#btnYes-failed").click(function() {
@@ -4237,6 +4287,7 @@
                     },
                     error: function() {
                         $("#btn-hidden-failed").click();
+                        $("#btn-invalid-addupload-format").click();
 
                     }
 
@@ -4245,6 +4296,9 @@
 
 
             $("#btn-reupload").click(function() {
+                location.reload();
+            });
+            $("#btn-wrongformat").click(function() {
                 location.reload();
             });
             $("#btnYes-failed").click(function() {
@@ -4373,7 +4427,8 @@
                         $('#image-upload-bank').hide();
                     },
                     success: function(response) {
-
+                        console.log('PASSED');
+                        console.log(response);
                         $('#bank-name').val(response.bankAccount[0])
                         // $('#acc-number').attr("disabled", true)
                         //$("input_name").val() =
@@ -4381,14 +4436,24 @@
                         //location.reload();
 
                     },
-                    error: function() {
-                        $("#btn-hidden-bank").click();
+                    error: function(response) {
+                        console.log('ERROR');
+                        console.log(response.status);
+                        if (response.status == 200) {
+                            $("#btn-hidden-bank").click();
+
+                        } else {
+                            $("#btn-invalid-bankupload-format").click();
+                        }
                     }
 
                 });
             });
 
             $("#btnYes").click(function() {
+                location.reload();
+            });
+            $("#btn-wrongformat").click(function() {
                 location.reload();
             });
             $("#btnYes-failed").click(function() {
@@ -4488,6 +4553,7 @@
             //     $('#click-icon-facial').hide();
             //     $('#click-icon-static-facial').show();
             // });
+
             $("#composemodal-selfie").modal({
                 backdrop: "static ",
                 keyboard: false
@@ -4507,11 +4573,17 @@
                         $('#loading-send-sms').show();
                         $('#click-icon-facial').hide();
                         $('#click-icon-static-facial').show();
+                        $('#submit-facial').hide();
+                        $("#submit-facial").prop("disabled", true);
+                        $('#selfie-upload-box').hide();
                     },
                     complete: function() {
                         $('#loading-send-sms').hide();
                         $('#click-icon-facial').hide();
                         $('#click-icon-static-facial').show();
+                        $('#submit-facial').show();
+                        $("#submit-facial").prop("disabled", false);
+                        $('#selfie-upload-box').show();
                         // document.querySelector("#loader-selfie").style.display = "none";
                     },
                     success: function(response) {
@@ -4592,6 +4664,7 @@
 
         });
     </script>
+
 
     {{-- Selfie Results --}}
     <script type="text/javascript">

@@ -53,20 +53,23 @@ class awsController extends Controller
 
     public function TextractAmazonOCR($path, Request $request)
     {
-        //app('debugbar')->info('abc');
-        $Key = config("app.AWS_ACCESS_KEY_ID");
-        $Secret = config("app.AWS_SECRET_ACCESS_KEY");
-        $Region = config("app.AWS_DEFAULT_REGION");
+
+
+        $Key = config("app.TEXTRACT_CLIENT_KEY");
+        $Secret = config("app.TEXTRACT_CLIENT_SECRET");
+        $Region = config("app.TEXTRACT_CLIENT_REGION");
+
 
         $texts = array();
         $data = new OCRdata();
 
+
         $client = new TextractClient([
-            'region' => 'us-east-1',
+            'region' => $Region,
             'version' => 'latest',
             'credentials' => [
-                'key'    => 'AKIA4IKI2GCK2MKU65VF', //move to .env file
-                'secret' => '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' //move to .env file
+                'key'    => $Key,
+                'secret' =>  $Secret
             ]
         ]);
 
@@ -81,6 +84,7 @@ class awsController extends Controller
             ],
             'FeatureTypes' => ['FORMS'],
         ];
+
         //Extract data from the document using aws Textract
         $result = $client->detectDocumentText($options);
         $blocks = $result['Blocks'];
@@ -100,6 +104,11 @@ class awsController extends Controller
                 }
             }
         }
+        return $texts;
+
+
+        // if($$request->)
+
 
         //app('debugbar')->info($texts);
         //$this->address($texts, $request); //uncomment
@@ -108,7 +117,7 @@ class awsController extends Controller
         // app('debugbar')->info($test);
         // $request->session()->put('IDNUMBER', $IdDataResult->Id);
         //$this->proofOfAddress($request);
-        return $texts;
+
     }
 
     //Green book or Smart Card ID
@@ -157,17 +166,31 @@ class awsController extends Controller
                     if (preg_match('(DATE ISSUED)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
                         // $IssueDateResult = substr($IssueDate, 0, -4);
-                        $date = date_create($IssueDate);
-                        $IssueDateResult = date_format($date, "Y/m/d");
-                        array_push($IssueDateResultResponse, $IssueDateResult);
+                        if (strtotime($IssueDate)) {
+                            $date = date_create($IssueDate);
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        } else {
+
+                            $date = date_create("1900-01-01-99");
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        }
                     }
                     //Find smart card Issue Date
                     if (preg_match('(Date of Issue)', $texts[$i]) === 1) {
                         $IssueDate  =   $texts[$i + 2];
                         // $IssueDateResult = substr($IssueDate, 0, -4);
-                        $date = date_create($IssueDate);
-                        $IssueDateResult = date_format($date, "Y/m/d");
-                        array_push($IssueDateResultResponse, $IssueDateResult);
+                        if (strtotime($IssueDate)) {
+                            $date = date_create($IssueDate);
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        } else {
+
+                            $date = date_create("1900-01-01-99");
+                            $IssueDateResult = date_format($date, "Y/m/d");
+                            array_push($IssueDateResultResponse, $IssueDateResult);
+                        }
                     }
                     // if (preg_match('(RSA|HOME AFFAIRS)', $texts[$i]) === 1) {
                     //     array_push($Nationality, 'SOUTH AFRICA');
@@ -182,6 +205,7 @@ class awsController extends Controller
             // app('debugbar')->info($tempData);
             app('debugbar')->info($IdAndConfidence);
             app('debugbar')->info($IssueDate);
+
             //ID Data formarted
 
             $IDResults = ([
@@ -461,7 +485,7 @@ class awsController extends Controller
 
                     $isDateValide = true;
                     $addressResponse = ([
-                        'message' => 'date is valide',
+                        'message' => 'date is valid',
                         'status' => true
                     ]);
 
@@ -481,7 +505,7 @@ class awsController extends Controller
 
                     $isDateValide = true;
                     $addressResponse = ([
-                        'message' => 'date is valide',
+                        'message' => 'date is valid',
                         'status' => true
                     ]);
 
@@ -524,7 +548,7 @@ class awsController extends Controller
             return  $months;
         } catch (\Exception $e) {
             $addressResponse = ([
-                'message' => 'date is not valide',
+                'message' => 'date is not valid',
                 'status' => false
             ]);
         }
@@ -985,7 +1009,6 @@ class awsController extends Controller
                 }
             }
             $resultBank = array_unique($bankData);
-            //app('debugbar')->info($resultBank[0]);
             $request->session()->put('bankTextractedDetails', $texts);
             // $this->proofOfBank($request);
 
