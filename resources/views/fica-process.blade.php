@@ -1961,7 +1961,7 @@
                                             <div class="input-group" style="height: 27px; width: 165px;">
                                                 <select class="form-select" id="public-officia-dropdown"
                                                     style="height: 27px;padding-top: 3px;padding-left: 20px;padding-bottom: 3px;"
-                                                    name="public-officia-dropdown" id="public-officia-dropdown" required
+                                                    name="public-officia-dropdown" required
                                                     {{ $fica->Screening_status !== null ? 'disabled' : '' }}>
                                                     {{-- <option value=-1>Select</option> --}}
                                                     <option disabled> Select </option>
@@ -1969,11 +1969,12 @@
                                                         {{ isset($financial->Public_official) && $financial->Public_official == 1 ? 'selected' : '' }}>
                                                         YES
                                                     </option>
-                                                    <option selected value=0 id="public-officia-dropdown-NO"
-                                                        {{ isset($financial->Public_official) && $financial->Public_official == 0 ? 'selected' : '' }}>
+                                                    <option value=0 id="public-officia-dropdown-NO"
+                                                        {{ (isset($financial->Public_official) && $financial->Public_official == 0) || $financial->Public_official == null ? 'selected' : '' }}>
                                                         NO
                                                     </option>
                                                 </select>
+
                                             </div>
                                         </div>
 
@@ -2030,8 +2031,8 @@
                                                         {{ isset($financial->Public_official_Family) && $financial->Public_official_Family == 1 ? 'selected' : '' }}>
                                                         YES
                                                     </option>
-                                                    <option selected value=0 id="public-officia-fimaly-dropdown-NO"
-                                                        {{ isset($financial->Public_official_Family) && $financial->Public_official_Family == 0 ? 'selected' : '' }}>
+                                                    <option value=0 id="public-officia-fimaly-dropdown-NO"
+                                                        {{ (isset($financial->Public_official_Family) && $financial->Public_official_Family == 0) || $financial->Public_official_Family == null ? 'selected' : '' }}>
                                                         NO
                                                     </option>
 
@@ -2089,8 +2090,8 @@
                                                     <option value=1
                                                         {{ isset($financial->SanctionList) && $financial->SanctionList == 1 ? 'selected' : '' }}>
                                                         YES</option>
-                                                    <option selected value=0
-                                                        {{ isset($financial->SanctionList) && $financial->SanctionList == 0 ? 'selected' : '' }}>
+                                                    <option value=0
+                                                        {{ (isset($financial->SanctionList) && $financial->SanctionList == 0) || $financial->SanctionList == null ? 'selected' : '' }}>
                                                         NO
                                                     </option>
                                                 </select>
@@ -2117,8 +2118,8 @@
                                                     <option value=1
                                                         {{ isset($financial->AdverseMedia) && $financial->AdverseMedia == 1 ? 'selected' : '' }}>
                                                         YES</option>
-                                                    <option selected value=0
-                                                        {{ isset($financial->AdverseMedia) && $financial->AdverseMedia == 0 ? 'selected' : '' }}>
+                                                    <option value=0 {{-- {{ isset($financial->AdverseMedia) && $financial->AdverseMedia == 0 ? 'selected' : '' }}> --}}
+                                                        {{ (isset($financial->AdverseMedia) && $financial->AdverseMedia == 0) || $financial->AdverseMedia == null ? 'selected' : '' }}>
                                                         NO
                                                     </option>
                                                 </select>
@@ -2232,10 +2233,10 @@
                                             {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
                                             <option disabled>Select</option>
 
-                                            <option selected value="NO"
+                                            {{-- <option selected value="NO"
                                                 {{ isset($declaration->NomineeDeclaration) && $declaration->NomineeDeclaration == 'NO' ? 'selected' : '' }}>
                                                 NO
-                                            </option>
+                                            </option> --}}
 
                                             <option
                                                 value='I confirm  that I am  not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.'
@@ -2440,8 +2441,8 @@
                                             <option value=1
                                                 {{ isset($declaration->DividendTax) && $declaration->DividendTax == 1 ? 'selected' : '' }}>
                                                 YES</option>
-                                            <option selected value=0
-                                                {{ isset($declaration->DividendTax) && $declaration->DividendTax == 0 ? 'selected' : '' }}>
+                                            <option value=0
+                                                {{ (isset($declaration->DividendTax) && $declaration->DividendTax == 0) || $declaration->DividendTax == null ? 'selected' : '' }}>
                                                 NO
                                             </option>
                                         </select>
@@ -2465,8 +2466,8 @@
                                             <option value=1
                                                 {{ isset($declaration->BeeShareholder) && $declaration->BeeShareholder == 1 ? 'selected' : '' }}>
                                                 YES</option>
-                                            <option selected value=0
-                                                {{ isset($declaration->BeeShareholder) && $declaration->BeeShareholder == 0 ? 'selected' : '' }}>
+                                            <option value=0
+                                                {{ (isset($declaration->BeeShareholder) && $declaration->BeeShareholder == 0) || $declaration->BeeShareholder == null ? 'selected' : '' }}>
                                                 NO</option>
                                         </select>
 

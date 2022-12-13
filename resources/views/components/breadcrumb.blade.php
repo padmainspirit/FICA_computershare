@@ -71,7 +71,7 @@
 
     .percent_text {
         position: absolute;
-        color: black;
+        color: #696969;
         font-weight: bold;
         font-size: 15px;
         left: 50%;
@@ -88,7 +88,8 @@
 
             <div class="row">
                 <div class="col-8 d-sm-flex d-sm-flex align-items-center justify-content-between">
-                    <h4 style="color:#000; font-weight:bold;margin-bottom: 0px;margin-top: 13%;">{{ $title }}</h4>
+                    <h4 style="color:#696969; font-weight:bold;margin-bottom: 0px;margin-top: 13%;">{{ $title }}
+                    </h4>
                 </div>
                 <div class="col-4" style="padding-left: 0px;">
                     <div class="circle_percent" data-percent="{{ (Session::get('FICAProgress') / 10) * 100 }}"

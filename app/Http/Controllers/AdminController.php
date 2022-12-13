@@ -31,30 +31,18 @@ class AdminController extends Controller
     public function ShowDashboard(Request $request)
     {
 
-        // $idnumber = null;
         $request->session()->put('idnumber', null);
-        // $findnote = SendEmail::all()->toArray();
-        //$Consumerid = $request->session()->get('LoggedUser');
-        $Consumerid = Auth::user()->Id;
+        $user = Auth::user();
 
-        $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
+        $LogUserName = $user->FirstName;
+        $LogUserSurname = $user->LastName;
 
-        $LogUserName = $getLogUser['FirstName'];
-        $LogUserSurname = $getLogUser['LastName'];
-
-        $request->session()->put('LogUserName', $LogUserName);
-        $request->session()->put('LogUserSurname', $LogUserSurname);
-
-        app('debugbar')->info($LogUserName);
-        app('debugbar')->info($LogUserSurname);
-
-        //$Customerid = $request->session()->get('Customerid');
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
-        $Logo = $customer['Client_Logo'];
-        $customerName = $customer['RegistrationName'];
-        $Icon = $customer['Client_Icon'];
+        $Logo = $customer->Client_Logo;
+        $customerName = $customer->RegistrationName;
+        $Icon = $customer->Client_Icon;
 
         // dd($Icon);
 
@@ -67,26 +55,6 @@ class AdminController extends Controller
 
         $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
 
-        // dd($DashboardData);
-
-        // $DashboardData = [
-
-        //     'NumClients' => $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null,
-        //     'InProgress' => $DashboardInfo != '' ? $DashboardInfo[0]->InProgress : null,
-        //     'Completed' => $DashboardInfo != '' ? $DashboardInfo[0]->Completed : null,
-        //     'Rejected' => $DashboardInfo != '' ? $DashboardInfo[0]->Rejected : null,
-        //     'Failed' => $DashboardInfo != '' ? $DashboardInfo[0]->Failed : null,
-        //     'Correction' => $DashboardInfo != '' ? $DashboardInfo[0]->Correction : null,
-        //     'HighRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null,
-        //     'MediumRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null,
-        //     'LowRisk' => $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null,
-        //     'Oneto5Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Oneto5Count : null,
-        //     'Fiveto10Count' => $DashboardInfo != '' ? $DashboardInfo[0]->Fiveto10Count : null,
-        //     'Tento15count' => $DashboardInfo != '' ? $DashboardInfo[0]->Tento15count : null,
-        //     'Fifteenpluscount' => $DashboardInfo != '' ? $DashboardInfo[0]->Fifteenpluscount : null,
-
-        // ];
-
         $NumClients = $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null;
 
         $HighRisk = $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null;
@@ -97,7 +65,7 @@ class AdminController extends Controller
         $MediumPerc = $NumClients != 0 ? (($MediumRisk / $NumClients) * 100) : 0;
         $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
 
-        // dd($HighPerc);
+
 
         if (session()->has('LoggedUser')) {
             session()->pull('FirstName');
@@ -188,45 +156,9 @@ class AdminController extends Controller
     public function FindUsers(Request $request)
     {
 
-        // $Consumerid = $request->session()->get('LoggedUser');
-
-        // app('debugbar')->info($Consumerid);
-
-        // $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
-
-        // $LogUserName = $getLogUser['FirstName'];
-        // $LogUserSurname = $getLogUser['LastName'];
-
-        // $SearchConsumerID = $request->session()->get('SearchConsumerID');
-        // $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
-        // $request->session()->put('NotificationLink', $NotificationLink);
-
-        // $NotificationLink = $request->session()->get('NotificationLink');
-
-        // $clientsDetails = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?', ['4717E73D-1F3F-4ACE-BE1A-0244770D6272', '2', '', 'Naidoo']);
-
-
-        // $RefData = [
-        //     'consumerid' => "D834D56E-5896-4FDD-99CF-7E0476FD8A8A",
-        //     'FirstName' => "Mischa",
-        //     'SecondName' => null,
-        //     'Surname' => "Naidoo",
-        //     'TitleCode' => "3",
-        //     'IDNUMBER' => "7711025013082",
-        //     'Email' => "mischa.naidoo@inspirit.co.za",
-        //     'ClientUniqueRef' => null,
-        //     'FICAStatus' => "Correction",
-        //     'LastUpdatedDate' => "2022-09-06 08:14:36.000",
-        // ];
-
-
-        // app('debugbar')->info($clientsDetails);
-
-        // $Logo =  $request->session()->get('Logo');
-        // $customerName =  $request->session()->get('customerName');
 
         $client = Auth::user();
-        $loggedInUserId = $client->Id;
+        // $loggedInUserId = $client->Id;
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
         $Customerid = $client->CustomerId;
@@ -238,73 +170,6 @@ class AdminController extends Controller
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
 
-        // if (session()->has('LoggedUser')) {
-        //     session()->pull('idnumber');
-        //     session()->pull('FirstName');
-        //     session()->pull('Surname');
-        //     session()->pull('maritialstatus');
-        //     session()->pull('nationality');
-        //     session()->pull('ResidentialAddress');
-        //     session()->pull('Sources');
-        //     session()->pull('TotalSourcesUsed');
-        //     session()->pull('IDStatus');
-        //     session()->pull('KYCStatusInd');
-        //     session()->pull('Account_no');
-        //     session()->pull('Branch_code');
-        //     session()->pull('AccountType');
-        //     session()->pull('Bank_name');
-        //     session()->pull('ACCOUNT_OPEN');
-        //     session()->pull('Identity_Document_TYPE');
-        //     session()->pull('INITIALS');
-        //     session()->pull('SURNAME');
-        //     session()->pull('IDNUMBER');
-        //     session()->pull('Email');
-        //     session()->pull('CellularNo');
-        //     session()->pull('Income_taxno');
-        //     session()->pull('ACCOUNTDORMANT');
-        //     session()->pull('ACCOUNTOPENFORATLEASTTHREEMONTHS');
-        //     session()->pull('ACCOUNTACCEPTSDEBITS');
-        //     session()->pull('ACCOUNTACCEPTSCREDITS');
-        //     session()->pull('BankTypeid');
-        //     session()->pull('ConsumerIDPhotoMatch');
-        //     session()->pull('DeceasedStatus');
-        //     session()->pull('MatchResponseCode');
-        //     session()->pull('LivenessDetectionResult');
-        //     session()->pull('Latitude');
-        //     session()->pull('Longitude');
-        //     session()->pull('email');
-        //     session()->pull('ConsumerIDPhoto');
-        //     session()->pull('ConsumerCapturedPhoto');
-        //     session()->pull('SearchConsumerID');
-        //     session()->pull('SearchFica');
-        //     session()->pull('FICAStatusbyFICA');
-        //     session()->pull('RiskStatusbyFICA');
-        //     session()->pull('ProgressbyFICA');
-        //     session()->pull('IDDoc');
-        //     session()->pull('AddressDoc');
-        //     session()->pull('BankDoc');
-        //     session()->pull('kycstatus');
-        //     session()->pull('bankstatus');
-        //     session()->pull('facialrecognitionstatus');
-        //     session()->pull('compliancestatus');
-        //     session()->pull('FetchComplianceSanct');
-        //     session()->pull('FetchComplianceAdd');
-        //     session()->pull('residential');
-        //     session()->pull('insidedata');
-        //     session()->pull('ComplianceData');
-        //     session()->pull('firstname');
-        //     session()->pull('surname');
-        //     session()->pull('consumerid');
-        //     session()->pull('TitleDesc');
-        //     session()->pull('ContactNumbers');
-        //     session()->pull('message');
-        //     session()->pull('SNameMatch');
-        //     session()->pull('IDMatch');
-        //     session()->pull('EmailMatch');
-        //     session()->pull('TaxNumMatch');
-        //     session()->pull('Tax_Number');
-        //     // session()->pull('exception');
-        // }
 
         return view('admin-findusers')
             ->with('LogUserName', $LogUserName)
@@ -316,37 +181,9 @@ class AdminController extends Controller
         // ->with('NotificationLink', $NotificationLink)
     }
 
-    // public function DisplaySearch()
-    // {
-
-    // app('debugbar')->info('Testing');
-
-    //     return view('admin-users');
-    // }
-
     public function Display(Request $request)
     {
 
-        // app('debugbar')->info('Testing');
-
-
-        // app('debugbar')->info($request);
-
-        // $cusid = CustomerUser::where('CustomerId', '=', $request->CustomerId)->first();
-        // $cusid = DB::connection("sqlsrv2")->select(DB::table('CustomerUsers')->where('CustomerId')->first());
-
-
-
-        // $first = CustomerUser::where('FirstName', '=', session()->get('LoggedUser'))->first();
-        // $last = CustomerUser::where('LastName', '=', session()->get('LoggedUser'))->first();
-        // $cel = CustomerUser::where('PhoneNumber', '=', session()->get('LoggedUser'))->first();
-        // $idno = CustomerUser::where('IDNumber', '=', session()->get('LoggedUser'))->first();
-
-        // $customerid = "4717E73D-1F3F-4ACE-BE1A-0244770D6272";
-        // $SearchType = "1";
-        // $IDNUMBER = "0000000000000";
-
-        // app('debugbar')->info($request);
 
         $SearchType = "0";
 
@@ -376,29 +213,6 @@ class AdminController extends Controller
             $SearchType = "7";
         }
 
-
-        // }catch (\Exception $noUserLastName) {
-        //     app('debugbar')->info($noUserLastName);
-
-        //     $message = '';
-        //     $noUserLastName = ([
-        //         'IDNumber' => null,
-        //         'FirstName' => null,
-        //         'LastName' => null,
-        //         'FICAStatus' => null,
-        //         'ClientUniqueRef' => null,
-        //         'PhoneNumber' => null,
-        //     ]);
-
-        //     if ($noUserLastName = true){
-        //         $message = "No input found, please fill in at least one field.";
-        //     }
-        // }
-
-
-        // app('debugbar')->info($noUserLastName);
-
-        // $customerid = $request->session()->get('Customerid');
         $client = Auth::user();
         $customerid = $client->CustomerId;;
         // $customerid = "4717E73D-1F3F-4ACE-BE1A-0244770D6272";
@@ -410,12 +224,6 @@ class AdminController extends Controller
         $CLIENTREF = $request->ClientUniqueRef;
         $searchResponse = (['status' => false, 'message' => '']);
 
-        // app('debugbar')->info($SURNAME);
-
-        // $values = [$customerid,$SearchType,$IDNUMBER];
-        // $data = DB::select('EXEC sp_ConsumerSearch ?,?,?',$values);
-
-        // $data = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?', [$customerid, $SearchType, $IDNUMBER]);
 
         try {
             switch ($SearchType) {
@@ -433,13 +241,6 @@ class AdminController extends Controller
 
                     app('debugbar')->info($clientsDetails);
 
-                    // $dataArray = [
-                    //     array("name" => "Ram", "age" => "21", "gender" => "Male", "occupation" => "Doctor"),
-                    //     array("name" => "Mohan", "age" => "32", "gender" => "Male", "occupation" => "Teacher"),
-                    //     array("name" => "Mlu", "age" => "40", "gender" => "Male", "occupation" => "Developer")
-                    // ];
-
-                    // return response()->json(["status" => true, "IDNUMBER" => $idnum ]);
 
                     if (!$idnum) {
                         return back()->with('fail', 'ID Number does not exsist');
@@ -471,17 +272,6 @@ class AdminController extends Controller
                             'message' => 'User not found'
                         ]);
                     }
-
-                    // if (!$clientsDetails) {
-                    //     return back()->with('fail', 'Surname does not exsist');
-                    // } else {
-                    //     $output_data = ['response' => true, 'message' => 'request is successful.', 'data' =>   $clientsDetails, 'searchResponse' => $searchResponse];
-                    //     return  $output_data;
-
-                    //     return view('admin-findusers', compact('output_data.data[i].IDNUMBER'));
-                    // }
-
-                    // app('debugbar')->info($test);
 
                     $output_data = ['response' => true, 'message' => 'request is successful.', 'data' =>   $clientsDetails, 'searchResponse' => $searchResponse];
                     return  $output_data;
