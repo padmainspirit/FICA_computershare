@@ -74,7 +74,7 @@
                                                                 onclick="window.history.back()">Previous</a></li>
                                                         <li class="breadcrumb-item text-decoration-underline"
                                                             style="font-weight: 500"><a
-                                                                href="javascript: void(0);">Actions</a>
+                                                                href="javascript: void(0);">Email</a>
                                                         </li>
                                                     </ol>
 
@@ -123,7 +123,7 @@
                                                                 <td class="font-size-12">
                                                                     {{ $item->EmailMessage }}</td>
                                                                 <td class="font-size-12">
-                                                                    {{ substr($item->EmailDate, 0, 10) }}</td>
+                                                                    {{ substr($item->EmailDate, 0, 16) }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -198,13 +198,30 @@
 
                                             <div class="row">
                                                 <div class="col-xl-12">
-                                                    <div class="card">
-                                                        <div class="card-body"
-                                                            style="padding-top: 0px;padding-left: 0px;padding-right: 0px;">
-                                                            <div class="heading-fica-id mb-3">
+                                                    <div class="heading-fica-id mb-3">
+                                                        <div class="card">
+                                                            <div class="card-body"
+                                                                style="padding-top: 0px;padding-left: 0px;padding-right: 0px;">
+                                                                <div class="row" style="background-color: #ffffff">
+                                                                    <div class="col-md-9">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+
+                                                                        <ol class="breadcrumb">
+                                                                            <li class="breadcrumb-item"><a type="button"
+                                                                                    onclick="window.history.back()">Previous</a>
+                                                                            </li>
+                                                                            <li class="breadcrumb-item text-decoration-underline"
+                                                                                style="font-weight: 500"><a
+                                                                                    href="javascript: void(0);">Actions</a>
+                                                                            </li>
+                                                                        </ol>
+
+                                                                    </div>
+                                                                </div>
                                                                 <div class="text-center">
                                                                     <h4
-                                                                        style="color: #fff; padding-top:8px;padding-bottom: 8px;">
+                                                                        style="color: #fff; padding-top:8px;padding-bottom: 8px;background-color: #93186c">
                                                                         Admin Actions
                                                                     </h4>
                                                                 </div>

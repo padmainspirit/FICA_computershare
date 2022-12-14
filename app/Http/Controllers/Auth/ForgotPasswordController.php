@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 
 class ForgotPasswordController extends Controller
@@ -25,30 +26,31 @@ class ForgotPasswordController extends Controller
         $message = '';
 
         //$Customerid = $request->session()->get('Customerid');
-        $customer = Customer::getCustomerDetailsByUrl(); 
+        $customer = Customer::getCustomerDetailsByUrl();
 
         return view('auth.forget-password')->with('message', $message)
-        ->with('customer', $customer);
+            ->with('customer', $customer);
     }
 
     public function submitForgetPasswordForm(Request $request)
     {
+        $customer = Customer::getCustomerDetailsByUrl();
         $request->validate([
             'Email' => 'required|email|exists:CustomerUsers',
         ]);
-        
+
         //$userexsists = $user['Email'];
 
         $client = new Client;
         $token = $request->input('g-recaptcha-response-forget');
 
         $YearNow = Carbon::now()->year;
-         
+
         $user = CustomerUser::where('Email', '=', $request->Email)->first();
 
         $ForgetEmail = $request->Email;
         $request->session()->put('ForgetEmail', $ForgetEmail);
-        
+
         // dd($Email);
 
         $response = $client->post(
@@ -69,13 +71,13 @@ class ForgotPasswordController extends Controller
         if ($responseData->score < 0.5) {
             $message = 'Please contact Administrator';
             return back()->with('message', $message)
-            ->with('customer', $customer);
+                ->with('customer', $customer);
         }
 
 
-        if ($user != null) {            
+        if ($user != null) {
             $Customerid = $user->CustomerId;
-            $customer = Customer::getCustomerDetails($Customerid); 
+            $customer = Customer::getCustomerDetails($Customerid);
             if ($request->Email == $ForgetEmail) {
                 $token = Str::random(16);
                 // Db::table('password_resets')->insert([
@@ -97,7 +99,7 @@ class ForgotPasswordController extends Controller
                 //$request->session()->put('message', $message);
                 return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
             }
-        }else {
+        } else {
             $message = 'No registered user found.';
             //$request->session()->put('message', $message);
             return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
@@ -114,7 +116,7 @@ class ForgotPasswordController extends Controller
         // app('debugbar')->info($customer);
         $message = '';
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
@@ -125,10 +127,10 @@ class ForgotPasswordController extends Controller
         // dd($customer);
 
         return view('auth.reset-password', ['token' => $token])->with('message', $message)
-        ->with('ForgetEmail', $ForgetEmail)
-        ->with('customerName', $customerName)
-        ->with('Logo', $Logo)
-        ->with('Icon', $Icon);
+            ->with('ForgetEmail', $ForgetEmail)
+            ->with('customerName', $customerName)
+            ->with('Logo', $Logo)
+            ->with('Icon', $Icon);
         // return view('.$token', ['token' => $token]);
     }
 
@@ -147,12 +149,12 @@ class ForgotPasswordController extends Controller
 
         $Email = $request->session()->get('Email');
 
-        $Customerid = $request->session()->get('Customerid');
+        $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-        
+
         //dd($token);
 
         $response = $client->post(
@@ -197,34 +199,11 @@ class ForgotPasswordController extends Controller
                 // $request->session()->put('message', "No registered user found");
                 return back()->with('fail', 'No user has been found, please contact an Administrator or register an account')->with('Logo', $Logo)->with('Icon', $Icon)->with('Email', $Email);
             }
-        }else {
+        } else {
             $message = 'No registered user found.';
             // $request->session()->put('message', "No registered user found");
             return back()->with('fail', 'No user has been found, please contact an Administrator or register an account')->with('Logo', $Logo)->with('Icon', $Icon)->with('Email', $Email);
         }
-
-
-        //dd($request->Password);
-
-        // $updatePassword = DB::table('password_resets')->where([
-        //     'Email' => $request->Email, 
-        //     'token' => $request->token
-        // ])->first();
-
-        // if(!$updatePassword){
-        //     return back()->withInput()->with('error', 'Invalid token!');
-        // }
-
-        // DB::table('CustomerUsers')->where([
-        //     'Email'=> $request->Email,
-        //     'Password' => Hash::make($request->Password),
-        // ]);
-
-        // DB::table('password_resets')->where([
-        //     'Email'=> $request->Email,
-        //     'token'=> $request->token,
-        //     'created_at'=> $request->created_at
-        // ])->delete();
 
         return redirect('login')->with('Logo', $Logo)->with('Icon', $Icon);
     }
