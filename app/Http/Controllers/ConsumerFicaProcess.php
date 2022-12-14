@@ -46,16 +46,11 @@ class ConsumerFicaProcess extends Controller
                 'province-physical' => 'required',
                 'zip-physical' => 'required',
                 'country-input' => 'required',
-                'employee-status-input' => 'required',
-                'industry-of-occupation-input' => 'required',
+                'employee-status-input' => ['required', 'in:Employed,Unemployed'],
+                'industry-of-occupation-input' => 'required_if:employee-status-input,==,Employed',
                 // 'id-issuedate-input' => 'required',
                 'titleId' => 'required'
             ],
-
-            [
-                // 'work-number-input.min' => 'The work number has to be 10 digits.',
-                // 'telephone-home-input.min' => 'The home number has to be 10 digits.',
-            ]
         );
 
         // dd($request);
@@ -66,9 +61,9 @@ class ConsumerFicaProcess extends Controller
         //dd($request);
         //app('debugbar')->info($request);
         //ADDRESS CONSTANTS
-        $homeAddressIDType = '4AA3F8D1-0DF0-45C7-A772-869ECD88AB4D'; //HOME:16 
-        $PostalAddressIDType = '41B4799E-B1CC-44D1-B067-F963B17694EA'; //POSTAL:15
-        $WorkAddressIDType = 'C3E57D4F-3100-4973-A717-E17355321983'; //WORK:14
+        $homeAddressIDType = config("app.HOME_LOOKUP_TABLE_ID"); //HOME:16 
+        $PostalAddressIDType = config("app.POSTAL_LOOKUP_TABLE_ID"); //POSTAL:15
+        $WorkAddressIDType = config("app.WORK_LOOKUP_TABLE_ID"); //WORK:14
 
         // try {
         //app('debugbar')->info($request);
@@ -119,38 +114,12 @@ class ConsumerFicaProcess extends Controller
         $postalAddress = $Addresses['Postal'];
         $workAddress  = $Addresses['Work'];
 
-        // if ($Addresses['Home'] ?? null !== null) {
-        //     $homeAddress  = $Addresses['Home'];
-        // }
-        // if ($Addresses['Postal'] ?? null !== null) {
-        //     $postalAddress = $Addresses['Postal'];
-        // }
-
-        // if ($Addresses['Work'] ?? null !== null) {
-        //     $workAddress  = $Addresses['Work'];
-        // }
-
-
 
         $Telephone = Telephones::getAllTelephones();
 
 
         $telephoneNumber = $Telephone['TelHome'];
         $workTelephonNumber  = $Telephone['TelWork'];
-
-        // if ($Telephone['TelHome'] ?? null !== null) {
-        //     $telephoneNumber = $Telephone['TelHome'];
-        // }
-
-        // if ($Telephone['TelWork'] ?? null !== null) {
-        //     $workTelephonNumber  = $Telephone['TelWork'];
-        // }
-
-        // $telephone1 = Telephones::select('*')
-        //     ->where('ConsumerID', '=',  $consumer->Consumerid)
-        //     ->where('RecordStatusInd', '=', 1)
-        //     ->get();
-        // dd(Count($telephoneNumber));
 
 
         $lookupdata = LookupDatas::all();

@@ -48,7 +48,7 @@ class RegisterController extends Controller
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
             'IDNumber' => 'required|digits:13|unique:CustomerUsers',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
-            'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
+            'PhoneNumber' => ['required', 'digits:10', 'max:255', 'unique:CustomerUsers'],
             'Password' => [
                 'required',
                 'min:8',
@@ -59,6 +59,8 @@ class RegisterController extends Controller
             'unique'        => 'The :attribute already been registered.',
             'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
+            'PhoneNumber.required' => 'The cellphone number field is required.',
+            'PhoneNumber.digits' => 'Please enter a valid 10 digit cellphone number.',
             'Password.regex'   => 'The :attribute is invalid, password must contain at least one Uppercase, one Lower case, A number (0-9), Special Characters (!@#$%^&*) of least 8 Characters.',
         ]);
 
