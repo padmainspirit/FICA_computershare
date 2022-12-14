@@ -34,17 +34,16 @@ class AdminController extends Controller
         $request->session()->put('idnumber', null);
         $user = Auth::user();
 
-        $LogUserName = $user->FirstName;
-        $LogUserSurname = $user->LastName;
+        // $LogUserName = $user->FirstName;
+        // $LogUserSurname = $user->LastName;
 
-        $Customerid = Auth::user()->CustomerId;
+        $Customerid = $user->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
-        // dd($Icon);
 
         $DashboardInfo = DB::connection("sqlsrv2")->select(
             DB::raw("SET NOCOUNT ON; exec SP_Dashboard :Customerid"),
@@ -143,14 +142,13 @@ class AdminController extends Controller
             ->with('MediumPerc', $MediumPerc)
             ->with('HighPerc', $HighPerc)
 
-            ->with('Logo', $Logo)
-            ->with('Icon', $Icon)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
+            ->with('Logo',  $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
 
-            ->with('LogUserName', $LogUserName)
-            ->with('LogUserSurname', $LogUserSurname);
+            ->with('LogUserName', $user->FirstName)
+            ->with('LogUserSurname', $user->LastName);
     }
 
     public function FindUsers(Request $request)

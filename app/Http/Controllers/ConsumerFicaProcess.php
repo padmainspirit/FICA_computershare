@@ -114,38 +114,12 @@ class ConsumerFicaProcess extends Controller
         $postalAddress = $Addresses['Postal'];
         $workAddress  = $Addresses['Work'];
 
-        // if ($Addresses['Home'] ?? null !== null) {
-        //     $homeAddress  = $Addresses['Home'];
-        // }
-        // if ($Addresses['Postal'] ?? null !== null) {
-        //     $postalAddress = $Addresses['Postal'];
-        // }
-
-        // if ($Addresses['Work'] ?? null !== null) {
-        //     $workAddress  = $Addresses['Work'];
-        // }
-
-
 
         $Telephone = Telephones::getAllTelephones();
 
 
         $telephoneNumber = $Telephone['TelHome'];
         $workTelephonNumber  = $Telephone['TelWork'];
-
-        // if ($Telephone['TelHome'] ?? null !== null) {
-        //     $telephoneNumber = $Telephone['TelHome'];
-        // }
-
-        // if ($Telephone['TelWork'] ?? null !== null) {
-        //     $workTelephonNumber  = $Telephone['TelWork'];
-        // }
-
-        // $telephone1 = Telephones::select('*')
-        //     ->where('ConsumerID', '=',  $consumer->Consumerid)
-        //     ->where('RecordStatusInd', '=', 1)
-        //     ->get();
-        // dd(Count($telephoneNumber));
 
 
         $lookupdata = LookupDatas::all();
