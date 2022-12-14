@@ -98,7 +98,6 @@ class FicaProcessController extends Controller
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumerid)->first();
-        // dd($fica);
         $LoggedInConsumerId = $consumerid;
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -110,6 +109,8 @@ class FicaProcessController extends Controller
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         $request->session()->put('NotificationLink', $NotificationLink);
+
+        // dd($financial);
 
         //CONSUMER IDENTITY
         if ($consumerIdentity == null) {

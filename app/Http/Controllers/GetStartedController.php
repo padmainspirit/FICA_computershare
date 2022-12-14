@@ -87,7 +87,8 @@ class GetStartedController extends Controller
     {
         //try {
         //create Consumer  
-        $customerUserId =  Auth::user()->Id;
+        $user = Auth::user();
+        $customerUserId =  $user->Id;
         $client = CustomerUser::where('Id', '=',  $customerUserId)->first();
         app('debugbar')->error($client);
         $consumerId = Str::upper(Str::uuid());
@@ -128,6 +129,7 @@ class GetStartedController extends Controller
             'LastUpdatedDate' => date("Y-m-d H:i:s"),
             'Email' => $client->Email,
             'Customerid' => $Customerid,
+            'PhoneNumber' => $user->PhoneNumber,
         ]);
 
         //FICA
