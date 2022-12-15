@@ -1219,7 +1219,7 @@ Fica Progress
                                         <option value=""> Select Industry Of Occupation
                                         </option>
                                         @foreach ($occupation as $industry)
-                                        <option value="{{ $industry->Industry_occupation }}" {{ old('industry-of-occupation-input') == $industry->Industry_occupation ? 'selected' : '' }} {{-- {{ $industry == $selectedIndustryofoccupation ? 'selected' : '' }}> --}}
+                                        <option value="{{ $industry->Industry_occupation }}" {{ old('industry-of-occupation-input') == $industry->Industry_occupation ? 'selected' : '' }}
                                             {{ isset($selectedIndustryofoccupation) && $industry->Industry_occupation == $selectedIndustryofoccupation ? 'selected' : '' }}>
                                             {{ $industry->Industry_occupation }}
                                         </option>

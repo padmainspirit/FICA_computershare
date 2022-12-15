@@ -55,7 +55,6 @@
         height: 5%;
         background-image: linear-gradient(#93186c, #93186c);
     }
-
 </style>
 @endsection
 
@@ -2021,7 +2020,7 @@ placeholder="Enter Your Marriage Type">
 
                                 <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo" class="form-control input-sm @error('WorkTelephoneNo') is-invalid @enderror" "
                                                                                                                                         value=" {{ $WorkTelCode }}{{ $WorkTelNo }}" style="padding-left: 24px; height: 27px; font-size: 12px;
-                                                             width: 225px; text-transform: uppercase;" placeholder="Enter a 10 digitsWork Number" pattern="^\d{10}$" required>
+                                                             width: 225px; text-transform: uppercase;" placeholder="Enter Work Number" pattern="^\d{10}$" required>
 
                             </div>
                             @error('WorkTelephoneNo')
@@ -2043,7 +2042,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="input-group" style="height: 27px; width: 225px;">
 
                                     <input type="text" id="HomeTelephoneNo" name="HomeTelephoneNo" class="form-control input-sm @error('HomeTelephoneNo') is-invalid @enderror" value="{{ $HomeTelCode }}{{ $HomeTelNo }}" style="height: 27px; padding-left: 24px; font-size: 12px;
-                                                                text-transform: uppercase;" placeholder="Enter a 10 digits Home Number" pattern="^\d{10}$" required>
+                                                                text-transform: uppercase;" placeholder="Enter Home Number" pattern="^\d{10}$" required>
 
                                 </div>
                                 @error('HomeTelephoneNo')
@@ -2098,15 +2097,6 @@ placeholder="Enter Your Marriage Type">
 
                 <div class="row">
 
-                    {{-- <div class="col-lg-3">
-                                                <h4 class="card-title mb-2 d-flex justify-content-left"
-                                                    style="font-size: 18px">
-                                                    Employment Details
-                                                    <i class="fas fa-user-tie"
-                                                        style="font-size: 25px; margin-left: 25px;"></i>
-                                                </h4>
-                                            </div> --}}
-
                     <div class="heading-fica-id mb-3">
                         <div class="text-center">
                             <h4 class="font-size-18" style="color: #fff; padding-top:10px;">
@@ -2117,7 +2107,7 @@ placeholder="Enter Your Marriage Type">
 
                 </div>
 
-                {{-- <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;"> --}}
+                {{-- <hr style="color: #1a4f6e ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #1a4f6e; background-color: #1a4f6e; opacity: 100%;"> --}}
 
                 <div class="row d-flex justify-content-center">
 
@@ -2137,26 +2127,25 @@ placeholder="Enter Your Marriage Type">
                                 <div class="input-group" style="height: 27px; width: 225px;">
 
                                     <?php
-                                                                                                                                        if ($Employmentstatus == 1) {
-                                                                                                                                            $Employmentstatus = 'Employed';
-                                                                                                                                        } elseif ($Employmentstatus == 0) {
-                                                                                                                                            $Employmentstatus = 'Unemployed';
-                                                                                                                                        }
-                                                                                                                                        ?>
+                                    // if ($Employmentstatus == 1) {
+                                    // $Employmentstatus = 'Employed';
+                                    // } elseif ($Employmentstatus == 0) {
+                                    // $Employmentstatus = 'Unemployed';
+                                    // }
+                                    ?>
 
-                                    <input type="text" id="Employmentstatus" name="Employmentstatus" class="form-control input-sm" value="{{ $Employmentstatus }}" style="height: 27px; padding-left: 24px; font-size: 12px;
-                                                                 text-transform: uppercase;" placeholder="Enter Name Of Employer">
+                                    {{-- <input type="text" id="Employmentstatus" name="Employmentstatus" class="form-control input-sm" value="{{ $Employmentstatus }}" style="height: 27px; padding-left: 24px; font-size: 12px;
+                                    text-transform: uppercase;" placeholder="Enter Name Of Employer"> --}}
 
-                                    {{-- <select class="form-select" autocomplete="off"
-                                                            style="height: 27px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px;"
-                                                            id="EmploymentStatus" name="EmploymentStatus">
-                                                            <option value="" selected disabled>Select </option>
-                                                            <option value="Employed">Employed</option>
-                                                            <option value="Contractor">Contractor</option>
-                                                            <option value="Self-Employed">Self-Employed
-                                                            </option>
-                                                            <option value="Unemployed">Unemployed</option>
-                                                        </select> --}}
+                                    <select class="form-select" style="height: 27px; padding-left: 21px;padding-top: 2px;padding-bottom: 2px;
+                                                        text-transform: uppercase; font-size: 11px;" id="Employmentstatus" name="Employmentstatus">
+                                        <option selected disabled>Select</option>
+
+                                        <option value=1 {{ isset($Employmentstatus) && $Employmentstatus == 1 ? 'selected' : '' }}>
+                                            Employed</option>
+                                        <option value=0 {{ isset($Employmentstatus) && $Employmentstatus == 0 ? 'selected' : '' }}>
+                                            Unemployed</option>
+                                    </select>
 
                                 </div>
                             </div>
@@ -2176,7 +2165,7 @@ placeholder="Enter Your Marriage Type">
                                     <div class="input-group" style="height: 27px; width: 225px;">
 
                                         <input type="text" id="Nameofemployer" name="Nameofemployer" class="form-control input-sm" value="{{ $Nameofemployer }}" style="height: 27px; padding-left: 24px; font-size: 12px;
-                                                                    text-transform: uppercase;" placeholder="Enter Name Of Employer">
+                                                            text-transform: uppercase;" placeholder="Enter Name Of Employer">
 
                                     </div>
                                 </div>
@@ -2201,12 +2190,22 @@ placeholder="Enter Your Marriage Type">
                             <div class="col-md-4">
                                 <div class="mb-3" style=" width: 225px; height: 27px;">
 
-                                    <input type="text" id="Industryofoccupation" value="{{ $Industryofoccupation }}" name="Industryofoccupation" class="form-control input-sm" style="height: 27px;; padding-left: 24px; font-size: 12px;
-                                                                text-transform: uppercase;" placeholder="Enter Employment Industry">
+                                    {{-- <input type="text" id="Industryofoccupation" value="{{ $Industryofoccupation }}" name="Industryofoccupation" class="form-control input-sm" style="height: 27px;; padding-left: 24px; font-size: 12px;
+                                    text-transform: uppercase;" placeholder="Enter Employment Industry"> --}}
+
+                                    <select class="form-select" style="height: 27px; padding-left: 21px;padding-top: 2px;padding-bottom: 2px;
+                                                        text-transform: uppercase; font-size: 12px;" id="Industryofoccupation" name="Industryofoccupation">
+
+                                        <option disabled value="">Select</option>
+                                        @foreach ($getIndustryOccupation as $industry)
+                                        <option value="{{ $industry->Industry_occupation }}" {{ isset($Industryofoccupation) && $industry->Industry_occupation == $Industryofoccupation ? 'selected' : '' }}>
+                                            {{ $industry->Industry_occupation }}
+                                        </option>
+                                        @endforeach
+                                    </select>
 
                                 </div>
                             </div>
-
 
                         </div>
                     </div>
@@ -2219,25 +2218,16 @@ placeholder="Enter Your Marriage Type">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-1">
-                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #5e7b00; border-color: #5e7b00">Save</button>
+                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #1a4f6e; border-color: #1a4f6e">Save</button>
                         </div>
 
                         <div class="col-lg-1">
-                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #93186c; border-color: #93186c">Edit</button>
+                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #1a4f6e; border-color: #1a4f6e">Edit</button>
                         </div>
 
                         <div class="col-lg-2">
-                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #93186c; border-color: #93186c">Cancel</button>
+                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #1a4f6e; border-color: #1a4f6e">Cancel</button>
                         </div>
-
-                        {{-- <div class="col-lg-1">
-                                                    <a onclick="topFunction()">
-                                                        <button type="button" class="btn btn-primary w-md"
-                                                            style="background-color: #93186c; border-color: #93186c">
-                                                            Back to Top
-                                                        </button>
-                                                    </a>
-                                                </div> --}}
 
                     </div>
                 </div>
@@ -2246,6 +2236,7 @@ placeholder="Enter Your Marriage Type">
         </div>
     </div>
 </div>
+
 
 </form>
 
@@ -3968,7 +3959,6 @@ placeholder="Enter Your Marriage Type">
     document.getElementById("cardarea7").style.pointerEvents = "none";
     document.getElementById("cardarea8").style.pointerEvents = "none";
     document.getElementById("cardarea9").style.pointerEvents = "none";
-
 </script>
 
 <script>
@@ -3985,7 +3975,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea3").style.pointerEvents = "visible";
 
     }
-
 </script>
 
 <script>
@@ -4002,7 +3991,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea3").style.pointerEvents = "none";
 
     };
-
 </script>
 
 <script>
@@ -4019,7 +4007,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea6").style.pointerEvents = "visible";
 
     }
-
 </script>
 
 <script>
@@ -4036,7 +4023,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea6").style.pointerEvents = "none";
 
     };
-
 </script>
 
 <script>
@@ -4052,7 +4038,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea8").style.pointerEvents = "visible";
 
     }
-
 </script>
 
 <script>
@@ -4068,7 +4053,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea8").style.pointerEvents = "none";
 
     };
-
 </script>
 
 <script>
@@ -4084,7 +4068,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea9").style.pointerEvents = "visible";
 
     }
-
 </script>
 
 <script>
@@ -4099,7 +4082,6 @@ placeholder="Enter Your Marriage Type">
         document.getElementById("cardarea9").style.pointerEvents = "none";
 
     };
-
 </script>
 
 <script>
@@ -4109,7 +4091,6 @@ placeholder="Enter Your Marriage Type">
         }
         document.getElementById(id).checked = true;
     }
-
 </script>
 
 <script>
@@ -4119,7 +4100,6 @@ placeholder="Enter Your Marriage Type">
         var style = this.value == 1 ? 'block' : 'none';
         document.getElementById('options1').style.display = style;
     });
-
 </script>
 
 <script>
@@ -4129,7 +4109,6 @@ placeholder="Enter Your Marriage Type">
         var style = this.value == 1 ? 'block' : 'none';
         document.getElementById('options2').style.display = style;
     });
-
 </script>
 
 
@@ -4171,7 +4150,6 @@ placeholder="Enter Your Marriage Type">
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
-
 </script>
 
 <script type="text/javascript">
@@ -4290,13 +4268,13 @@ placeholder="Enter Your Marriage Type">
             }
         };
         margins = {
-            top: 100
-            , bottom: 40
-            , left: 20
-            , right: 20
-            , width: 700
-            , height: 700
-        , };
+            top: 100,
+            bottom: 40,
+            left: 20,
+            right: 20,
+            width: 700,
+            height: 700,
+        };
 
         doc.addImage(logo, 'png', 430, 45, 120, 22); {
             {
@@ -4343,27 +4321,27 @@ placeholder="Enter Your Marriage Type">
 
         doc.autoTable({
             body: [
-                ['Date of Report:', `${new Date().toLocaleDateString()}`]
-                , ['Extracted By:', `{{ $LogUserName }} {{ $LogUserSurname }}`]
-                , ['Extracted For:', `{{ $FirstName }} {{ $SURNAME }}`]
-                , ['Identity Number:', `{{ $IDNUMBER }}`]
-            , ]
-            , startY: 45
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+                ['Date of Report:', `${new Date().toLocaleDateString()}`],
+                ['Extracted By:', `{{ $LogUserName }} {{ $LogUserSurname }}`],
+                ['Extracted For:', `{{ $FirstName }} {{ $SURNAME }}`],
+                ['Identity Number:', `{{ $IDNUMBER }}`],
+            ],
+            startY: 45,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
+                    cellWidth: 75,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 75
-                    , fontStyle: 'bold'
                 }
-                , 1: {
-                    cellWidth: 75
-                }
-            }
-        , });
+            },
+        });
 
         // Client Captured Photos
 
@@ -4376,378 +4354,378 @@ placeholder="Enter Your Marriage Type">
         doc.autoTable({
             head: [
                 ['Personal Details', '', '', '']
-            ]
-            , body: [
-                ['Full Name(s):'
-                    , '{{ $TitleDesc }} {{ $FirstName }} {{ $SecondName }} {{ $SURNAME }}'
-                    , 'Gender', '{{ $Gender }}'
-                ]
-                , ['Email:', '{{ $Email }}', 'Nationality:', '{{ $Nationality }}']
-                , ['Telephone (W):', '{{ $WorkTelCode }}{{ $WorkTelNo }}', 'Telephone (H):'
-                    , '{{ $HomeTelCode }}{{ $HomeTelNo }}'
-                ]
-                , ['Telephone (C):', '{{ $CellCode }}{{ $CellNo }}', 'Date of Birth:'
-                    , '{{ $BirthDate }}'
-                ]
-                , ['ID Date of Issue:', '{{ $ID_DateofIssue }}', 'Country of Birth:'
-                    , '{{ $ID_CountryResidence }}'
-                ]
-                , ['Employment Industry:', '{{ $Industryofoccupation }}', 'Employment Status:'
-                    , '{{ $Employmentstatus }}'
-                ]
-                , ['Name Of Employer:', '{{ $Nameofemployer }}']
-            , ]
-            , startY: doc.lastAutoTable.finalY + 170
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Full Name(s):',
+                    '{{ $TitleDesc }} {{ $FirstName }} {{ $SecondName }} {{ $SURNAME }}',
+                    'Gender', '{{ $Gender }}'
+                ],
+                ['Email:', '{{ $Email }}', 'Nationality:', '{{ $Nationality }}'],
+                ['Telephone (W):', '{{ $WorkTelCode }}{{ $WorkTelNo }}', 'Telephone (H):',
+                    '{{ $HomeTelCode }}{{ $HomeTelNo }}'
+                ],
+                ['Telephone (C):', '{{ $CellCode }}{{ $CellNo }}', 'Date of Birth:',
+                    '{{ $BirthDate }}'
+                ],
+                ['ID Date of Issue:', '{{ $ID_DateofIssue }}', 'Country of Birth:',
+                    '{{ $ID_CountryResidence }}'
+                ],
+                ['Employment Industry:', '{{ $Industryofoccupation }}', 'Employment Status:',
+                    '{{ $Employmentstatus }}'
+                ],
+                ['Name Of Employer:', '{{ $Nameofemployer }}'],
+            ],
+            startY: doc.lastAutoTable.finalY + 170,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 100
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 100,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 140
-                }
-                , 2: {
-                    cellWidth: 100
-                    , fontStyle: 'bold'
-                }
-                , 3: {
+                },
+                2: {
+                    cellWidth: 100,
+                    fontStyle: 'bold'
+                },
+                3: {
                     cellWidth: 190
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Address Details', '']
-            ]
-            , body: [
-                ['Residential Address:'
-                    , '{{ $Res_OriginalAdd1 }}, {{ $Res_OriginalAdd2 }}, {{ $Res_OriginalAdd3 }}, {{ $Res_Pcode }}, {{ $ResProvince }}'
-                    , '', ''
-                ]
-                , ['Postal Address:'
-                    , '{{ $Post_OriginalAdd1 }}, {{ $Post_OriginalAdd2 }}, {{ $Post_OriginalAdd3 }}, {{ $Post_Pcode }}, {{ $PostProvince }}'
-                    , '', ''
-                ]
-                , ['Work Address:'
-                    , '{{ $Work_OriginalAdd1 }}, {{ $Work_OriginalAdd2 }}, {{ $Work_OriginalAdd3 }}, {{ $Work_Pcode }}, {{ $WorkProvince }}'
-                    , '', ''
-                ]
-            , ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Residential Address:',
+                    '{{ $Res_OriginalAdd1 }}, {{ $Res_OriginalAdd2 }}, {{ $Res_OriginalAdd3 }}, {{ $Res_Pcode }}, {{ $ResProvince }}',
+                    '', ''
+                ],
+                ['Postal Address:',
+                    '{{ $Post_OriginalAdd1 }}, {{ $Post_OriginalAdd2 }}, {{ $Post_OriginalAdd3 }}, {{ $Post_Pcode }}, {{ $PostProvince }}',
+                    '', ''
+                ],
+                ['Work Address:',
+                    '{{ $Work_OriginalAdd1 }}, {{ $Work_OriginalAdd2 }}, {{ $Work_OriginalAdd3 }}, {{ $Work_Pcode }}, {{ $WorkProvince }}',
+                    '', ''
+                ],
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 140
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 140,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 390
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Bank Details', '', '', '']
-            ]
-            , body: [
-                ['Bank Name:', '{{ $Bank_name }}', 'Account Type:', '{{ $AccountType }}']
-                , ['Branch Code:', '{{ $Branch_code }}', 'Account Holder:', '{{ $Account_name }}']
-                , ['Account Number:', '{{ $Account_no }}', 'AVS Status:', `${avs}`]
-                , ['Account Exists:', '{{ $ACCOUNT_OPEN }}', 'Initials Match:', '{{ $INITIALS }}']
-                , ['Surname Match:', '{{ $SURNAME }}', 'ID Number Match:', '{{ $IDNUMBER }}']
-                , ['Email Address Match:', '{{ $Email }}', 'Tax References Match:'
-                    , '{{ $Tax_Number }}'
-                ]
-                , ['Income Tax Number:', '{{ $Tax_Number }}', 'Tax Obligations:', `${taxObl}`],
+            ],
+            body: [
+                ['Bank Name:', '{{ $Bank_name }}', 'Account Type:', '{{ $AccountType }}'],
+                ['Branch Code:', '{{ $Branch_code }}', 'Account Holder:', '{{ $Account_name }}'],
+                ['Account Number:', '{{ $Account_no }}', 'AVS Status:', `${avs}`],
+                ['Account Exists:', '{{ $ACCOUNT_OPEN }}', 'Initials Match:', '{{ $INITIALS }}'],
+                ['Surname Match:', '{{ $SURNAME }}', 'ID Number Match:', '{{ $IDNUMBER }}'],
+                ['Email Address Match:', '{{ $Email }}', 'Tax References Match:',
+                    '{{ $Tax_Number }}'
+                ],
+                ['Income Tax Number:', '{{ $Tax_Number }}', 'Tax Obligations:', `${taxObl}`],
 
-                ['Account Type Match:', '{{ $ACCOUNT_OPEN }}', 'Account Dormant:'
-                    , '{{ $ACCOUNTDORMANT }}'
-                ]
-                , ['Account Open Three Months:', '{{ $ACCOUNTOPENFORATLEASTTHREEMONTHS }}'
-                    , 'Account Accepts Debits:', '{{ $ACCOUNTACCEPTSDEBITS }}'
-                ]
-                , ['Account Accepts Credits:', '{{ $ACCOUNTACCEPTSCREDITS }}', 'Account Issuer:'
-                    , '{{ $Bank_name }}'
-                ]
-                , ['Account Type Match:', `${acc}`]
-            , ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+                ['Account Type Match:', '{{ $ACCOUNT_OPEN }}', 'Account Dormant:',
+                    '{{ $ACCOUNTDORMANT }}'
+                ],
+                ['Account Open Three Months:', '{{ $ACCOUNTOPENFORATLEASTTHREEMONTHS }}',
+                    'Account Accepts Debits:', '{{ $ACCOUNTACCEPTSDEBITS }}'
+                ],
+                ['Account Accepts Credits:', '{{ $ACCOUNTACCEPTSCREDITS }}', 'Account Issuer:',
+                    '{{ $Bank_name }}'
+                ],
+                ['Account Type Match:', `${acc}`],
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
+                    cellWidth: 120
+                },
+                2: {
+                    cellWidth: 140,
+                    fontStyle: 'bold'
+                },
+                3: {
                     cellWidth: 120
                 }
-                , 2: {
-                    cellWidth: 140
-                    , fontStyle: 'bold'
-                }
-                , 3: {
-                    cellWidth: 120
-                }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Screening', '', '', '']
-            ]
-            , body: [
-                ['Occupying prominent official position or perform public function? :', `${pubOff}`
-                    , 'Family occupying prominent official position or perform public function?:'
-                    , `${pubOffFam}`
-                ]
-                , ['Is a DPIP (Domestic Prominent Influential Person)? :'
-                    , '{{ $Public_official_type_DPIP }}', 'Is a FPPO (Foreign Prominent Public Official)?:'
-                    , '{{ $Public_official_type_FPPO }}'
-                ]
-                , ['Family is a DPIP (Domestic Prominent Influential Person)? :'
-                    , '{{ $Public_official_type_family_DPIP }}'
-                    , 'Family is a FPPO (Foreign Prominent Public Official)?:'
-                    , '{{ $Public_official_type_family_FPPO }}'
-                ]
-                , ['On any sanction lists? :', `${sanc}`, 'Assoicated with adverse media:', `${advs}`]
-                , ['Is a non-client resident? :', `${nonRes}`, '', '']
-            , ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Occupying prominent official position or perform public function? :', `${pubOff}`,
+                    'Family occupying prominent official position or perform public function?:',
+                    `${pubOffFam}`
+                ],
+                ['Is a DPIP (Domestic Prominent Influential Person)? :',
+                    '{{ $Public_official_type_DPIP }}', 'Is a FPPO (Foreign Prominent Public Official)?:',
+                    '{{ $Public_official_type_FPPO }}'
+                ],
+                ['Family is a DPIP (Domestic Prominent Influential Person)? :',
+                    '{{ $Public_official_type_family_DPIP }}',
+                    'Family is a FPPO (Foreign Prominent Public Official)?:',
+                    '{{ $Public_official_type_family_FPPO }}'
+                ],
+                ['On any sanction lists? :', `${sanc}`, 'Assoicated with adverse media:', `${advs}`],
+                ['Is a non-client resident? :', `${nonRes}`, '', ''],
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
+                    cellWidth: 120
+                },
+                2: {
+                    cellWidth: 140,
+                    fontStyle: 'bold'
+                },
+                3: {
                     cellWidth: 120
                 }
-                , 2: {
-                    cellWidth: 140
-                    , fontStyle: 'bold'
-                }
-                , 3: {
-                    cellWidth: 120
-                }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Other Details', '']
-            ]
-            , body: [
-                ['Client Due Diligence:', '{{ $ClientDueDiligence }}']
-                , ['Nominee Declaration:', '{{ $NomineeDeclaration }}']
-                , ['Issuer Communication Selection:', '{{ $IssuerCommunication }}']
-                , ['Custody Service Selection:', '{{ $CustodyService }}']
-                , ['Segregated Depository Accounts:', '{{ $SegregatedDeposit }}']
-                , ['Dividend Tax:', `${divTax}`]
-                , ['BEE Shares:', `${bee}`]
-                , ['Stamp Duty:', `${stamp}`]
-            , ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Client Due Diligence:', '{{ $ClientDueDiligence }}'],
+                ['Nominee Declaration:', '{{ $NomineeDeclaration }}'],
+                ['Issuer Communication Selection:', '{{ $IssuerCommunication }}'],
+                ['Custody Service Selection:', '{{ $CustodyService }}'],
+                ['Segregated Depository Accounts:', '{{ $SegregatedDeposit }}'],
+                ['Dividend Tax:', `${divTax}`],
+                ['BEE Shares:', `${bee}`],
+                ['Stamp Duty:', `${stamp}`],
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 380
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Know Your Customer (KYC)', '', '']
-            ]
-            , body: [
-                ['KYC Result:', `${kyc}`, '']
-                , ['Total Sources Used:', '{{ $TotalSourcesUsed }}', '']
-                , ['KYC Status Desc:', '{{ $KYCStatusDesc }}', '']
-                , ['Residential Address:', '{{ $ResidentialAddress }}', '']
-                , ['ID Status:', '{{ $IDStatus }}', '']
-                , ['ID Status Description:', '{{ $IDStatusDesc }}', '']
-                , ['Sources Used:', '{{ $Sources }}', '']
-            ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['KYC Result:', `${kyc}`, ''],
+                ['Total Sources Used:', '{{ $TotalSourcesUsed }}', ''],
+                ['KYC Status Desc:', '{{ $KYCStatusDesc }}', ''],
+                ['Residential Address:', '{{ $ResidentialAddress }}', ''],
+                ['ID Status:', '{{ $IDStatus }}', ''],
+                ['ID Status Description:', '{{ $IDStatusDesc }}', ''],
+                ['Sources Used:', '{{ $Sources }}', '']
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 270
-                }
-                , 2: {
+                },
+                2: {
                     cellWidth: 0
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Bank Account Verification', '', '', '']
-            ]
-            , body: [
-                ['Account Dormant:', '{{ $ACCOUNTDORMANT }}', 'Account open for at least three months:'
-                    , '{{ $ACCOUNTOPENFORATLEASTTHREEMONTHS }}'
-                ]
-                , ['Account accepts debits:', '{{ $ACCOUNTACCEPTSDEBITS }}', 'Account accepts credits:'
-                    , '{{ $ACCOUNTACCEPTSCREDITS }}'
-                ]
-                , ['Account Issuer:', '{{ $Bank_name }}', 'Account Type Match:', `${acc}`]
-            , ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Account Dormant:', '{{ $ACCOUNTDORMANT }}', 'Account open for at least three months:',
+                    '{{ $ACCOUNTOPENFORATLEASTTHREEMONTHS }}'
+                ],
+                ['Account accepts debits:', '{{ $ACCOUNTACCEPTSDEBITS }}', 'Account accepts credits:',
+                    '{{ $ACCOUNTACCEPTSCREDITS }}'
+                ],
+                ['Account Issuer:', '{{ $Bank_name }}', 'Account Type Match:', `${acc}`],
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
+                    cellWidth: 120
+                },
+                2: {
+                    cellWidth: 140,
+                    fontStyle: 'bold'
+                },
+                3: {
                     cellWidth: 120
                 }
-                , 2: {
-                    cellWidth: 140
-                    , fontStyle: 'bold'
-                }
-                , 3: {
-                    cellWidth: 120
-                }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Facial Recognition Details', '', '']
-            ]
-            , body: [
-                ['Liveliness Detection:', '{{ $LivenessDetectionResult }}', '']
-                , ['ID Photo Matched:', '{{ $ConsumerIDPhotoMatch }}', '']
-                , ['Deceased Status:', '{{ $DeceasedStatus }}', '']
-                , ['Latitude:', 'Device Location Disabled/Denied', '']
-                , ['Longitude:', 'Device Location Disabled/Denied', '']
-            ]
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Liveliness Detection:', '{{ $LivenessDetectionResult }}', ''],
+                ['ID Photo Matched:', '{{ $ConsumerIDPhotoMatch }}', ''],
+                ['Deceased Status:', '{{ $DeceasedStatus }}', ''],
+                ['Latitude:', 'Device Location Disabled/Denied', ''],
+                ['Longitude:', 'Device Location Disabled/Denied', '']
+            ],
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 270
-                }
-                , 2: {
+                },
+                2: {
                     cellWidth: 0
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         doc.autoTable({
             head: [
                 ['Compliance Details', '']
-            ]
-            , body: [
-                ['Enquiry Date:', '{{ $EnquiryDate }}']
-                , ['Enquiry Input:', '{{ $EnquiryInput }}']
-                , ['Verified First Name:', '{{ $VerifFirstName }}']
-                , ['Verified Surame:', '{{ $VerifSurname }}']
-                , ['Verified Deceased Status:', '{{ $VerifDeseaStat }}']
-                , ['Verified Deceased Date:', '{{ $VerifDeseaDate }}']
-                , ['Verified Cause of Death:', '{{ $VerifDeathCause }}']
-            ]
-            , startY: doc.lastAutoTable.finalY + 20
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: [
+                ['Enquiry Date:', '{{ $EnquiryDate }}'],
+                ['Enquiry Input:', '{{ $EnquiryInput }}'],
+                ['Verified First Name:', '{{ $VerifFirstName }}'],
+                ['Verified Surame:', '{{ $VerifSurname }}'],
+                ['Verified Deceased Status:', '{{ $VerifDeseaStat }}'],
+                ['Verified Deceased Date:', '{{ $VerifDeseaDate }}'],
+                ['Verified Cause of Death:', '{{ $VerifDeathCause }}']
+            ],
+            startY: doc.lastAutoTable.finalY + 20,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
-                    cellWidth: 150
-                    , fontStyle: 'bold'
-                }
-                , 1: {
+                    cellWidth: 150,
+                    fontStyle: 'bold'
+                },
+                1: {
                     cellWidth: 380
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         // doc.autoTable({
         //     body: [
@@ -4783,10 +4761,10 @@ placeholder="Enter Your Marriage Type">
         AddList.forEach((element, index) => {
 
             var temp = [
-                element.Additional_type
-                , element.Additional_value
-                , element.Additional_comment
-            , ]
+                element.Additional_type,
+                element.Additional_value,
+                element.Additional_comment,
+            ]
             AddData.push(temp)
         })
 
@@ -4795,42 +4773,42 @@ placeholder="Enter Your Marriage Type">
         doc.autoTable({
             head: [
                 ['Type', 'Value', 'Comment']
-            ]
-            , body: AddData
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: AddData,
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
                     cellWidth: 150
-                }
-                , 1: {
+                },
+                1: {
+                    cellWidth: 190
+                },
+                2: {
                     cellWidth: 190
                 }
-                , 2: {
-                    cellWidth: 190
-                }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
         SancList.forEach((element, index) => {
 
             var temp = [
-                element.ReasonListed
-                , element.date_listed
-                , element.Entity_type
-                , element.Gender
-                , element.Entityname
-                , element.BestNameScore
-                , element.Comments
-            , ]
+                element.ReasonListed,
+                element.date_listed,
+                element.Entity_type,
+                element.Gender,
+                element.Entityname,
+                element.BestNameScore,
+                element.Comments,
+            ]
             SancData.push(temp)
 
         })
@@ -4839,45 +4817,45 @@ placeholder="Enter Your Marriage Type">
 
         doc.autoTable({
             head: [
-                ['Date Listed', 'Reason Listed', 'Entity Type', 'Gender', 'Entity Name', 'Entity Score'
-                    , 'Comments'
+                ['Date Listed', 'Reason Listed', 'Entity Type', 'Gender', 'Entity Name', 'Entity Score',
+                    'Comments'
                 ]
-            ]
-            , body: SancData
-            , startY: doc.lastAutoTable.finalY + 7
-            , styles: {
-                fontSize: 8
-                , font: 'Avenir'
-                , textColor: [0, 0, 0]
-            }
-            , columnStyles: {
+            ],
+            body: SancData,
+            startY: doc.lastAutoTable.finalY + 7,
+            styles: {
+                fontSize: 8,
+                font: 'Avenir',
+                textColor: [0, 0, 0]
+            },
+            columnStyles: {
                 0: {
                     cellWidth: 60
-                }
-                , 1: {
+                },
+                1: {
                     cellWidth: 60
-                }
-                , 2: {
+                },
+                2: {
                     cellWidth: 60
-                }
-                , 3: {
+                },
+                3: {
                     cellWidth: 40
-                }
-                , 4: {
+                },
+                4: {
                     cellWidth: 60
-                }
-                , 5: {
+                },
+                5: {
                     cellWidth: 55
-                }
-                , 6: {
+                },
+                6: {
                     cellWidth: 195
                 }
-            }
-            , headStyles: {
-                fillColor: [26, 79, 110]
-                , textColor: [255, 255, 255]
-            }
-        , });
+            },
+            headStyles: {
+                fillColor: [26, 79, 110],
+                textColor: [255, 255, 255]
+            },
+        });
 
 
         // PAGE NUMBERING
@@ -4894,14 +4872,13 @@ placeholder="Enter Your Marriage Type">
             doc.setFontSize(7);
             doc.text('Page ' + String(i) + ' of ' + String(pageCount), 614 - 20, 800 - 30, null, null, "right");
             doc.text(
-                'Inspirit Data Analytics Services(Pty) Ltd, an authorized agent of XDS, shall not be liable for any damage or loss, both directly or indirectly, as a result\nof the use of or the omission to use the statement made in response to the enquiry made herein or for any consequential / inconsequential damages, loss\nof profit or special damages arising out of the issuing of that statement or any use thereof. Copyright 2022 Inspirit Data Analytics Services(Pty) Ltd \n(Reg No: 2017653373) Powered by Xpert Decision Systems(XDS).'
-                , 295, 762, 'center');
+                'Inspirit Data Analytics Services(Pty) Ltd, an authorized agent of XDS, shall not be liable for any damage or loss, both directly or indirectly, as a result\nof the use of or the omission to use the statement made in response to the enquiry made herein or for any consequential / inconsequential damages, loss\nof profit or special damages arising out of the issuing of that statement or any use thereof. Copyright 2022 Inspirit Data Analytics Services(Pty) Ltd \n(Reg No: 2017653373) Powered by Xpert Decision Systems(XDS).',
+                295, 762, 'center');
 
         }
 
         doc.save('{{ $FirstName }} {{ $SURNAME }} - Information Report.pdf');
     }
-
 </script>
 
 <script>
@@ -4913,7 +4890,6 @@ placeholder="Enter Your Marriage Type">
         value == 0 ? $("#options1").hide() : $("#options1").show();
 
     });
-
 </script>
 
 <script>
@@ -4925,7 +4901,6 @@ placeholder="Enter Your Marriage Type">
         value == 0 ? $("#options2").hide() : $("#options2").show();
 
     });
-
 </script>
 
 <script>
@@ -4938,7 +4913,6 @@ placeholder="Enter Your Marriage Type">
         s Deal Routing Service ' ? $("#newoptions1").hide() : $("#newoptions1").show();
 
     });
-
 </script>
 
 {{-- <script>
