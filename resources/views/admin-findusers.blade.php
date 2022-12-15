@@ -466,7 +466,8 @@
             document.getElementById("LastName").value = '';
             document.getElementById("PhoneNumber").value = '';
             document.getElementById("FICAStatus").value = '';
-            document.getElementById("errordisplay").text = ' ';
+            // document.getElementById("errordisplay").innerHTML  = "";
+           
             
 
             // @if (Session::has('exception'))
@@ -493,8 +494,10 @@
             });
 
             $('#searchclient').on('submit', function(e) {
-                //  var verified = '<?php $IDN; ?>';
+                //  var verified = '<?php $IDN; ?>';  
+             
                 e.preventDefault();
+                // Session::delete('exception')
                 var form_data = new FormData(this);
                 //var form_data = $('#fileUpload').serialize();
 

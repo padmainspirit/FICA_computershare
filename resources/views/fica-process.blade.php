@@ -1084,8 +1084,10 @@ Fica Progress
                     <div class="col-md-4">
                         <div class="mb-3">
                             <input autocomplete="off" type="text" class="form-control input-sm @error('telephone-home-input') is-invalid @enderror" style="height:
-                                                        27px; padding-left: 24px; width: 200px; font-size:12px;
-                                                        text-transform: uppercase;" id="telephone-home-input" name="telephone-home-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} placeholder="Enter a 10 digits Telephone Home" value="{{ isset($TelHome) ? $TelHome : null }}">
+                            27px; padding-left: 24px; width: 200px; font-size:12px;
+                            text-transform: uppercase;" id="telephone-home-input" 
+                            name="telephone-home-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} 
+                            placeholder="Enter a 10 digits Number" value="{{ isset($TelHome) ? $TelHome : null }}">
                         </div>
                         @error('telephone-home-input')
                         <div class="text-danger" role="alert" style="color: red">
@@ -1103,7 +1105,7 @@ Fica Progress
                         <div class="mb-3">
                             <div class="input-group" style="height: 27px; width: 200px;">
 
-                                <input autocomplete="off" type="text" class="form-control" style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; font-size:12px; text-transform: uppercase;" id="mobile-input" name="mobile-input" readonly placeholder="Enter Mobile" value="{{ $customerUser->PhoneNumber }}" />
+                                <input autocomplete="off" type="text" class="form-control" style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; font-size:12px; text-transform: uppercase;" id="mobile-input" name="mobile-input" readonly placeholder="Enter a 10 digit Mobile Number" value="{{ $customerUser->PhoneNumber }}" />
                             </div>
                         </div>
                     </div>
@@ -1131,7 +1133,7 @@ Fica Progress
                     <div class="col-md-2">
                         <div class="mb-3">
                             <div class="input-group" style="height: 27px; width: 200px;">
-                                <input autocomplete="off" type="text" class="form-control input-sm @error('work-number-input') is-invalid @enderror" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size: 12px; text-transform: uppercase;" id="work-number-input" name="work-number-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} placeholder="Enter a digits Work Number" value="{{ isset($TelWork) ? $TelWork : null }}">
+                                <input autocomplete="off" type="text" class="form-control input-sm @error('work-number-input') is-invalid @enderror" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size: 12px; text-transform: uppercase;" id="work-number-input" name="work-number-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} placeholder="Enter a 10 digits Number" value="{{ isset($TelWork) ? $TelWork : null }}">
 
                             </div>
 
@@ -3546,8 +3548,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route('
-                fica ') }}'
+                url: '{{ route('fica') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -3620,8 +3621,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route('
-                fica ') }}'
+                url: '{{ route('fica') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -3682,14 +3682,12 @@ Fica Progress
             $('#error-py-zip').hide();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route('
-                proofofaddress ') }}'
+                url: '{{ route('proofofaddress') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
                 , contentType: false
                 , beforeSend: function() {
-
 
                 }
                 , complete: function() {
@@ -3768,7 +3766,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("fica") }}'
+                url: '{{ route('fica') }}'
                 , method: 'POST'
                 , data: form_data
                 , dataType: 'json'
@@ -3843,7 +3841,7 @@ Fica Progress
             $('#error-branch').hide();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("proofofbank") }}'
+                url: '{{ route('proofofbank') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -3922,7 +3920,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("selfie") }}'
+                url: '{{ route('selfie') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4034,7 +4032,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("getselfieresult") }}'
+                url: '{{ route('getselfieresult') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4071,7 +4069,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("kyc - api") }}'
+                url: '{{ route('kyc-api') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4103,7 +4101,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("avs - api" ) }}'
+                url: '{{ route('avs-api') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4143,7 +4141,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("compliance - api") }}'
+                url: '{{ route('compliance-api') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4177,7 +4175,7 @@ Fica Progress
             e.preventDefault();
             var form_data = new FormData(this);
             $.ajax({
-                url: '{{ route("validateapi") }}'
+                url: '{{ route('validateapi') }}'
                 , method: 'POST'
                 , data: form_data
                 , processData: false
@@ -4562,6 +4560,7 @@ Fica Progress
         });
 
         $("#id-model-no").click(function() {
+             event.preventDefault();
             location.reload();
         });
 
