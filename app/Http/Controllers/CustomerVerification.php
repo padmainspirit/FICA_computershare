@@ -472,7 +472,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
+            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->BirthDate)) : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 

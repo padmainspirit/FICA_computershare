@@ -5196,7 +5196,8 @@
                 }
             });
 
-            $("#id-model-no").click(function() {
+            $("#id-model-no").click(function(event) {
+                event.preventDefault();
                 location.reload();
             });
 
