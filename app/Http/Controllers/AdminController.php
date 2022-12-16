@@ -183,6 +183,7 @@ class AdminController extends Controller
     {
 
         $request->session()->pull('exception');
+
         $SearchType = "0";
 
 

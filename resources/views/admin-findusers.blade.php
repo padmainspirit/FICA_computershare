@@ -315,7 +315,7 @@
                                     <div class="col-md-2">
                                         <div class="mb-3">
                                             <button type="submit" id="submit"
-                                            style="background-color: #93186c; border-color: #93186c"
+                                                style="background-color: #93186c; border-color: #93186c"
                                                 class="btn btn-primary w-lg waves-effect waves-light">Search</button>
                                         </div>
                                     </div>
@@ -373,7 +373,8 @@
                                     </thead>
 
                                     <tbody id="tablebody">
-                                        <form method="POST" action="{{ route('display-admin-findusers') }}" id="returnid">
+                                        <form method="POST" action="{{ route('display-admin-findusers') }}"
+                                            id="returnid">
                                             <tr>
                                                 {{-- <td>
                                                     <!-- Button trigger modal -->
@@ -465,6 +466,16 @@
             document.getElementById("LastName").value = '';
             document.getElementById("PhoneNumber").value = '';
             document.getElementById("FICAStatus").value = '';
+            // document.getElementById("errordisplay").innerHTML  = "";
+           
+            
+
+            // @if (Session::has('exception'))
+            //     // Session::delete('exception')
+            //     'exception' = '';
+            // @endif
+
+            // session() - > pull('exception');
             // document.getElementById("ClientUniqueRef").value = '';
 
         }
@@ -483,8 +494,10 @@
             });
 
             $('#searchclient').on('submit', function(e) {
-                //  var verified = '<?php $IDN; ?>';
+                //  var verified = '<?php $IDN; ?>';  
+             
                 e.preventDefault();
+                // Session::delete('exception')
                 var form_data = new FormData(this);
                 //var form_data = $('#fileUpload').serialize();
 
@@ -548,11 +561,11 @@
                             // IdGeneretor(idNumber);
                         }
                         $("#tablebody").after(newRows);
-                        
+
                         $('button.idnumber').on('click', function(value) {
                             var readIdNumber = this.id;
                             var IdButton = $('#' + readIdNumber).text();
-                            
+
                             // console.log(IdButton)
                             $("#idnumberResult").val(IdButton)
                             $("#testresult-btn").click();

@@ -77,9 +77,6 @@ class TwoStepVerificationController extends Controller
             return back()->with('fail', 'Incorrect Code, please try again');
             //dd('Incorrect OTP');
         }
-
-
-        
     }
 
     public function reSendOTP(Request $request)
@@ -107,14 +104,15 @@ class TwoStepVerificationController extends Controller
         // app('debugbar')->info($Logo);
         // app('debugbar')->info($CustomerId);
 
-        /* Mail::send(
+        Mail::send(
             'auth.emailotp',
-            ['otp' => $sendotp, 'Logo' => $Logo, 'TradingName' => $TradingName, 'YearNow' => $YearNow],
+            ['otp' => $sendotp, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow],
             function ($message) use ($request) {
-                $message->to($request->session()->get('Email'));
+                $client = Auth::user();
+                $message->to($client->Email);
                 $message->subject('OTP Verification');
             }
-        );*/
+        );
         DB::table('CustomerUsers')->where('Id', $client->Id)->update(['OTP' => $sendotp, 'OTP_Date' => date("Y-m-d H:i:s")]);
 
         app('debugbar')->info($request);
