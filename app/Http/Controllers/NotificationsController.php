@@ -7,6 +7,7 @@ use App\Models\SendEmail;
 use App\Models\CustomerUser;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationsController extends Controller
 {
@@ -14,12 +15,13 @@ class NotificationsController extends Controller
 
     public function ReadNotification(Request $request)
     {
+        $user = Auth::user();
         $Consumerid = $request->session()->get('LoggedUser');
 
         $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
-        $LogUserName = $getLogUser['FirstName'];
-        $LogUserSurname = $getLogUser['LastName'];
+        $LogUserName = $user->FirstName;
+        $LogUserSurname =  $user->LastName;
 
         // $request->session()->put('LogUserName', $LogUserName);
         // $request->session()->put('LogUserSurname', $LogUserSurname);

@@ -74,7 +74,7 @@
                                                                 onclick="window.history.back()">Previous</a></li>
                                                         <li class="breadcrumb-item text-decoration-underline"
                                                             style="font-weight: 500"><a
-                                                                href="javascript: void(0);">Actions</a>
+                                                                href="javascript: void(0);">Email</a>
                                                         </li>
                                                     </ol>
 
@@ -123,7 +123,7 @@
                                                                 <td class="font-size-12">
                                                                     {{ $item->EmailMessage }}</td>
                                                                 <td class="font-size-12">
-                                                                    {{ substr($item->EmailDate, 0, 10) }}</td>
+                                                                    {{ substr($item->EmailDate, 0, 16) }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -198,13 +198,30 @@
 
                                             <div class="row">
                                                 <div class="col-xl-12">
-                                                    <div class="card">
-                                                        <div class="card-body"
-                                                            style="padding-top: 0px;padding-left: 0px;padding-right: 0px;">
-                                                            <div class="heading-fica-id mb-3">
+                                                    <div class="heading-fica-id mb-3">
+                                                        <div class="card">
+                                                            <div class="card-body"
+                                                                style="padding-top: 0px;padding-left: 0px;padding-right: 0px;">
+                                                                <div class="row" style="background-color: #ffffff">
+                                                                    <div class="col-md-9">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+
+                                                                        <ol class="breadcrumb">
+                                                                            <li class="breadcrumb-item"><a type="button"
+                                                                                    onclick="window.history.back()">Previous</a>
+                                                                            </li>
+                                                                            <li class="breadcrumb-item text-decoration-underline"
+                                                                                style="font-weight: 500"><a
+                                                                                    href="javascript: void(0);">Actions</a>
+                                                                            </li>
+                                                                        </ol>
+
+                                                                    </div>
+                                                                </div>
                                                                 <div class="text-center">
                                                                     <h4
-                                                                        style="color: #fff; padding-top:8px;padding-bottom: 8px;">
+                                                                        style="color: #fff; padding-top:8px;padding-bottom: 8px;background-color: #93186c">
                                                                         Admin Actions
                                                                     </h4>
                                                                 </div>
@@ -262,8 +279,9 @@
                                                                             <div class="mb-3">
                                                                                 <label for="basicpill-vatno-input"
                                                                                     class="font-weight-bold"
-                                                                                    style="font-size: 12px; color: rgb(0, 0, 0)">FICA
-                                                                                    Status:</label>
+                                                                                    style="font-size: 12px; color: rgb(0, 0, 0)">
+                                                                                    FICA Status:
+                                                                                </label>
                                                                             </div>
                                                                         </div>
 
@@ -278,16 +296,16 @@
                                                                                     text-transform: uppercase; font-size: 12px;"
                                                                                         id="FICAStatus" name="FICAStatus"
                                                                                         aria-placeholder="Select">
-                                                                                        <option selected disabled>Select
+                                                                                        <option disabled>Select
                                                                                         </option>
-                                                                                        <option value="Completed">
+                                                                                        <option value="Completed" {{ (isset($FICAStatusbyFICA) && $FICAStatusbyFICA == 'Completed') || $FICAStatusbyFICA == null ? 'selected' : '' }}>
                                                                                             Completed
                                                                                         </option>
-                                                                                        <option value="Rejected">
+                                                                                        <option value="Rejected" {{ (isset($FICAStatusbyFICA) && $FICAStatusbyFICA == 'Rejected') || $FICAStatusbyFICA == null ? 'selected' : '' }}>
                                                                                             Rejected
                                                                                         </option>
 
-                                                                                        <option value="Correction">
+                                                                                        <option value="Correction" {{ (isset($FICAStatusbyFICA) && $FICAStatusbyFICA == 'Correction') || $FICAStatusbyFICA == null ? 'selected' : '' }}>
                                                                                             Correction
                                                                                         </option>
                                                                                     </select>
@@ -412,60 +430,58 @@
                                                                 </div>
                                                             </form>
 
+                                                            <div class="table-responsive">
+                                                                <table class="table table-sm mb-0 w-auto h-auto"
+                                                                    style="height: 480px;">
+        
+                                                                    <thead
+                                                                        style="background-color: #93186c;border-bottom-color: #93186c">
+                                                                        <tr>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Admin</th>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Consumer
+                                                                            </th>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Action
+                                                                                Date</th>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Action
+                                                                                Type</th>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Action
+                                                                            </th>
+                                                                            <th class="col-md-2 font-size-13"
+                                                                                style="color:#ffffff;">Is Admin
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+        
+                                                                    <tbody style="border: 0.3rem; border-block-color: #d3d3d3">
+                                                                        @foreach ($SetActions as $item)
+                                                                            <tr>
+                                                                                <td class="font-size-12">
+                                                                                    {{ $LogUserName }} {{ $LogUserSurname }}
+                                                                                </td>
+                                                                                <td class="font-size-12">
+                                                                                    {{ $FirstName }} {{ $SURNAME }}
+                                                                                </td>
+                                                                                <td class="font-size-12">
+                                                                                    {{ substr($item->ActionDate, 0, 10) }}</td>
+                                                                                <td class="font-size-12">
+                                                                                    {{ $item->ActionType }}</td>
+                                                                                <td class="font-size-12">
+                                                                                    {{ $item->Action_Comment }}</td>
+                                                                                <td class="font-size-12">
+                                                                                    {{ $item->Admin_User }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+        
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="table-responsive">
-                                                        <table class="table table-sm mb-0 w-auto h-auto"
-                                                            style="height: 480px;">
-
-                                                            <thead
-                                                                style="background-color: #93186c;border-bottom-color: #93186c">
-                                                                <tr>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Admin</th>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Consumer
-                                                                    </th>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Action
-                                                                        Date</th>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Action
-                                                                        Type</th>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Action
-                                                                    </th>
-                                                                    <th class="col-md-2 font-size-13"
-                                                                        style="color:#ffffff;">Is Admin
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-
-                                                            <tbody style="border: 0.3rem; border-block-color: #d3d3d3">
-                                                                @foreach ($SetActions as $item)
-                                                                    <tr>
-                                                                        <td class="font-size-12">
-                                                                            {{ $LogUserName }} {{ $LogUserSurname }}
-                                                                        </td>
-                                                                        <td class="font-size-12">
-                                                                            {{ $FirstName }} {{ $SURNAME }}
-                                                                        </td>
-                                                                        <td class="font-size-12">
-                                                                            {{ substr($item->ActionDate, 0, 10) }}</td>
-                                                                        <td class="font-size-12">
-                                                                            {{ $item->ActionType }}</td>
-                                                                        <td class="font-size-12">
-                                                                            {{ $item->Action_Comment }}</td>
-                                                                        <td class="font-size-12">
-                                                                            {{ $item->Admin_User }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-
-                                                        </table>
-                                                    </div>
-
                                                 </div>
                                             </div>
 

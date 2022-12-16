@@ -22,6 +22,7 @@ use App\Models\ConsumerComplianceEntityAdditional;
 use App\Models\Telephones;
 use App\Models\ConsumerComplianceSanction;
 use App\Models\Customer;
+use App\Models\IndustryOccupation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use PharIo\Manifest\Email;
@@ -67,29 +68,6 @@ class CustomerVerification extends Controller
 
     public function TestResult(Request $request)
     {
-
-
-        // if (session()->has('LoggedUser')) {
-        //     session()->pull('exception');
-        // }
-        // dd($request->input('idnumberResult'));
-
-        // $client = Auth::user();
-
-
-        // if (session()->get('idnumber') == null) {
-        //     $idnumber = $request->input('idnumberResult');
-        //     $request->session()->put('idnumber', $idnumber);
-        // } else {
-        //     $idnumber = session()->get('idnumber');
-        // }
-
-        // session()->put('idnumber', $idnumber);
-
-
-        // $idnumber = session()->has('idnumber') ? $request->input('idnumberResult'):session()->get('idnumber');
-        // $idnumber = $request->input('idnumberResult');
-
         $client = Auth::user();
         $LoggedUser = $client->Id;
 
@@ -111,33 +89,6 @@ class CustomerVerification extends Controller
         $request->session()->put('LogUserName', $LogUserName);
         $request->session()->put('LogUserSurname', $LogUserSurname);
 
-        // $LogUserName = $request->session()->get('LogUserName');
-        // $LogUserSurname = $request->session()->get('LogUserSurname');
-
-        //$consumerid = 2D12F5FB-BE59-4A50-BD6A-3896720D8F89;
-        // $consumer = Consumer::where('IDNUMBER', '=',  $idnumber)->first();
-
-        // //$newconsumerid = DB::connection(sqlsrv2)->select('TBL_Consumer');
-
-        // if(isset( $contactDetails)){ $contactDetails= DB::connection(sqlsrv2)->select('EXEC sp_ContactDetails ?,?', [$consumer->Consumerid, $idnumber]);}
-        // $contactDetails= DB::connection(sqlsrv2)->select('EXEC sp_ContactDetails ?,?', [$consumer->Consumerid, $idnumber]);
-        // $facialRecognition = DB::connection(sqlsrv2)->select('EXEC sp_FacialRecognition ?,?', [$consumer->Consumerid, $idnumber]);
-        // $financialDetails = DB::connection(sqlsrv2)->select('EXEC sp_Financials_AVS ?,?', [$consumer->Consumerid, $idnumber]);
-        // $identityDetails = DB::connection(sqlsrv2)->select('EXEC sp_IdentityDetails ?,?', [$consumer->Consumerid, $idnumber]);
-        // $kycDetails = DB::connection(sqlsrv2)->select('EXEC sp_KYC_Details ?,?', [$consumer->Consumerid, $idnumber]);
-
-        // app('debugbar')->info($identityDetails);
-
-        // $output_data1 = ['response' => true, 'message' => 'Contact request is successful.', 'data' =>   $contactDetails];
-        // $output_data2 = ['response' => true, 'message' => 'Facial request is successful.', 'data' =>   $facialRecognition];
-        // $output_data3 = ['response' => true, 'message' => 'Financial request is successful.', 'data' =>   $financialDetails];
-        // $output_data4 = ['response' => true, 'message' => 'Identity request is successful.', 'data' =>   $identityDetails];
-        // $output_data5 = ['response' => true, 'message' => 'KYC request is successful.', 'data' =>   $kycDetails];
-        // $output_data6 = ['response' => true, 'message' => 'KYC request is successful.', 'data' =>   $kycDetails];
-
-        // $SearchConsumerID = session()->get('SearchConsumerID');
-        // $SearchFica = session()->get('SearchFica');
-
         // Get ID Number, then get CustomerUSERID to get ConsumerID, Tables created from Get-started should allow a pre-created FicaID. 
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->where('CustomerId', '=', $Customerid)->first();
         $SearchCustomerUSERID = $useridentitynum['Id'];
@@ -158,32 +109,6 @@ class CustomerVerification extends Controller
         // app('debugbar')->info($idnumber);
         app('debugbar')->info($SearchConsumerID);
         app('debugbar')->info($SearchFica);
-
-        // $NotificationLink = SendEmail::where('Consumerid', '=',  $SearchConsumerID)->where('IsRead', '=', '1')->get();
-
-        // $getConFinanbyFICA = ConsumerFinancials::where('FICA_id', '=', $SearchFica)->first();
-        // $ConFinanbyFICA = ConsumerFinancials::where('ConsumerFinancial', '=', $getConFinanbyFICA->ConsumerFinancial)->first();
-        // app('debugbar')->info($ConFinanbyFICA);
-
-
-        // $getBankIdbyFICA = ConsumerAVS::where('FICA_id', '=', $SearchFica)->first();
-        // $BankIdbyFICA = ConsumerAVS::where('Bank_id', '=', $getBankIdbyFICA->Bank_id)->get();
-
-        // $getConsFinanByFICA = ConsumerFinancials::where('FICA_id', '=', $SearchFica)->first();
-        // $BankIdbyFICA = ConsumerAVS::where('Bank_id', '=', $getBankIdbyFICA->Bank_id)->get();
-
-
-        // $getbanking = ConsumerAVS::where('FICA_id', '=', $SearchFica)->first();
-        // $getbanking = ConsumerAVS::where('FICA_id', '=', $useridentitynum->FICA_id)->first();
-        // app('debugbar')->info($getConsFinanByFICA);
-
-        // $userfica = ConsumerIdentity::where('FICA_id', '=', $idnumber)->first();
-
-        // $SearchFica = $userfica['FICA_id'];
-        // $SearchConsumerID = $getConsumerId['Consumerid'];
-
-
-        // $checkfica = FICA::where('FICA_id', '=', $userfica->FICA_id)->first();
 
         // User Search ID Document
         $getconsumerIDDoc = ConsumerIdentity::where('FICA_id', '=', $SearchFica)->first();
@@ -283,28 +208,10 @@ class CustomerVerification extends Controller
         $request->session()->put('ConsumerIDPhoto', $ConsumerIDPhoto);
         $request->session()->put('ConsumerCapturedPhoto', $ConsumerCapturedPhoto);
 
-
-        // app('debugbar')->info($ConsumerIDPhoto);
-        // app('debugbar')->info($ConsumerCapturedPhoto);
-
-
-        // Individual Value GET
-        // $gender = ['GenderInd' => $getgender->GenderInd];
-
-
-        // $male = ['Text' => $lookup[12]->Text];
-        // $female = ['Text' => $lookup[14]->Text];
-
         $lookup = LookupDatas::all();
 
         $maleval = ['Value' => $lookup[12]->Value];
         $femaleval = ['Value' => $lookup[14]->Value];
-
-        // app('debugbar')->info($lookup);
-
-        // $gethome = ['Value' => $lookup[10]->Value];
-        // $getwork = ['Value' => $lookup[16]->Value];
-        // $getpostal = ['Value' => $lookup[17]->Value];
 
         $Searchfirstname = ['FirstName' => $useridentitynum->FirstName];
         $Searchsurname = ['Surname' => $useridentitynum->Surname];
@@ -316,50 +223,9 @@ class CustomerVerification extends Controller
 
         $TitleDesc = $getSearchUserTitle['TitleDesc'];
 
-        // $Searchfirstname = Consumer::where('FirstName', '=', $useridentitynum->FirstName)->first();
-        // $Searchsurname = Consumer::where('Surname', '=', $useridentitynum->Surname)->first();
-
-
-        // app('debugbar')->info($TitleDesc);
-        // app('debugbar')->info($femaleval);
-        // app('debugbar')->info($Searchsurname);
-
         $request->session()->put('FirstName', $firstnam);
         $request->session()->put('Surname', $secondnam);
         $request->session()->put('TitleDesc', $TitleDesc);
-
-        // $home = ['Value' => $gethome[0]->Value];
-        // $work = ['Value' => $getwork[0]->Value];
-        // $postal = ['Value' => $getpostal[0]->Value];
-
-        // app('debugbar')->info($home);
-        // app('debugbar')->info($getwork);
-        // app('debugbar')->info($getpostal);
-
-
-        // app('debugbar')->info($maleval);
-        // app('debugbar')->info($femaleval);
-        // app('debugbar')->info($gender);
-        // app('debugbar')->info($male);
-        // app('debugbar')->info($female);
-
-
-        // $cid = ConsumerIdentity::where('Identity_Document_ID', '=', $idnumber)->first();
-        // $iddateissue = ['ID_DateofIssue' => $cid->ID_DateofIssue];
-
-
-
-        // $nationality = AccountType::all();
-        // foreach ($nationality as $country) {
-        //     array_push($countries, strtoupper($country->Nationality));
-        // }
-
-
-
-        // $GetAccountType = AccountType::all();
-        // foreach ($GetAccountType as $Type) {
-        //     array_push($account, strtoupper($Type->bankname));
-        // }
 
         $accounttype = BankAccountType::all();
 
@@ -369,48 +235,12 @@ class CustomerVerification extends Controller
         $bondVal = ['BankTypeid' => $accounttype[3]->BankTypeid];
         $subscrVal = ['BankTypeid' => $accounttype[4]->BankTypeid];
 
-        // $chequeaccTxt = ['AccountType' => $accounttype[0]->AccountType];
-        // $savingsaccTxt = ['AccountType' => $accounttype[1]->AccountType];
-        // $transmissionTxt = ['AccountType' => $accounttype[2]->AccountType];
-        // $bondTxt = ['AccountType' => $accounttype[3]->AccountType];
-        // $subscrTxt = ['AccountType' => $accounttype[4]->AccountType];
-
-        // $accountdata = [$chequeaccTxt, $savingsaccTxt, $transmissionTxt, $bondTxt, $subscrTxt];
-
-        // app('debugbar')->info($chequeaccVal);
-        // app('debugbar')->info($savingsaccVal);
-        // app('debugbar')->info($transmissionVal);
-        // app('debugbar')->info($bondVal);
-        // app('debugbar')->info($subscrVal);
-
-
-        // app('debugbar')->info($chequeaccTxt);
-        // app('debugbar')->info($savingsaccTxt);
-        // app('debugbar')->info($transmissionTxt);
-        // app('debugbar')->info($bondTxt);
-        // app('debugbar')->info($subscrTxt);
-
-
         $account = [];
 
         $accounttype = BankAccountType::get('AccountType');
         foreach ($accounttype as $type) {
             array_push($account, $type->AccountType);
         }
-
-        // app('debugbar')->info($account);
-
-
-        // $accounttype = AccountType::all();
-        // foreach ($accounttype as $country) {
-        //     array_push($countries, strtoupper($country->AccountType));
-        // }
-        // sort($countries);
-
-        // $GetIDPhotoLoc = ConsumerIdentity::where('FICA_id', '=', 'A8A1550B-7B40-44E9-9E8A-11F564523B38')->first();
-
-        // app('debugbar')->info($accounttype);
-
 
         $insidedata = [
 
@@ -472,7 +302,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
+            'BirthDate' =>  $testing != '' ? $testing[0]->BirthDate : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -620,72 +450,7 @@ class CustomerVerification extends Controller
             'AVS_Status' => $testing != '' ? $testing[0]->AVS_Status : null,
         ];
 
-        // $request->session()->put('insidedata', $insidedata);
-
         app('debugbar')->info($insidedata);
-
-
-        // $compliance = Compliance::where('HA_IDNO', '=', $idnumber)->first();
-        // $getficabyCompliance = $compliance['FICA_id'];
-
-
-
-        // app('debugbar')->info($ficaByCompliance);
-
-        // $getcompliance = $useridentitynum['Consumerid'];
-
-        // $fetchcompliance = DB::connection("sqlsrv2")->select('EXEC sp_ComplainceExtract ?', [$getcompliance]);
-
-
-
-        // $fetchcompliance = DB::connection("sqlsrv2")->select(
-        //     DB::raw("SET NOCOUNT ON; exec sp_ComplainceExtract :ConsumerId"),
-        //     [
-        //         ':ConsumerId' => '9D7BD1F9-DA38-4EB7-B49C-6AA0B109B2ED'
-        //     ]
-        // );
-
-        // $LogicTest = DB::connection("sqlsrv2")->select(
-        //     DB::raw("SET NOCOUNT ON; exec SP_Consumerresults :ConsumerId"),
-        //     [
-        //         ':ConsumerId' => $SearchConsumerID
-        //     ]
-        // );
-
-
-        // app('debugbar')->info($fetchcompliance);
-
-
-        // $getWorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 10)->where('RecordStatusInd', '=', 1)->first();
-        // $getHomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 11)->where('RecordStatusInd', '=', 1)->first();
-        // $getCellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 12)->where('RecordStatusInd', '=', 1)->first();
-
-        // $ContactNumbers = [
-
-        //     'WorkNumberCode' => $getWorkNumber != null ? $getWorkNumber['TelephoneCode'] : null,
-        //     'WorkNumber' => $getWorkNumber != null ? $getWorkNumber['TelephoneNo'] : null,
-        //     'HomeNumberCode' => $getHomeNumber != null ? $getHomeNumber['TelephoneCode'] : null,
-        //     'HomeNumber' => $getHomeNumber != null ? $getHomeNumber['TelephoneNo'] : null,
-        //     'CellNumberCode' => $getCellNumber != null ? $getCellNumber['TelephoneCode'] : null,
-        //     'CellNumber' => $getCellNumber != null ? $getCellNumber['TelephoneNo'] : null
-
-        // ];
-
-        // app('debugbar')->info($getWorkNumber);
-        // app('debugbar')->info($getHomeNumber);
-        // app('debugbar')->info($getCellNumber);
-        // app('debugbar')->info($ContactNumbers);
-
-        // $request->session()->put('ContactNumbers', $ContactNumbers);
-
-        // $WorkNumberCode = $getWorkNumber['TelephoneCode'];
-        // $WorkNumber = $getWorkNumber['TelephoneNo'];
-
-        // $HomeNumberCode = $getHomeNumber['TelephoneCode'];
-        // $HomeNumber = $getHomeNumber['TelephoneNo'];
-
-        // $CellNumberCode = $getCellNumber['TelephoneCode'];
-        // $CellNumber = $getCellNumber['TelephoneNo'];
 
         $FetchCompliance = DB::connection("sqlsrv2")->select(
             DB::raw("SET NOCOUNT ON; exec sp_ComplianceExtract :ConsumerId"),
@@ -721,19 +486,6 @@ class CustomerVerification extends Controller
             ]
         );
 
-        // $Additional_type_output = array_map(function ($FetchComplianceAdd) { return $FetchComplianceAdd->Additional_type; }, $FetchComplianceAdd);
-        // $Additional_value_output = array_map(function ($FetchComplianceAdd) { return $FetchComplianceAdd->Additional_value; }, $FetchComplianceAdd);
-        // $Additional_comment_output = array_map(function ($FetchComplianceAdd) { return $FetchComplianceAdd->Additional_comment; }, $FetchComplianceAdd);
-
-        // $request->session()->put('Additional_type_output', $Additional_type_output);
-        // $request->session()->put('Additional_value_output', $Additional_value_output);
-        // $request->session()->put('Additional_comment_output', $Additional_comment_output);
-
-        // app('debugbar')->info($FetchComplianceSanct);
-        // app('debugbar')->info($Additional_type_output);
-        // app('debugbar')->info($Additional_value_output);
-        // app('debugbar')->info($Additional_comment_output);
-
         $request->session()->put('FetchComplianceSanct', $FetchComplianceSanct);
         $request->session()->put('FetchComplianceAdd', $FetchComplianceAdd);
 
@@ -755,106 +507,12 @@ class CustomerVerification extends Controller
         $request->session()->put('RiskStatusbyFICA', $RiskStatusbyFICA);
         $request->session()->put('ProgressbyFICA', $ProgressbyFICA);
 
-        // $getRiskStatusbyConsumerID = FICA::where('Consumerid', '=', $SearchConsumerID)->first();
-        // $FICAStatusbyConsumerID = $getRiskStatusbyConsumerID['FICAStatus'];
-        // $RiskStatusbyConsumerID = $getRiskStatusbyConsumerID['Risk_Status'];
-        // $RiskStatusbyConsumerID = $getRiskStatusbyConsumerID['KYC_Status'];
-
-
-        // app('debugbar')->info($ProgressbyFICA);
-        // app('debugbar')->info($FICAStatusbyFICA);
-        // app('debugbar')->info($RiskStatusbyFICA);
-        // app('debugbar')->info($FICAStatusbyConsumerID);
-        // app('debugbar')->info($RiskStatusbyConsumerID);
-        // app('debugbar')->info($getRiskStatusbyConsumerID);
-
-
-
-
-        // $EnqDate = $ficaByCompliance['EnquiryDate'];
-        // $EnqInput = $ficaByCompliance['EnquiryInput'];
-
-        // $VerifFirstName = $ficaByCompliance['HA_Names'];
-        // $VerifSurname = $ficaByCompliance['HA_Surname'];
-        // $VerifDeseaStat = $ficaByCompliance['HA_DeceasedStatus'];
-        // $VerifDeseaDate = $ficaByCompliance['HA_DeceasedDate'];
-        // $VerifDeathCause = $ficaByCompliance['HA_Causeofdeath'];
-
-
-        // $testuser1 = ConsumerComplianceSanction::where('ID', '=', '7711025013082')->first();
-        // $testuser2 = Compliance::where('FICA_id', '=', 'A8A1550B-7B40-44E9-9E8A-11F564523B38')->first();
-
-
-        // app('debugbar')->info($testuser1);
-        // app('debugbar')->info($testuser2);
-
-
-        // $getficaByCompliance = Compliance::where('FICA_id', '=', $SearchFica)->first();
-        // $ficaByCompliance = $getficaByCompliance['Compliance_id'];
-
-        // app('debugbar')->info($getficaByCompliance);
-
-        // $sanctions = ConsumerComplianceSanction::where('Compliance_id', '=', $ficaByCompliance)->first();
-        // $getCompliancebyID = $sanctions['Compliance_id'];
-
-        // app('debugbar')->info($sanctions);
-
-        // $CompliancebyID = ConsumerComplianceSanction::where('Compliance_id', '=', $getCompliancebyID)->first();
-        // $setCompliancebyID = $CompliancebyID['Compliance_id'];
-
-        // app('debugbar')->info($getCompliancebyID);
-        // app('debugbar')->info($CompliancebyID);
-
-        // $res = ConsumerComplianceSanction::join('Entity_type','Gender','Entityname','BestNameScore','Comments', '=', 'ReasonListed')
-        // ->where('Compliance_id', '=', $sanctions->Compliance_id)
-        // ->groupBy('ReasonListed')
-        // ->get();
-
-        // $getSancComp = ConsumerComplianceSanction::where('Compliance_id', '=', $sanctions->Compliance_id)->select('ReasonListed')->get();
-
-        // $getSancComp = ConsumerComplianceSanction::where('Compliance_id', '=', $sanctions->Compliance_id)->where('ReasonListed', '=', $sanctions->ReasonListed)->get();
-
-        // $distinct = ConsumerComplianceSanction::distinct('ReasonListed')->count('ReasonListed')->get();
-
-
-
-        // $distinct = ConsumerComplianceSanction::distinct('ReasonListed')->where('Compliance_id', '=', $sanctions->Compliance_id)->get();
-
-
-        // $getSancComp = ConsumerComplianceSanction::where('Compliance_id', '=', $sanctions->Compliance_id)->select('ReasonListed')->distinct()->get();
-
-        // $distinct = ConsumerComplianceSanction::where('Compliance_id', '=', $getCompliancebyID)
-        // ->select('Date_Listed', 'ReasonListed', 'Entity_type', 'Gender', 'Entityname', 'BestNameScore', 'Comments')
-        // ->distinct('ReasonListed')
-        // ->get();
-
-        // app('debugbar')->info($distinct);
-
-
-
-        // $EntID = $sanctions['ID'];
-        // $DateListed = $sanctions['Date_Listed'];
-        // $EntType = $sanctions['Entity_type'];
-        // $EntGender = $sanctions['Gender'];
-        // $EntName = $sanctions['Entityname'];
-        // $EntScore = $sanctions['BestNameScore'];
-        // $EntUniID = $sanctions['EntityUniqueID'];
-        // $ReasonListed = $sanctions['ReasonListed'];
-        // $ResultDate = $sanctions['ResultDate'];
-        // $ListRefNum = $sanctions['ListReferenceNumber'];
-        // $Comments = $sanctions['Comments'];
-
-
-
         $getEntbyFICA = Compliance::where('FICA_id', '=', $SearchFica)->first();
         $EntbyFICA = $getEntbyFICA['Compliance_id'];
 
         $getEntAddInfo = ConsumerComplianceEntityAdditional::where('Compliance_id', '=', $EntbyFICA)->get();
 
-
-
-        // $getEntFICA = Compliance::where('HA_IDNO', '=', $idnumber)->where('IsRead', '=', '1')->get();
-
+        $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
         //Get string length for if-statement
 
@@ -949,6 +607,7 @@ class CustomerVerification extends Controller
             ->with('IDDoc', $IDDoc)
             ->with('AddressDoc', $AddressDoc)
             ->with('BankDoc', $BankDoc)
+            ->with('getIndustryOccupation', $getIndustryOccupation)
 
             ->with('Logo', $Logo)
             ->with('Icon', $Icon)
@@ -960,52 +619,12 @@ class CustomerVerification extends Controller
             ->with('EmailMatch', $EmailMatch)
             ->with('TaxNumMatch', $TaxNumMatch)
 
-
-            // ->with('chequeaccTxt', $chequeaccTxt)
-            // ->with('chequeaccTxt', $savingsaccTxt)
-            // ->with('transmissionTxt', $transmissionTxt)
-            // ->with('bondTxt', $bondTxt)
-            // ->with('subscrTxt', $subscrTxt)
-
             ->with('chequeaccVal', $chequeaccVal)
             ->with('savingsaccVal', $savingsaccVal)
             ->with('transmissionVal', $transmissionVal)
             ->with('bondVal', $bondVal)
             ->with('subscrVal', $subscrVal)
 
-            // ->with('Additional_type_output', $Additional_type_output)
-            // ->with('Additional_value_output', $Additional_value_output)
-            // ->with('Additional_comment_output', $Additional_comment_output)
-
-            // ->with('EnqDate', $EnqDate)
-            // ->with('EnqInput', $EnqInput)
-
-            // ->with('VerifFirstName', $VerifFirstName)
-            // ->with('VerifSurname', $VerifSurname)
-            // ->with('VerifDeseaStat', $VerifDeseaStat)
-            // ->with('VerifDeseaDate', $VerifDeseaDate)
-            // ->with('VerifDeathCause', $VerifDeathCause)
-
-            // ->with('EntID', $EntID)
-            // ->with('DateListed', $DateListed)
-            // ->with('EntType', $EntType)
-            // ->with('EntGender', $EntGender)
-            // ->with('EntName', $EntName)
-            // ->with('EntScore', $EntScore)
-            // ->with('EntUniID', $EntUniID)
-            // ->with('ReasonListed', $ReasonListed)
-            // ->with('ResultDate', $ResultDate)
-            // ->with('ListRefNum', $ListRefNum)
-            // ->with('Comments', $Comments)
-
-            // ->with('WorkNumberCode', $WorkNumberCode)
-            // ->with('WorkNumber', $WorkNumber)
-            // ->with('HomeNumberCode', $HomeNumberCode)
-            // ->with('HomeNumber', $HomeNumber)
-            // ->with('CellNumberCode', $CellNumberCode)
-            // ->with('CellNumber', $CellNumber)
-
-            // ->with($ContactNumbers)
             ->with($ComplianceData)
 
             ->with('FICAStatusbyFICA', $FICAStatusbyFICA)
@@ -1075,7 +694,7 @@ class CustomerVerification extends Controller
             'Email' => $testing != '' ? $testing[0]->Email : null,
 
             'Nationality' => $testing != '' ? $testing[0]->Nationality : null,
-            'DOB' => $testing != '' ? date('Y-m-d', strtotime($testing[0]->DOB)) : null,
+            'BirthDate' =>  $testing != '' ? $testing[0]->BirthDate : null,
             'ID_CountryResidence' => $testing != '' ? $testing[0]->ID_CountryResidence : null,
             'ID_DateofIssue' => $testing != '' ? $testing[0]->ID_DateofIssue : null,
 
@@ -1194,33 +813,6 @@ class CustomerVerification extends Controller
 
     public function PersonalDetailsUpdate(Request $request)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'FirstName' => ['required', 'string', 'min:2', 'max:255'],
-        //         'SURNAME' => ['required', 'string', 'min:2', 'max:255'],
-        //         'Gender' => 'required',
-        //         'Email' => ['required', 'email'],
-        //         'ID_CountryResidence' => ['required', 'numeric'],
-        //         'WorkTelephoneNo' => 'required|regex:/[0-9]{10}/',
-        //         'HomeTelephoneNo' => 'required|regex:/[0-9]{10}/',
-        //         'CellularNo' => ['required', 'numeric', 'min:10'],
-        //     ],
-
-        //     [
-        //         'FirstName.required' => 'The FirstName is required.',
-        //         'SURNAME.required' => 'The SURNAME is required.',
-        //         'Gender.required' => 'The Gender is required.',
-        //         'Email.required' => 'The Email is required.',
-        //         'ID_CountryResidence.required' => 'The Issue date is required.',
-        //         'WorkTelephoneNo.required' => 'The Work Telephone No is required.',
-        //         'HomeTelephoneNo.required' => 'The Home Telephone No is required.',
-        //         'CellularNo.required' => 'The Cellular No is required.',
-        //     ]
-        // );
-        // dd($request);
-
-        // $idnumber = $request->session()->get('idnumber');
         $SearchConsumerID = $request->session()->get('SearchConsumerID');
         $SearchFica = $request->session()->get('SearchFica');
 
@@ -1269,7 +861,7 @@ class CustomerVerification extends Controller
         $HomeNumberExist =  $HomeNumber != null ? true : false;
         $CellNumberExist =  $CellNumber != null ? true : false;
 
-
+        $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
         // WORK NUMBER
         if ($WorkNumberExist == true) {
@@ -1382,7 +974,6 @@ class CustomerVerification extends Controller
             }
         }
 
-
         $insidedata = $this->StoredProc($SearchConsumerID);
 
         $ContactNumbers = $request->session()->get('ContactNumbers');
@@ -1427,8 +1018,6 @@ class CustomerVerification extends Controller
         $Icon = $customer['Client_Icon'];
         $customerName = $customer['RegistrationName'];
 
-
-
         return view('admin-tabs')
 
             ->with('ConsumerCapturedPhoto', $ConsumerCapturedPhoto)
@@ -1441,6 +1030,8 @@ class CustomerVerification extends Controller
             ->with('Icon', $Icon)
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
+            ->with('getIndustryOccupation', $getIndustryOccupation)
+
 
             ->with($insidedata)
             ->with('FICAStatusbyFICA', $FICAStatusbyFICA)
@@ -1726,6 +1317,7 @@ class CustomerVerification extends Controller
 
         $insidedata = $this->StoredProc($SearchConsumerID);
 
+        $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
         // $customerBranding = Customer::where('Id', '=', $request->session()->get('Customerid'))->first();
         // $Logo = $customerBranding['Client_Logo'];
@@ -1753,6 +1345,7 @@ class CustomerVerification extends Controller
             ->with('Icon', $Icon)
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
+            ->with('getIndustryOccupation', $getIndustryOccupation)
 
             ->with($insidedata)
             ->with('FICAStatusbyFICA', $FICAStatusbyFICA)
@@ -1764,7 +1357,6 @@ class CustomerVerification extends Controller
             ->with('IDMatch', $IDMatch)
             ->with('EmailMatch', $EmailMatch)
             ->with('TaxNumMatch', $TaxNumMatch)
-
 
             ->with('kycstatus', $kycstatus)
             ->with('bankstatus', $bankstatus)
@@ -1786,34 +1378,8 @@ class CustomerVerification extends Controller
 
     public function ScreeningDetailsCreate(Request $request)
     {
-
-
         $idnumber = $request->session()->get('IDNUMBER');
         $SearchFica = $request->session()->get('SearchFica');
-
-
-        // $SearchConsumerID = $request->session()->get('SearchConsumerID');
-
-
-
-        // $Consumerid = $request->session()->get('LoggedUser');
-        // $NotificationLink = SendEmail::where('Consumerid', '=',  $Consumerid)->where('IsRead', '=', '1')->get();
-
-        // $useridentitynum = ConsumerIdentity::where('Identity_Document_ID', '=', $idnumber)->first();
-        // $userfica = ConsumerAVS::where('FICA_id', '=', $useridentitynum->FICA_id)->first();
-        // $userconsumerid = ConsumerFinancials::where('ConsumerFinancial', '=', $userfica->ConsumerFinancial)->first();
-
-        // $getBankIdbyFICA = AVS::where('FICA_id', '=', $SearchFica)->first();
-        // $getConFinanbyFICA = Financial::where('FICA_id', '=', $SearchFica)->first();
-
-        // app('debugbar')->info($getConFinanbyFICA);
-
-        // $ConFinanbyFICA = ConsumerFinancials::where('ConsumerFinancial', '=', $getConFinanbyFICA->ConsumerFinancial)->first();
-        // $BankIdbyFICA = ConsumerAVS::where('Bank_id', '=', $getBankIdbyFICA->Bank_id)->get();
-
-        // $request->validate($request, [
-        //     'Account_no' => 'numeric',
-        // ]);
 
         AVS::where('FICA_id', '=', $SearchFica)->update(
             array(
@@ -1958,6 +1524,8 @@ class CustomerVerification extends Controller
 
         $insidedata = $this->StoredProc($SearchConsumerID);
 
+        $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
+
         // $customerBranding = Customer::where('Id', '=', $request->session()->get('Customerid'))->first();
         // $Logo = $customerBranding['Client_Logo'];
 
@@ -1984,6 +1552,8 @@ class CustomerVerification extends Controller
             ->with('Icon', $Icon)
             ->with('customerName', $customerName)
             ->with('Icon', $Icon)
+            ->with('getIndustryOccupation', $getIndustryOccupation)
+
 
             ->with($insidedata)
             ->with('FICAStatusbyFICA', $FICAStatusbyFICA)
@@ -2113,6 +1683,7 @@ class CustomerVerification extends Controller
 
         $insidedata = $this->StoredProc($SearchConsumerID);
 
+        $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
         // $customerBranding = Customer::where('Id', '=', $request->session()->get('Customerid'))->first();
         // $Logo = $customerBranding['Client_Logo'];
@@ -2152,6 +1723,7 @@ class CustomerVerification extends Controller
             ->with('EmailMatch', $EmailMatch)
             ->with('TaxNumMatch', $TaxNumMatch)
 
+            ->with('getIndustryOccupation', $getIndustryOccupation)
 
             ->with('kycstatus', $kycstatus)
             ->with('bankstatus', $bankstatus)
