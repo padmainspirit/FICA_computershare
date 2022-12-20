@@ -4559,10 +4559,10 @@ Fica Progress
             }
         });
 
-        $("#id-model-no").click(function() {
-             event.preventDefault();
-            location.reload();
-        });
+            $("#id-model-no").click(function(event) {
+                event.preventDefault();
+                location.reload();
+            });
 
         $("#complete-fica-popup").click();
 
