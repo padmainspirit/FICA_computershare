@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class FICA extends Model
 {
@@ -72,5 +73,14 @@ class FICA extends Model
     public function compliance()
     {
         return $this->hasOne(\App\Models\Compliance::class);
+    }
+
+    public static function getRiskStatusbyFICA(Request $request)
+    {
+        $getSearchFica = Declaration::getFicaId($request);
+        $SearchFica = $getSearchFica['FICA_ID'];
+        $consumerBankDoc = FICA::where('FICA_id', '=', $SearchFica)->first();
+
+        return $consumerBankDoc;
     }
 }

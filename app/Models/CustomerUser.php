@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Http\Request;
 
 
 
@@ -107,6 +108,18 @@ class CustomerUser extends Authenticatable
     {
         $assignrole = DB::table('model_has_roles')->insert(['role_id' => $role_id,'model_id'=>$userid,'model_type'=>'App\Models\CustomerUser']);
         return true;
+    }
+
+    public static function getCustomerUserId(Request $request)
+    {
+        $client = Auth::user();
+        $Customerid = $client->CustomerId;
+        // $idnumber = $request->idnumberResult;
+        $idnumber = $request->session()->get('idnumber');
+        $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->where('CustomerId', '=', $Customerid)->first();
+        // $SearchCustomerUSERID = $useridentitynum['Id'];
+
+        return $useridentitynum;
     }
 
 }

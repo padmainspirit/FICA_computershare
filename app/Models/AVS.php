@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class AVS extends Model
 {
@@ -54,5 +55,14 @@ class AVS extends Model
     public function fica()
     {
         return $this->belongsTo(\App\Models\FICA::class);
+    }
+
+    public static function getconsumerBankDoc(Request $request)
+    {
+        $getSearchFica = Declaration::getFicaId($request);
+        $SearchFica = $getSearchFica['FICA_ID'];
+        $consumerBankDoc = AVS::where('FICA_id', '=', $SearchFica)->first();
+
+        return $consumerBankDoc;
     }
 }
