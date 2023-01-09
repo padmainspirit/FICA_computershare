@@ -85,13 +85,13 @@
                                                 {{-- <div
                                                 class="input-group auth-pass-inputgroup @error('Password') is-invalid @enderror"> --}}
                                                 <input type="password" name="password" required
-                                                    class="form-control  @error('Password') is-invalid @enderror"
-                                                    id="Password" value="" placeholder="Password"
-                                                    aria-label="Password" aria-describedby="password-addon" />
+                                                    class="form-control  @error('password') is-invalid @enderror"
+                                                    id="password" value="" placeholder="password"
+                                                    aria-label="password" aria-describedby="password-addon" />
                                                 {{-- <button class="btn btn-light " type="button" id="password-addon"><i
                                                         class="mdi mdi-eye-outline"></i></button> --}}
                                                 <span class="text-danger">
-                                                    @error('Password')
+                                                    @error('password')
                                                         {{ $message }}
                                                     @enderror
                                                 </span>

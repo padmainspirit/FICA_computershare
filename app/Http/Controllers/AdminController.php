@@ -213,7 +213,7 @@ class AdminController extends Controller
         }
 
         $client = Auth::user();
-        $customerid = $client->CustomerId;;
+        $customerid = $client->CustomerId;
         // $customerid = "4717E73D-1F3F-4ACE-BE1A-0244770D6272";
         $IDNUMBER = $request->IDNumber;
         $SURNAME = $request->LastName;

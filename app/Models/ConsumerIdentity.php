@@ -144,6 +144,7 @@ class ConsumerIdentity extends Model
         $getSearchFica = Declaration::getFicaId($request);
         $SearchFica = $getSearchFica['FICA_ID'];
         $getconsumerIDDoc = ConsumerIdentity::where('FICA_id', '=', $SearchFica)->first();
+        // dd($getconsumerIDDoc);
 
         return $getconsumerIDDoc;
     }

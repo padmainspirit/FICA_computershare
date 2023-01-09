@@ -88,6 +88,9 @@
                                     style="color: #f0c200;">MEDIUM</span>
                             @elseif($RiskStatusbyFICA == 'LOW')
                                 <span class="justify-content-md-center" style="color: #74ac04;">LOW</span>
+                                style="color: #f0c200;">MEDIUM</span>
+                                @elseif($RiskStatusbyFICA == null)
+                                    <span class="justify-content-md-center" style="color: #000000;">N/A</span>
                             @endif
                         </div>
 
@@ -115,8 +118,8 @@
 
                             @if ($FICAStatusbyFICA == 'Completed')
                             <span class="justify-content-md-center" style="color: #1a4f6e;">{{ $FICAStatusbyFICA }}</span>
-                            @elseif ($FICAStatusbyFICA == 'In Progress')
-                                <span class="justify-content-md-center" style="color: #f9d010">{{ $FICAStatusbyFICA }}</span>
+                            @elseif ($FICAStatusbyFICA == 'In progress')
+                                <span class="justify-content-md-center" style="color: #a98600">In Progress</span>
                             @elseif($FICAStatusbyFICA == 'Correction')
                                 <span class="justify-content-md-center" style="color: #f8631d">{{ $FICAStatusbyFICA }}</span>
                             @elseif($FICAStatusbyFICA == 'Failed')

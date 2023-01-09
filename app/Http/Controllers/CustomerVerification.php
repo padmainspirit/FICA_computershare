@@ -82,7 +82,7 @@ class CustomerVerification extends Controller
 
         // Get ID Number, then get CustomerUSERID to get ConsumerID, Tables created from Get-started should allow a pre-created FicaID. 
         // $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->where('CustomerId', '=', $Customerid)->first();
-        $useridentitynum = CustomerUser::getCustomerUserId($request);
+        // $useridentitynum = CustomerUser::getCustomerUserId($request);
         // $SearchCustomerUSERID = $useridentitynum['Id'];
 
         // $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $SearchCustomerUSERID)->first();
@@ -101,8 +101,8 @@ class CustomerVerification extends Controller
         // session()->put('SearchFica', $SearchFica);
 
         // app('debugbar')->info($idnumber);
-        app('debugbar')->info($SearchConsumerID);
-        app('debugbar')->info($SearchFica);
+        // app('debugbar')->info($SearchConsumerID);
+        // app('debugbar')->info($SearchFica);
 
         // User Search ID Document
         $getconsumerIDDoc = ConsumerIdentity::getconsumerIDDoc($request);
@@ -165,7 +165,7 @@ class CustomerVerification extends Controller
 
 
 
-        app('debugbar')->info($testing);
+        // app('debugbar')->info($testing);
 
         // $lookup = Lookup::all()->toArray();
         // $getgender = Consumer::where('IDNUMBER', '=', $idnumber)->first();
@@ -496,6 +496,8 @@ class CustomerVerification extends Controller
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
         $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
 
+        // dd($RiskStatusbyFICA);
+
         // app('debugbar')->info($RiskStatusbyFICA);
 
         $ProgressbyFICA = $ProgressbyFICA * 10;
@@ -613,7 +615,7 @@ class CustomerVerification extends Controller
             ->with('LogUserSurname', $LogUserSurname);
     }
 
-    public function StoredProc($SearchConsumerID, Request $request)
+    public function StoredProc(Request $request)
     {
 
         $testing  = Consumer::getSPDetails($request);
@@ -940,10 +942,10 @@ class CustomerVerification extends Controller
             }
         }
 
-        $insidedata = $this->StoredProc($SearchConsumerID);
+        $insidedata = $this->StoredProc($request);
 
         $ContactNumbers = $request->session()->get('ContactNumbers');
-        $client = Auth::user()();
+        $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
         $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
@@ -1243,8 +1245,8 @@ class CustomerVerification extends Controller
 
 
         // $NotificationLink = $request->session()->get('NotificationLink');
-        $LogUserName = $request->session()->get('LogUserName');
-        $LogUserSurname = $request->session()->get('LogUserSurname');
+        // $LogUserName = $request->session()->get('LogUserName');
+        // $LogUserSurname = $request->session()->get('LogUserSurname');
         // $Email = $request->session()->get('Email');
         $ContactNumbers = $request->session()->get('ContactNumbers');
         $client = Auth::user();
@@ -1282,7 +1284,7 @@ class CustomerVerification extends Controller
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
         $SearchConsumerID = $useridentitynum['Consumerid'];
 
-        $insidedata = $this->StoredProc($SearchConsumerID);
+        $insidedata = $this->StoredProc($request);
 
         $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
@@ -1472,7 +1474,7 @@ class CustomerVerification extends Controller
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
         $SearchConsumerID = $useridentitynum['Consumerid'];
 
-        $insidedata = $this->StoredProc($SearchConsumerID);
+        $insidedata = $this->StoredProc($request);
 
         $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
@@ -1635,7 +1637,7 @@ class CustomerVerification extends Controller
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
         $SearchConsumerID = $useridentitynum['Consumerid'];
 
-        $insidedata = $this->StoredProc($SearchConsumerID);
+        $insidedata = $this->StoredProc($request);
 
         $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
