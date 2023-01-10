@@ -306,6 +306,8 @@ class AdminCreateController extends Controller
     public function CreateCustomer(Request $request)
     {
 
+        // dd($request);
+
         if (session()->has('success')) {
             session()->pull('success');
         }
@@ -322,6 +324,30 @@ class AdminCreateController extends Controller
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
         $GetAllCustomers = Customer::all();
+
+        if(in_array('AVS', $request->get('apicheck'))){
+           $avschecked = 1;
+          
+        }
+        else{
+            $avschecked = 0;
+        }
+        
+        if(in_array('KYC', $request->get('apicheck'))){
+            $kycchecked = 1;
+        }
+
+        else{
+            $kycchecked = 0;
+        }
+
+        if(in_array('Compliance', $request->get('apicheck'))){
+            $compchecked = 1;
+            dd($compchecked);
+        }
+        else{
+            $compchecked = 0;
+        }
 
         // $Logo = $customer->Client_Logo;
         // $customerName = $customer->RegistrationName;
@@ -343,14 +369,13 @@ class AdminCreateController extends Controller
             // 'ModifiedBy' => date("Y-m-d H:i:s"),
             // 'ActivatedBy' => Str::upper(Str::uuid()),
             // 'ActivatedDate' => date("Y-m-d H:i:s"),
-            'TabSelected' => NULL,
             'IsRestricted' => 0,
-            'Inspirit_Logo' => NULL,
-            'Client_Logo' => NULL,
-            'Client_Font_Code' => NULL,
-            'Customer_Email' => NULL,
-            'Client_Icon' => NULL,
-            'RegistrationName' => $request->RegistrationName,
+            'Client_Logo' => $request->Client_logo,
+            'Client_Font_Code' => $request->fontcode,
+            'Client_Icon' => $request->Client_icon, 
+            'Api_AVS'  => $avschecked,
+            'Api_KYC'  => $kycchecked,
+            'Api_Comp' => $compchecked,  
         ]);
         // dd($newclient);
         $newclient->save();
