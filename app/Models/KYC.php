@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class KYC extends Model
 {
@@ -58,5 +59,14 @@ class KYC extends Model
     public function fica()
     {
         return $this->belongsTo(\App\Models\FICA::class);
+    }
+
+    public static function getAddressDoc(Request $request)
+    {
+        $getSearchFica = Declaration::getFicaId($request);
+        $SearchFica = $getSearchFica['FICA_ID'];
+        $consumerAddressDoc = KYC::where('FICA_id', '=', $SearchFica)->first();
+
+        return $consumerAddressDoc;
     }
 }

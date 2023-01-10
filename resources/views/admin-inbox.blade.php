@@ -296,7 +296,8 @@
                                                                                     text-transform: uppercase; font-size: 12px;"
                                                                                         id="FICAStatus" name="FICAStatus"
                                                                                         aria-placeholder="Select">
-                                                                                        <option disabled>Select
+                                                                                        <option value="Select" {{ (isset($FICAStatusbyFICA) && $FICAStatusbyFICA == 'Select') || $FICAStatusbyFICA == null ? 'selected' : '' }} disabled>
+                                                                                            Select
                                                                                         </option>
                                                                                         <option value="Completed" {{ (isset($FICAStatusbyFICA) && $FICAStatusbyFICA == 'Completed') || $FICAStatusbyFICA == null ? 'selected' : '' }}>
                                                                                             Completed

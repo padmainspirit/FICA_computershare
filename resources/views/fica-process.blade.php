@@ -2877,7 +2877,7 @@ Fica Progress
 
                                 <div class="input-group" style="height: 35px; width: 100%;">
 
-                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
+                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
                                     <span id="error-py-city" class="text-danger" role="alert">
                                     </span>
                                     {{-- <select class="form-select" autocomplete="off"
@@ -2900,7 +2900,7 @@ Fica Progress
                                         name="py-state"required> --}}
                                 <label for="py-state" class="form-label">State/Province/Region</label>
                                 <div class="input-group" style="height: 35px; width: 100%;">
-                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="py-state" name="py-state" required>
+                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-state" name="py-state" required>
                                         <option hidden>Select Province</option>
                                         @foreach ($provincesNames as $province)
                                         <option value="{{ $province->Province_name }}">
@@ -2960,7 +2960,7 @@ Fica Progress
                                 <label for="po-city" class="form-label">City</label>
                                 {{-- <input type="type" class="form-control" id="po-city" name="po-city"> --}}
 
-                                <input autocomplete="off" type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="po-city" name="po-city" autocomplete="off" placeholder="ENTER CITY">
+                                <input autocomplete="off" type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="po-city" name="po-city" autocomplete="off" placeholder="ENTER CITY">
                                 <span id="error-po-city" class="text-danger" role="alert">
                                 </span>
 
