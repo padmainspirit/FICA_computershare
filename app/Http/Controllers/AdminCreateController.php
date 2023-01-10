@@ -324,52 +324,26 @@ class AdminCreateController extends Controller
             'PhysicalAddress' => $request->PhysicalAddress,
             'TypeOfBusiness' => $request->TypeOfBusiness,
             'TelephoneNumber' => $request->TelephoneNumber,
-
-            'FaxNumber' => NULL,
-            'BillingEmail' => NULL,
-            'Status' => NULL,
-            'BillingType' => NULL,
-            'Code' => NULL,
-            'Turnover' => NULL,
-            'CustOwnIDNumber' => NULL,
-            'PostalAddress' => NULL,
-            'WebAddress' => NULL,
-            'AccountDeptContactPerson' => NULL,
-            'AccountDeptTelephoneNumber' => NULL,
-            'AccountDeptFaxNumber' => NULL,
-            'AuthIDNumber' => NULL,
-            'AuthPosition' => NULL,
-            'AccountDeptEmail' => NULL,
-            'AuthFirstName' => NULL,
-            'AuthSurName' => NULL,
-            'AuthCellNumber' => NULL,
-            'AuthEmail' => NULL,
-            'BusinessDescription' => NULL,
-            'CreditBureauInformation' => NULL,
-            'Purpose' => NULL,
-            'CreatedDate' => date("Y-m-d H:i:s"),
-            'CreatedBy' => date("Y-m-d H:i:s"),
-            'ModifiedDate' => date("Y-m-d H:i:s"),
-            'ModifiedBy' => date("Y-m-d H:i:s"),
-            'ActivatedBy' => date("Y-m-d H:i:s"),
-            'ActivatedDate' => date("Y-m-d H:i:s"),
+            // 'CreatedDate' => Str::upper(Str::uuid()),
+            // 'CreatedBy' => date("Y-m-d H:i:s"),
+            // 'ModifiedDate' => date("Y-m-d H:i:s"),
+            // 'ModifiedBy' => date("Y-m-d H:i:s"),
+            // 'ActivatedBy' => Str::upper(Str::uuid()),
+            // 'ActivatedDate' => date("Y-m-d H:i:s"),
             'TabSelected' => NULL,
-            'IsRestricted' => NULL,
-            'Customer_URL' => NULL,
+            'IsRestricted' => 0,
             'Inspirit_Logo' => NULL,
             'Client_Logo' => NULL,
             'Client_Font_Code' => NULL,
             'Customer_Email' => NULL,
             'Client_Icon' => NULL,
-
             'RegistrationName' => $request->RegistrationName,
         ]);
         // dd($newclient);
         $newclient->save();
 
-
-
         return view('admin-customer')
+            ->with('success', 'A new company has been created')
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
             ->with('Icon', $customer->Client_Icon)
