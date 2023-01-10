@@ -32,13 +32,6 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-
-                                    @if (Session::get('success'))
-                                        <div class="alert alert-success" role="alert">
-                                        A new company has been created
-                                        </div>
-                                    @endif
-
                                     <form class="form-horizontal" method="POST" action="{{ route('admin-customer') }}">
 
                                         @csrf

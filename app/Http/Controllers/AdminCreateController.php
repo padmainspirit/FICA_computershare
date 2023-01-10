@@ -75,9 +75,9 @@ class AdminCreateController extends Controller
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
 
-        $Logo = $customer->Client_Logo;
+        // $Logo = $customer->Client_Logo;
         $RegistrationName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Icon = $customer->Client_Icon;
         $GetAllCustomers = Customer::all();
 
         // $GetAllUsers = CustomerUser::all();
@@ -170,47 +170,47 @@ class AdminCreateController extends Controller
             ->with('Logo', $customer->Client_Logo);
     }
 
-    public function ShowCustomerEdit(Request $request)
-    {
-        $client = Auth::user();
-        $customer = Customer::getCustomerDetails($client->CustomerId);
-        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+    // public function ShowCustomerEdit(Request $request)
+    // {
+    //     $client = Auth::user();
+    //     $customer = Customer::getCustomerDetails($client->CustomerId);
+    //     $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+    //     $Logo = $customer->Client_Logo;
+    //     $customerName = $customer->RegistrationName;
+    //     $Icon = $customer->Client_Icon;
 
-        $getLoggedUsersID = $request->input('SelectUser');
+    //     $getLoggedUsersID = $request->input('SelectUser');
 
-        $LoggedUsersID = CustomerUser::where('Id', '=',  $getLoggedUsersID)->first();
-        // dd($LoggedUsersID->FirstName);
+    //     $LoggedUsersID = CustomerUser::where('Id', '=',  $getLoggedUsersID)->first();
+    //     // dd($LoggedUsersID->FirstName);
 
-        $FirstName = $LoggedUsersID->FirstName != '' ? $LoggedUsersID->FirstName : null;
-        $LastName = $LoggedUsersID->LastName != '' ? $LoggedUsersID->LastName : null;
-        $IDNumber = $LoggedUsersID->IDNumber != '' ? $LoggedUsersID->IDNumber : null;
-        $Email = $LoggedUsersID->Email != '' ? $LoggedUsersID->Email : null;
-        $Password = $LoggedUsersID->Password != '' ? $LoggedUsersID->Password : null;
-        $PhoneNumber = $LoggedUsersID->PhoneNumber != '' ? $LoggedUsersID->PhoneNumber : null;
-        $IsRestricted = $LoggedUsersID->IsRestricted != '' ? $LoggedUsersID->IsRestricted : null;
-        $OTP = $LoggedUsersID->OTP != '' ? $LoggedUsersID->OTP : null;
+    //     $FirstName = $LoggedUsersID->FirstName != '' ? $LoggedUsersID->FirstName : null;
+    //     $LastName = $LoggedUsersID->LastName != '' ? $LoggedUsersID->LastName : null;
+    //     $IDNumber = $LoggedUsersID->IDNumber != '' ? $LoggedUsersID->IDNumber : null;
+    //     $Email = $LoggedUsersID->Email != '' ? $LoggedUsersID->Email : null;
+    //     $Password = $LoggedUsersID->Password != '' ? $LoggedUsersID->Password : null;
+    //     $PhoneNumber = $LoggedUsersID->PhoneNumber != '' ? $LoggedUsersID->PhoneNumber : null;
+    //     $IsRestricted = $LoggedUsersID->IsRestricted != '' ? $LoggedUsersID->IsRestricted : null;
+    //     $OTP = $LoggedUsersID->OTP != '' ? $LoggedUsersID->OTP : null;
 
-        return view('admin-edit', [])
+    //     return view('admin-edit', [])
 
-            ->with('FirstName', $FirstName)
-            ->with('LastName', $LastName)
-            ->with('IDNumber', $IDNumber)
-            ->with('Email', $Email)
-            ->with('Password', $Password)
-            ->with('PhoneNumber', $PhoneNumber)
-            ->with('IsRestricted', $IsRestricted)
-            ->with('OTP', $OTP)
-            ->with('UserFullName', $UserFullName)
+    //         ->with('FirstName', $FirstName)
+    //         ->with('LastName', $LastName)
+    //         ->with('IDNumber', $IDNumber)
+    //         ->with('Email', $Email)
+    //         ->with('Password', $Password)
+    //         ->with('PhoneNumber', $PhoneNumber)
+    //         ->with('IsRestricted', $IsRestricted)
+    //         ->with('OTP', $OTP)
+    //         ->with('UserFullName', $UserFullName)
 
-            ->with('customerName', $customer->RegistrationName)
-            ->with('Icon', $customer->Client_Icon)
-            ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
-    }
+    //         ->with('customerName', $customer->RegistrationName)
+    //         ->with('Icon', $customer->Client_Icon)
+    //         ->with('customer', $customer)
+    //         ->with('Logo', $customer->Client_Logo);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -306,13 +306,26 @@ class AdminCreateController extends Controller
     public function CreateCustomer(Request $request)
     {
 
+        if (session()->has('success')) {
+            session()->pull('success');
+        }
+
+        if (session()->has('fail')) {
+            session()->pull('fail');
+        }
+
+        if (session()->has('getLoggedUsersID')) {
+            session()->pull('getLoggedUsersID');
+        }
+
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
+        $GetAllCustomers = Customer::all();
 
-        $Logo = $customer->Client_Logo;
-        $customerName = $customer->RegistrationName;
-        $Icon = $customer->Client_Icon;
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
 
         $newclient = Customer::create([
             'Id' =>  Str::upper(Str::uuid()),
@@ -342,10 +355,11 @@ class AdminCreateController extends Controller
         // dd($newclient);
         $newclient->save();
 
-        return view('admin-customer')
-            ->with('success', 'A new company has been created')
+        return redirect()->route('admin-display')
+        ->with('success', 'A new company has been created successfully')
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
+            ->with('GetAllCustomers', $GetAllCustomers)
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);

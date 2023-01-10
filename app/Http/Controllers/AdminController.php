@@ -423,7 +423,7 @@ class AdminController extends Controller
 
             // $message = $e->getMessage();
             // var_dump('Exception Message: '. $message);
-            // // app('debugbar')->info($message);
+            //  app('debugbar')->info($message);
 
             // $code = $e->getCode();       
             // var_dump('Exception Code: '. $code);
