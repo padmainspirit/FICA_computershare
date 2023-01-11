@@ -139,6 +139,9 @@ Route::get('/admin-comments', [CustomerVerification::class, 'UserComments'])->na
 Route::get('/admin-inbox', [CustomerVerification::class, 'UserInbox'])->name('admin-inbox');
 Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name('admin-inbox-message');
 
+Route::get('/customer-tabs', [AdminCreateController::class, 'CustomerTabs'])->name('customer-tabs');
+Route::post('/customer-tabs', [AdminCreateController::class, 'CustomerTabs'])->name('customer-tabs');
+
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
 Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');

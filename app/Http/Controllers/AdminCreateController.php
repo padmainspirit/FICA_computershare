@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\CustomerTabs;
+use App\Models\CustomerHasTabs;
 use Spatie\Permission\Models\Role;
 use DB;
 
@@ -375,5 +377,35 @@ class AdminCreateController extends Controller
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);
+    }
+
+    public function CustomerTabs(Request $request)
+    {
+        $customerId = "4717e73d-1f3f-4ace-be1a-0244770d6272";
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+
+        $tabs =  CustomerTabs::all('Id','Name');
+        $newtabs = [];
+        if(!empty($_POST)){
+            DB::table('customer_has_tabs')->where('CustomerId',$customerId)->delete();
+            $tab = [];
+            foreach ($_POST['tab'] as $key => $value) {
+                $tab['CustomerId'] = $customerId;
+                $tab['TabId'] = $value;
+                $newtabs[]=$tab;
+            }
+            CustomerHasTabs::insert($newtabs);
+        }
+        $customerTabs = DB::table("customer_has_tabs")->where("customer_has_tabs.CustomerId", $customerId)
+        ->pluck('customer_has_tabs.TabId', 'customer_has_tabs.TabId')
+        ->all();
+
+        return view('admin-customertabs', compact('tabs','customerTabs'))
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
+        
     }
 }
