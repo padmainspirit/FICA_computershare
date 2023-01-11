@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class DOVS extends Model
 {
@@ -46,5 +47,14 @@ class DOVS extends Model
     public function fica()
     {
         return $this->belongsTo(\App\Models\FICA::class);
+    }
+
+    public static function getConsumerID(Request $request)
+    {
+        $getSearchFica = Declaration::getFicaId($request);
+        $SearchFica = $getSearchFica['FICA_ID'];
+        $getPhoto = DOVS::where('FICA_id', '=', $SearchFica)->first();
+
+        return $getPhoto;
     }
 }

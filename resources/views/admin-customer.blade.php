@@ -32,7 +32,6 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-
                                     <form class="form-horizontal" method="POST" action="{{ route('admin-customer') }}">
 
                                         @csrf
@@ -104,7 +103,56 @@
 
                                                 </div>
                                             </div>
+                                        </div>
 
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Logo:</label>
+                                                    <input class="form-control" type="file" id="Client_logo" name="Client_logo" placeholder="Upload a logo" >
+
+                                                </div>
+
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Icon:</label>
+                                                    <input class="form-control" type="file" id="Client_icon" name="Client_icon" placeholder="Upload an icon">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Font Code:</label>
+                                                    <input class="form-control" type="text" id="fontcode" name="fontcode" placeholder="Enter a font # code">
+
+                                                    <br> <br>
+
+
+                                                </div>
+
+                                                <div class="mb-3">
+
+                                                    <input type="checkbox"  name="apicheck[]" value="AVS">
+                                                    <label class="form-label">AVS</label>
+
+                                                    &nbsp; &nbsp;
+                                                    
+                                                    <input type="checkbox" name="apicheck[]" value="KYC">
+                                                    <label class="form-label">KYC</label>
+
+                                                    &nbsp; &nbsp;
+
+                                                    
+                                                    <input type="checkbox"  name="apicheck[]" value="Compliance">
+                                                    <label class="form-label">Compliance</label>
+
+                                                    &nbsp; &nbsp;
+                                                   
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row justify-content-center mt-3 mb-0">
@@ -154,6 +202,12 @@
             document.getElementById("PhysicalAddress").value = '';
             document.getElementById("TypeOfBusiness").value = '';
             document.getElementById("TelephoneNumber").value = '';
+            document.getElementById("Client_logo").value = '';
+            document.getElementById("Client_icon").value = '';
+            document.getElementById("fontcode").value = '';
+            document.getElementById("avscheck").value = '';
+            document.getElementById("kyccheck").value = '';
+            document.getElementById("compcheck").value = '';
         }
 
         var btn = document.getElementById("clearall");
