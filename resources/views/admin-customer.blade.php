@@ -42,14 +42,14 @@
 
                                                     <label class="form-label">Trading Name:</label>
                                                     <input class="form-control" type="text" id="TradingName" name="TradingName" placeholder="Enter a trading name" required>
-
+                                                    <span id="error-tradingname" class="text-danger" role="alert">
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Registration Name:</label>
                                                     <input class="form-control" type="text" id="RegistrationName" name="RegistrationName" placeholder="Enter a registration name" required>
-
+                                                    <span id="error-regname" class="text-danger" role="alert">
                                                 </div>
                                             </div>
 
@@ -58,14 +58,14 @@
 
                                                     <label class="form-label">Registration Number:</label>
                                                     <input class="form-control" type="text" id="RegistrationNumber" name="RegistrationNumber" placeholder="Enter a registration number" required>
-
+                                                    <span id="error-regnum" class="text-danger" role="alert">
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">VAT Number:</label>
                                                     <input class="form-control" type="text" id="VATNumber" name="VATNumber" placeholder="Enter a VAT number" required>
-
+                                                    <span id="error-vatnum" class="text-danger" role="alert">
                                                 </div>
                                             </div>
 
@@ -84,7 +84,7 @@
 
                                                     <label class="form-label">Physical Address:</label>
                                                     <input class="form-control" type="text" id="PhysicalAddress" name="PhysicalAddress" placeholder="Enter a physical address" required>
-
+                                                    <span id="error-phyadd" class="text-danger" role="alert">
                                                 </div>
                                             </div>
 
@@ -93,14 +93,14 @@
 
                                                     <label class="form-label">Type of Business:</label>
                                                     <input class="form-control" type="text" id="TypeOfBusiness" name="TypeOfBusiness" placeholder="Enter a type of business" required>
-
+                                                    <span id="error-tob" class="text-danger" role="alert">
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Telephone Number:</label>
                                                     <input class="form-control" type="text" id="TelephoneNumber" name="TelephoneNumber" placeholder="Enter a telephone number" required>
-
+                                                    <span id="error-telnum" class="text-danger" role="alert">
                                                 </div>
                                             </div>
                                         </div>
@@ -111,14 +111,14 @@
 
                                                     <label class="form-label">Client Logo:</label>
                                                     <input class="form-control" type="file" id="Client_logo" name="Client_logo" placeholder="Upload a logo" >
-
+                                                    <span id="error-logo" class="text-danger" role="alert">
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Client Icon:</label>
                                                     <input class="form-control" type="file" id="Client_icon" name="Client_icon" placeholder="Upload an icon">
-
+                                                    <span id="error-icon" class="text-danger" role="alert">
                                                 </div>
                                             </div>
 
@@ -135,18 +135,18 @@
 
                                                 <div class="mb-3">
 
-                                                    <input type="checkbox"  name="apicheck[]" value="AVS">
+                                                    <input type="checkbox"  name="apicheck[]" value="AVS" checked>
                                                     <label class="form-label">AVS</label>
 
                                                     &nbsp; &nbsp;
                                                     
-                                                    <input type="checkbox" name="apicheck[]" value="KYC">
-                                                    <label class="form-label">KYC</label>
+                                                    <input type="checkbox" name="apicheck[]" value="KYC" checked>
+                                                    <label class="form-label">Facial</label>
 
                                                     &nbsp; &nbsp;
 
                                                     
-                                                    <input type="checkbox"  name="apicheck[]" value="Compliance">
+                                                    <input type="checkbox"  name="apicheck[]" value="Compliance" checked>
                                                     <label class="form-label">Compliance</label>
 
                                                     &nbsp; &nbsp;
@@ -214,5 +214,76 @@
 
         btn.addEventListener("click", clearAll);
     </script>
+
+{{-- <script type="text/javascript">
+
+        $('#fileUpload-bank-model').on('submit', function(e) {
+            e.preventDefault();
+            $('#error-initials').hide();
+            $('#error-surname').hide();
+            $('#error-acc-number').hide();
+            $('#error-bank-name-dd').hide();
+            $('#error-BankTypeid').hide();
+            $('#error-branch').hide();
+            var form_data = new FormData(this);
+            $.ajax({
+                url: '{{ route('proofofbank') }}'
+                , method: 'POST'
+                , data: form_data
+                , processData: false
+                , contentType: false
+                , beforeSend: function() {
+                    // document.querySelector("#loader-address-model").style.visibility =
+                    //     "visible";
+                }
+                , complete: function() {
+                    // document.querySelector("#loader-address-model").style.display = "none";
+                }
+                , success: function(response) {
+                    if (response.data.status) {
+                        console.log(response.data);
+                        console.log('PASSED');
+                        // $('#bankMessage').text(response.msg);
+                        $("#btn-hidden-bank-modal").click();
+                    } else {
+                        $('#errorMessage').text(response.data.message);
+                        // $('#error-message-bank').text(response.data.message);
+                        $("#btn-hidden-bank-failed").click();
+
+                        // $('#address-failed-model').text(response.data.message);
+                        console.log(response.data);
+                        console.log('FAILED');
+                    }
+
+                    //location.reload();
+
+                }
+                , error: function(response) {
+                    console.log('ERROR');
+                    var errorResBank = response.responseJSON.errors;
+                    console.log(errorResBank);
+                    for (var key in errorResBank) {
+                        var value = errorResBank[key][0];
+                        $('#error-' + key).html(value);
+                        $('#error-' + key).show();
+                    }
+                    // $("#btn-hidden-failed").click();
+                }
+
+            });
+
+            $("#btnYes-cancel").click(function() {
+                location.reload();
+
+            });
+
+            $("#btn-bank-refresh2").click(function() {
+                location.reload();
+            });
+        });
+
+    });
+
+</script> --}}
 
 @endsection

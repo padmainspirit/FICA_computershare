@@ -306,6 +306,46 @@ class AdminCreateController extends Controller
     public function CreateCustomer(Request $request)
     {
 
+        $this->validate(
+            $request,
+            [
+                'TradingName' => ['required', 'string', 'unique:Customers', 'max:255'], 
+                'RegistrationName' => ['required', 'string', 'unique:Customers', 'max:255'],
+                'RegistrationNumber' => ['required', 'unique:Customers', 'max:255'],
+                'PhysicalAddress' => ['required'],
+                'TypeOfBusiness' => ['required'],
+                'TelephoneNumber' => ['required', 'number'],
+                'VATNumber' => ['number', 'max:255'],
+                'Client_logo' => 'required',
+                'Client_icon' => 'required',
+            ],
+            [
+                'unique'        => 'The :attribute has already been registered.',
+                'TradingName.required' => 'The Trading Name is required.',
+                'TradingName.string' => 'Only characters are allowed',
+
+                'RegistrationName.required' => 'The Registration Name is required.',
+                'RegistrationName.string' => 'Only characters are allowed',
+
+                'RegistrationNumber.required' => 'The Registration Number is required.',
+                'RegistrationNumber.number' => 'Only characters are allowed',
+
+                'PhysicalAddress.required' => 'The Physical Address is required.',
+
+                'TypeOfBusiness.required' => 'The Type Of Business is required.',
+
+                'TelephoneNumber.required' => 'The Telephone Number is required.',
+                'TelephoneNumber.number' => 'Only numbers are allowed',
+
+                'VATNumber.number' => 'Only numbers are allowed',
+
+                'Client_logo.required' => 'The Client logo is required.',
+                'Client_icon.required' => 'The Client icon is required.',
+
+                
+            ]
+        );
+
         // dd($request);
 
         if (session()->has('success')) {
@@ -333,12 +373,12 @@ class AdminCreateController extends Controller
             $avschecked = 0;
         }
         
-        if(in_array('KYC', $request->get('apicheck'))){
-            $kycchecked = 1;
+        if(in_array('Facial', $request->get('apicheck'))){
+            $facialchecked = 1;
         }
 
         else{
-            $kycchecked = 0;
+            $facialchecked = 0;
         }
 
         if(in_array('Compliance', $request->get('apicheck'))){
@@ -374,7 +414,7 @@ class AdminCreateController extends Controller
             'Client_Font_Code' => $request->fontcode,
             'Client_Icon' => $request->Client_icon, 
             'Api_AVS'  => $avschecked,
-            'Api_KYC'  => $kycchecked,
+            'Api_Facial'  => $facialchecked,
             'Api_Comp' => $compchecked,  
         ]);
         // dd($newclient);

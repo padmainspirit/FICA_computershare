@@ -61,7 +61,7 @@ class Customer extends Model
         'Client_Icon',
         'Api_Comp',
         'Api_AVS',
-        'Api_KYC',
+        'Api_Facial',
     ];
 
     
