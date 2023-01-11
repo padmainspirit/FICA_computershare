@@ -58,6 +58,10 @@ class Customer extends Model
         'Client_Font_Code',
         'Customer_Name',
         'Customer_Email',
+        'Client_Icon',
+        'Api_Comp',
+        'Api_AVS',
+        'Api_KYC',
     ];
 
     
