@@ -47,6 +47,7 @@ class RegisterController extends Controller
             'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
             'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            // 'IDNumber' => 'required|digits:13',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
             'PhoneNumber' => ['required', 'digits:10', 'max:255', 'unique:CustomerUsers'],
             'Password' => [
@@ -56,7 +57,7 @@ class RegisterController extends Controller
             ],
             'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
         ], [
-            'unique'        => 'The :attribute already been registered.',
+            'unique'        => 'The :attribute has already been registered.',
             'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'PhoneNumber.required' => 'The cellphone number field is required.',
@@ -91,6 +92,7 @@ class RegisterController extends Controller
             return back()->with('fail', 'Please contact Administrator')->with('customer', $customer);
         }
 
+        $emailPassword = $request['Password'];
         $request['Password'] = Hash::make($request['Password']);
         $request['IsAdmin'] = 0;
         $request['CustomerId'] = $customer->Id;
@@ -121,7 +123,7 @@ class RegisterController extends Controller
                 'auth.emailreg',
                 [
                     'token' => $token, 'FirstName' => $FirstName, 'LastName' => $LastName, 'Email' => $Email,
-                    'Password' => $Password, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
+                    'Password' => $emailPassword, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
                 ],
                 function ($message) use ($request) {
                     $message->to($request->Email);

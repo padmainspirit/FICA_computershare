@@ -314,8 +314,8 @@ class AdminCreateController extends Controller
                 'RegistrationNumber' => ['required', 'unique:Customers', 'max:255'],
                 'PhysicalAddress' => ['required'],
                 'TypeOfBusiness' => ['required'],
-                'TelephoneNumber' => ['required', 'number'],
-                'VATNumber' => ['number', 'max:255'],
+                'TelephoneNumber' => ['required', 'numeric'],
+                'VATNumber' => ['numeric', 'max:255'],
                 'Client_logo' => 'required',
                 'Client_icon' => 'required',
             ],
@@ -328,16 +328,16 @@ class AdminCreateController extends Controller
                 'RegistrationName.string' => 'Only characters are allowed',
 
                 'RegistrationNumber.required' => 'The Registration Number is required.',
-                'RegistrationNumber.number' => 'Only characters are allowed',
+                'RegistrationNumber.numeric' => 'Only characters are allowed',
 
                 'PhysicalAddress.required' => 'The Physical Address is required.',
 
                 'TypeOfBusiness.required' => 'The Type Of Business is required.',
 
                 'TelephoneNumber.required' => 'The Telephone Number is required.',
-                'TelephoneNumber.number' => 'Only numbers are allowed',
+                'TelephoneNumber.numeric' => 'Only numbers are allowed',
 
-                'VATNumber.number' => 'Only numbers are allowed',
+                'VATNumber.numeric' => 'Only numbers are allowed',
 
                 'Client_logo.required' => 'The Client logo is required.',
                 'Client_icon.required' => 'The Client icon is required.',

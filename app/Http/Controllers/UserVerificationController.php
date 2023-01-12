@@ -126,6 +126,7 @@ class UserVerificationController extends Controller
                         $tempData5 = explode(';', $tempData4[0]);
                         //return $tempData5;
 
+                        app('debugbar')->info('tempData5');
                         app('debugbar')->info($tempData5);
 
                         $returnData = ([

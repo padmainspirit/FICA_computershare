@@ -33,7 +33,7 @@
         @endif --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
                 class="img-fluid">
         </div>
 
@@ -86,7 +86,7 @@
                                                 class="input-group auth-pass-inputgroup @error('Password') is-invalid @enderror"> --}}
                                                 <input type="password" name="password" required
                                                     class="form-control  @error('password') is-invalid @enderror"
-                                                    id="password" value="" placeholder="password"
+                                                    id="password" value="" placeholder="Password"
                                                     aria-label="password" aria-describedby="password-addon" />
                                                 {{-- <button class="btn btn-light " type="button" id="password-addon"><i
                                                         class="mdi mdi-eye-outline"></i></button> --}}

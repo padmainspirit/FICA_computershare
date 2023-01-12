@@ -2855,7 +2855,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
-                                <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1" id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px" autocomplete="off" required>
+                                <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1" id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px" autocomplete="off">
                                 <span id="error-py-street-line-1" class="text-danger" role="alert">
                                 </span>
                                 {{-- @if ($errors->has('py-street-line-1'))
@@ -2866,7 +2866,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
-                                <input type="type" class="form-control" id="py-street-line-2" style="padding-left: 24px" name="py-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off" required>
+                                <input type="type" class="form-control" id="py-street-line-2" style="padding-left: 24px" name="py-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off">
                                 <span id="error-py-street-line-2" class="text-danger" role="alert">
                                 </span>
                             </div>
@@ -2877,7 +2877,7 @@ Fica Progress
 
                                 <div class="input-group" style="height: 35px; width: 100%;">
 
-                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
+                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off">
                                     <span id="error-py-city" class="text-danger" role="alert">
                                     </span>
                                     {{-- <select class="form-select" autocomplete="off"
@@ -2900,7 +2900,7 @@ Fica Progress
                                         name="py-state"required> --}}
                                 <label for="py-state" class="form-label">State/Province/Region</label>
                                 <div class="input-group" style="height: 35px; width: 100%;">
-                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-state" name="py-state" required>
+                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-state" name="py-state">
                                         <option hidden>Select Province</option>
                                         @foreach ($provincesNames as $province)
                                         <option value="{{ $province->Province_name }}">
@@ -2916,7 +2916,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-zip" class="form-label">ZIP</label>
-                                <input type="type" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" required>
+                                <input type="type" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" >
                                 <span id="error-py-zip" class="text-danger" role="alert">
                                 </span>
                             </div>

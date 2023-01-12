@@ -595,16 +595,16 @@
                                                                                 <p style="color: green; text-transform: uppercase; display: none">
                                                                                     PASS</p>
                                                                                     @elseif ($KYCStatusDesc == 'Exception: 1 Matched Address Source')
-                                                                                    <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                    <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                    <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                    <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                         EXCEPTION 1</p>
                                                                                         @elseif ($KYCStatusDesc == 'Exception: 2 Matched Address Sources')
-                                                                                        <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                        <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                        <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                        <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                             EXCEPTION 2</p>
                                                                                             @elseif ($KYCStatusDesc == 'Exception: 3 Matched Address Sources')
-                                                                                            <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                            <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                            <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                            <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                                 EXCEPTION 3</p>
                                                                                 @else
                                                                                 <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
@@ -2235,15 +2235,15 @@ placeholder="Enter Your Marriage Type">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-1">
-                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #1a4f6e; border-color: #1a4f6e">Save</button>
+                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #93186c; border-color: #1a4f6e">Save</button>
                         </div>
 
                         <div class="col-lg-1">
-                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #1a4f6e; border-color: #1a4f6e">Edit</button>
+                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #93186c; border-color: #1a4f6e">Edit</button>
                         </div>
 
                         <div class="col-lg-2">
-                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #1a4f6e; border-color: #1a4f6e">Cancel</button>
+                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #93186c; border-color: #1a4f6e">Cancel</button>
                         </div>
 
                     </div>

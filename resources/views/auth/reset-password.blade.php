@@ -485,7 +485,7 @@
                                 <div class="mt-3 text-center">
 
                                     <button type="button" class="btn w-md text-white" id="reset-btn"
-                                        style="background-color: #1a4f6e; border-color: #1a4f6e;">Confirm</button>
+                                        style="background-color: #93186c; border-color: #93186c;">Confirm</button>
 
                                 </div>
                                 </form>
