@@ -356,6 +356,12 @@
                                             </div>
                                         @endif
 
+                                        @if ($message)
+                                        <div class="alert alert-danger text-center mb-4" role="alert">
+                                            The ID number is invalid or does not match surname. Please enter a valid ID number
+                                        </div>
+                                        @endif
+
                                         @csrf
 
                                         <div class="mb-3">

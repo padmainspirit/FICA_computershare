@@ -109,8 +109,8 @@ class awsController extends Controller
 
         // if($$request->)
 
-
-        //app('debugbar')->info($texts);
+        app('debugbar')->info('texts');
+        app('debugbar')->info($texts);
         //$this->address($texts, $request); //uncomment
         //$this->smartCardAndGreenBookID($texts, $request); //uncomment
         // $test = $this->proofOfBank($texts);
@@ -139,7 +139,7 @@ class awsController extends Controller
                             $numberFromDoc =  filter_var($texts[$j], FILTER_SANITIZE_NUMBER_INT);
                             $temp =  explode("-", $numberFromDoc);
                             if ((strlen($temp[0])) >= 12) {
-                                app('debugbar')->info('ID Number: ' . $temp[0]);
+                                // app('debugbar')->info('ID Number: ' . $temp[0]);
                                 $IdAndConfidence = $temp;
                             }
                             array_push($tempData, $temp);
@@ -203,8 +203,12 @@ class awsController extends Controller
             array_push($IdAndConfidence, isset($IssueDateResultResponse[0]) ? $IssueDateResultResponse[0] : null);
             array_push($IdAndConfidence, $Nationality[0], isset($Nationality[0]) ? $Nationality[0] : null);
             // app('debugbar')->info($tempData);
+            app('debugbar')->info('IdAndConfidence');
             app('debugbar')->info($IdAndConfidence);
+
+            app('debugbar')->info('IssueDate');
             app('debugbar')->info($IssueDate);
+
 
             //ID Data formarted
 
@@ -246,6 +250,7 @@ class awsController extends Controller
 
                     // app('debugbar')->info($fica);
 
+                    app('debugbar')->info('IdDataResult');
                     app('debugbar')->info($IdDataResult);
 
                     //save data on the TBL_Consumer_IDENTITY

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\CustomerUser;
+use App\Http\Controllers\VerificationDataController;
 use App\Models\ConsumerIdentity;
 use App\Models\Banks;
 use App\Models\Customer;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Console\View\Components\Alert;
 
 class RegisterController extends Controller
 {
@@ -28,8 +30,9 @@ class RegisterController extends Controller
     /**  index function to render registration form with customer details*/
     public function index(Request $request)
     {
+        $message = '';
         $customer = Customer::getCustomerDetailsByUrl();
-        return view('auth.register', ['customer' => $customer]);
+        return view('auth.register', ['customer' => $customer])->with('message', $message);
     }
 
 
@@ -46,8 +49,8 @@ class RegisterController extends Controller
         $this->validate($request, [
             'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
-            // 'IDNumber' => 'required|digits:13',
+            // 'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            'IDNumber' => 'required|digits:13',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
             'PhoneNumber' => ['required', 'digits:10', 'max:255', 'unique:CustomerUsers'],
             'Password' => [
@@ -101,23 +104,35 @@ class RegisterController extends Controller
 
         $request['IsRestricted'] = 0;
 
+        $LastName = $request->LastName;
+        $IDNumber = $request->IDNumber;
+
+        $userData = [];
+        $verifyData = new VerificationDataController();
+        array_push($userData, $LastName, $IDNumber);
+
+        //  dd($userData[1]);
+
+        if ($userData != null) {
+
+            $dataValidated = $verifyData->verifyUser($userData[1], $request);
+            $IdResult =   $dataValidated;
+        }
+
+        session()->flashInput($request->input()); //gets user old values
+
+
         try {
-            $user = CustomerUser::create($request->all());
-            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
-            CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
-            $token = Str::random(16);
-            $FirstName = $request->FirstName;
-            $LastName = $request->LastName;
-            $Email = $request->Email;
-            $Password = $request->Password;
 
+            if(Str::upper($IdResult) == Str::upper($LastName))
+            {
 
-            // $Customerid = $request->CustomerId;
-            // $customer = Customer::where('Id', '=',  $Customerid)->first();
-            // $Logo = $customer['Client_Logo'];
-            // $TradingName = $customer['TradingName'];
-
-            // dd($Customerid);
+                $user = CustomerUser::create($request->all());
+                CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
+                $token = Str::random(16);
+                $FirstName = $request->FirstName;
+                $Email = $request->Email;
+                $Password = $request->Password;
 
             Mail::send(
                 'auth.emailreg',
@@ -130,6 +145,30 @@ class RegisterController extends Controller
                     $message->subject('New Registered User');
                 }
             );
+
+            }
+            
+            else
+            {
+                
+                $message = 'The ID number is invalid or does not match surname. Please enter a valid ID number';
+               
+                    return view('auth.register')->with('message', $message)
+                    ->with('customer',$customer,);
+                // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
+
+            }
+            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+            
+         
+
+            // $Customerid = $request->CustomerId;
+            // $customer = Customer::where('Id', '=',  $Customerid)->first();
+            // $Logo = $customer['Client_Logo'];
+            // $TradingName = $customer['TradingName'];
+
+
+          
         } catch (\Exception $e) {
             print_r($e->getMessage());
             exit;
@@ -137,5 +176,12 @@ class RegisterController extends Controller
 
 
         return redirect()->route('login', ['customer' => $customer->RegistrationName]);
+    }
+
+    public function validateUser(Request $request)
+    {
+        $userData = [];
+        array_push($userData, 'John', 'Peter');
+
     }
 }

@@ -368,9 +368,7 @@ class FicaProcessController extends Controller
         $this->validate(
             $request,
             [
-
                 'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
-
             ],
             [
                 'file.required' => 'Wrong document format. Please upload a PDF or Image file',
@@ -511,6 +509,7 @@ class FicaProcessController extends Controller
             $pdfPath = 'pdf/' .  $fileName;
             // $pdfPath = 'C:/PROJECT/V1.2/FICA_V1/public/pdf/' .  $fileName;
 
+            app('debugbar')->info('pdfPath');
             app('debugbar')->info($pdfPath);
             $imagePath = $this->convertingPdfToImages($pdfPath);
         } elseif ($type == 'jpg'  || 'jpeg' || 'tiff' || 'png') {
@@ -539,9 +538,12 @@ class FicaProcessController extends Controller
         //me
         $mergedData = call_user_func_array('array_merge', $extractedData);
 
+        app('debugbar')->info('extractedData');
         app('debugbar')->info($extractedData);
 
+        app('debugbar')->info('mergedData');
         app('debugbar')->info($mergedData);
+
 
         //ID Upload checks
         if ($request->stage == 'id') {

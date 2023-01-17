@@ -24,7 +24,7 @@ use App\Models\ConsumerComplianceSanction;
 use App\Models\ConsumerComplianceEntityAdditional;
 use App\Models\BankAccountType;
 use Illuminate\Support\Facades\Auth;
-
+use Psy\Readline\Hoa\Console;
 
 class UserVerificationController extends Controller
 {
@@ -81,7 +81,7 @@ class UserVerificationController extends Controller
 
 
                 $tempData = explode('>', $returnValue);
-                //  dd($tempData[5]);
+                //   dd($tempData[5]);
 
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
@@ -125,6 +125,7 @@ class UserVerificationController extends Controller
                         $tempData4 = str_replace('&gt', '', $tempData3);
                         $tempData5 = explode(';', $tempData4[0]);
                         //return $tempData5;
+
 
                         app('debugbar')->info('tempData5');
                         app('debugbar')->info($tempData5);
@@ -777,7 +778,9 @@ class UserVerificationController extends Controller
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
             $customerID = $customers->Id;
 
+            // app('debugbar')->info('client');
             app('debugbar')->info($client);
+
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
                 $soapUrlLive = config("app.API_SOAP_URL_LIVE_VERIFY_BANK");
                 $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_BANK");
@@ -797,6 +800,7 @@ class UserVerificationController extends Controller
                     $tempData2 = explode('<', $tempData[5]);
                     $ticketNo = $tempData2[0];
 
+                    app('debugbar')->info('ticketNo');
                     app('debugbar')->info($ticketNo);
                     $returnValue = $this->soapValidateTicketNo($soapUrlLive, $username, $password, $ticketNo);
                     $tempData = explode('>', $returnValue);
@@ -1032,6 +1036,8 @@ class UserVerificationController extends Controller
 
                         if ($tempData5[1] == 'ResultFile') {
                             app('debugbar')->info($returnData);
+                            app('debugbar')->info('tempData5');
+                            app('debugbar')->info($tempData5);
                             //bank verification successful
                             AVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
