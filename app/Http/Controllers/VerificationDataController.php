@@ -257,7 +257,7 @@ class VerificationDataController extends Controller
             );
             $id_no = $id;
 
-            app('debugbar')->info($id_no);
+            // app('debugbar')->info($id_no);
             $context  = stream_context_create($arrContextOptions);
 
             $result = file_get_contents($url, false, $context);
@@ -301,7 +301,7 @@ class VerificationDataController extends Controller
 
             // dd($idas_api_data);
 
-            return  $idas_api_data[5];
+            return  $idas_api_data;
 
             // dd($idas_api_data[5]);
 

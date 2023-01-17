@@ -124,8 +124,10 @@ class RegisterController extends Controller
 
         try {
 
-            if(Str::upper($IdResult) == Str::upper($LastName))
+            if($IdResult[0] == $IDNumber)
             {
+                if(Str::upper($IdResult[5]) == Str::upper($LastName))
+                {
 
                 $user = CustomerUser::create($request->all());
                 CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
@@ -147,6 +149,7 @@ class RegisterController extends Controller
             );
 
             }
+        }
             
             else
             {
