@@ -3156,7 +3156,7 @@ placeholder="Enter Your Marriage Type">
                         <div class="col-md-4">
                             <div class="mb-3" style=" width: 225px; height: 27px;">
 
-                                <input type="text" id="Tax_Number" name="Tax_Number" class="form-control input-sm" value="{{ $Tax_Number }}" style="height: 27px; padding-left: 24px; text-transform: uppercase;font-size: 12px;" placeholder="Enter Your Income Tax Number" pattern="^[0-9]*$" required>
+                                <input type="text" id="Tax_Number" name="Tax_Number" class="form-control input-sm" value="{{ $Tax_Number }}" style="height: 27px; padding-left: 24px; text-transform: uppercase;font-size: 12px;" placeholder="Enter Your Income Tax Number" pattern="^[0-9]*$">
 
                             </div>
                         </div>

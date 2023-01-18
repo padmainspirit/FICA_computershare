@@ -54,6 +54,8 @@ class awsController extends Controller
     public function TextractAmazonOCR($path, Request $request)
     {
 
+        // print_r('After path');
+        // exit;
 
         $Key = config("app.TEXTRACT_CLIENT_KEY");
         $Secret = config("app.TEXTRACT_CLIENT_SECRET");
@@ -387,6 +389,9 @@ class awsController extends Controller
         $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
         $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
         // app('debugbar')->info($request);
+
+        
+        // dd($ficaProgress);
 
         FICA::where('FICA_id', $fica->FICA_id)->update(
             array(
@@ -1176,6 +1181,9 @@ class awsController extends Controller
         // return $bankResponse;
         return view('fica-process', ['bankTpye' => $bankTpye,]);
     }
+
+
+    
 }
 class OCRdata
 {

@@ -40,6 +40,7 @@ use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use function Symfony\Component\String\b;
 
@@ -364,6 +365,9 @@ class FicaProcessController extends Controller
 
     public function uploadfile(Request $request)
     {
+        // print_r('After path');
+        // exit;
+
 
         $this->validate(
             $request,
@@ -499,11 +503,13 @@ class FicaProcessController extends Controller
         //Check if uploaded file is pdf
 
         $path = public_path('tempImages/');
-
+       
+        
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
         if ($type == 'pdf') {
+            app('debugbar')->info($type);
             $request->file->move(public_path('pdf'), $fileName);
             //$firstPage =  $fileName . '[0]';
             $pdfPath = 'pdf/' .  $fileName;
@@ -544,6 +550,7 @@ class FicaProcessController extends Controller
         app('debugbar')->info('mergedData');
         app('debugbar')->info($mergedData);
 
+        
 
         //ID Upload checks
         if ($request->stage == 'id') {
@@ -573,6 +580,7 @@ class FicaProcessController extends Controller
                     )
                 );
             }
+           
 
             app('debugbar')->info($request);
 

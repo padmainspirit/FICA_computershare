@@ -3477,7 +3477,7 @@ Fica Progress
                     <br><br>
                     <div class="row justify-content-center">
                         <div class="col-xl-10">
-                            <h5 style="color: #696969">Wrong document format. Please upload a PDF or Image file
+                            <h5 style="color: #696969">THERE IS AN ERROR!!!!
                             </h5>
                         </div>
                     </div>
@@ -3564,9 +3564,10 @@ Fica Progress
                     $('#image-upload-identity').hide();
                 }
                 , success: function(response) {
+                    console.log(response)
                     if (response.data.status == true) {
                         $('#textid').append(response.data.IdNumber);
-                        // console.log(response.data)
+                        
                         $("#btn-hidden-id").click();
                     } else {
                         $("#btn-hidden-failed").click();
@@ -3575,8 +3576,9 @@ Fica Progress
                 }
                 , error: function(response) {
                     $("#btn-invalid-upload-format").click();
-                    //  console.log('error')
-                    // $("#btn-hidden-failed").click();
+                    // console.log('error')
+                    console.log(response.data)
+                    //  $("#btn-hidden-failed").click();
                 }
 
             });

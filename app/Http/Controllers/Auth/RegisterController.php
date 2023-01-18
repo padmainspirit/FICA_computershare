@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\CustomerUser;
-use App\Http\Controllers\VerificationDataController;
+use App\Http\Controllers\awsController;
+use App\Http\Controllers\VerifyUserController;
 use App\Models\ConsumerIdentity;
 use App\Models\Banks;
 use App\Models\Customer;
@@ -108,7 +109,7 @@ class RegisterController extends Controller
         $IDNumber = $request->IDNumber;
 
         $userData = [];
-        $verifyData = new VerificationDataController();
+        $verifyData = new VerifyUserController();
         array_push($userData, $LastName, $IDNumber);
 
         //  dd($userData[1]);
@@ -126,6 +127,7 @@ class RegisterController extends Controller
 
             if($IdResult[0] == $IDNumber)
             {
+                // dd('id match');
                 if(Str::upper($IdResult[5]) == Str::upper($LastName))
                 {
 
@@ -149,18 +151,38 @@ class RegisterController extends Controller
             );
 
             }
-        }
-            
+
             else
             {
+
+                // dd('no match');
+
                 
-                $message = 'The ID number is invalid or does not match surname. Please enter a valid ID number';
+                // $message = 'The ID number entered does not match surname. Please enter a valid ID number';
                
-                    return view('auth.register')->with('message', $message)
+                    return view('auth.register')->with('message', 'The ID number entered does not match surname. Please enter a valid ID number')
                     ->with('customer',$customer,);
                 // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
 
             }
+        }
+
+        else
+            {
+
+                
+                // $message = 'The ID number is invalid. Please enter a valid ID number';
+               
+                    return view('auth.register')->with('message', 'The ID number is invalid. Please enter a valid ID number')
+                    ->with('customer',$customer,);
+                // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
+
+            }
+
+
+        
+            
+            
             //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
             
          
@@ -180,11 +202,5 @@ class RegisterController extends Controller
 
         return redirect()->route('login', ['customer' => $customer->RegistrationName]);
     }
-
-    public function validateUser(Request $request)
-    {
-        $userData = [];
-        array_push($userData, 'John', 'Peter');
-
-    }
+   
 }

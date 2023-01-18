@@ -142,6 +142,7 @@ Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name(
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
 Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');
+Route::get('/verifyUserd', [App\Http\Controllers\VerifyUserController::class, 'verifyUser'])->name('verifyUserd');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
