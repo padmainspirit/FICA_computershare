@@ -311,7 +311,8 @@ class FicaProcessController extends Controller
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all('bankname')->sortBy('bankname');
+        $banks = Banks::all()->sortBy('bankname');
+        
 
 
         //Geting Provinces

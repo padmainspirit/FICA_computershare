@@ -837,11 +837,11 @@ class UserVerificationController extends Controller
                         // $contactNo = '0727926612';
 
                         $accountHolder = explode(" ", $avs->Account_name);
+                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);  
 
-                        dd($accountHolder);
                         app('debugbar')->info('$accountHolder');
                         app('debugbar')->info($accountHolder);
-                        $surname =  $accountHolder[1];
+                        $surname =  $SNAME;
                         $id_type = 'SID';
                         $initials =  $accountHolder[0];
                         $accNo =   $avs->Account_no;

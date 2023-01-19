@@ -3197,10 +3197,10 @@ Fica Progress
             <div class="mb-3">
                 <label for="bank-name-dd" class="form-label">Bank Name</label>
                 <div class="input-group" style="height: 35px; width: 100%;">
-                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
+                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off"  style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
                         <option hidden>Select Bank Name</option>
                         @foreach ($bankNames as $bank)
-                        <option value="{{ $bank->bankname }}">
+                        <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode }}">
                             {{ $bank->bankname }}
                         </option>
                         @endforeach
@@ -3220,7 +3220,7 @@ Fica Progress
         <div class="mb-3">
             <label for="acc-number" class="form-label">Account Type</label>
             <div class="input-group" style="height: 35px; width: 100%;">
-                <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="BankTypeid" name="BankTypeid">
+                <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="" name="BankTypeid">
                     @if ($bankTpye->count())
                     <option hidden>Select Bank Type</option>
                     @foreach ($bankTpye as $type)
@@ -3243,7 +3243,7 @@ Fica Progress
 <div class="col-md-12">
     <div class="mb-3">
         <label for="branch" class="form-label">Branch Code</label>
-        <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" autocomplete="off" id="branch" name="branch" placeholder="ENTER BRANCH CODE">
+        <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" readonly id="branch" name="branch" value="">
         <span id="error-branch" class="text-danger" role="alert">
         </span>
         {{-- @error('branch')
@@ -4672,5 +4672,19 @@ Fica Progress
         document.getElementById('staticBackdrop').hide();
     });
 
+</script>
+
+<script>
+
+$('#bank-name-dd').on('change',function(){
+    var price = $(this).children('option:selected').data('price');
+    $('#branch').val(price);
+});
+
+// let sel = document.getElementById('bank-name-dd');
+// sel.addEventListener('click', function (e) {
+//     let price = e.srcElement.selectedOptions["0"].dataset.price;
+//     document.getElementById('branch').value = price;
+// });
 </script>
 @endsection
