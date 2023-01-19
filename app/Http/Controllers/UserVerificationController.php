@@ -2343,6 +2343,8 @@ class UserVerificationController extends Controller
         ));
 
         $response = curl_exec($curl);
+
+        // dd($response);
         // app('debugbar')->info($response);
 
         $err = curl_error($curl);
@@ -2356,5 +2358,7 @@ class UserVerificationController extends Controller
 
             return $response;
         }
+
+       
     }
 }
