@@ -838,6 +838,9 @@ class UserVerificationController extends Controller
 
                         $accountHolder = explode(" ", $avs->Account_name);
 
+                        dd($accountHolder);
+                        app('debugbar')->info('$accountHolder');
+                        app('debugbar')->info($accountHolder);
                         $surname =  $accountHolder[1];
                         $id_type = 'SID';
                         $initials =  $accountHolder[0];

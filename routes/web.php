@@ -79,6 +79,7 @@ Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->
 Route::get('/startfica', [App\Http\Controllers\GetStartedController::class, 'startFica'])->name('startfica');
 Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('startfica');
 Route::post('/start-fica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
+Route::post('/deletes3', [App\Http\Controllers\FicaProcessController::class, 'deletefilefroms3'])->name('delete-s3');
 Route::post('/startfica', [App\Http\Controllers\FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 
 // Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');

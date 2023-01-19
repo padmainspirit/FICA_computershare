@@ -2787,12 +2787,24 @@ Fica Progress
                         {{-- </a> --}}
                     </form>
                 </div>
+
+                <form method="post" action='{{ route('delete-s3') }}' enctype="multipart/form-data">
+                    @csrf
+                    {{-- <a href="javascript:window.location = window.location"> --}}
+                    <button type="submit" class="btn btn-primary" id='id-model-not' style="width: 120px; background-color: #5e7b00; border-color: #5e7b00">No
+                    </button>
+                    {{-- </a> --}}
+                </form>
+            </div>
+
+                {{-- <button type="submit" class="btn btn-primary" id='id-model-not' style="width: 120px; background-color: #5e7b00; border-color: #5e7b00" onclick="{{$delete}}"><a href="{{ route('delete-s3') }}"></a>No
+                </button> --}}
                 {{-- <a href="javascript:window.location = window.location"> --}}
-                <a href="javascript:window.history.forward(1)">
+                {{-- <a href="javascript:window.history.forward(1)">
                     <div style="padding-left:2px">
-                        <button type="button" class="btn btn-secondary" id='id-model-no' data-bs-dismiss="modal" style="width: 120px; background-color: #5e7b00; border-color: #5e7b00">No</button>
+                        <button type="button" class="btn btn-secondary" id='id-model-no' data-bs-dismiss="modal" style="width: 120px; background-color: #5e7b00; border-color: #5e7b00"><a href="{{ route('delete-s3') }}"></a>No</button>
                     </div>
-                </a>
+                </a> --}}
             </div>
         </div>
         <br>
@@ -3477,7 +3489,7 @@ Fica Progress
                     <br><br>
                     <div class="row justify-content-center">
                         <div class="col-xl-10">
-                            <h5 style="color: #696969">THERE IS AN ERROR!!!!
+                            <h5 style="color: #696969">Wrong document format. Please upload a PDF or Image file
                             </h5>
                         </div>
                     </div>
@@ -3567,7 +3579,6 @@ Fica Progress
                     console.log(response)
                     if (response.data.status == true) {
                         $('#textid').append(response.data.IdNumber);
-                        
                         $("#btn-hidden-id").click();
                     } else {
                         $("#btn-hidden-failed").click();
