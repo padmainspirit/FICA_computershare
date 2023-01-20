@@ -18,10 +18,10 @@ class VerificationDataController extends Controller
 
     public function __construct()
     {
-        $this->username = config("app.VERIFICATION_USER_NAME");
-        $this->pass = config("app.VERIFICATION_USER_PASSWORD");
-        $this->url = config("app.VERIFICATION_USER_URL");
-        $this->apiSearch = config("app.VERIFICATION_USER_API_URL");
+        // $this->username = config("app.VERIFICATION_USER_NAME");
+        // $this->pass = config("app.VERIFICATION_USER_PASSWORD");
+        // $this->url = config("app.VERIFICATION_USER_URL");
+        // $this->apiSearch = config("app.VERIFICATION_USER_API_URL");
         date_default_timezone_set('Africa/Johannesburg');
     }
 

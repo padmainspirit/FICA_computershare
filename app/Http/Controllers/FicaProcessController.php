@@ -624,7 +624,9 @@ class FicaProcessController extends Controller
 
             // if ($docDate <= 700) {
             // Store Proof Of Address document in S3 if document date is less than 3 months
-            $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
+            $filePath = $customerUser->CustomerId . '- test' . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
+             //Production S3 Folder
+           // $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
                 $pdfTempPath = public_path('pdf/' . $fileName);
@@ -657,7 +659,9 @@ class FicaProcessController extends Controller
 
             // if ($docDate <= 10) {
             // Store Bank document in S3 if document date is less than 3 months
-            $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
+            $filePath = $customerUser->CustomerId . '- test' . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
+             //Production S3 Folder
+           // $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
 
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
