@@ -33,7 +33,7 @@
         @endif --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
+            <img src="{{ URL::asset($Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
                 class="img-fluid">
         </div>
 
@@ -134,7 +134,7 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <a href="{{ route('forget', ['customer' => $customer->RegistrationName]) }}"
+                                            <a href="{{ route('forget', [$RegistrationName]) }}"
                                                 class="fw-medium text-primary">
                                                 <span style="color: #93186c">Forgot your password?</span>
                                             </a>
@@ -142,7 +142,7 @@
 
                                         <div class="mt-2 text-center">
                                             <p>Not registered yet? <a
-                                                    href="{{ route('register', ['customer' => $customer->RegistrationName]) }}"
+                                                    href="{{ route('register', [$RegistrationName]) }}"
                                                     class="fw-medium text-primary">
                                                     <span style="color: #93186c">Register now</span></a>
                                             </p>
@@ -744,7 +744,7 @@
                                         <!-- end Validation-->
 
                                         <div class="mt-1 text-center">
-                                            <p style="font-size: 10px;">© {{ $customer->RegistrationName }}
+                                            <p style="font-size: 10px;">© {{ $RegistrationName }}
                                                 <script>
                                                     document.write(new Date().getFullYear())
                                                 </script>

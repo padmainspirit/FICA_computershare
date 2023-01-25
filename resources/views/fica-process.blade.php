@@ -4675,7 +4675,6 @@ Fica Progress
 </script>
 
 <script>
-
 $('#bank-name-dd').on('change',function(){
     var price = $(this).children('option:selected').data('price');
     $('#branch').val(price);
