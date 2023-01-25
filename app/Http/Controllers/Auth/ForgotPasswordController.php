@@ -28,8 +28,12 @@ class ForgotPasswordController extends Controller
         //$Customerid = $request->session()->get('Customerid');
         $customer = Customer::getCustomerDetailsByUrl();
 
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+
         return view('auth.forget-password')->with('message', $message)
-            ->with('customer', $customer);
+            ->with('customer', $customer)
+            ->with('Client_Logo', $customer->Client_Logo);
     }
 
     public function submitForgetPasswordForm(Request $request)
@@ -93,16 +97,19 @@ class ForgotPasswordController extends Controller
 
                 $message = 'We have e-mailed your password reset link.';
                 //$request->session()->put('message', $message);
-                return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+                return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+                ->with('Client_Logo', $customer->Client_Logo);
             } else {
                 $message = 'No registered user found.';
                 //$request->session()->put('message', $message);
-                return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+                return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+                ->with('Client_Logo', $customer->Client_Logo);
             }
         } else {
             $message = 'No registered user found.';
             //$request->session()->put('message', $message);
-            return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+            return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+            ->with('Client_Logo', $customer->Client_Logo);
         }
     }
 

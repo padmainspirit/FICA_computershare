@@ -134,7 +134,7 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <a href="{{ route('forget', [$RegistrationName]) }}"
+                                            <a href="{{ route('forget', ['customer' => $RegistrationName]) }}"
                                                 class="fw-medium text-primary">
                                                 <span style="color: #93186c">Forgot your password?</span>
                                             </a>
@@ -142,7 +142,7 @@
 
                                         <div class="mt-2 text-center">
                                             <p>Not registered yet? <a
-                                                    href="{{ route('register', [$RegistrationName]) }}"
+                                                    href="{{ route('register', ['customer' => $RegistrationName]) }}"
                                                     class="fw-medium text-primary">
                                                     <span style="color: #93186c">Register now</span></a>
                                             </p>

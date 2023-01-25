@@ -33,7 +33,9 @@ class RegisterController extends Controller
     {
         $message = '';
         $customer = Customer::getCustomerDetailsByUrl();
-        return view('auth.register', ['customer' => $customer])->with('message', $message);
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+        return view('auth.register', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' => $RegistrationName])->with('message', $message);
     }
 
 
@@ -161,7 +163,8 @@ class RegisterController extends Controller
                 // $message = 'The ID number entered does not match surname. Please enter a valid ID number';
                
                     return view('auth.register')->with('message', 'The ID number entered does not match surname. Please enter a valid ID number')
-                    ->with('customer',$customer,);
+                    ->with('customer',$customer)
+                    ->with('Client_Logo', $customer->Client_Logo);
                 // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
 
             }
@@ -174,7 +177,8 @@ class RegisterController extends Controller
                 // $message = 'The ID number is invalid. Please enter a valid ID number';
                
                     return view('auth.register')->with('message', 'The ID number is invalid. Please enter a valid ID number')
-                    ->with('customer',$customer,);
+                    ->with('customer', $customer)
+                    ->with('Client_Logo', $customer->Client_Logo);
                 // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
 
             }
