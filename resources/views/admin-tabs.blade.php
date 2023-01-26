@@ -997,10 +997,14 @@
                                                                                 <i class="far fa-check-circle" style="font-size: 24px; color: green;"></i>
                                                                                 <p style="color: green; text-transform: uppercase; display: none">
                                                                                     PASS</p>
+                                                                               @elseif ($TaxNumMatch == 'No')
+                                                                               <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
+                                                                               <p style="color: red; text-transform: uppercase; display: none">
+                                                                                   FAIL</p>
                                                                                 @else
-                                                                                <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
-                                                                                <p style="color: red; text-transform: uppercase; display: none">
-                                                                                    FAIL</p>
+                                                                                    <i class="far fa-question-circle" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
+                                                                                    Not Provided</p>
                                                                                 @endif
                                                                             </td>
                                                                         </tr>
@@ -2035,9 +2039,8 @@ placeholder="Enter Your Marriage Type">
                         <div class="col-md-4">
                             <div class="input-group mb-3" style="height: 27px; width: 225px;">
 
-                                <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo" class="form-control input-sm @error('WorkTelephoneNo') is-invalid @enderror" "
-                                                                                                                                        value=" {{ $WorkTelCode }}{{ $WorkTelNo }}" style="padding-left: 24px; height: 27px; font-size: 12px;
-                                                             width: 225px; text-transform: uppercase;" placeholder="Enter Work Number" pattern="^\d{10}$" required>
+                                <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo" class="form-control input-sm @error('WorkTelephoneNo') is-invalid @enderror" value="{{ $WorkTelCode }}{{ $WorkTelNo }}" style="padding-left: 24px; height: 27px; font-size: 12px;
+                                width: 225px; text-transform: uppercase;" placeholder="Enter Work Number" pattern="^\d{10}$">
 
                             </div>
                             @error('WorkTelephoneNo')
@@ -2059,7 +2062,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="input-group" style="height: 27px; width: 225px;">
 
                                     <input type="text" id="HomeTelephoneNo" name="HomeTelephoneNo" class="form-control input-sm @error('HomeTelephoneNo') is-invalid @enderror" value="{{ $HomeTelCode }}{{ $HomeTelNo }}" style="height: 27px; padding-left: 24px; font-size: 12px;
-                                                                text-transform: uppercase;" placeholder="Enter Home Number" pattern="^\d{10}$" required>
+                                                                text-transform: uppercase;" placeholder="Enter Home Number" pattern="^\d{10}$">
 
                                 </div>
                                 @error('HomeTelephoneNo')

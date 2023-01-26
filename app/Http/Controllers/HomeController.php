@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 
 class HomeController extends Controller
@@ -24,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $customer = Customer::getCustomerDetailsByUrl(); 
+        // dd($customer );
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+        return view('home', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
     }
 }

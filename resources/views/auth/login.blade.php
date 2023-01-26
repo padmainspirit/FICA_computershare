@@ -35,6 +35,7 @@
         <div class="row d-flex justify-content-center mb-2 mt-4">
             <img src="{{ URL::asset($Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
                 class="img-fluid">
+                {{-- {{dd($Client_Logo)}} --}}
         </div>
 
         <div class="account-pages">

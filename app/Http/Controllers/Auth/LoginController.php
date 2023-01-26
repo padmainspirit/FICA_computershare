@@ -70,8 +70,6 @@ class LoginController extends Controller
 
         $Client_Logo = $customer->Client_Logo;
         $RegistrationName = $customer->RegistrationName;
-
-        // dd( $RegistrationName );
         
         $this->guard()->logout();
         return view('auth.login', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
@@ -203,7 +201,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            :  redirect()->route('login', ['customer' => $customer->RegistrationName]);
+            :  redirect()->route('login', ['customer' => $customer->RegistrationName, 'Client_Logo' => $Client_Logo]);
             // : redirect('/');
 
             

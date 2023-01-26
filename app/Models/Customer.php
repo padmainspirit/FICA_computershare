@@ -88,7 +88,7 @@ class Customer extends Model
     
         $customer = Customer::where('RegistrationName', '=',  $customerName)->first(['Id','Client_Logo','Client_Icon','TradingName','RegistrationName']);
         
-        // dd($currentURL);
+        // dd($customerName);
         
         return $customer;
     }
