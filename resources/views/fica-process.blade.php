@@ -1805,9 +1805,12 @@ Fica Progress
         <form action="{{ route('declarations') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="personal-details">
-                <h6 style="color: rgb(0, 0, 0);">K. Client Due Diligence</h6>
+                <h6 style="color: rgb(0, 0, 0);">K. Client Due Diligence
+                <span style="color: red; font-size: 20px;" class="required">*
+                </span>
+            </h6>
                 <div class="col-md-12" style="padding-right: 2%;">
-                    <select class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror" id="client-due-diligence-dropdown" name="client-due-diligence-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
+                    <select class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror" id="client-due-diligence-dropdown" name="client-due-diligence-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }} required>
 
                         <option selected disabled>Select</option>
 
@@ -1971,13 +1974,13 @@ Fica Progress
 
 
             <h6 style="color: rgb(0, 0, 0);">F. Segregated Depository
-                Acounts</h6>
+                Accounts</h6>
             <div class="col-md-12" style="padding-right: 2%;">
                 <select class="form-select @error('segregated-depository-acounts-dropdown') is-invalid @enderror" id="segregated-depository-acounts-dropdown" name="segregated-depository-acounts-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
 
-                    <option selected disabled>Select</option>
+                    <option disabled>Select</option>
 
-                    <option value="Confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? 'selected' : '' }} {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Confirm SDA' ? 'selected' : '' }}>
+                    <option selected value="Confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? 'selected' : '' }} {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Confirm SDA' ? 'selected' : '' }}>
                         I confirm that I would not like to open a SDA Strate.
                     </option>
 

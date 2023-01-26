@@ -3709,7 +3709,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="col-md-4">
                                     <div class="mb-3">
 
-                                        <input type="text" id="Broker" name="Broker" class="form-control input-sm" value="{{ $Broker }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;" placeholder="Enter Broker">
+                                        <input type="text" id="Broker" name="Broker" class="form-control input-sm" value="{{ $Broker }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;">
 
                                     </div>
                                 </div>
@@ -3726,7 +3726,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="col-md-1">
                                     <div class="mb-3">
 
-                                        <input type="text" id="BrokerContact" name="BrokerContact" class="form-control input-sm" value="{{ $BrokerContact }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;" placeholder="Enter Broker Communication">
+                                        <input type="text" id="BrokerContact" name="BrokerContact" class="form-control input-sm" value="{{ $BrokerContact }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;">
 
                                     </div>
                                 </div>

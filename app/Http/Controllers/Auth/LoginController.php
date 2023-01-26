@@ -201,7 +201,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            :  redirect()->route('login', ['customer' => $customer->RegistrationName, 'Client_Logo' => $Client_Logo]);
+            :  redirect()->route('login', ['customer' => $customer->RegistrationName]);
             // : redirect('/');
 
             
