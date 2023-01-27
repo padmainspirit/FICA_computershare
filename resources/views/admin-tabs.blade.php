@@ -3532,7 +3532,7 @@ placeholder="Enter Your Marriage Type">
 
                                             <option selected disabled>Select</option>
 
-                                            <option value='NO' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'NO' ? 'selected' : '' }}>
+                                            <option value='I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' ? 'selected' : '' }}>
                                                 I confirm that I am not acting in the capacity of nominee
                                                 intending to hold
                                                 securities on behalf of a beneficial owner.</option>

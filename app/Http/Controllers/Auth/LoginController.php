@@ -190,8 +190,8 @@ class LoginController extends Controller
     {
         $customer = Customer::getCustomerDetailsByUrl(); 
 
-        $Client_Logo = $customer->Client_Logo;
-        $RegistrationName = $customer->RegistrationName;
+        // $Client_Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
 
         $this->guard()->logout();
 

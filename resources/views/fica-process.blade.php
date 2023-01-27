@@ -962,12 +962,12 @@ Fica Progress
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="basicpill-vatno-input" class="font-weight-bold" style="font-size: 12px; color: rgb(0, 0, 0); ">Residential
-                                    Zip:</label>
+                                    Zip Code:</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <input autocomplete="off" type="text" class="form-control input-sm @error('zip-physical') is-invalid @enderror" style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-physical" name="zip-physical" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Home != null ? $Home->OriginalPostalCode : '' }}" placeholder="Enter Zip">
+                                <input autocomplete="off" type="text" class="form-control input-sm @error('zip-physical') is-invalid @enderror" style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-physical" name="zip-physical" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Home != null ? $Home->OriginalPostalCode : '' }}" placeholder="Enter Zip Code">
 
                                 @error('zip-physical')
                                 <div style="color: red">{{ $message = 'Field is required' }}
@@ -1054,12 +1054,12 @@ Fica Progress
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="basicpill-vatno-input" class="font-weight-bold" style="font-size: 12px; color: rgb(0, 0, 0); ">Postal
-                                    Zip:</label>
+                                    Zip Code:</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <input autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip" />
+                                <input autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip Code" />
                             </div>
                         </div>
 

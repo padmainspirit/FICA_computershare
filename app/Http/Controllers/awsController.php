@@ -1055,7 +1055,7 @@ class awsController extends Controller
         $this->validate(
             $request,
             [
-                'initials' => ['required', 'string', 'min:1', 'max:255'],
+                'initials' => ['required', 'alpha', 'min:1', 'max:255'],
                 'surname' => ['required', 'string', 'min:2', 'max:255'],
                 'acc-number' => ['required', 'numeric'],
                 'bank-name-dd' => ['required'],
