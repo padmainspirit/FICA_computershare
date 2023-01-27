@@ -156,6 +156,8 @@ class ConsumerFicaProcess extends Controller
         $employeerName = $request->input('employeer-name-input');
         $industryOfOccupation = $request->input('industry-of-occupation-input');
 
+        // dd( $employeeStatus);
+
         // $old = [
         //     'idissue' => $idIssuedDate != '' ? $idIssuedDate : null,
         // ];

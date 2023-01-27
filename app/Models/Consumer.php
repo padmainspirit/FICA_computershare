@@ -68,7 +68,7 @@ class Consumer extends Model
     public static function getConsumerId(Request $request)
     {
         $client = CustomerUser::getCustomerUserId($request);
-        $clientId = $client->Id;
+        $clientId = $client->Id;           
         $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $clientId)->first();
         // $SearchConsumerID = $getSearchConsumerID['Consumerid']; 
 

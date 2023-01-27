@@ -2161,9 +2161,9 @@ placeholder="Enter Your Marriage Type">
                                                         text-transform: uppercase; font-size: 11px;" id="Employmentstatus" name="Employmentstatus">
                                         <option selected disabled>Select</option>
 
-                                        <option value=1 {{ isset($Employmentstatus) && $Employmentstatus == 1 ? 'selected' : '' }}>
+                                        <option value=1 {{ isset($Employmentstatus) && $Employmentstatus == 'Employed' ? 'selected' : '' }}>
                                             Employed</option>
-                                        <option value=0 {{ isset($Employmentstatus) && $Employmentstatus == 0 ? 'selected' : '' }}>
+                                        <option value=0 {{ isset($Employmentstatus) && $Employmentstatus == 'Unemployed' ? 'selected' : '' }}>
                                             Unemployed</option>
                                     </select>
 
@@ -3532,12 +3532,12 @@ placeholder="Enter Your Marriage Type">
 
                                             <option selected disabled>Select</option>
 
-                                            <option value='I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' ? 'selected' : '' }}>
+                                            <option value='I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' style="font-size: 12px;" {{ isset($NomineeDeclaration) == 'I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' ? 'selected' : '' }}>
                                                 I confirm that I am not acting in the capacity of nominee
                                                 intending to hold
                                                 securities on behalf of a beneficial owner.</option>
 
-                                            <option value='YES' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'YES' ? 'selected' : '' }}>
+                                            <option value=' I/We confirm that I am/we are a nominee and intend to hold Securities onbehalf of the beneficial owners.' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'YES' ? 'selected' : '' }}>
                                                 I/We confirm that I am/we are a nominee and intend to hold
                                                 Securities on
                                                 behalf of the beneficial owners.

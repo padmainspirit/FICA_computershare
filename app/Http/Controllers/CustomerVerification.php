@@ -813,6 +813,7 @@ class CustomerVerification extends Controller
 
         );
 
+
         // $WorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
         // $HomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
         // $CellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 12)->first();
@@ -976,6 +977,7 @@ class CustomerVerification extends Controller
         $EmailMatch = $consumerBankDoc['EMAILMATCH'];
         $TaxNumMatch = $consumerBankDoc['TAXREFERENCEMATCH'];
 
+        dd($RiskStatusbyFICA);
 
         // $TitleDesc = $request->session()->get('TitleDesc');
         $getSearchUserTitle = KYC::getAddressDoc($request);
@@ -1951,7 +1953,7 @@ class CustomerVerification extends Controller
     }
 
     public function UserInbox(Request $request)
-    {
+    { 
         
         $idnumber = $request->session()->get('idnumber');
 
