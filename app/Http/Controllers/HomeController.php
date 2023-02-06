@@ -23,12 +23,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($customerName)
     {
-        $customer = Customer::getCustomerDetailsByUrl(); 
-        // dd($customer );
-        $Client_Logo = $customer->Client_Logo;
-        $RegistrationName = $customer->RegistrationName;
-        return view('home', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
+
+        // print_r($customerName);
+
+        return view('home');
+        // $customer = Customer::getCustomerDetailsByUrl(); 
+        // // dd($customer );
+        // $Client_Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
+        // return view('home', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
     }
 }

@@ -44,7 +44,8 @@ Route::fallback(function(){ return response()->view('errors.404', [], 404); });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
