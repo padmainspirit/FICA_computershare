@@ -63,8 +63,6 @@ class Consumer extends Model
         return $this->hasMany(\App\Models\Telephones::class); //here is the first condition for UserOtp Model
     }
 
-
-
     public static function getConsumerId(Request $request)
     {
         $client = CustomerUser::getCustomerUserId($request);

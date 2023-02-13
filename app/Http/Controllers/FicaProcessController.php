@@ -101,7 +101,7 @@ class FicaProcessController extends Controller
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumerid)->first();
         $LoggedInConsumerId = $consumerid;
-        $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
+        $consumerIdentity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
         $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
@@ -413,30 +413,20 @@ class FicaProcessController extends Controller
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
 
-
         $consumerIdentity = ConsumerIdentity::where('FICA_id', '=', $fica->FICA_id)->first();
         $path = $consumerIdentity->Identity_File_Path;
         $keyname = substr($path, strpos($path, ".com/") + 5);  
 
-
-
         // if(Storage::disk('s3')->exists($keyname)) {
-           
         //     Storage::disk('s3')->delete($keyname);
-           
         //     dd('deleted');
-  
         // }
-
         // else{
         //     dd('does not exist');
         // }
             
-        
-
         $bankTpye = BankAccountType::all();
         $aws = new awsController();
-
 
         $lookupdata = LookupDatas::all();
 
@@ -447,19 +437,15 @@ class FicaProcessController extends Controller
             }
         }
 
-
         $Addresses = Address::getAllAddresses();
         $Home  =  $Addresses['Home'];
         $Postal = $Addresses['Postal'];
         $Work  = $Addresses['Work'];
 
-
-
         $Telephone = Telephones::getAllTelephones();
         $TelCell  = $Telephone['TelCell'];
         $TelHome = $Telephone['TelHome'];
         $TelWork  = $Telephone['TelWork'];
-
 
         $DOB = null;
         $selectedIndustryofoccupation = null;
@@ -480,33 +466,20 @@ class FicaProcessController extends Controller
             $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
         }
 
-
-
         $NotificationLink = $request->session()->get('NotificationLink');
-
-
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
-
         $nationality = Nationality::all('Nationality')->sortBy('Nationality');
-
         $sourceOfFunds = SourceOfFunds::all('Funds')->sortBy('Funds');
-
         $banks = Banks::all('bankname')->sortBy('bankname');
-
         $provinces = Provinces::all('Province_name')->sortBy('Province_name');
-
         $cities = Cities::all('cityName')->sortBy('cityName');
-
         $request->session()->put('FICAProgress', $fica->FICAProgress);
-
         $validator = Validator::make($request->all(), [
             'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
         ]);
-
         $type = substr($request->file->getClientMimeType(), -3);
         $size = $request->file->getSize();
       
-
         // $path = '';
         $url = config('app.API_UPLOAD_PATH');
         $urlFile = '';
@@ -527,7 +500,6 @@ class FicaProcessController extends Controller
 
         $path = public_path('tempImages/');
        
-        
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
@@ -573,9 +545,6 @@ class FicaProcessController extends Controller
         app('debugbar')->info('mergedData');
         app('debugbar')->info($mergedData);
 
-       
-
-    
         //ID Upload checks
         if ($request->stage == 'id') {
             app('debugbar')->info('ID Stage');
@@ -603,8 +572,6 @@ class FicaProcessController extends Controller
                     )
                 );
             }
-           
-
             app('debugbar')->info($request);
 
             // $pathPDF = 'pdf/' . $fileName;

@@ -51,7 +51,7 @@ class awsController extends Controller
         date_default_timezone_set('Africa/Johannesburg');
     }
 
-    public function TextractAmazonOCR($path, Request $request)
+    public function TextractAmazonOCR($path)
     {
 
         // print_r('After path');
@@ -71,7 +71,9 @@ class awsController extends Controller
             'version' => 'latest',
             'credentials' => [
                 'key'    => $Key,
-                'secret' =>  $Secret
+                'secret' =>  $Secret,
+                // 'key'    => 'AKIA4IKI2GCKS7SKN4PC',
+                // 'secret' =>  '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'
             ]
         ]);
 

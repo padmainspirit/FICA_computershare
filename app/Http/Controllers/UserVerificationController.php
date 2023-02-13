@@ -24,7 +24,6 @@ use App\Models\ConsumerComplianceSanction;
 use App\Models\ConsumerComplianceEntityAdditional;
 use App\Models\BankAccountType;
 use Illuminate\Support\Facades\Auth;
-use Psy\Readline\Hoa\Console;
 
 class UserVerificationController extends Controller
 {
@@ -837,7 +836,7 @@ class UserVerificationController extends Controller
                         // $contactNo = '0727926612';
 
                         $accountHolder = explode(" ", $avs->Account_name);
-                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);  
+                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);
 
                         app('debugbar')->info('$accountHolder');
                         app('debugbar')->info($accountHolder);
@@ -862,10 +861,6 @@ class UserVerificationController extends Controller
                             'id_no' =>  $client->IDNumber,
                             'contactNo' =>  $client->PhoneNumber
                         ]);
-
-
-                        // dd($testResponse);
-
 
                         app('debugbar')->info($testResponse);
                         //here we want to verify the bank account details
@@ -1594,7 +1589,7 @@ class UserVerificationController extends Controller
                                     'HA_DeceasedStatus' => NULL,
                                     'HA_IDBookIssuedDate' => NULL,
                                     'HA_ErrorDescription' => NULL,
-                                    'ErrorMessage' => 'Compliance Failed, please contact afministrator',
+                                    'ErrorMessage' => 'Compliance Failed, please contact administrator',
 
                                 )
                             );

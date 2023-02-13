@@ -4285,7 +4285,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 170,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 100, fontStyle: 'bold' }, 1: { cellWidth: 140 }, 2: { cellWidth: 100, fontStyle: 'bold' }, 3: { cellWidth: 190 } },
-            headStyles :{fillColor : [26, 79, 110], textColor: [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor: [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4298,7 +4298,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 140, fontStyle: 'bold' }, 1: { cellWidth: 390 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4320,7 +4320,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4335,7 +4335,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4353,7 +4353,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4370,7 +4370,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 270 }, 2: { cellWidth: 0 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4383,7 +4383,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4398,7 +4398,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 270 }, 2: { cellWidth: 0 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4415,7 +4415,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 20,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         // doc.autoTable({
@@ -4426,7 +4426,7 @@ placeholder="Enter Your Marriage Type">
         //     startY: doc.lastAutoTable.finalY + 7,
         //     styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
         //     columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-        //     headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+        //     headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         // });
 
         
@@ -4440,7 +4440,7 @@ placeholder="Enter Your Marriage Type">
         //     startY: 540,
         //     styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
         //     columnStyles: { 0: { cellWidth: 60 }, 1: { cellWidth: 120 }, 2: { cellWidth: 60 }, 3: { cellWidth: 60 }, 4: { cellWidth: 70 }, 5: { cellWidth: 55 }, 6: { cellWidth: 120 }},
-        //     headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+        //     headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         // });  --}}
 
         // {{--  bodyData = ['{{ $Additional_type }}', '{{ $Additional_value }}', '{{ $Additional_comment }}'];
@@ -4467,7 +4467,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150 }, 1: { cellWidth: 190 }, 2: { cellWidth: 190 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         SancList.forEach((element, index) => {
@@ -4493,7 +4493,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 60 }, 1: { cellWidth: 60 }, 2: { cellWidth: 60 }, 3: { cellWidth: 40 }, 4: { cellWidth: 60 }, 5: { cellWidth: 55 }, 6: { cellWidth: 195 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
 
