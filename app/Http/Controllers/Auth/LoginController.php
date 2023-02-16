@@ -11,16 +11,12 @@ use App\Models\CustomerUser;
 use Illuminate\Support\Facades\Hash;
 use  App\Http\Controllers\Auth\SmsOtpController;
 use App\Models\Customer;
+use App\Models\OTPLogs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Client;
+use Facades\Str;
 use Illuminate\Support\Facades\Mail;
-use URL;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-
-
-
 
 class LoginController extends Controller
 {
@@ -131,6 +127,16 @@ class LoginController extends Controller
                     }
                 );
 
+                $loggedInUserId = Auth::user();
+
+                OTPLogs::create([
+                    'OTP_Id' => Str::upper(Str::uuid()),
+                    'Createddate' => date("Y-m-d H:i:s"),
+                    'CustomerId' => $loggedInUserId->CustomerId,
+                    'IDNumber' => $loggedInUserId->IDNumber,
+                    'OTP_Cost' => '1',
+                    'OTP_value' => '1',
+                ]);
 
                 return $request->wantsJson()
                     ? new JsonResponse([], 204)

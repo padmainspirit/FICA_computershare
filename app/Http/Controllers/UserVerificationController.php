@@ -18,6 +18,7 @@ use App\Models\KYC;
 use App\Models\Address;
 use App\Models\LookupDatas;
 use App\Models\APILogs;
+use App\Models\AWSLogs;
 use App\Models\Customer;
 use App\Models\Compliance;
 use App\Models\ConsumerComplianceSanction;
@@ -58,9 +59,33 @@ class UserVerificationController extends Controller
         try {
             //$user = Auth::user();
             $loggedInUserId = Auth::user()->Id;
-            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
-            // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+            $IDNUMBER = Auth::user()->IDNumber;
+            $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();;
+            $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+            $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+            $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
 
+            try {
+                AWSLogs::create([
+                    'Id' => Str::upper(Str::uuid()),
+                    'Createddate' => date("Y-m-d H:i:s"),
+                    'CustomerId' => $customers->Id,
+                    'FICAId' => $fica->FICA_id,
+                    'CustomerUserId' => $consumer->CustomerUSERID,
+                    'ConsumerID' => $fica->Consumerid,
+                    'AWS_Cost' => '30',
+                    'IdOrPassportNumber' => $IDNUMBER,
+                    'AWSSearchType' => '4',
+                    'Documentname' => NULL,
+                ]);
+            } catch (\Illuminate\Database\QueryException $exception) {
+                // You can check get the details of the error using `errorInfo`:
+                $errorInfo = $exception->errorInfo;
+                app('debugbar')->info($errorInfo);
+
+                // Return the response to the client..
+            }
 
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
                 $soapUrlLive = config("app.API_SOAP_URL_LIVE_FACIAL");
@@ -77,10 +102,7 @@ class UserVerificationController extends Controller
                 $enquiryId = null;
                 $enquiryResultId = null;
 
-
-
                 $tempData = explode('>', $returnValue);
-                //   dd($tempData[5]);
 
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
@@ -135,7 +157,6 @@ class UserVerificationController extends Controller
                             'ticketNo' => $ticketNo,
                         ]);
                         app('debugbar')->info($returnData);
-                        //dd($tempData5);
 
                         $request->session()->put('enquiryId', $enquiryId);
                         return  $returnData;
@@ -202,7 +223,6 @@ class UserVerificationController extends Controller
                 $tempData = explode('>', $returnValue);
 
                 //app('debugbar')->info($tempData);
-                //dd($tempData[5]);
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
                     $ticketNo = $tempData2[0];
@@ -228,7 +248,6 @@ class UserVerificationController extends Controller
                         // app('debugbar')->info($tempData5);
                         //$returnValue = $returnConnectGetDOVResult;
                         //return $tempData5;
-                        //dd($tempData5);
                         $messageResult = ([
                             'message' => '',
                             'result' => '',
@@ -327,9 +346,9 @@ class UserVerificationController extends Controller
                                 'Longitude' => $Longitude
                             ]);
 
-
                             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
                             $loggedInUserId = Auth::user()->Id;
+                            $IDNUMBER = Auth::user()->IDNumber;
                             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
                             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
                             // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
@@ -344,9 +363,19 @@ class UserVerificationController extends Controller
                             app('debugbar')->info($tempData5);
                             session()->put('data', $tempData5);
 
+                            $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+
+                            if ($dovs == null) {
+                                $dovsuser = DOVS::create([
+                                    'DOVS_id' => Str::upper(Str::uuid()),
+                                    'FICA_id' => $fica->FICA_id,
+                                ]);
+                                $dovsuser->save();
+                            }                  
+
                             DOVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
-                                    'CreatedOnDate' =>  date("Y-m-d H:i:s"),
+                                    //'CreatedOnDate' =>  date("Y-m-d H:i:s"),
                                     'LastUpdatedDate' =>  date("Y-m-d H:i:s"),
                                     'DOVS_Status' =>  1,
                                     'ConsumerIDPhotoMatch' => $ConsumerIDPhotoMatch,
@@ -365,7 +394,6 @@ class UserVerificationController extends Controller
                                     'Longitude' => $Longitude
                                 )
                             );
-
 
                             FICA::where('Consumerid', $consumer->Consumerid)->update(
                                 array(
@@ -414,7 +442,6 @@ class UserVerificationController extends Controller
             $kycLookup = LookupDatas::where('ID', '=', $this->KYC)->first();
 
             // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
-            $loggedInUserId = Auth::user()->Id;
             $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
             $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
@@ -432,18 +459,19 @@ class UserVerificationController extends Controller
                 //$username = 'czs_ws'; // Live username
                 $password = $this->xdspassword;
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
-
+                
                 app('debugbar')->info($returnValue);
+                
                 $enquiryId = null;
                 $enquiryResultId = null;
                 $SECONDNAME = $idasData->SECONDNAME;
                 $SURNAME =  $idasData->SURNAME;
                 $IdentityDocumentID = $idasData->Identity_Document_ID;
-
+                
                 $physicalAddr1 =   $homeAddress->OriginalAddress1;
                 $physicalAddr2 =  $homeAddress->OriginalAddress2;
                 $clientZipCode = $homeAddress->OriginalPostalCode;
-
+                
 
                 $testResponse = ([
                     'FirstName' => $idasData->SECONDNAME,
@@ -473,14 +501,15 @@ class UserVerificationController extends Controller
                 // $clientZipCode =  '1449';
 
 
-
-                $tempData = explode('>', $returnValue);
-                //dd($tempData[5]);
+               $tempData = explode('>', $returnValue);
+               
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
                     $ticketNo = $tempData2[0];
 
                     $returnValue = $this->soapValidateTicketNo($soapUrlLive, $username, $password, $ticketNo);
+                    
+                    
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
                     $valid = $tempData2[0];
@@ -489,8 +518,6 @@ class UserVerificationController extends Controller
                     if ($valid  == "true") { //if ticket is valid
                         //here we want to get the customer information and sources
                         $returnCustomerDetailsAndSources = $this->sanctionAdverseConnectConsumerMatch($soapUrlLive, $username, $password, $ticketNo,  $SECONDNAME,   $SURNAME,  $IdentityDocumentID, null, 152);
-                        //dd($returnSanctionValue);
-
                         app('debugbar')->info($returnCustomerDetailsAndSources);
 
                         $tempData = explode('>', $returnCustomerDetailsAndSources);
@@ -790,6 +817,7 @@ class UserVerificationController extends Controller
 
 
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
+                
                 $enquiryId = null;
                 $enquiryResultId = null;
 
@@ -802,6 +830,7 @@ class UserVerificationController extends Controller
                     app('debugbar')->info('ticketNo');
                     app('debugbar')->info($ticketNo);
                     $returnValue = $this->soapValidateTicketNo($soapUrlLive, $username, $password, $ticketNo);
+                    
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
                     $valid = $tempData2[0];
@@ -836,7 +865,7 @@ class UserVerificationController extends Controller
                         // $contactNo = '0727926612';
 
                         $accountHolder = explode(" ", $avs->Account_name);
-                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);
+                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);  
 
                         app('debugbar')->info('$accountHolder');
                         app('debugbar')->info($accountHolder);
@@ -865,7 +894,7 @@ class UserVerificationController extends Controller
                         app('debugbar')->info($testResponse);
                         //here we want to verify the bank account details
                         $returnValue = $this->soapBankVerificationAPICall($soapUrlLive, $username, $password, $ticketNo, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, null, null);
-
+                        
                         // app('debugbar')->info($returnValue);
                         $tempData = explode('>', $returnValue);
                         $tempData2 = explode('<', $tempData[5]);
@@ -879,6 +908,7 @@ class UserVerificationController extends Controller
                         //$referenceNo = '70492474';
 
                         $returnValue = $this->ConnectGetAccountVerificationResult($soapUrlLive, $username, $password, $ticketNo, $referenceNo);
+                        
                         $tempData = explode('>', $returnValue);
                         $tempData2 = explode('<', $tempData[5]);
 
@@ -1031,7 +1061,6 @@ class UserVerificationController extends Controller
                             'ExternalRef' => $ExternalRef,
                         ]);
 
-
                         if ($tempData5[1] == 'ResultFile') {
                             app('debugbar')->info($returnData);
                             app('debugbar')->info('tempData5');
@@ -1040,7 +1069,7 @@ class UserVerificationController extends Controller
                             AVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
                                     'AVS_Status' => 1,
-                                    'CreatedOnDate' => date("Y-m-d H:i:s"),
+                                    //'CreatedOnDate' => date("Y-m-d H:i:s"),
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'ERRORCONDITIONNUMBER' => $ERRORCONDITIONNUMBER,
                                     'ACCOUNTFOUND' => $ACCOUNTFOUND,
@@ -1066,6 +1095,7 @@ class UserVerificationController extends Controller
                                     'ErrorMessage' => NULL
                                 )
                             );
+
                             //API LOGS
                             APILogs::create([
                                 'API_Log_Id' => Str::upper(Str::uuid()),
@@ -1075,13 +1105,14 @@ class UserVerificationController extends Controller
                                 'Createddate' => date("Y-m-d H:i:s"),
                                 'API_ID' => $avsLookup->Value,
                             ]);
+
                         } else {
                             //invalid bank information 
                             $errorMessage = str_replace('/Error', '', $tempData5[2]);
                             AVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
                                     'AVS_Status' => 0,
-                                    'CreatedOnDate' => date("Y-m-d H:i:s"),
+                                    //'CreatedOnDate' => date("Y-m-d H:i:s"),
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'ERRORCONDITIONNUMBER' => NULL,
                                     'ACCOUNTFOUND' => NULL,
@@ -1125,11 +1156,14 @@ class UserVerificationController extends Controller
 
         // $username = $this->xdsusername;
         // $password = $this->xdspassword;
+
+        // Move to ENV File
         $username = 'Inspirit_Live';
         $password = 'cal100';
 
         try {
             $loggedInUserId = Auth::user()->Id;
+            $IDNUMBER = Auth::user()->IDNumber;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             // $client = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
@@ -1144,10 +1178,30 @@ class UserVerificationController extends Controller
             $customers = Customer::where('Id', '=',  $client->CustomerId)->first();
             $customerID = $customers->Id;
 
+            try {
+                AWSLogs::create([
+                    'Id' => Str::upper(Str::uuid()),
+                    'Createddate' => date("Y-m-d H:i:s"),
+                    'CustomerId' => $customers->Id,
+                    'FICAId' => $fica->FICA_id,
+                    'CustomerUserId' => $consumer->CustomerUSERID,
+                    'ConsumerID' => $fica->Consumerid,
+                    'AWS_Cost' => '50',
+                    'IdOrPassportNumber' => $IDNUMBER,
+                    'AWSSearchType' => '5',
+                    'Documentname' => NULL,
+                ]);
+            } catch (\Illuminate\Database\QueryException $exception) {
+                // You can check get the details of the error using `errorInfo`:
+                $errorInfo = $exception->errorInfo;
+                app('debugbar')->info($errorInfo);
+
+                // Return the response to the client..
+            }
+
             // $consumerComplianceEntityAdditional
             // app('debugbar')->info($consumerComplianceSanction[2]);
             // app('debugbar')->info($consumerComplianceEntityAdditional);
-
 
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
@@ -1156,7 +1210,6 @@ class UserVerificationController extends Controller
 
 
                 $tempData = explode('>', $returnValue);
-                //dd($tempData[5]);
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
                     $ticketNo = $tempData2[0];
@@ -1498,7 +1551,6 @@ class UserVerificationController extends Controller
                                 'API_ID' => $complianceLookup->Value,
                             ]);
 
-
                             //Consumer Compliance Entity Additional
                             for ($i = 0; $i <   count($consumerComplianceEntityadditional); $i++) {
                                 //Occupation
@@ -1559,7 +1611,7 @@ class UserVerificationController extends Controller
                     $userEmailData .= '<span>0877 333 453</span>';
 
                     $data = ['name' => $name, 'subject' => $subject, 'messages' => $userEmailData, 'systemLogo' => $systemLogo];
-                    $userMail = $client->email; //dd($userMail);
+                    $userMail = $client->email;
 
                     Mail::to($userMail)
                         //->cc('tmunsamy@in2assets.com')
@@ -2338,9 +2390,6 @@ class UserVerificationController extends Controller
         ));
 
         $response = curl_exec($curl);
-
-        // dd($response);
-        // app('debugbar')->info($response);
 
         $err = curl_error($curl);
         $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);

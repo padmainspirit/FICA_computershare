@@ -3236,8 +3236,8 @@ Fica Progress
                 <span id="error-BankTypeid" class="text-danger" role="alert">
                 </span>
                 {{-- @error('BankTypeid')
-                                            <div style="color: red">
-                                                {{ $message = 'Field is required' }}
+                <div style="color: red">
+                {{ $message = 'Field is required' }}
             </div>
             @enderror --}}
         </div>
@@ -3250,8 +3250,8 @@ Fica Progress
         <span id="error-branch" class="text-danger" role="alert">
         </span>
         {{-- @error('branch')
-                                        <div style="color: red">
-                                            {{ $message = 'Field is required' }}
+        <div style="color: red">
+        {{ $message = 'Field is required' }}
     </div>
     @enderror --}}
 </div>
