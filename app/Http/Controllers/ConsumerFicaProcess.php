@@ -22,8 +22,9 @@ use phpDocumentor\Reflection\Types\Boolean;
 use App\Models\IndustryOccupation;
 use App\Models\Nationality;
 use App\Models\Telephones;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 class ConsumerFicaProcess extends Controller
 {
@@ -784,6 +785,15 @@ class ConsumerFicaProcess extends Controller
         // $Logo = $customer['Client_Logo'];
         // $customerName = $customer['RegistrationName'];
         // $Icon = $customer['Client_Icon'];
+
+        $YearNow = Carbon::now()->year;
+        Mail::send('auth.emailcomplete', ['FirstName' => $customer->FirstName, 'YearNow' => $YearNow],
+        function ($message) {
+                $client = Auth::user();
+                $message->to($client->Email);
+                $message->subject('FICA Status');
+            }
+        );
 
         return back()->withSuccess('successfully')
             ->with('customer', $customer)

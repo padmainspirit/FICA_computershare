@@ -2429,15 +2429,6 @@ Fica Progress
 
             <div style="padding-left:6%">
                 <br>
-                {{-- <div id="fica-final-status"> --}}
-                {{-- @if ($fica->FICAStatus == 'Completed')
-                                        <div class="alert alert-success text-center" role="alert">
-                                            <h4 style="color: green">
-                                                Congratulations, your Fica has been Completed
-                                            </h4>
-                                        </div>
-                                    @endif --}}
-                {{-- </div> --}}
                 <br>
                 <div class="col-lg-12">
 

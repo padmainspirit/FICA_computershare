@@ -11,9 +11,12 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule; 
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -58,15 +61,33 @@ class UserController extends Controller
         $Logo = $customer->Client_Logo;
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
-
+        $LogUserName = $client->FirstName;
+        $LogUserSurname = $client->LastName;
+        $IsSuperAdmin = false;
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
         $roles = Role::pluck('name', 'name')->all();
         $customers = Customer::pluck('RegistrationName', 'Id',);
+        if ($getRoleName) {
+            if ($getRoleName == 'SuperAdmin') {
+                $IsSuperAdmin = true;
+                
+            } elseif ($getRoleName == 'CustomerAdmin') {
+                $IsSuperAdmin = false;
+                $roles = Role::where ('name', 'CustomerUser')->pluck('name', 'name')->all();
+                $customers = Customer::where ('Id', $client->CustomerId)->pluck('RegistrationName', 'Id',);
+            }
+        }
+
+        
         return view('users.create', compact('roles', 'customers'))
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
+            ->with('Logo', $customer->Client_Logo)
+            ->with('LogUserName', $LogUserName)
+            ->with('LogUserSurname', $LogUserSurname)
+            ->with('IsSuperAdmin', $IsSuperAdmin);
     }
 
 
@@ -78,12 +99,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $customerId = $request['CustomerId'];
         $this->validate($request, [
             'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            //'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            'IDNumber' => ['required','digits:13','unique:CustomerUsers'],            
+            // 'IDNumber' => ['required', 'digits:13', Rule::unique('CustomerUsers')->where(function ($query) use ($request) {
+            //     return $query->where('CustomerId', $request->CustomerId);
+            // })],
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
+            // 'Email' => ['required', 'string', 'email', 'max:255',Rule::unique('CustomerUsers')->where(function ($query) use ($request) {
+            //     return $query->where('CustomerId', $request->CustomerId);
+            // })],
             'PhoneNumber' => ['required', 'string', 'max:255', 'unique:CustomerUsers'],
+            // 'PhoneNumber' => ['required', 'string', 'max:255',Rule::unique('CustomerUsers')->where(function ($query) use ($request) {
+            //     return $query->where('CustomerId', $request->CustomerId);
+            // })],
             'Password' => [
                 'required',
                 'min:8',
@@ -112,18 +144,18 @@ class UserController extends Controller
             $isadmin = 0;
         }
 
-        // dd($input['roles']);
         //$input['password'] = Hash::make($input['password']);
 
         //$user = CustomerUser::create($input);
+        $YearNow = Carbon::now()->year;
         $user  = CustomerUser::create([
             //'Id' =>  Str::upper(Str::uuid()),
             'FirstName' => $input['FirstName'],
             'LastName' => $input['LastName'],
             'Email' => $input['Email'],
-            'PhoneNumber' => rand(),
+            'PhoneNumber' => $input['PhoneNumber'],
             'Password' => Hash::make($input['Password']),
-            'IDNumber' => rand(),
+            'IDNumber' => $input['IDNumber'],
             'IsAdmin' => $isadmin,
             'Status' => NULL,
             'CustomerId' => $input['CustomerId'],
@@ -143,13 +175,42 @@ class UserController extends Controller
         ]);
         $user->assignRole($request->input('roles'));
 
-        // return redirect()->route('users.index')
-        return redirect()->route('admin-display')
-            ->with('success', 'User created successfully')
-            ->with('customerName', $customer->RegistrationName)
-            ->with('Icon', $customer->Client_Icon)
-            ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
+        // return redirect()->route('admin-display')
+        //     ->with('success', 'User created successfully')
+        //     ->with('customerName', $customer->RegistrationName)
+        //     ->with('Icon', $customer->Client_Icon)
+        //     ->with('customer', $customer)
+        //     ->with('Logo', $customer->Client_Logo);
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
+        if ($getRoleName) {
+            if ($getRoleName == 'SuperAdmin') {
+                return redirect()->route('admin-display')
+                ->with('success', 'User created successfully')
+                ->with('customerName', $customer->RegistrationName)
+                ->with('Icon', $customer->Client_Icon)
+                ->with('customer', $customer)
+                ->with('Logo', $customer->Client_Logo);
+                
+            } else{
+                //return redirect('users/'.$id.'/edit')
+                Mail::send(
+                    'auth.emailreg',
+                    [
+                        'FirstName' => $input['FirstName'], 'LastName' => $input['LastName'], 'Email' => $input['Email'], 'Password' => $input['Password'], 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow, 'RegistrationName' => $customer->RegistrationName
+                    ],
+                    function ($message) use ($request) {
+                        $message->to($request->Email);
+                        $message->subject('New Registered User');
+                    }
+                );
+                return redirect()->route('users-display',['id'=>$customer->Id])
+                ->with('success', 'User created successfully')
+                ->with('customerName', $customer->RegistrationName)
+                ->with('Icon', $customer->Client_Icon)
+                ->with('customer', $customer)
+                ->with('Logo', $customer->Client_Logo);
+            }
+        }
     }
 
 
@@ -182,16 +243,37 @@ class UserController extends Controller
         // $Icon = $customer->Client_Icon;
 
         $user = CustomerUser::find($id);
-        $roles = Role::pluck('name', 'name')->all();
+        //$roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-        $customers = Customer::pluck('RegistrationName', 'Id');
+        //$customers = Customer::pluck('RegistrationName', 'Id');
         $userBelongsToCustomer = $user->CustomerId;
+
+        $LogUserName = $client->FirstName;
+        $LogUserSurname = $client->LastName;
+        $IsSuperAdmin = false;
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
+        $roles = Role::pluck('name', 'name')->all();
+        $customers = Customer::pluck('RegistrationName', 'Id',);
+        if ($getRoleName) {
+            if ($getRoleName == 'SuperAdmin') {
+                $IsSuperAdmin = true;
+                
+            } elseif ($getRoleName == 'CustomerAdmin') {
+                $IsSuperAdmin = false;
+                $roles = Role::where ('name', 'CustomerUser')->pluck('name', 'name')->all();
+                $customers = Customer::where ('Id', $client->CustomerId)->pluck('RegistrationName', 'Id',);
+            }
+        }
+
         return view('users.edit', compact('user', 'roles', 'userRole', 'customers', 'userBelongsToCustomer'))
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
+            ->with('Logo', $customer->Client_Logo)
+            ->with('LogUserName', $LogUserName)
+            ->with('LogUserSurname', $LogUserSurname)
+            ->with('IsSuperAdmin', $IsSuperAdmin);
     }
 
     /**
@@ -210,9 +292,18 @@ class UserController extends Controller
         $this->validate($request, [
             'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,' . $id,
-            'Email' => 'required|email|unique:CustomerUsers,Email,' . $id,
-            'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,' . $id,
+            // 'IDNumber' => 'required|digits:13|unique:CustomerUsers,IDNumber,' . $id,
+            // 'Email' => 'required|email|unique:CustomerUsers,Email,' . $id,
+            // 'PhoneNumber' => 'required|string|unique:CustomerUsers,PhoneNumber,' . $id,
+            'IDNumber' => ['required', 'digits:13', Rule::unique('CustomerUsers')->ignore($id)->where(function ($query) use ($request) {
+                return $query->where('CustomerId', $request->CustomerId);
+            })],
+            'Email' => ['required', 'string', 'email', 'max:255',Rule::unique('CustomerUsers')->ignore($id)->where(function ($query) use ($request) {
+                return $query->where('CustomerId', $request->CustomerId);
+            })],
+            'PhoneNumber' => ['required', 'string', 'max:255',Rule::unique('CustomerUsers')->ignore($id)->where(function ($query) use ($request) {
+                return $query->where('CustomerId', $request->CustomerId);
+            })],
             'Password' => [
                 'nullable',
                 'min:8',
@@ -249,14 +340,30 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id', $id)->delete();
 
         $user->assignRole($request->input('roles'));
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
+        if ($getRoleName) {
+            if ($getRoleName == 'SuperAdmin') {
+                return redirect()->route('admin-display')
+                ->with('success', 'User updated successfully')
+                ->with('UserFullName', $UserFullName)
+                ->with('customerName', $customer->RegistrationName)
+                ->with('Icon', $customer->Client_Icon)
+                ->with('customer', $customer)
+                ->with('Logo', $customer->Client_Logo);
+                
+            } else{
+                //return redirect('users/'.$id.'/edit')
+                return redirect()->route('users-display',['id'=>$customer->Id])
+                ->with('success', 'User updated successfully')
+                ->with('UserFullName', $UserFullName)
+                ->with('customerName', $customer->RegistrationName)
+                ->with('Icon', $customer->Client_Icon)
+                ->with('customer', $customer)
+                ->with('Logo', $customer->Client_Logo);
+            }
+        }
 
-        return redirect()->route('admin-display')
-            ->with('success', 'User updated successfully')
-            ->with('UserFullName', $UserFullName)
-            ->with('customerName', $customer->RegistrationName)
-            ->with('Icon', $customer->Client_Icon)
-            ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
+        
     }
 
     /**
