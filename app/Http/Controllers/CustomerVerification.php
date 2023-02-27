@@ -1845,8 +1845,6 @@ class CustomerVerification extends Controller
 
         $usersend = SendEmail::create([
 
-
-
             'EmailID' => Str::upper(Str::uuid()),
             'Consumerid' => $SearchConsumerID,
             'Consumer_Firstname' => $consumer->FirstName,

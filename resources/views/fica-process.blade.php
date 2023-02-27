@@ -3452,8 +3452,8 @@ Fica Progress
                     <br><br>
                     <div class="row justify-content-center">
                         <div class="col-xl-10">
-                            <h5 style="color: #696969"> Congratulations, your Fica has been Completed, click logout
-                                button to logout.
+                            <h5 style="color: #696969">
+                                Thank you for registering and successfully completing the electronic FICA verification process. We’re now in the process of creating your account. Once this has been set up, we’ll send you your account information.
                             </h5>
                         </div>
                     </div>
