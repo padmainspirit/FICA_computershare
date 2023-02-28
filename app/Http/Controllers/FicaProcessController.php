@@ -40,6 +40,8 @@ use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Auth;
+use App\Models\CustomerHasTabs;
+use App\Models\CustomerTabs;
 
 use function Symfony\Component\String\b;
 
@@ -88,6 +90,7 @@ class FicaProcessController extends Controller
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
+        $dynamictabs = CustomerTabs::checkTabPermission($Customerid);
 
         $Telephones = [];
         //try {
@@ -355,7 +358,7 @@ class FicaProcessController extends Controller
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
             'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
-            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
+            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon, 'dynamictabs'=>$dynamictabs,
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);

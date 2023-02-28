@@ -280,7 +280,9 @@ Fica Progress
         <div class="card">
             <div class="card-body">
                 <div id="vertical-example" class="vertical-wizard">
-                    <h3>Identity Document
+                    
+                    <h3>
+                        Identity Document
                         @if ($fica->ID_Status != null)
                         <img src="{{ URL::asset('/assets/images/success.svg') }}" style="float: right; margin-right: 5%; padding-top:6px" width="22px" />
                         @else
@@ -476,6 +478,7 @@ Fica Progress
         </section>
 
         <!-- Bank Details -->
+        <?php if(in_array('proof_of_bank_details',$dynamictabs)){ ?>
         <h3>Proof Of Bank Details
             @if ($fica->AVS_Status != null)
             <img src="{{ URL::asset('/assets/images/success.svg') }}" style="float: right; margin-right: 5%; padding-top:6px" width="22px" />
@@ -571,14 +574,16 @@ Fica Progress
                                                 <img src="{{ URL::asset('/assets/images/checked2.png') }}" alt="cloud upload"
                 width="25%">
             </div>
-    </div>
-    <br>
-    </div> --}}
-    </div>
-    @endif
-    </section>
+        </div>
+        <br>
+        </div> --}}
+        </div>
+        @endif
+        </section>
+        <?php } ?>
 
     <!-- Facial Recognition -->
+    <?php if(in_array('facial_recognition',$dynamictabs)){ ?>
     <h3>Facial Recognition
         {{-- <img src="{{ URL::asset('/assets/images/success.svg') }}"
         style="float: right; margin-right: 20%; padding-top:8px" width="20px"> --}}
@@ -657,6 +662,7 @@ Fica Progress
         @endif
 
     </section>
+    <?php } ?>
 
     <h3>Personal Details
         {{-- <img src="{{ URL::asset('/assets/images/success.svg') }}"
@@ -2222,6 +2228,7 @@ Fica Progress
                     </div>
 
                     {{-- Bank Verification --}}
+                    <?php if(in_array('proof_of_bank_details',$dynamictabs)){ ?>
                     <div class="col-sm-2">
                         <div style="width: 95%;padding:1%">
                             @if ($fica->Validation_Status != null || $fica->Correction_Status != null)
@@ -2257,8 +2264,10 @@ Fica Progress
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
 
                     {{-- Facial Recognition --}}
+                    <?php if(in_array('facial_recognition',$dynamictabs)){ ?>
                     <div class="col-sm-2">
                         <div style="width: 95%;padding:1%">
                             @if ($fica->Validation_Status != null || $fica->Correction_Status != null)
@@ -2294,8 +2303,10 @@ Fica Progress
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
 
                     {{-- Compliance --}}
+                    <?php if(in_array('compliance',$dynamictabs)){ ?>
                     <div class="col-sm-2">
                         <div style="width: 95%;padding:1%">
                             @if ($fica->Validation_Status != null || $fica->Correction_Status != null)
@@ -2334,6 +2345,7 @@ Fica Progress
                             <h6 style="color: #000;">Compliance</h6>
                         </div>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
 

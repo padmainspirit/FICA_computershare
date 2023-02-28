@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+
 class CustomerHasTabs extends Model
 {
     use HasFactory;
@@ -17,6 +19,7 @@ class CustomerHasTabs extends Model
         'TabId',
     ];
 
+    
     
 
 }

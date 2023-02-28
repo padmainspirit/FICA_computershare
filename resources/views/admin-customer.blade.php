@@ -32,23 +32,35 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form class="form-horizontal" method="POST" action="{{ route('admin-customer') }}">
+                                    <form class="form-horizontal" method="POST" action="{{ route('admin-customer') }}" enctype="multipart/form-data">
 
                                         @csrf
 
+                                        <div class="row">
+                                        @if (count($errors) > 0)
+                                            <div class="alert alert-danger">
+                                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                        </div>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Trading Name:</label>
-                                                    <input class="form-control" type="text" id="TradingName" name="TradingName" placeholder="Enter a trading name" required>
+                                                    <input class="form-control" type="text" id="TradingName" name="TradingName" placeholder="Enter a trading name" value="{{ old('TradingName') }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Registration Name:</label>
-                                                    <input class="form-control" type="text" id="RegistrationName" name="RegistrationName" placeholder="Enter a registration name" required>
+                                                    <input class="form-control" type="text" id="RegistrationName" name="RegistrationName" placeholder="Enter a registration name" value="{{ old('RegistrationName') }}">
 
                                                 </div>
                                             </div>
@@ -57,14 +69,14 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Registration Number:</label>
-                                                    <input class="form-control" type="text" id="RegistrationNumber" name="RegistrationNumber" placeholder="Enter a registration number" required>
+                                                    <input class="form-control" type="text" id="RegistrationNumber" name="RegistrationNumber" placeholder="Enter a registration number" value="{{ old('RegistrationNumber') }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">VAT Number:</label>
-                                                    <input class="form-control" type="text" id="VATNumber" name="VATNumber" placeholder="Enter a VAT number" required>
+                                                    <input class="form-control" type="text" id="VATNumber" name="VATNumber" placeholder="Enter a VAT number" value="{{ old('VATNumber') }}">
 
                                                 </div>
                                             </div>
@@ -76,14 +88,14 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Branch Location:</label>
-                                                    <input class="form-control" type="text" id="BranchLocation" name="BranchLocation" placeholder="Enter a branch location" required>
+                                                    <input class="form-control" type="text" id="BranchLocation" name="BranchLocation" placeholder="Enter a branch location" value="{{ old('BranchLocation') }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Physical Address:</label>
-                                                    <input class="form-control" type="text" id="PhysicalAddress" name="PhysicalAddress" placeholder="Enter a physical address" required>
+                                                    <input class="form-control" type="text" id="PhysicalAddress" name="PhysicalAddress" placeholder="Enter a physical address" value="{{ old('PhysicalAddress') }}">
 
                                                 </div>
                                             </div>
@@ -92,14 +104,14 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Type of Business:</label>
-                                                    <input class="form-control" type="text" id="TypeOfBusiness" name="TypeOfBusiness" placeholder="Enter a type of business" required>
+                                                    <input class="form-control" type="text" id="TypeOfBusiness" name="TypeOfBusiness" placeholder="Enter a type of business" value="{{ old('TypeOfBusiness') }}">
 
                                                 </div>
 
                                                 <div class="mb-3">
-
+                                                
                                                     <label class="form-label">Telephone Number:</label>
-                                                    <input class="form-control" type="text" id="TelephoneNumber" name="TelephoneNumber" placeholder="Enter a telephone number" required>
+                                                    <input class="form-control" type="text" id="TelephoneNumber" name="TelephoneNumber" placeholder="Enter a telephone number" value="{{ old('TelephoneNumber') }}">
 
                                                 </div>
                                             </div>
@@ -126,14 +138,14 @@
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Client Font Code:</label>
-                                                    <input class="form-control" type="text" id="fontcode" name="fontcode" placeholder="Enter a font # code">
+                                                    <input class="form-control" type="text" id="fontcode" name="fontcode" placeholder="Enter a font # code" value="{{ old('fontcode') }}">
 
                                                     <br> <br>
 
 
                                                 </div>
 
-                                                <div class="mb-3">
+                                                <!-- <div class="mb-3">
 
                                                     <input type="checkbox"  name="apicheck[]" value="AVS">
                                                     <label class="form-label">AVS</label>
@@ -151,7 +163,16 @@
 
                                                     &nbsp; &nbsp;
                                                    
+                                                </div> -->
+
+                                                <div class="mb-3">
+                                                    <?php foreach ($tabs as $key => $value) { ?>
+                                                        <input type="checkbox"  name="tab[]" value="{{$value->Id}}">
+                                                        <label class="form-label">{{ $value->Name }}</label>
+                                                        &nbsp; &nbsp; 
+                                                    <?php }?>
                                                 </div>
+
                                             </div>
                                         </div>
 

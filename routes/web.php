@@ -119,7 +119,7 @@ Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class
 Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 
 Route::post('/admin-edit', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerEdit'])->name('edit-customer');
-Route::get('/admin-conglomerate', [App\Http\Controllers\AdminCreateController::class, 'EditDetails'])->name('edit-details');  //edit here
+Route::post('/admin-conglomerate', [App\Http\Controllers\AdminCreateController::class, 'EditDetails'])->name('edit-details');  //edit here
 
 Route::get('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'ShowAdminCreate'])->name('admin-create');
 Route::post('/admin-create', [App\Http\Controllers\AdminCreateController::class, 'CreateAdmin'])->name('create-admin');
