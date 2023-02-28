@@ -49,12 +49,12 @@
                             <li><a class="nav-link">{{ Auth::user()->FirstName . ' ' . Auth::user()->LastName }}</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{ route('logout', ['customer' => 'Computershare']) }}"
                                     onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                <form id="logout-form" action="{{ route('logout', ['customer' => 'Computershare']) }}" method="POST"
                                     style="display: none;">
                                     @csrf
                                 </form>

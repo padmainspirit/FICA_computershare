@@ -96,7 +96,7 @@
 
                                                 <div class="mb-3">
 
-                                                    <label class="form-label">Business Type:</label>
+                                                    <label class="form-label">Type Of Business:</label>
                                                     <input class="form-control" type="text" id="TypeOfBusiness"
                                                         name="TypeOfBusiness" placeholder="Business Type"
                                                         style="padding-left: 1.75rem;" value="{{ $TypeOfBusiness }}">
@@ -113,8 +113,66 @@
                                                         style="padding-left: 1.75rem;" value="{{ $TelephoneNumber }}">
 
                                                 </div>
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Telephone Number:</label>
+                                                    <input class="form-control" type="text" id="TelephoneNumber"
+                                                        name="TelephoneNumber" placeholder="Telephone Number"
+                                                        style="padding-left: 1.75rem;" value="{{ $TelephoneNumber }}">
+
+                                                </div>
                                             </div>
 
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Logo:</label>
+                                                    <input class="form-control" type="file" id="Client_logo" name="Client_logo" placeholder="Upload a logo" >
+
+                                                </div>
+
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Icon:</label>
+                                                    <input class="form-control" type="file" id="Client_icon" name="Client_icon" placeholder="Upload an icon">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+
+                                                    <label class="form-label">Client Font Code:</label>
+                                                    <input class="form-control" type="text" id="fontcode" name="fontcode" placeholder="Enter a font # code">
+
+                                                    <br> <br>
+
+
+                                                </div>
+
+                                                <div class="mb-3">
+
+                                                    <input type="checkbox"  name="apicheck[]" value="AVS">
+                                                    <label class="form-label">AVS</label>
+
+                                                    &nbsp; &nbsp;
+                                                    
+                                                    <input type="checkbox" name="apicheck[]" value="KYC">
+                                                    <label class="form-label">Facial</label>
+
+                                                    &nbsp; &nbsp;
+
+                                                    
+                                                    <input type="checkbox"  name="apicheck[]" value="Compliance">
+                                                    <label class="form-label">Compliance</label>
+
+                                                    &nbsp; &nbsp;
+                                                   
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row justify-content-center mt-3 mb-0">

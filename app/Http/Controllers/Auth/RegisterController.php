@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\CustomerUser;
+use App\Http\Controllers\awsController;
+use App\Http\Controllers\VerifyUserController;
 use App\Models\ConsumerIdentity;
 use App\Models\Banks;
 use App\Models\Customer;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Console\View\Components\Alert;
 
 class RegisterController extends Controller
 {
@@ -28,8 +31,11 @@ class RegisterController extends Controller
     /**  index function to render registration form with customer details*/
     public function index(Request $request)
     {
+        $message = '';
         $customer = Customer::getCustomerDetailsByUrl();
-        return view('auth.register', ['customer' => $customer]);
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+        return view('auth.register', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' => $RegistrationName])->with('message', $message);
     }
 
 
@@ -46,7 +52,8 @@ class RegisterController extends Controller
         $this->validate($request, [
             'FirstName' => ['required', 'string', 'min:2', 'max:255'],
             'LastName' => ['required', 'string', 'min:2', 'max:255'],
-            'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            // 'IDNumber' => 'required|digits:13|unique:CustomerUsers',
+            'IDNumber' => 'required|digits:13',
             'Email' => ['required', 'string', 'email', 'max:255', 'unique:CustomerUsers'],
             'PhoneNumber' => ['required', 'digits:10', 'max:255', 'unique:CustomerUsers'],
             'Password' => [
@@ -56,7 +63,7 @@ class RegisterController extends Controller
             ],
             'confirm-passkey' => ['required', 'string', 'min:8', 'same:Password'],
         ], [
-            'unique'        => 'The :attribute already been registered.',
+            'unique'        => 'The :attribute has already been registered.',
             'IDNumber.required' => 'The ID number field is required.',
             'IDNumber.digits' => 'Please enter a valid 13 digit ID Number.',
             'PhoneNumber.required' => 'The cellphone number field is required.',
@@ -91,6 +98,7 @@ class RegisterController extends Controller
             return back()->with('fail', 'Please contact Administrator')->with('customer', $customer);
         }
 
+        $emailPassword = $request['Password'];
         $request['Password'] = Hash::make($request['Password']);
         $request['IsAdmin'] = 0;
         $request['CustomerId'] = $customer->Id;
@@ -99,35 +107,97 @@ class RegisterController extends Controller
 
         $request['IsRestricted'] = 0;
 
+        $LastName = $request->LastName;
+        $IDNumber = $request->IDNumber;
+
+        $userData = [];
+        $verifyData = new VerifyUserController();
+        array_push($userData, $LastName, $IDNumber);
+
+        //  dd($userData[1]);
+
+        if ($userData != null) {
+
+            $dataValidated = $verifyData->verifyUser($userData[1], $request);
+            $IdResult =   $dataValidated;
+        }
+
+        session()->flashInput($request->input()); //gets user old values
+
+
         try {
-            $user = CustomerUser::create($request->all());
-            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
-            CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
-            $token = Str::random(16);
-            $FirstName = $request->FirstName;
-            $LastName = $request->LastName;
-            $Email = $request->Email;
-            $Password = $request->Password;
 
+            if($IdResult[0] == $IDNumber)
+            {
+                // dd('id match');
+                if(Str::upper($IdResult[5]) == Str::upper($LastName))
+                {
 
-            // $Customerid = $request->CustomerId;
-            // $customer = Customer::where('Id', '=',  $Customerid)->first();
-            // $Logo = $customer['Client_Logo'];
-            // $TradingName = $customer['TradingName'];
-
-            // dd($Customerid);
+                $user = CustomerUser::create($request->all());
+                CustomerUser::assignRoleWithId(config('app.CUSTOMER_USER_ROLE_ID'), $user->Id);
+                $token = Str::random(16);
+                $FirstName = $request->FirstName;
+                $Email = $request->Email;
+                $Password = $request->Password;
 
             Mail::send(
                 'auth.emailreg',
                 [
                     'token' => $token, 'FirstName' => $FirstName, 'LastName' => $LastName, 'Email' => $Email,
-                    'Password' => $Password, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
+                    'Password' => $emailPassword, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->TradingName, 'YearNow' => $YearNow
                 ],
                 function ($message) use ($request) {
                     $message->to($request->Email);
                     $message->subject('New Registered User');
                 }
             );
+
+            }
+
+            else
+            {
+
+                // dd('no match');
+
+                
+                // $message = 'The ID number entered does not match surname. Please enter a valid ID number';
+               
+                    return view('auth.register')->with('message', 'The ID number entered does not match surname. Please enter a valid ID number')
+                    ->with('customer',$customer)
+                    ->with('Client_Logo', $customer->Client_Logo);
+                // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
+
+            }
+        }
+
+        else
+            {
+
+                
+                // $message = 'The ID number is invalid. Please enter a valid ID number';
+               
+                    return view('auth.register')->with('message', 'The ID number is invalid. Please enter a valid ID number')
+                    ->with('customer', $customer)
+                    ->with('Client_Logo', $customer->Client_Logo);
+                // return back()->with('fail', 'The ID number is invalid or does not match surname. Please enter a valid ID number')->with('customer', $customer);
+
+            }
+
+
+        
+            
+            
+            //CustomerUser::assignRoleWithId(env('CUSTOMER_USER_ROLE_ID'), $user->Id); //CustomerUser role id to be assigned for registered user
+            
+         
+
+            // $Customerid = $request->CustomerId;
+            // $customer = Customer::where('Id', '=',  $Customerid)->first();
+            // $Logo = $customer['Client_Logo'];
+            // $TradingName = $customer['TradingName'];
+
+
+          
         } catch (\Exception $e) {
             print_r($e->getMessage());
             exit;
@@ -136,4 +206,5 @@ class RegisterController extends Controller
 
         return redirect()->route('login', ['customer' => $customer->RegistrationName]);
     }
+   
 }

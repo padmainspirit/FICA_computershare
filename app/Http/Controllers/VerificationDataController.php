@@ -18,10 +18,10 @@ class VerificationDataController extends Controller
 
     public function __construct()
     {
-        $this->username = config("app.VERIFICATION_USER_NAME");
-        $this->pass = config("app.VERIFICATION_USER_PASSWORD");
-        $this->url = config("app.VERIFICATION_USER_URL");
-        $this->apiSearch = config("app.VERIFICATION_USER_API_URL");
+        // $this->username = config("app.VERIFICATION_USER_NAME");
+        // $this->pass = config("app.VERIFICATION_USER_PASSWORD");
+        // $this->url = config("app.VERIFICATION_USER_URL");
+        // $this->apiSearch = config("app.VERIFICATION_USER_API_URL");
         date_default_timezone_set('Africa/Johannesburg');
     }
 
@@ -87,11 +87,15 @@ class VerificationDataController extends Controller
             //here we removing the last 2 character
             $idas_data = explode(",", $result);
 
+          
+
 
             for ($i = 0; $i < count($idas_data); $i++) {
                 $idas_api_data[$i] = $this->removeEverythingBefore($idas_data[$i], ':');
             }
 
+
+            // dd($idas_api_data);
             // $len = $this->idasArrayLength(count($idas_data));
 
             // app('debugbar')->info($len);
@@ -220,6 +224,7 @@ class VerificationDataController extends Controller
                 );
             }
 
+            // dd($idas_api_data[0]);
             return  $idas_api_data[0];
         } catch (\Exception $e) {
             //  return  0;

@@ -40,6 +40,8 @@ use App\Models\Telephones;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Aws\S3\S3Client;
 
 use function Symfony\Component\String\b;
 
@@ -99,7 +101,7 @@ class FicaProcessController extends Controller
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumerid)->first();
         $LoggedInConsumerId = $consumerid;
-        $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
+        $consumerIdentity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $financial = Financial::where('FICA_id', '=',  $fica->FICA_id)->first();
         $declaration = Declaration::where('FICA_ID', '=',  $fica->FICA_id)->first();
@@ -309,7 +311,8 @@ class FicaProcessController extends Controller
         // sort($funds);
 
         //Geting banks
-        $banks = Banks::all('bankname')->sortBy('bankname');
+        $banks = Banks::all()->sortBy('bankname');
+        
 
 
         //Geting Provinces
@@ -364,13 +367,14 @@ class FicaProcessController extends Controller
 
     public function uploadfile(Request $request)
     {
+        // print_r('After path');
+        // exit;
+
 
         $this->validate(
             $request,
             [
-
                 'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
-
             ],
             [
                 'file.required' => 'Wrong document format. Please upload a PDF or Image file',
@@ -409,6 +413,18 @@ class FicaProcessController extends Controller
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         // $request->session()->put('NotificationLink', $NotificationLink);
 
+        $consumerIdentity = ConsumerIdentity::where('FICA_id', '=', $fica->FICA_id)->first();
+        $path = $consumerIdentity->Identity_File_Path;
+        $keyname = substr($path, strpos($path, ".com/") + 5);  
+
+        // if(Storage::disk('s3')->exists($keyname)) {
+        //     Storage::disk('s3')->delete($keyname);
+        //     dd('deleted');
+        // }
+        // else{
+        //     dd('does not exist');
+        // }
+            
         $bankTpye = BankAccountType::all();
         $aws = new awsController();
 
@@ -421,19 +437,15 @@ class FicaProcessController extends Controller
             }
         }
 
-
         $Addresses = Address::getAllAddresses();
         $Home  =  $Addresses['Home'];
         $Postal = $Addresses['Postal'];
         $Work  = $Addresses['Work'];
 
-
-
         $Telephone = Telephones::getAllTelephones();
         $TelCell  = $Telephone['TelCell'];
         $TelHome = $Telephone['TelHome'];
         $TelWork  = $Telephone['TelWork'];
-
 
         $DOB = null;
         $selectedIndustryofoccupation = null;
@@ -454,34 +466,20 @@ class FicaProcessController extends Controller
             $selectSourceOfFunds = ($financial != null) ?  $financial->Sources_Funds : null;
         }
 
-
-
         $NotificationLink = $request->session()->get('NotificationLink');
-
-
         $industryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
-
         $nationality = Nationality::all('Nationality')->sortBy('Nationality');
-
         $sourceOfFunds = SourceOfFunds::all('Funds')->sortBy('Funds');
-
         $banks = Banks::all('bankname')->sortBy('bankname');
-
         $provinces = Provinces::all('Province_name')->sortBy('Province_name');
-
         $cities = Cities::all('cityName')->sortBy('cityName');
-
         $request->session()->put('FICAProgress', $fica->FICAProgress);
-
         $validator = Validator::make($request->all(), [
             'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
         ]);
-
         $type = substr($request->file->getClientMimeType(), -3);
         $size = $request->file->getSize();
-
-
-
+      
         // $path = '';
         $url = config('app.API_UPLOAD_PATH');
         $urlFile = '';
@@ -501,16 +499,18 @@ class FicaProcessController extends Controller
         //Check if uploaded file is pdf
 
         $path = public_path('tempImages/');
-
+       
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
         if ($type == 'pdf') {
+            app('debugbar')->info($type);
             $request->file->move(public_path('pdf'), $fileName);
             //$firstPage =  $fileName . '[0]';
             $pdfPath = 'pdf/' .  $fileName;
             // $pdfPath = 'C:/PROJECT/V1.2/FICA_V1/public/pdf/' .  $fileName;
 
+            app('debugbar')->info('pdfPath');
             app('debugbar')->info($pdfPath);
             $imagePath = $this->convertingPdfToImages($pdfPath);
         } elseif ($type == 'jpg'  || 'jpeg' || 'tiff' || 'png') {
@@ -539,15 +539,16 @@ class FicaProcessController extends Controller
         //me
         $mergedData = call_user_func_array('array_merge', $extractedData);
 
+        app('debugbar')->info('extractedData');
         app('debugbar')->info($extractedData);
 
+        app('debugbar')->info('mergedData');
         app('debugbar')->info($mergedData);
 
         //ID Upload checks
         if ($request->stage == 'id') {
             app('debugbar')->info('ID Stage');
             $IDResults = $aws->smartCardAndGreenBookID($mergedData, $request);
-            app('debugbar')->info($IDResults['status']);
 
             //Check if the ID Number is valide and store the ID copy to S3
             if ($IDResults['status'] == true) {
@@ -571,7 +572,6 @@ class FicaProcessController extends Controller
                     )
                 );
             }
-
             app('debugbar')->info($request);
 
             // $pathPDF = 'pdf/' . $fileName;
@@ -591,7 +591,9 @@ class FicaProcessController extends Controller
 
             // if ($docDate <= 700) {
             // Store Proof Of Address document in S3 if document date is less than 3 months
-            $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
+            $filePath = $customerUser->CustomerId . '- test' . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
+             //Production S3 Folder
+           // $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'ADDRESS_' . $fileName;
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
                 $pdfTempPath = public_path('pdf/' . $fileName);
@@ -619,12 +621,14 @@ class FicaProcessController extends Controller
 
         //Bank statement Upload checks
         if ($request->stage == 'bank') {
-            app('debugbar')->info('Bank Stage');
+            app('debugbar')->info('Bank Stage'); 
             $bank =  $aws->bankDetails($mergedData, $request);
 
             // if ($docDate <= 10) {
             // Store Bank document in S3 if document date is less than 3 months
-            $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
+            $filePath = $customerUser->CustomerId . '- test' . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
+             //Production S3 Folder
+           // $filePath = $customerUser->CustomerId . '/' . $consumer->Consumerid . '/' . $fica->FICA_id . '/' . 'BANK_' . $fileName;
 
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
@@ -710,5 +714,37 @@ class FicaProcessController extends Controller
         } else {
             //dd('File does not exists.');
         }
+    }
+
+    public function deletefilefroms3()
+    {
+        $Key = config("app.TEXTRACT_CLIENT_KEY");
+        $Secret = config("app.TEXTRACT_CLIENT_SECRET");
+        $Region = config("app.TEXTRACT_CLIENT_REGION");
+
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        $consumerIdentity = ConsumerIdentity::where('FICA_id', '=', $fica->FICA_id)->first();
+        $path = $consumerIdentity->Identity_File_Path;
+        $keyname = substr($path, strpos($path, ".com/") + 5);  
+        // $bucket  =  "file-upload-fica/";
+        // $deletepath = $bucket . $keyname;
+
+        // if(Storage::disk('s3')->exists('4717E73D-1F3F-4ACE-BE1A-0244770D6272- test/FD96769A-403A-4A26-8364-721139236CC5/8FFC0C77-CFFC-4AD3-8137-D42303C2563B/ID_ID_PEET ID.pdf.pdf')) {
+           
+        //     Storage::disk('s3')->delete('4717E73D-1F3F-4ACE-BE1A-0244770D6272- test/FD96769A-403A-4A26-8364-721139236CC5/8FFC0C77-CFFC-4AD3-8137-D42303C2563B/ID_ID_PEET ID.pdf.pdf');
+           
+        //     dd('deleted');
+
+        
+            
+        // }
+
+        if(Storage::disk('s3')->exists($keyname)) {
+            Storage::disk('s3')->delete($keyname);
+            
+        }
+           return back(); 
     }
 }

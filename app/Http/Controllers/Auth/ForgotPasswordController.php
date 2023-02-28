@@ -28,8 +28,12 @@ class ForgotPasswordController extends Controller
         //$Customerid = $request->session()->get('Customerid');
         $customer = Customer::getCustomerDetailsByUrl();
 
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+
         return view('auth.forget-password')->with('message', $message)
-            ->with('customer', $customer);
+            ->with('customer', $customer)
+            ->with('Client_Logo', $customer->Client_Logo);
     }
 
     public function submitForgetPasswordForm(Request $request)
@@ -86,23 +90,26 @@ class ForgotPasswordController extends Controller
                 //     'created_at' => Carbon::now()
                 //   ]);
 
-                /* Mail::send('auth.email', ['token' => $token, 'Logo' => $Logo, 'YearNow' => $YearNow, 'TradingName' => $TradingName], function ($message) use ($request) {
+                Mail::send('auth.email', ['token' => $token, 'Logo' => $customer->Client_Logo, 'YearNow' => $YearNow, 'TradingName' => $customer->TradingName], function ($message) use ($request) {
                     $message->to($request->Email);
                     $message->subject('Reset Password');
-                }); */
+                });
 
                 $message = 'We have e-mailed your password reset link.';
                 //$request->session()->put('message', $message);
-                return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+                return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+                ->with('Client_Logo', $customer->Client_Logo);
             } else {
                 $message = 'No registered user found.';
                 //$request->session()->put('message', $message);
-                return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+                return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+                ->with('Client_Logo', $customer->Client_Logo);
             }
         } else {
             $message = 'No registered user found.';
             //$request->session()->put('message', $message);
-            return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
+            return view('auth.forget-password')->with('message', $message)->with('customer', $customer)
+            ->with('Client_Logo', $customer->Client_Logo);
         }
     }
 
@@ -115,14 +122,22 @@ class ForgotPasswordController extends Controller
 
         // app('debugbar')->info($customer);
         $message = '';
+        $ForgetEmail = $request->session()->get('ForgetEmail');
 
-        $Customerid = Auth::user()->CustomerId;
+        if ($ForgetEmail != null) {
+            $getCustomerid = CustomerUser::where('Email', '=', $ForgetEmail)->first();
+            $Customerid = $getCustomerid->CustomerId;
+        }else{
+            return view('auth.forget-password')->with($message, 'No registered user found.');
+        }
+
+        // dd($Customerid);
+
+        // $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-
-        $ForgetEmail = $request->session()->get('ForgetEmail');
 
         // dd($customer);
 
@@ -144,12 +159,21 @@ class ForgotPasswordController extends Controller
         //     'Password_confirmation' => ['required'],
         // ]);
 
+        $message = '';
         $client = new Client;
         $token = $request->input('g-recaptcha-response-reset');
 
         $Email = $request->session()->get('Email');
+        $ForgetEmail = $request->session()->get('ForgetEmail');
 
-        $Customerid = Auth::user()->CustomerId;
+        if ($ForgetEmail != null) {
+            $getCustomerid = CustomerUser::where('Email', '=', $ForgetEmail)->first();
+            $Customerid = $getCustomerid->CustomerId;
+        }else{
+            return view('auth.forget-password')->with($message, 'No registered user found.');
+        }
+
+        // $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];

@@ -24,6 +24,7 @@ use App\Models\Address;
 use App\Models\LookupDatas;
 use App\Models\BankAccountType;
 use App\Models\APILogs;
+use App\Models\AWSLogs;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,14 +52,11 @@ class awsController extends Controller
         date_default_timezone_set('Africa/Johannesburg');
     }
 
-    public function TextractAmazonOCR($path, Request $request)
+    public function TextractAmazonOCR($path)
     {
-
-
         $Key = config("app.TEXTRACT_CLIENT_KEY");
         $Secret = config("app.TEXTRACT_CLIENT_SECRET");
         $Region = config("app.TEXTRACT_CLIENT_REGION");
-
 
         $texts = array();
         $data = new OCRdata();
@@ -88,7 +86,6 @@ class awsController extends Controller
         //Extract data from the document using aws Textract
         $result = $client->detectDocumentText($options);
         $blocks = $result['Blocks'];
-        //dd($blocks);
         // dump(json_encode($result));
 
         foreach ($blocks as $key => $value) {
@@ -106,11 +103,8 @@ class awsController extends Controller
         }
         return $texts;
 
-
-        // if($$request->)
-
-
-        //app('debugbar')->info($texts);
+        app('debugbar')->info('texts');
+        app('debugbar')->info($texts);
         //$this->address($texts, $request); //uncomment
         //$this->smartCardAndGreenBookID($texts, $request); //uncomment
         // $test = $this->proofOfBank($texts);
@@ -124,6 +118,7 @@ class awsController extends Controller
     function smartCardAndGreenBookID($texts, Request $request)
     {
         // $IDNO = array();
+
         $IdAndConfidence = array();
         $IssueDate = [];
         $Nationality = [];
@@ -139,7 +134,7 @@ class awsController extends Controller
                             $numberFromDoc =  filter_var($texts[$j], FILTER_SANITIZE_NUMBER_INT);
                             $temp =  explode("-", $numberFromDoc);
                             if ((strlen($temp[0])) >= 12) {
-                                app('debugbar')->info('ID Number: ' . $temp[0]);
+                                // app('debugbar')->info('ID Number: ' . $temp[0]);
                                 $IdAndConfidence = $temp;
                             }
                             array_push($tempData, $temp);
@@ -233,6 +228,7 @@ class awsController extends Controller
                     $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
                     //  $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->where('FICAStatus', '=', 'In progress')->first();
                     $loggedInUserId = Auth::user()->Id;
+                    $IDNUMBER = Auth::user()->IDNumber;
                     $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
                     //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
                     // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
@@ -240,12 +236,14 @@ class awsController extends Controller
                     $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
+                    $identity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
                     // $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
 
                     // $ficaProgress = $fica->FICAProgress == null ? 0 + 1 : $fica->FICAProgress + 1;
 
                     // app('debugbar')->info($fica);
 
+                    app('debugbar')->info('IdDataResult');
                     app('debugbar')->info($IdDataResult);
 
                     //save data on the TBL_Consumer_IDENTITY
@@ -279,6 +277,26 @@ class awsController extends Controller
                         'API_ID' => $idasIdLookup->Value
                     ]);
 
+                    try {
+                        AWSLogs::create([
+                            'Id' => Str::upper(Str::uuid()),
+                            'Createddate' => date("Y-m-d H:i:s"),
+                            'CustomerId' => $customers->Id,
+                            'FICAId' => $fica->FICA_id,
+                            'CustomerUserId' => $consumer->CustomerUSERID,
+                            'ConsumerID' => $fica->Consumerid,
+                            'AWS_Cost' => '5',
+                            'IdOrPassportNumber' => $IDNUMBER,
+                            'AWSSearchType' => '1',
+                            'Documentname' => $identity->Identity_Documentname,
+                        ]);
+                    } catch (\Illuminate\Database\QueryException $exception) {
+                        // You can check get the details of the error using `errorInfo`:
+                        $errorInfo = $exception->errorInfo;
+                        app('debugbar')->info($errorInfo);
+
+                        // Return the response to the client..
+                    }
 
                     $IDResults = ([
                         'IdNumber' => $dataValidated,
@@ -296,10 +314,13 @@ class awsController extends Controller
 
                     // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
                     $loggedInUserId = Auth::user()->Id;
+                    $IDNUMBER = Auth::user()->IDNumber;
+                    $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
                     $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
                     $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
+                    $identity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
 
                     //FICA Progress
                     // $ficaProgress = $fica->FICAProgress == null ? 0 + 1 : $fica->FICAProgress + 1;
@@ -332,6 +353,26 @@ class awsController extends Controller
                         'API_ID' => $idasIdLookup->Value
                     ]);
 
+                    try {
+                        AWSLogs::create([
+                            'Id' => Str::upper(Str::uuid()),
+                            'Createddate' => date("Y-m-d H:i:s"),
+                            'CustomerId' => $customers->Id,
+                            'FICAId' => $fica->FICA_id,
+                            'CustomerUserId' => $consumer->CustomerUSERID,
+                            'ConsumerID' => $fica->Consumerid,
+                            'AWS_Cost' => '5',
+                            'IdOrPassportNumber' => $IDNUMBER,
+                            'AWSSearchType' => '1',
+                            'Documentname' => $identity->Identity_Documentname,
+                        ]);
+                    } catch (\Illuminate\Database\QueryException $exception) {
+                        // You can check get the details of the error using `errorInfo`:
+                        $errorInfo = $exception->errorInfo;
+                        app('debugbar')->info($errorInfo);
+
+                        // Return the response to the client..
+                    }
 
                     $IDResults = ([
                         'IdNumber' => $dataValidated,
@@ -375,7 +416,6 @@ class awsController extends Controller
 
     function identitySubmit(Request $request)
     {
-        // dd($request);
         //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
@@ -410,6 +450,9 @@ class awsController extends Controller
             $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
             $request->session()->put('dataTextracted', $texts);
 
+            // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
+            // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
+            // $workAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
 
             // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
             // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
@@ -699,14 +742,39 @@ class awsController extends Controller
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+        $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         // $customerUser = CustomerUser::where('Id', '=',  session()->get('LoggedUser'))->first();
         // $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
         $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
-
         $request->session()->put('FICAProgress', $fica->FICAProgress);
+
+        $kyc = KYC::where('FICA_id', $fica->FICA_id)->first();
+        $IDNUMBER = Auth::user()->IDNumber;
+
+        try {
+            AWSLogs::create([
+                'Id' => Str::upper(Str::uuid()),
+                'Createddate' => date("Y-m-d H:i:s"),
+                'CustomerId' => $customers->Id,
+                'FICAId' => $fica->FICA_id,
+                'CustomerUserId' => $consumer->CustomerUSERID,
+                'ConsumerID' => $fica->Consumerid,
+                'AWS_Cost' => '10',
+                'IdOrPassportNumber' => $IDNUMBER,
+                'AWSSearchType' => '2',
+                'Documentname' => $kyc->Address_Documentname,
+            ]);
+        } catch (\Illuminate\Database\QueryException $exception) {
+            // You can check get the details of the error using `errorInfo`:
+            $errorInfo = $exception->errorInfo;
+            app('debugbar')->info($errorInfo);
+            // dd($errorInfo);
+
+            // Return the response to the client..
+        }
 
         //get addresses
         // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
@@ -982,7 +1050,6 @@ class awsController extends Controller
 
     function bankDetails($texts, Request $request)
     {
-
         try {
             //app('debugbar')->info($request);
             $bankDataText = $request->session()->put('bankTextractedDetails', $texts);
@@ -1091,16 +1158,13 @@ class awsController extends Controller
         app('debugbar')->info($bankResult);
 
         $request->session()->put('bankResult', $bankResult);
-
         $bankResponse =  new stdClass();
 
         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
-
         $request->session()->put('FICAProgress', $fica->FICAProgress);
-
 
         //$test = ($fica->FICAProgress) + 1;
         //app('debugbar')->info($test);
@@ -1141,6 +1205,27 @@ class awsController extends Controller
                     'AVS_Status' => date("Y-m-d H:i:s")
                 )
             );
+
+            $loggedInUserId = Auth::user()->Id;
+            $IDNUMBER = Auth::user()->IDNumber;
+            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+            $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+            $customerUser =  CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+            $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
+
+            AWSLogs::create([
+                'Id' => Str::upper(Str::uuid()),
+                'Createddate' => date("Y-m-d H:i:s"),
+                'CustomerId' => $customers->Id,
+                'FICAId' => $fica->FICA_id,
+                'CustomerUserId' => $consumer->CustomerUSERID,
+                'ConsumerID' => $fica->Consumerid,
+                'AWS_Cost' => '25',
+                'IdOrPassportNumber' => $IDNUMBER,
+                'AWSSearchType' => '3',
+                'Documentname' => $avs->Bank_Documentname,
+            ]);
+
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
             $bankResponse->status = true;

@@ -309,7 +309,7 @@
 
     @section('content')
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+            <img src="{{ URL::asset($Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
                 class="img-fluid">
         </div>
 
@@ -354,6 +354,13 @@
                                             <div class="alert alert-danger">
                                                 {{ Session::get('oldfail') }}
                                             </div>
+                                        @endif
+
+                                        @if ($message)
+                                        <div class="alert alert-danger text-center mb-4" role="alert">
+                                            {{$message}}
+                                            {{-- The ID number is invalid or does not match surname. Please enter a valid ID number --}}
+                                        </div>
                                         @endif
 
                                         @csrf

@@ -9,7 +9,7 @@
       </tr>
       <tr>
           <td bgcolor="#93186c" align="left" style="color: white; padding: 20px 20px 20px 20px;">
-              <h1 style="font-size: 20px;font-family:Arial,sans-serif;">Newly Registered User</h1>
+              <h1 style="font-size: 20px;font-family:Arial,sans-serif;">Password Reset</h1>
           </td>
       </tr>
   </table>
