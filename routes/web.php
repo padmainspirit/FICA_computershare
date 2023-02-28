@@ -44,7 +44,8 @@ Route::fallback(function(){ return response()->view('errors.404', [], 404); });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
@@ -79,6 +80,7 @@ Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->
 Route::get('/startfica', [App\Http\Controllers\GetStartedController::class, 'startFica'])->name('startfica');
 Route::post('/startfica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('startfica');
 Route::post('/start-fica', [App\Http\Controllers\GetStartedController::class, 'getStarted'])->name('start-fica');
+Route::post('/deletes3', [App\Http\Controllers\FicaProcessController::class, 'deletefilefroms3'])->name('delete-s3');
 Route::post('/startfica', [App\Http\Controllers\FicaProcessController::class, 'ReadNotification'])->name('admin-dashboard-notification');
 
 // Route::get('/fica', [FicaProcessController::class, 'fica'])->name('fica');
@@ -145,6 +147,7 @@ Route::post('/customer-tabs', [AdminCreateController::class, 'CustomerTabs'])->n
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
 Route::get('/verify', [App\Http\Controllers\VerificationDataController::class, 'verifyClientData'])->name('verify');
+Route::get('/verifyUserd', [App\Http\Controllers\VerifyUserController::class, 'verifyUser'])->name('verifyUserd');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);

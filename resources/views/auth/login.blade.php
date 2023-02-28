@@ -33,8 +33,9 @@
         @endif --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 300px; max-height: 300px;" alt=""
+            <img src="{{ URL::asset($Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
                 class="img-fluid">
+                {{-- {{dd($Client_Logo)}} --}}
         </div>
 
         <div class="account-pages">
@@ -86,7 +87,7 @@
                                                 class="input-group auth-pass-inputgroup @error('Password') is-invalid @enderror"> --}}
                                                 <input type="password" name="password" required
                                                     class="form-control  @error('password') is-invalid @enderror"
-                                                    id="password" value="" placeholder="password"
+                                                    id="password" value="" placeholder="Password"
                                                     aria-label="password" aria-describedby="password-addon" />
                                                 {{-- <button class="btn btn-light " type="button" id="password-addon"><i
                                                         class="mdi mdi-eye-outline"></i></button> --}}
@@ -134,7 +135,7 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <a href="{{ route('forget', ['customer' => $customer->RegistrationName]) }}"
+                                            <a href="{{ route('forget', ['customer' => $RegistrationName]) }}"
                                                 class="fw-medium text-primary">
                                                 <span style="color: #93186c">Forgot your password?</span>
                                             </a>
@@ -142,7 +143,7 @@
 
                                         <div class="mt-2 text-center">
                                             <p>Not registered yet? <a
-                                                    href="{{ route('register', ['customer' => $customer->RegistrationName]) }}"
+                                                    href="{{ route('register', ['customer' => $RegistrationName]) }}"
                                                     class="fw-medium text-primary">
                                                     <span style="color: #93186c">Register now</span></a>
                                             </p>
@@ -744,7 +745,7 @@
                                         <!-- end Validation-->
 
                                         <div class="mt-1 text-center">
-                                            <p style="font-size: 10px;">© {{ $customer->RegistrationName }}
+                                            <p style="font-size: 10px;">© {{ $RegistrationName }}
                                                 <script>
                                                     document.write(new Date().getFullYear())
                                                 </script>

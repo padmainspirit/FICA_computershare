@@ -502,9 +502,6 @@ class CustomerVerification extends Controller
 
         $ProgressbyFICA = $ProgressbyFICA * 10;
 
-        // $request->session()->put('FICAStatusbyFICA', $FICAStatusbyFICA);
-        // $request->session()->put('RiskStatusbyFICA', $RiskStatusbyFICA);
-        // $request->session()->put('ProgressbyFICA', $ProgressbyFICA);
 
         $getEntbyFICA = Compliance::where('FICA_id', '=', $SearchFica)->first();
         $EntbyFICA = $getEntbyFICA['Compliance_id'];
@@ -816,6 +813,7 @@ class CustomerVerification extends Controller
 
         );
 
+
         // $WorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
         // $HomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
         // $CellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 12)->first();
@@ -943,15 +941,20 @@ class CustomerVerification extends Controller
         }
 
         $insidedata = $this->StoredProc($request);
+        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
+
+        $ProgressbyFICA = $ProgressbyFICA * 10;
+
 
         $ContactNumbers = $request->session()->get('ContactNumbers');
         $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
-        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        
+        
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
-        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
         $kycstatus = $request->session()->get('kycstatus');
         $bankstatus = $request->session()->get('bankstatus');
         $facialrecognitionstatus = $request->session()->get('facialrecognitionstatus');
@@ -974,6 +977,7 @@ class CustomerVerification extends Controller
         $EmailMatch = $consumerBankDoc['EMAILMATCH'];
         $TaxNumMatch = $consumerBankDoc['TAXREFERENCEMATCH'];
 
+        dd($RiskStatusbyFICA);
 
         // $TitleDesc = $request->session()->get('TitleDesc');
         $getSearchUserTitle = KYC::getAddressDoc($request);
@@ -1242,7 +1246,9 @@ class CustomerVerification extends Controller
         }
 
         //----------------------------------------------------- END ADDRESS ----------------------------------------------
-
+        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
+        $ProgressbyFICA = $ProgressbyFICA * 10;
 
         // $NotificationLink = $request->session()->get('NotificationLink');
         // $LogUserName = $request->session()->get('LogUserName');
@@ -1252,10 +1258,8 @@ class CustomerVerification extends Controller
         $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
-        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
-        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
         $kycstatus = $request->session()->get('kycstatus');
         $bankstatus = $request->session()->get('bankstatus');
         $facialrecognitionstatus = $request->session()->get('facialrecognitionstatus');
@@ -1433,14 +1437,18 @@ class CustomerVerification extends Controller
         $LogUserName = $request->session()->get('LogUserName');
         $LogUserSurname = $request->session()->get('LogUserSurname');
         // $Email = $request->session()->get('Email');
+        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
+        $ProgressbyFICA = $ProgressbyFICA * 10;
+
+
         $ContactNumbers = $request->session()->get('ContactNumbers');
         $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
-        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        // $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
-        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
         $kycstatus = $request->session()->get('kycstatus');
         $bankstatus = $request->session()->get('bankstatus');
         $facialrecognitionstatus = $request->session()->get('facialrecognitionstatus');
@@ -1580,7 +1588,7 @@ class CustomerVerification extends Controller
         $beeshareholders = $beeShareholders  != -1 ? $beeShareholders : NULL;
         $stampdutyreservetax = $stampDutyReserveTax  != -1 ? $stampDutyReserveTax : NULL;
 
-        // dd($request);
+       
 
         Declaration::where('FICA_ID', '=',  $SearchFica)->update([
 
@@ -1600,15 +1608,19 @@ class CustomerVerification extends Controller
 
         $LogUserName = $request->session()->get('LogUserName');
         $LogUserSurname = $request->session()->get('LogUserSurname');
+        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
+        $ProgressbyFICA = $ProgressbyFICA * 10;
+
+
         // $Email = $request->session()->get('Email');
         $ContactNumbers = $request->session()->get('ContactNumbers');
         $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
-        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
+        // $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
-        $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
         $kycstatus = $request->session()->get('kycstatus');
         $bankstatus = $request->session()->get('bankstatus');
         $facialrecognitionstatus = $request->session()->get('facialrecognitionstatus');
@@ -1727,10 +1739,8 @@ class CustomerVerification extends Controller
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
         $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
+        $ProgressbyFICA = $ProgressbyFICA * 10;
 
-        // $RiskStatusbyFICA = $request->session()->get('RiskStatusbyFICA');
-        // $ProgressbyFICA = $request->session()->get('ProgressbyFICA');
-        // $FICAStatusbyFICA = $request->session()->get('FICAStatusbyFICA');
 
         // $Email = $request->session()->get('Email');
 
@@ -1834,8 +1844,6 @@ class CustomerVerification extends Controller
 
 
         $usersend = SendEmail::create([
-
-
 
             'EmailID' => Str::upper(Str::uuid()),
             'Consumerid' => $SearchConsumerID,
@@ -1943,7 +1951,7 @@ class CustomerVerification extends Controller
     }
 
     public function UserInbox(Request $request)
-    {
+    { 
         
         $idnumber = $request->session()->get('idnumber');
 

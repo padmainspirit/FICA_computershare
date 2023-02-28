@@ -153,8 +153,6 @@ class AdminController extends Controller
 
     public function FindUsers(Request $request)
     {
-
-
         $client = Auth::user();
         // $loggedInUserId = $client->Id;
         $LogUserName = $client->FirstName;
@@ -181,11 +179,9 @@ class AdminController extends Controller
 
     public function Display(Request $request)
     {
-
         $request->session()->pull('exception');
 
         $SearchType = "0";
-
 
         $idno = $request->IDNumber;
         $first = $request->FirstName;

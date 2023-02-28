@@ -968,12 +968,12 @@ Fica Progress
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="basicpill-vatno-input" class="font-weight-bold" style="font-size: 12px; color: rgb(0, 0, 0); ">Residential
-                                    Zip:</label>
+                                    Zip Code:</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <input autocomplete="off" type="text" class="form-control input-sm @error('zip-physical') is-invalid @enderror" style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-physical" name="zip-physical" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Home != null ? $Home->OriginalPostalCode : '' }}" placeholder="Enter Zip">
+                                <input autocomplete="off" type="text" class="form-control input-sm @error('zip-physical') is-invalid @enderror" style="height: 27px;  padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-physical" name="zip-physical" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Home != null ? $Home->OriginalPostalCode : '' }}" placeholder="Enter Zip Code">
 
                                 @error('zip-physical')
                                 <div style="color: red">{{ $message = 'Field is required' }}
@@ -1060,12 +1060,12 @@ Fica Progress
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="basicpill-vatno-input" class="font-weight-bold" style="font-size: 12px; color: rgb(0, 0, 0); ">Postal
-                                    Zip:</label>
+                                    Zip Code:</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <input autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip" />
+                                <input autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip Code" />
                             </div>
                         </div>
 
@@ -1811,9 +1811,12 @@ Fica Progress
         <form action="{{ route('declarations') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="personal-details">
-                <h6 style="color: rgb(0, 0, 0);">K. Client Due Diligence</h6>
+                <h6 style="color: rgb(0, 0, 0);">K. Client Due Diligence
+                <span style="color: red; font-size: 20px;" class="required">*
+                </span>
+            </h6>
                 <div class="col-md-12" style="padding-right: 2%;">
-                    <select class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror" id="client-due-diligence-dropdown" name="client-due-diligence-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
+                    <select class="form-select @error('client-due-diligence-dropdown') is-invalid @enderror" id="client-due-diligence-dropdown" name="client-due-diligence-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }} required>
 
                         <option selected disabled>Select</option>
 
@@ -1977,13 +1980,13 @@ Fica Progress
 
 
             <h6 style="color: rgb(0, 0, 0);">F. Segregated Depository
-                Acounts</h6>
+                Accounts</h6>
             <div class="col-md-12" style="padding-right: 2%;">
                 <select class="form-select @error('segregated-depository-acounts-dropdown') is-invalid @enderror" id="segregated-depository-acounts-dropdown" name="segregated-depository-acounts-dropdown" {{ $fica->Declaration_status !== null ? 'disabled' : '' }}>
 
-                    <option selected disabled>Select</option>
+                    <option disabled>Select</option>
 
-                    <option value="Confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? 'selected' : '' }} {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Confirm SDA' ? 'selected' : '' }}>
+                    <option selected value="Confirm SDA" {{ old('segregated-depository-acounts-dropdown') == 'Confirm SDA' ? 'selected' : '' }} {{ isset($declaration->SegregatedDeposit) && $declaration->SegregatedDeposit == 'Confirm SDA' ? 'selected' : '' }}>
                         I confirm that I would not like to open a SDA Strate.
                     </option>
 
@@ -2438,15 +2441,6 @@ Fica Progress
 
             <div style="padding-left:6%">
                 <br>
-                {{-- <div id="fica-final-status"> --}}
-                {{-- @if ($fica->FICAStatus == 'Completed')
-                                        <div class="alert alert-success text-center" role="alert">
-                                            <h4 style="color: green">
-                                                Congratulations, your Fica has been Completed
-                                            </h4>
-                                        </div>
-                                    @endif --}}
-                {{-- </div> --}}
                 <br>
                 <div class="col-lg-12">
 
@@ -2799,12 +2793,24 @@ Fica Progress
                         {{-- </a> --}}
                     </form>
                 </div>
+
+                <form method="post" action='{{ route('delete-s3') }}' enctype="multipart/form-data">
+                    @csrf
+                    {{-- <a href="javascript:window.location = window.location"> --}}
+                    <button type="submit" class="btn btn-primary" id='id-model-not' style="width: 120px; background-color: #5e7b00; border-color: #5e7b00">No
+                    </button>
+                    {{-- </a> --}}
+                </form>
+            </div>
+
+                {{-- <button type="submit" class="btn btn-primary" id='id-model-not' style="width: 120px; background-color: #5e7b00; border-color: #5e7b00" onclick="{{$delete}}"><a href="{{ route('delete-s3') }}"></a>No
+                </button> --}}
                 {{-- <a href="javascript:window.location = window.location"> --}}
-                <a href="javascript:window.history.forward(1)">
+                {{-- <a href="javascript:window.history.forward(1)">
                     <div style="padding-left:2px">
-                        <button type="button" class="btn btn-secondary" id='id-model-no' data-bs-dismiss="modal" style="width: 120px; background-color: #5e7b00; border-color: #5e7b00">No</button>
+                        <button type="button" class="btn btn-secondary" id='id-model-no' data-bs-dismiss="modal" style="width: 120px; background-color: #5e7b00; border-color: #5e7b00"><a href="{{ route('delete-s3') }}"></a>No</button>
                     </div>
-                </a>
+                </a> --}}
             </div>
         </div>
         <br>
@@ -2867,7 +2873,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-street-line-1" class="form-label">Street Address Line 1</label>
-                                <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1" id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px" autocomplete="off" required>
+                                <input type="type" class="form-control" placeholder="ENTER ADDRESS LINE 1" id="py-street-line-1" name="py-street-line-1" style="padding-left: 24px" autocomplete="off">
                                 <span id="error-py-street-line-1" class="text-danger" role="alert">
                                 </span>
                                 {{-- @if ($errors->has('py-street-line-1'))
@@ -2878,7 +2884,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-street-line-2" class="form-label">Street Address Line 2</label>
-                                <input type="type" class="form-control" id="py-street-line-2" style="padding-left: 24px" name="py-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off" required>
+                                <input type="type" class="form-control" id="py-street-line-2" style="padding-left: 24px" name="py-street-line-2" placeholder="ENTER ADDRESS LINE 2" autocomplete="off">
                                 <span id="error-py-street-line-2" class="text-danger" role="alert">
                                 </span>
                             </div>
@@ -2889,7 +2895,7 @@ Fica Progress
 
                                 <div class="input-group" style="height: 35px; width: 100%;">
 
-                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off" required>
+                                    <input type="text" class="form-control" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-city" name="py-city" placeholder="ENTER CITY" autocomplete="off">
                                     <span id="error-py-city" class="text-danger" role="alert">
                                     </span>
                                     {{-- <select class="form-select" autocomplete="off"
@@ -2912,7 +2918,7 @@ Fica Progress
                                         name="py-state"required> --}}
                                 <label for="py-state" class="form-label">State/Province/Region</label>
                                 <div class="input-group" style="height: 35px; width: 100%;">
-                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-state" name="py-state" required>
+                                    <select class="form-select" autocomplete="off" style="height: 35px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px;" id="py-state" name="py-state">
                                         <option hidden>Select Province</option>
                                         @foreach ($provincesNames as $province)
                                         <option value="{{ $province->Province_name }}">
@@ -2928,7 +2934,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-zip" class="form-label">ZIP</label>
-                                <input type="type" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" required>
+                                <input type="type" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" >
                                 <span id="error-py-zip" class="text-danger" role="alert">
                                 </span>
                             </div>
@@ -3197,10 +3203,10 @@ Fica Progress
             <div class="mb-3">
                 <label for="bank-name-dd" class="form-label">Bank Name</label>
                 <div class="input-group" style="height: 35px; width: 100%;">
-                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
+                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off"  style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
                         <option hidden>Select Bank Name</option>
                         @foreach ($bankNames as $bank)
-                        <option value="{{ $bank->bankname }}">
+                        <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode }}">
                             {{ $bank->bankname }}
                         </option>
                         @endforeach
@@ -3220,7 +3226,7 @@ Fica Progress
         <div class="mb-3">
             <label for="acc-number" class="form-label">Account Type</label>
             <div class="input-group" style="height: 35px; width: 100%;">
-                <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="BankTypeid" name="BankTypeid">
+                <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="" name="BankTypeid">
                     @if ($bankTpye->count())
                     <option hidden>Select Bank Type</option>
                     @foreach ($bankTpye as $type)
@@ -3233,8 +3239,8 @@ Fica Progress
                 <span id="error-BankTypeid" class="text-danger" role="alert">
                 </span>
                 {{-- @error('BankTypeid')
-                                            <div style="color: red">
-                                                {{ $message = 'Field is required' }}
+                <div style="color: red">
+                {{ $message = 'Field is required' }}
             </div>
             @enderror --}}
         </div>
@@ -3243,12 +3249,12 @@ Fica Progress
 <div class="col-md-12">
     <div class="mb-3">
         <label for="branch" class="form-label">Branch Code</label>
-        <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" autocomplete="off" id="branch" name="branch" placeholder="ENTER BRANCH CODE">
+        <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" readonly id="branch" name="branch" value="">
         <span id="error-branch" class="text-danger" role="alert">
         </span>
         {{-- @error('branch')
-                                        <div style="color: red">
-                                            {{ $message = 'Field is required' }}
+        <div style="color: red">
+        {{ $message = 'Field is required' }}
     </div>
     @enderror --}}
 </div>
@@ -3458,8 +3464,8 @@ Fica Progress
                     <br><br>
                     <div class="row justify-content-center">
                         <div class="col-xl-10">
-                            <h5 style="color: #696969"> Congratulations, your Fica has been Completed, click logout
-                                button to logout.
+                            <h5 style="color: #696969">
+                                Thank you for registering and successfully completing the electronic FICA verification process. We’re now in the process of creating your account. Once this has been set up, we’ll send you your account information.
                             </h5>
                         </div>
                     </div>
@@ -3576,9 +3582,9 @@ Fica Progress
                     $('#image-upload-identity').hide();
                 }
                 , success: function(response) {
+                    console.log(response)
                     if (response.data.status == true) {
                         $('#textid').append(response.data.IdNumber);
-                        // console.log(response.data)
                         $("#btn-hidden-id").click();
                     } else {
                         $("#btn-hidden-failed").click();
@@ -3587,8 +3593,9 @@ Fica Progress
                 }
                 , error: function(response) {
                     $("#btn-invalid-upload-format").click();
-                    //  console.log('error')
-                    // $("#btn-hidden-failed").click();
+                    // console.log('error')
+                    console.log(response.data)
+                    //  $("#btn-hidden-failed").click();
                 }
 
             });
@@ -4671,5 +4678,18 @@ Fica Progress
         document.getElementById('staticBackdrop').hide();
     });
 
+</script>
+
+<script>
+$('#bank-name-dd').on('change',function(){
+    var price = $(this).children('option:selected').data('price');
+    $('#branch').val(price);
+});
+
+// let sel = document.getElementById('bank-name-dd');
+// sel.addEventListener('click', function (e) {
+//     let price = e.srcElement.selectedOptions["0"].dataset.price;
+//     document.getElementById('branch').value = price;
+// });
 </script>
 @endsection

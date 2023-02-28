@@ -595,16 +595,16 @@
                                                                                 <p style="color: green; text-transform: uppercase; display: none">
                                                                                     PASS</p>
                                                                                     @elseif ($KYCStatusDesc == 'Exception: 1 Matched Address Source')
-                                                                                    <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                    <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                    <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                    <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                         EXCEPTION 1</p>
                                                                                         @elseif ($KYCStatusDesc == 'Exception: 2 Matched Address Sources')
-                                                                                        <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                        <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                        <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                        <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                             EXCEPTION 2</p>
                                                                                             @elseif ($KYCStatusDesc == 'Exception: 3 Matched Address Sources')
-                                                                                            <i class="dripicons-warning" style="font-size: 24px; color: yellow;"></i>
-                                                                                            <p style="color: yellow; text-transform: uppercase; display: none">
+                                                                                            <i class="dripicons-warning" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                            <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
                                                                                                 EXCEPTION 3</p>
                                                                                 @else
                                                                                 <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
@@ -997,10 +997,14 @@
                                                                                 <i class="far fa-check-circle" style="font-size: 24px; color: green;"></i>
                                                                                 <p style="color: green; text-transform: uppercase; display: none">
                                                                                     PASS</p>
+                                                                               @elseif ($TaxNumMatch == 'No')
+                                                                               <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
+                                                                               <p style="color: red; text-transform: uppercase; display: none">
+                                                                                   FAIL</p>
                                                                                 @else
-                                                                                <i class="far fa-times-circle" style="font-size: 24px; color: red;"></i>
-                                                                                <p style="color: red; text-transform: uppercase; display: none">
-                                                                                    FAIL</p>
+                                                                                    <i class="far fa-question-circle" style="font-size: 24px; color: rgb(116, 116, 46);"></i>
+                                                                                <p style="color: rgb(116, 116, 46); text-transform: uppercase; display: none">
+                                                                                    Not Provided</p>
                                                                                 @endif
                                                                             </td>
                                                                         </tr>
@@ -2035,9 +2039,8 @@ placeholder="Enter Your Marriage Type">
                         <div class="col-md-4">
                             <div class="input-group mb-3" style="height: 27px; width: 225px;">
 
-                                <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo" class="form-control input-sm @error('WorkTelephoneNo') is-invalid @enderror" "
-                                                                                                                                        value=" {{ $WorkTelCode }}{{ $WorkTelNo }}" style="padding-left: 24px; height: 27px; font-size: 12px;
-                                                             width: 225px; text-transform: uppercase;" placeholder="Enter Work Number" pattern="^\d{10}$" required>
+                                <input type="text" id="WorkTelephoneNo" name="WorkTelephoneNo" class="form-control input-sm @error('WorkTelephoneNo') is-invalid @enderror" value="{{ $WorkTelCode }}{{ $WorkTelNo }}" style="padding-left: 24px; height: 27px; font-size: 12px;
+                                width: 225px; text-transform: uppercase;" placeholder="Enter Work Number" pattern="^\d{10}$">
 
                             </div>
                             @error('WorkTelephoneNo')
@@ -2059,7 +2062,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="input-group" style="height: 27px; width: 225px;">
 
                                     <input type="text" id="HomeTelephoneNo" name="HomeTelephoneNo" class="form-control input-sm @error('HomeTelephoneNo') is-invalid @enderror" value="{{ $HomeTelCode }}{{ $HomeTelNo }}" style="height: 27px; padding-left: 24px; font-size: 12px;
-                                                                text-transform: uppercase;" placeholder="Enter Home Number" pattern="^\d{10}$" required>
+                                                                text-transform: uppercase;" placeholder="Enter Home Number" pattern="^\d{10}$">
 
                                 </div>
                                 @error('HomeTelephoneNo')
@@ -2158,9 +2161,9 @@ placeholder="Enter Your Marriage Type">
                                                         text-transform: uppercase; font-size: 11px;" id="Employmentstatus" name="Employmentstatus">
                                         <option selected disabled>Select</option>
 
-                                        <option value=1 {{ isset($Employmentstatus) && $Employmentstatus == 1 ? 'selected' : '' }}>
+                                        <option value=1 {{ isset($Employmentstatus) && $Employmentstatus == 'Employed' ? 'selected' : '' }}>
                                             Employed</option>
-                                        <option value=0 {{ isset($Employmentstatus) && $Employmentstatus == 0 ? 'selected' : '' }}>
+                                        <option value=0 {{ isset($Employmentstatus) && $Employmentstatus == 'Unemployed' ? 'selected' : '' }}>
                                             Unemployed</option>
                                     </select>
 
@@ -2235,15 +2238,15 @@ placeholder="Enter Your Marriage Type">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-1">
-                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #1a4f6e; border-color: #1a4f6e">Save</button>
+                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #93186c; border-color: #1a4f6e">Save</button>
                         </div>
 
                         <div class="col-lg-1">
-                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #1a4f6e; border-color: #1a4f6e">Edit</button>
+                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #93186c; border-color: #1a4f6e">Edit</button>
                         </div>
 
                         <div class="col-lg-2">
-                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #1a4f6e; border-color: #1a4f6e">Cancel</button>
+                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #93186c; border-color: #1a4f6e">Cancel</button>
                         </div>
 
                     </div>
@@ -3156,7 +3159,7 @@ placeholder="Enter Your Marriage Type">
                         <div class="col-md-4">
                             <div class="mb-3" style=" width: 225px; height: 27px;">
 
-                                <input type="text" id="Tax_Number" name="Tax_Number" class="form-control input-sm" value="{{ $Tax_Number }}" style="height: 27px; padding-left: 24px; text-transform: uppercase;font-size: 12px;" placeholder="Enter Your Income Tax Number" pattern="^[0-9]*$" required>
+                                <input type="text" id="Tax_Number" name="Tax_Number" class="form-control input-sm" value="{{ $Tax_Number }}" style="height: 27px; padding-left: 24px; text-transform: uppercase;font-size: 12px;" placeholder="Enter Your Income Tax Number" pattern="^[0-9]*$">
 
                             </div>
                         </div>
@@ -3529,12 +3532,12 @@ placeholder="Enter Your Marriage Type">
 
                                             <option selected disabled>Select</option>
 
-                                            <option value='NO' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'NO' ? 'selected' : '' }}>
+                                            <option value='I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' style="font-size: 12px;" {{ isset($NomineeDeclaration) == 'I confirm that I am not acting in the capacity of nominee intending to hold securities on behalf of a beneficial owner.' ? 'selected' : '' }}>
                                                 I confirm that I am not acting in the capacity of nominee
                                                 intending to hold
                                                 securities on behalf of a beneficial owner.</option>
 
-                                            <option value='YES' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'YES' ? 'selected' : '' }}>
+                                            <option value=' I/We confirm that I am/we are a nominee and intend to hold Securities onbehalf of the beneficial owners.' style="font-size: 12px;" {{ isset($NomineeDeclaration) && $NomineeDeclaration == 'YES' ? 'selected' : '' }}>
                                                 I/We confirm that I am/we are a nominee and intend to hold
                                                 Securities on
                                                 behalf of the beneficial owners.
@@ -3706,7 +3709,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="col-md-4">
                                     <div class="mb-3">
 
-                                        <input type="text" id="Broker" name="Broker" class="form-control input-sm" value="{{ $Broker }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;" placeholder="Enter Broker">
+                                        <input type="text" id="Broker" name="Broker" class="form-control input-sm" value="{{ $Broker }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;">
 
                                     </div>
                                 </div>
@@ -3723,7 +3726,7 @@ placeholder="Enter Your Marriage Type">
                                 <div class="col-md-1">
                                     <div class="mb-3">
 
-                                        <input type="text" id="BrokerContact" name="BrokerContact" class="form-control input-sm" value="{{ $BrokerContact }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;" placeholder="Enter Broker Communication">
+                                        <input type="text" id="BrokerContact" name="BrokerContact" class="form-control input-sm" value="{{ $BrokerContact }}" style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;font-size: 12px;">
 
                                     </div>
                                 </div>
@@ -4282,7 +4285,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 170,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 100, fontStyle: 'bold' }, 1: { cellWidth: 140 }, 2: { cellWidth: 100, fontStyle: 'bold' }, 3: { cellWidth: 190 } },
-            headStyles :{fillColor : [26, 79, 110], textColor: [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor: [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4295,7 +4298,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 140, fontStyle: 'bold' }, 1: { cellWidth: 390 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4317,7 +4320,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4332,7 +4335,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4350,7 +4353,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4367,7 +4370,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 270 }, 2: { cellWidth: 0 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4380,7 +4383,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 120 }, 2: { cellWidth: 140, fontStyle: 'bold' }, 3: { cellWidth: 120 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4395,7 +4398,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 270 }, 2: { cellWidth: 0 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         doc.autoTable({
@@ -4412,7 +4415,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 20,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         // doc.autoTable({
@@ -4423,7 +4426,7 @@ placeholder="Enter Your Marriage Type">
         //     startY: doc.lastAutoTable.finalY + 7,
         //     styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
         //     columnStyles: { 0: { cellWidth: 150, fontStyle: 'bold' }, 1: { cellWidth: 380 }},
-        //     headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+        //     headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         // });
 
         
@@ -4437,7 +4440,7 @@ placeholder="Enter Your Marriage Type">
         //     startY: 540,
         //     styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
         //     columnStyles: { 0: { cellWidth: 60 }, 1: { cellWidth: 120 }, 2: { cellWidth: 60 }, 3: { cellWidth: 60 }, 4: { cellWidth: 70 }, 5: { cellWidth: 55 }, 6: { cellWidth: 120 }},
-        //     headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+        //     headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         // });  --}}
 
         // {{--  bodyData = ['{{ $Additional_type }}', '{{ $Additional_value }}', '{{ $Additional_comment }}'];
@@ -4464,7 +4467,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 150 }, 1: { cellWidth: 190 }, 2: { cellWidth: 190 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
         SancList.forEach((element, index) => {
@@ -4490,7 +4493,7 @@ placeholder="Enter Your Marriage Type">
             startY: doc.lastAutoTable.finalY + 7,
             styles: { fontSize: 8, font: 'Avenir', textColor: [0, 0, 0] },
             columnStyles: { 0: { cellWidth: 60 }, 1: { cellWidth: 60 }, 2: { cellWidth: 60 }, 3: { cellWidth: 40 }, 4: { cellWidth: 60 }, 5: { cellWidth: 55 }, 6: { cellWidth: 195 }},
-            headStyles :{fillColor : [26, 79, 110], textColor : [255, 255, 255]},
+            headStyles :{fillColor : [147, 24, 108], textColor : [255, 255, 255]},
         });
 
 

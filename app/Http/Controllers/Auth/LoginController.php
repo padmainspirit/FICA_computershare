@@ -11,16 +11,12 @@ use App\Models\CustomerUser;
 use Illuminate\Support\Facades\Hash;
 use  App\Http\Controllers\Auth\SmsOtpController;
 use App\Models\Customer;
+use App\Models\OTPLogs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Client;
+use Facades\Str;
 use Illuminate\Support\Facades\Mail;
-use URL;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-
-
-
 
 class LoginController extends Controller
 {
@@ -63,9 +59,16 @@ class LoginController extends Controller
     /* Function to render login screen */
     public function index(Request $request)
     {
+        $customer = Customer::getCustomerDetailsByUrl(); 
+
+        // $Client_Logo = 'https://file-upload-fica.s3.amazonaws.com/Logos/computershare.png';
+        // $RegistrationName = 'Computershare';
+
+        $Client_Logo = $customer->Client_Logo;
+        $RegistrationName = $customer->RegistrationName;
+        
         $this->guard()->logout();
-        $customer = Customer::getCustomerDetailsByUrl();
-        return view('auth.login', ['customer' => $customer]);
+        return view('auth.login', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
     }
 
     /**
@@ -124,6 +127,16 @@ class LoginController extends Controller
                     }
                 );
 
+                $loggedInUserId = Auth::user();
+
+                OTPLogs::create([
+                    'OTP_Id' => Str::upper(Str::uuid()),
+                    'Createddate' => date("Y-m-d H:i:s"),
+                    'CustomerId' => $loggedInUserId->CustomerId,
+                    'IDNumber' => $loggedInUserId->IDNumber,
+                    'OTP_Cost' => '1',
+                    'OTP_value' => '1',
+                ]);
 
                 return $request->wantsJson()
                     ? new JsonResponse([], 204)
@@ -181,6 +194,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $customer = Customer::getCustomerDetailsByUrl(); 
+
+        // $Client_Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
+
         $this->guard()->logout();
 
         $request->session()->invalidate();
@@ -189,6 +207,9 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect('/');
+            :  redirect()->route('login', ['customer' => $customer->RegistrationName]);
+            // : redirect('/');
+
+            
     }
 }

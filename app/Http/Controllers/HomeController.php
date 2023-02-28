@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 
 class HomeController extends Controller
@@ -14,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -22,8 +23,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($customerName)
     {
+
+        // print_r($customerName);
+
         return view('home');
+        // $customer = Customer::getCustomerDetailsByUrl(); 
+        // // dd($customer );
+        // $Client_Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
+        // return view('home', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
     }
 }

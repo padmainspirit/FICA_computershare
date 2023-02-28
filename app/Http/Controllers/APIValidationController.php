@@ -16,8 +16,10 @@ use App\Models\AVS;
 use App\Models\KYC;
 use App\Models\DOVS;
 use App\Models\Compliance;
+use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 class APIValidationController extends Controller
 {
@@ -28,6 +30,8 @@ class APIValidationController extends Controller
         $loggedInUserId = Auth::user()->Id;
         $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
         $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        $Customerid = Auth::user()->CustomerId;
+        $customer = Customer::where('Id', '=',  $Customerid)->first();
 
         // dd($consumer);
 
@@ -111,6 +115,15 @@ class APIValidationController extends Controller
                         'FICAStatus' =>  'Failed',
                         'FailedDate' => date("Y-m-d H:i:s"),
                     )
+                );
+
+                $YearNow = Carbon::now()->year;
+                Mail::send('auth.emailfail', ['FirstName' => $customer->FirstName, 'YearNow' => $YearNow],
+                function ($message) {
+                        $client = Auth::user();
+                        $message->to($client->Email);
+                        $message->subject('FICA Status');
+                    }
                 );
             }
 

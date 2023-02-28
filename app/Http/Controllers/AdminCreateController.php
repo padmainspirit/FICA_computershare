@@ -371,6 +371,46 @@ class AdminCreateController extends Controller
     public function CreateCustomer(Request $request)
     {
 
+        $this->validate(
+            $request,
+            [
+                'TradingName' => ['required', 'string', 'unique:Customers', 'max:255'], 
+                'RegistrationName' => ['required', 'string', 'unique:Customers', 'max:255'],
+                'RegistrationNumber' => ['required', 'unique:Customers', 'max:255'],
+                'PhysicalAddress' => ['required'],
+                'TypeOfBusiness' => ['required'],
+                'TelephoneNumber' => ['required', 'numeric'],
+                'VATNumber' => ['numeric', 'max:255'],
+                'Client_logo' => 'required',
+                'Client_icon' => 'required',
+            ],
+            [
+                'unique'        => 'The :attribute has already been registered.',
+                'TradingName.required' => 'The Trading Name is required.',
+                'TradingName.string' => 'Only characters are allowed',
+
+                'RegistrationName.required' => 'The Registration Name is required.',
+                'RegistrationName.string' => 'Only characters are allowed',
+
+                'RegistrationNumber.required' => 'The Registration Number is required.',
+                'RegistrationNumber.numeric' => 'Only characters are allowed',
+
+                'PhysicalAddress.required' => 'The Physical Address is required.',
+
+                'TypeOfBusiness.required' => 'The Type Of Business is required.',
+
+                'TelephoneNumber.required' => 'The Telephone Number is required.',
+                'TelephoneNumber.numeric' => 'Only numbers are allowed',
+
+                'VATNumber.numeric' => 'Only numbers are allowed',
+
+                'Client_logo.required' => 'The Client logo is required.',
+                'Client_icon.required' => 'The Client icon is required.',
+
+                
+            ]
+        );
+
         // dd($request);
         if (session()->has('success')) {
             session()->pull('success');
@@ -393,9 +433,6 @@ class AdminCreateController extends Controller
             'fontcode'=> ['required','regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'Client_logo' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
             'Client_icon' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
-            'tab'=>'required'
-        ],[
-            'tab.required' => 'The Tab selection is required.',
         ]);
 
 
@@ -448,6 +485,16 @@ class AdminCreateController extends Controller
                 $request->Client_icon->move(public_path($customerLogoIconPath), $Icon);
             }
             DB::table('Customers')->where('Id', $newCustomerId)->update(['Client_Logo' => $Logo, 'Client_Icon' => $Icon]);
+        else{
+            $facialchecked = 0;
+        }
+
+        if(in_array('Compliance', $request->get('apicheck'))){
+            $compchecked = 1;
+            dd($compchecked);
+        }
+        else{
+            $compchecked = 0;
         }
 
         

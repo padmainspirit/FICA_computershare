@@ -61,7 +61,7 @@ class Customer extends Model
         'Client_Icon',
         'Api_Comp',
         'Api_AVS',
-        'Api_KYC',
+        'Api_Facial',
     ];
 
     
@@ -82,10 +82,14 @@ class Customer extends Model
     /* function to get customer details by customer name */
     public static function getCustomerDetailsByUrl()
     {
-        $currentURL =  \URL::full();
-        $customerName = substr($currentURL, (strpos($currentURL, '=') ?: -1) + 1);
+        $currentURL =  \URL::full();  //"http://127.0.0.1:8000/login?customer=Computershare"
+
+        $customerName = substr($currentURL, (strpos($currentURL, '=') ?: -1) + 1); //Computershare
     
         $customer = Customer::where('RegistrationName', '=',  $customerName)->first(['Id','Client_Logo','Client_Icon','TradingName','RegistrationName']);
+        
+        // dd($customerName);
+        
         return $customer;
     }
     
