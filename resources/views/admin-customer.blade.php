@@ -202,14 +202,6 @@
                                                    
                                                 </div> -->
 
-                                                <div class="mb-3">
-                                                    <?php foreach ($tabs as $key => $value) { ?>
-                                                        <input type="checkbox"  name="tab[]" value="{{$value->Id}}">
-                                                        <label class="form-label">{{ $value->Name }}</label>
-                                                        &nbsp; &nbsp; 
-                                                    <?php }?>
-                                                </div>
-
                                             </div>
                                         </div>
 

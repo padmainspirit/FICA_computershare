@@ -127,9 +127,7 @@
                                                         style="padding-left: 1.75rem;" value="{{ $TypeOfBusiness }}">
 
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-6">
                                                 <div class="mb-3">
 
                                                     <label class="form-label">Telephone Number:</label>
@@ -138,7 +136,9 @@
                                                         style="padding-left: 1.75rem;" value="{{ $TelephoneNumber }}">
 
                                                 </div>
-                                                </div>
+                                            </div>
+
+                                            
 
                                         </div>
 

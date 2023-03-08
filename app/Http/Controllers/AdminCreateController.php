@@ -432,7 +432,7 @@ class AdminCreateController extends Controller
         $this->validate($request, [
             'fontcode'=> ['required','regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'Client_logo' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
-            'Client_icon' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
+            'Client_icon' => 'required|image|mimes:jpeg,png,jpg,gif,webp'
         ]);
 
 
@@ -485,16 +485,6 @@ class AdminCreateController extends Controller
                 $request->Client_icon->move(public_path($customerLogoIconPath), $Icon);
             }
             DB::table('Customers')->where('Id', $newCustomerId)->update(['Client_Logo' => $Logo, 'Client_Icon' => $Icon]);
-        else{
-            $facialchecked = 0;
-        }
-
-        if(in_array('Compliance', $request->get('apicheck'))){
-            $compchecked = 1;
-            dd($compchecked);
-        }
-        else{
-            $compchecked = 0;
         }
 
         

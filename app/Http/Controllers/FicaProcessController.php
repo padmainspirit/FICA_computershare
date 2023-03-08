@@ -690,7 +690,9 @@ class FicaProcessController extends Controller
         $imagick = new Imagick();
         $imagick->setResolution(300, 300);
         //$imagick->readImage(public_path('pdf/83260744002_20220517.pdf'));
-        $imagick->readImage($pdfTempPath);
+        //$imagick->readImage($pdfTempPath);
+        $imagick->readImage("{$pdfTempPath}[0]");
+        $imagick = $imagick->flattenImages();
         //$imagick->setImageIndex(0);
         $imagick->setImageFormat("jpg");
         // $imagick->setImageUnits(200, 200);
