@@ -59,7 +59,6 @@ class Address extends Model
     public static function getAllAddressesAdmin()
     {
         $SearchConsumerID = session()->get('SearchConsumerID');
-        // dd($SearchConsumerID);
         // $consumer = Consumer::where('IDNUMBER', '=',  $loggedInUserId)->first();
         $Addresses = Address::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->get();
         $address = [];

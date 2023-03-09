@@ -83,13 +83,9 @@ class Customer extends Model
     public static function getCustomerDetailsByUrl()
     {
         $currentURL =  \URL::full();  //"http://127.0.0.1:8000/login?customer=Computershare"
-
         $customerName = substr($currentURL, (strpos($currentURL, '=') ?: -1) + 1); //Computershare
-    
         $customer = Customer::where('RegistrationName', '=',  $customerName)->first(['Id','Client_Logo','Client_Icon','TradingName','RegistrationName']);
-        
-        // dd($customerName);
-        
+                
         return $customer;
     }
     

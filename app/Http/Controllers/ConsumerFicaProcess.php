@@ -54,12 +54,10 @@ class ConsumerFicaProcess extends Controller
             ],
         );
 
-        // dd($request);
         $occupation = [];
         // $countries = [];
         $Telephones = [];
 
-        //dd($request);
         //app('debugbar')->info($request);
         //ADDRESS CONSTANTS
         $homeAddressIDType = config("app.HOME_LOOKUP_TABLE_ID"); //HOME:16 
@@ -157,7 +155,6 @@ class ConsumerFicaProcess extends Controller
         $employeerName = $request->input('employeer-name-input');
         $industryOfOccupation = $request->input('industry-of-occupation-input');
 
-        // dd( $employeeStatus);
 
         // $old = [
         //     'idissue' => $idIssuedDate != '' ? $idIssuedDate : null,
@@ -168,7 +165,6 @@ class ConsumerFicaProcess extends Controller
         $country = $request->input('country-input');
         app('debugbar')->info($country);
 
-        // dd($country);
         //Field(s) in TBL_Consumer_Addresses table
         //Home Address
         $streetAddressLine1 = $request->input('street-address-line1');
@@ -322,8 +318,6 @@ class ConsumerFicaProcess extends Controller
             }
         }
 
-        // dd($request);
-
         //-----------------------------------------------------END ADDRESS ----------------------------------------------
 
         //update Consumer detalis
@@ -366,7 +360,6 @@ class ConsumerFicaProcess extends Controller
         if ($telLength == 10) {
             // if (Count($telephoneNumber) > 0) {
             //     foreach ($telephoneNumber as $number) {
-            //dd($number);
             if ($telephoneNumber != null) {
                 Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 11)->update(['RecordStatusInd' => 0]);
             }
@@ -396,7 +389,6 @@ class ConsumerFicaProcess extends Controller
         if ($telLength == 10) {
             // if (Count($workTelephonNumber) > 0) {
             //     foreach ($workTelephonNumber as $number) {
-            //dd($number);
             if ($workTelephonNumber != null) {
                 Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 10)->update(['RecordStatusInd' => 0]);
             }
@@ -448,10 +440,6 @@ class ConsumerFicaProcess extends Controller
         $this->validate($request, [
             'funds-input' => 'required',
         ]);
-
-        // dd($request);
-
-        // dd($request);
 
         try {
             $loggedInUserId = Auth::user()->Id;

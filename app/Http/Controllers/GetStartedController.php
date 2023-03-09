@@ -47,13 +47,11 @@ class GetStartedController extends Controller
 
         // $Consumerid = Auth::user()->Id;
 
-        // dd($Consumerid);
 
         // $SearchCustomerId = CustomerUser::where('Id', '=', $Consumerid)->first();
 
         $Customerid = Auth::user()->CustomerId;
 
-        // dd($Customerid);
         $customer = Customer::getCustomerDetails($Customerid);
         // $Logo = $customer->Client_Logo;
         // $customerName = $customer->RegistrationName;
@@ -145,7 +143,6 @@ class GetStartedController extends Controller
             if ($telLength == 10) {
                 // if (Count($cellphoneNumber) > 0) {
                 //     foreach ($cellphoneNumber as $number) {
-                //         //dd($number);
                 //         Telephones::where("ConsumerID", $consumer->Consumerid)->where("TelephoneTypeInd", 12)->update(['RecordStatusInd' => 0]);
                 //     }
                 // }

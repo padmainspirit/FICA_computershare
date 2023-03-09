@@ -50,12 +50,9 @@ class SmsOtpController extends Controller
         }
 
         $sendUrl = config("app.API_OTP_SEND_URL");
-
         $authHeader = 'Authorization: Bearer ' . $authToken;
-
         $sendData = "{ 'messages' : [ { 'content' : 'Your FICA OTP verification code is: $this->opt', 'destination' : '$phoneNumber' } ] }";
 
-        // dd($phoneNumber);
         $options = array(
             'http' => array(
                 'header'  => array("Content-Type: application/json", $authHeader),

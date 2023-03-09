@@ -160,8 +160,6 @@ class AdminController extends Controller
         $Customerid = $client->CustomerId;
         $customer = Customer::getCustomerDetails($Customerid);
 
-        // dd($client);
-
         $Logo = $customer->Client_Logo;
         $customerName = $customer->RegistrationName;
         $Icon = $customer->Client_Icon;
@@ -256,7 +254,6 @@ class AdminController extends Controller
                     foreach ($clientsDetails as  $x) {
                         array_push($clientData,  $x);
                     }
-                    // dd($clientData);
                     // echo $clientData;
                     $lastname =  $clientsDetails[0]->Surname;
 
@@ -271,8 +268,6 @@ class AdminController extends Controller
                     $output_data = ['response' => true, 'message' => 'request is successful.', 'data' =>   $clientsDetails, 'searchResponse' => $searchResponse];
                     return  $output_data;
                     return view('admin-findusers', compact('output_data.data[i].IDNUMBER'));
-
-                    dd($request);
 
                     break;
                 case "3":
@@ -433,7 +428,6 @@ class AdminController extends Controller
 
         }
 
-        // dd($request->all());
 
     }
 

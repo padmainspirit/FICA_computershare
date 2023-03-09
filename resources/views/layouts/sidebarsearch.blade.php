@@ -88,7 +88,6 @@
                                     style="color: #f0c200;">MEDIUM</span>
                             @elseif($RiskStatusbyFICA == 'LOW')
                                 <span class="justify-content-md-center" style="color: #74ac04;">LOW</span>
-                                style="color: #f0c200;">MEDIUM</span>
                                 @elseif($RiskStatusbyFICA == null)
                                     <span class="justify-content-md-center" style="color: #000000;">N/A</span>
                             @endif

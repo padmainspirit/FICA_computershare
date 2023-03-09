@@ -24,7 +24,6 @@ class RegisterController extends Controller
     {
         date_default_timezone_set('Africa/Johannesburg');
         // $Bank = Banks::where('Bankid', '=', '4')->first();
-        // dd($Bank);
     }
 
 
@@ -92,9 +91,7 @@ class RegisterController extends Controller
         $scoreResponse = $responseData->score;
         //Check if user is not a robot using Recaptcha
         //$responseData->score = 0.4;
-        // dd($responseData);
         if ($scoreResponse < 0.5) {
-            // dd($responseData);
             return back()->with('fail', 'Please contact Administrator')->with('customer', $customer);
         }
 
@@ -114,8 +111,6 @@ class RegisterController extends Controller
         $verifyData = new VerifyUserController();
         array_push($userData, $LastName, $IDNumber);
 
-        //  dd($userData[1]);
-
         if ($userData != null) {
 
             $dataValidated = $verifyData->verifyUser($userData[1], $request);
@@ -129,7 +124,6 @@ class RegisterController extends Controller
 
             if($IdResult[0] == $IDNumber)
             {
-                // dd('id match');
                 if(Str::upper($IdResult[5]) == Str::upper($LastName))
                 {
 
@@ -157,9 +151,6 @@ class RegisterController extends Controller
             else
             {
 
-                // dd('no match');
-
-                
                 // $message = 'The ID number entered does not match surname. Please enter a valid ID number';
                
                     return view('auth.register')->with('message', 'The ID number entered does not match surname. Please enter a valid ID number')

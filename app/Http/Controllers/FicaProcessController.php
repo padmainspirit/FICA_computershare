@@ -92,7 +92,6 @@ class FicaProcessController extends Controller
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-        $dynamictabs = CustomerTabs::checkTabPermission($Customerid);
 
         $Telephones = [];
         //try {
@@ -115,7 +114,6 @@ class FicaProcessController extends Controller
         $NotificationLink = SendEmail::where('Consumerid', '=',  $LoggedInConsumerId)->where('IsRead', '=', '1')->get();
         $request->session()->put('NotificationLink', $NotificationLink);
 
-        // dd($financial);
 
         //CONSUMER IDENTITY
         if ($consumerIdentity == null) {
@@ -234,7 +232,6 @@ class FicaProcessController extends Controller
         //     }
         // }
 
-        // dd($Work);
 
         $Addresses = Address::getAllAddresses();
         $Home  = $Addresses['Home'];
@@ -361,7 +358,7 @@ class FicaProcessController extends Controller
             'bankTpye' => $bankTpye, 'avs' => $avs, 'occupation' => $industryOccupation, 'DOB' => $DOB, 'selectedIndustryofoccupation' => $selectedIndustryofoccupation, 'countries' => $nationality,
             'funds' => $sourceOfFunds, 'selectSourceOfFunds' => $selectSourceOfFunds, 'financial' => $financial, 'customer' => $customer, 'declaration' => $declaration, 'bankNames' => $banks, 'selectedCountry' => $selectedCountry,
             'validationCheck' => $validationCheck, 'provincesNames' => $provinces, 'Telephones' => $Telephones, 'NotificationLink' => $NotificationLink, 'TelWork' => $TelWork, 'TelHome' => $TelHome, 'TelCell' => $TelCell,
-            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon, 'dynamictabs'=>$dynamictabs,
+            'isValidationPassed' => $isValidationPassed, 'APIResultStatus' => $APIResultStatus, 'Logo' => $Logo, 'customerName' => $customerName, 'Icon' => $Icon,
         ]);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -422,10 +419,8 @@ class FicaProcessController extends Controller
 
         // if(Storage::disk('s3')->exists($keyname)) {
         //     Storage::disk('s3')->delete($keyname);
-        //     dd('deleted');
         // }
         // else{
-        //     dd('does not exist');
         // }
             
         $bankTpye = BankAccountType::all();
@@ -695,10 +690,8 @@ class FicaProcessController extends Controller
         $imagick = $imagick->flattenImages();
         //$imagick->setImageIndex(0);
         $imagick->setImageFormat("jpg");
-        // $imagick->setImageUnits(200, 200);
         $imagick->writeImages(public_path('tempImages/page.jpg'), true);
         return 'tempImages/page.jpg';
-        // $imagick->writeImages(public_path('tempImages/page.jpg'), true);
     }
 
     //Delete all Temp Files
@@ -738,11 +731,7 @@ class FicaProcessController extends Controller
 
         // if(Storage::disk('s3')->exists('4717E73D-1F3F-4ACE-BE1A-0244770D6272- test/FD96769A-403A-4A26-8364-721139236CC5/8FFC0C77-CFFC-4AD3-8137-D42303C2563B/ID_ID_PEET ID.pdf.pdf')) {
            
-        //     Storage::disk('s3')->delete('4717E73D-1F3F-4ACE-BE1A-0244770D6272- test/FD96769A-403A-4A26-8364-721139236CC5/8FFC0C77-CFFC-4AD3-8137-D42303C2563B/ID_ID_PEET ID.pdf.pdf');
-           
-        //     dd('deleted');
-
-        
+        //     Storage::disk('s3')->delete('4717E73D-1F3F-4ACE-BE1A-0244770D6272- test/FD96769A-403A-4A26-8364-721139236CC5/8FFC0C77-CFFC-4AD3-8137-D42303C2563B/ID_ID_PEET ID.pdf.pdf');    
             
         // }
 

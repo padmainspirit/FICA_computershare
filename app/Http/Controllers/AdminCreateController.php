@@ -87,7 +87,6 @@ class AdminCreateController extends Controller
         // $GetAllUsers = CustomerUser::all();
         $getCustomerId = $request->input('SelectClient');
         $GetAllConglomerateDetails = Customer::where('Id', '=', $getCustomerId)->first();  //computershare
-        //dd($GetAllConglomerateDetails);
 
         $TradingName = $GetAllConglomerateDetails->TradingName != '' ? $GetAllConglomerateDetails->TradingName : null;
         $RegistrationName = $GetAllConglomerateDetails->RegistrationName != '' ? $GetAllConglomerateDetails->RegistrationName : null;
@@ -247,7 +246,6 @@ class AdminCreateController extends Controller
     //     $getLoggedUsersID = $request->input('SelectUser');
 
     //     $LoggedUsersID = CustomerUser::where('Id', '=',  $getLoggedUsersID)->first();
-    //     // dd($LoggedUsersID->FirstName);
 
     //     $FirstName = $LoggedUsersID->FirstName != '' ? $LoggedUsersID->FirstName : null;
     //     $LastName = $LoggedUsersID->LastName != '' ? $LoggedUsersID->LastName : null;
@@ -411,7 +409,6 @@ class AdminCreateController extends Controller
             ]
         );
 
-        // dd($request);
         if (session()->has('success')) {
             session()->pull('success');
         }
@@ -461,7 +458,6 @@ class AdminCreateController extends Controller
             // 'Api_KYC'  => $kycchecked,
             // 'Api_Comp' => $compchecked,  
         ]);
-        // dd($newclient);
         $newclient->save();
 
         if($request->file('Client_logo') || $request->file('Client_icon')){
@@ -513,7 +509,6 @@ class AdminCreateController extends Controller
             // 'Api_KYC'  => $kycchecked,
             // 'Api_Comp' => $compchecked,  
         ]);
-        // dd($newclient);
         $newclient->save();
         if(!empty($_POST['tab'])){
             DB::table('customer_has_tabs')->where('CustomerId',$newCustomerId)->delete();

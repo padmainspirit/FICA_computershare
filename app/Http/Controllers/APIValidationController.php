@@ -33,17 +33,12 @@ class APIValidationController extends Controller
         $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
 
-        // dd($consumer);
-
         //APIs
         $consumerIdentity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
         $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $kyc = KYC::where('FICA_id', '=',  $fica->FICA_id)->first();
         $dovs = DOVS::where('FICA_id', '=',  $fica->FICA_id)->first();
         $comply = Compliance::where('FICA_id', '=',  $fica->FICA_id)->first();
-
-
-
 
         //Run All API's
         if ($kyc->KYC_Status != 2 && $avs->AVS_Status != 2 && $comply->Compliance_Status != 2) {

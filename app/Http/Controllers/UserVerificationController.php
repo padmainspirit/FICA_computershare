@@ -1586,43 +1586,7 @@ class UserVerificationController extends Controller
                                 // app('debugbar')->info($complianceEntityadditional);
                             }
                             app('debugbar')->info($sanctionAndAdverseData);
-                            // }
-                            // app('debugbar')->info($AdditionalInfo);
-                            // app('debugbar')->info($sanctionAndAdverseData);
-
-
-
-
-                            //this email should only be send when all verification as been completed
-
-                            /************  send verification notification email to client start here *************************/
-                            /*$subject = 'Document Verification Notification from ' . $systemInformation->first_name . ' ' . $systemInformation->last_name;
-                    $name = 'Dear ' . $client->first_name . '<br/>';
-                    $userEmailData = '<p>We are glad to inform you that your document as been review and verified, <br/>kindly proceed to your account Dashboard to view your progress status. </p>';
-                    $userEmailData .= '<p>
-                                    <span><a href="https://' . $systemInformation->domain_link . '/login">Click Here to Login to your Account</a></span>
-
-                                    </p>';
-                    $userEmailData .= '<p>Alternatively, you may contact us directly for more information.</p>';
-
-                    $userEmailData .= '<span>Kind Regards</span><br/>';
-                    $userEmailData .= '<span>The ' . $systemInformation->first_name . ' ' . $systemInformation->last_name . '</span><br/>';
-                    $userEmailData .= '<span><a href="mailto:' . $systemInformation->email . '">' . $systemInformation->email . '</a></span><br/>';
-                    $userEmailData .= '<span>0877 333 453</span>';
-
-                    $data = ['name' => $name, 'subject' => $subject, 'messages' => $userEmailData, 'systemLogo' => $systemLogo];
-                    $userMail = $client->email;
-
-                    Mail::to($userMail)
-                        //->cc('tmunsamy@in2assets.com')
-                        //->bcc('anela.maza@iconis.co.za')
-                        ->queue(new ClientRegistrationNotification($data, $name, $userMail, $subject));
-
-                    $this->logActivities->addToLog('Client with email: ' . $client->email . ' Document as been verified and a notification email sent');*/
-                            //return redirect('users')->with('success', trans('usersmanagement.createSuccess')); 
-                            //return back()->with('success', 'New Client Account as been successfully created!');
-                            /**************send verification notification email to client ends here *********************/
-
+                           
                             return $sanctionAndAdverseData;
                         } else {
                             app('debugbar')->info($sanctionAndAdverseData);

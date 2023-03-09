@@ -55,8 +55,6 @@ class ForgotPasswordController extends Controller
         $ForgetEmail = $request->Email;
         $request->session()->put('ForgetEmail', $ForgetEmail);
 
-        // dd($Email);
-
         $response = $client->post(
             'https://www.google.com/recaptcha/api/siteverify',
             [
@@ -69,7 +67,6 @@ class ForgotPasswordController extends Controller
         );
         $responseData = json_decode((string)$response->getBody());
 
-        //dd($responseData);
         //Check if user in not a robot using Recaptcha
         //$responseData->score = 0.4;
         if ($responseData->score < 0.5) {
@@ -131,15 +128,12 @@ class ForgotPasswordController extends Controller
             return view('auth.forget-password')->with($message, 'No registered user found.');
         }
 
-        // dd($Customerid);
-
         // $Customerid = Auth::user()->CustomerId;
         $customer = Customer::where('Id', '=',  $Customerid)->first();
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
 
-        // dd($customer);
 
         return view('auth.reset-password', ['token' => $token])->with('message', $message)
             ->with('ForgetEmail', $ForgetEmail)
@@ -151,7 +145,6 @@ class ForgotPasswordController extends Controller
 
     public function submitResetPasswordForm(Request $request)
     {
-        //dd($request);
 
         // $request->validate([
         //     'Email' => ['required'],
@@ -179,7 +172,6 @@ class ForgotPasswordController extends Controller
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
 
-        //dd($token);
 
         $response = $client->post(
             'https://www.google.com/recaptcha/api/siteverify',
@@ -193,7 +185,6 @@ class ForgotPasswordController extends Controller
         );
         $responseData = json_decode((string)$response->getBody());
 
-        //dd($responseData);
         //Check if user in not a robot using Recaptcha
         //$responseData->score = 0.4;
         if ($responseData->score < 0.5) {

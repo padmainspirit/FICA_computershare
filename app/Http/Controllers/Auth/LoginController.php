@@ -91,7 +91,6 @@ class LoginController extends Controller
         $customer = Customer::getCustomerDetails($client->CustomerId);
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
         // session()->put('UserFullName', $UserFullName);
-        // dd($customer);
 
         //$is_role = Auth::user()->getRoleNames();
         $getRoleName = CustomerUser::getCustomerUserRoleName();
@@ -194,7 +193,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $customer = Customer::getCustomerDetailsByUrl(); 
+        $customer = Customer::getCustomerDetailsByUrl();
+
+        if(session()->has('SearchConsumerID')){
+            session()->remove('SearchConsumerID');
+        }
 
         // $Client_Logo = $customer->Client_Logo;
         // $RegistrationName = $customer->RegistrationName;

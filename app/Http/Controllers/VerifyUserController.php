@@ -76,19 +76,12 @@ class VerifyUserController extends Controller
             //here we removing the last 2 character
             $idasuser_data = explode(",", $result);
 
-         
-
-
             for ($i = 0; $i < count($idasuser_data); $i++) {
                 $idasuser_api_data[$i] = $this->removeEverythingBeforeData($idasuser_data[$i], ':');
             }
 
-
-            // dd($idas_api_data);
-
             return  $idasuser_api_data;
 
-            // dd($idas_api_data[5]);
 
         } catch (\Exception $e) {
             //  return  0;
