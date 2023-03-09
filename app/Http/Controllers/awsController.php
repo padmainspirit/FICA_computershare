@@ -771,7 +771,6 @@ class awsController extends Controller
             // You can check get the details of the error using `errorInfo`:
             $errorInfo = $exception->errorInfo;
             app('debugbar')->info($errorInfo);
-            // dd($errorInfo);
 
             // Return the response to the client..
         }

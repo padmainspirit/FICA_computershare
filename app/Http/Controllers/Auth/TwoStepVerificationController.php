@@ -48,7 +48,6 @@ class TwoStepVerificationController extends Controller
         $customer = Customer::getCustomerDetails($Customerid);
         $client = Auth::user();
 
-        // dd($client);
         $this->validate($request, [
             'otp-input' => 'required',
         ], [
@@ -57,14 +56,12 @@ class TwoStepVerificationController extends Controller
 
         $consumer = Consumer::where('Email', '=', Auth::user()->Email)->where('CustomerUSERID', '=', Auth::user()->Id)->first();
         $minute = $this->dateDiffenceInMinutes(Auth::user()->OTP_Date, date("Y-m-d H:i:s"));
-        //dd($client->OTP);
 
         // $optData = $request->input('digit1-input') . $request->input('digit2-input') . $request->input('digit3-input') . $request->input('digit4-input') . $request->input('digit5-input') . $request->input('digit6-input');
         $optData = $request->input('otp-input');
         if (Auth::user()->OTP == $optData && $minute <= 300) {
             app('debugbar')->info($consumer);
             app('debugbar')->info($client);
-            //dd('Correct OTP');
 
             if ($consumer != null) {
                 return redirect()->route('fica')->with('customerName', $customer->RegistrationName)
@@ -75,7 +72,6 @@ class TwoStepVerificationController extends Controller
             }
         } else {
             return back()->with('fail', 'Incorrect Code, please try again');
-            //dd('Incorrect OTP');
         }
     }
 
@@ -90,7 +86,6 @@ class TwoStepVerificationController extends Controller
 
 
         $client = CustomerUser::where('Email', '=', $Email)->where('CustomerId', '=', $Customerid)->first();
-        // dd($client);
         $otp = new SmsOtpController();
         $sendotp = $otp->sendOTP($client->PhoneNumber);
 

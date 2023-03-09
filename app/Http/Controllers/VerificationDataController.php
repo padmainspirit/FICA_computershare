@@ -95,11 +95,9 @@ class VerificationDataController extends Controller
             }
 
 
-            // dd($idas_api_data);
             // $len = $this->idasArrayLength(count($idas_data));
 
             // app('debugbar')->info($len);
-            // dd($idas_api_data);
             //saving data to the TBL_Consumer_IDENTITY table
             // if ($len > 0) {
             $client = Auth::user()->Id;
@@ -224,7 +222,6 @@ class VerificationDataController extends Controller
                 );
             }
 
-            // dd($idas_api_data[0]);
             return  $idas_api_data[0];
         } catch (\Exception $e) {
             //  return  0;

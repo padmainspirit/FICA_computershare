@@ -64,11 +64,8 @@ class CustomerVerification extends Controller
         if ($client->Id != null) {
             session()->pull('exception');
         }
-         $idnumber = $request->idnumberResult;
-
-        //  dd($idnumber);
-
-         $request->session()->put('idnumber', $idnumber);
+        $idnumber = $request->idnumberResult;
+        $request->session()->put('idnumber', $idnumber);
 
         $Customerid = $client->CustomerId;
 
@@ -108,7 +105,6 @@ class CustomerVerification extends Controller
         $getconsumerIDDoc = ConsumerIdentity::getconsumerIDDoc($request);
         $IDDoc = $getconsumerIDDoc['Identity_File_Path'];
 
-        // dd($IDDoc);
 
         $IDDoc != '' ? $getconsumerIDDoc['Identity_File_Path'] : null;
         // $request->session()->put('IDDoc', $IDDoc);
@@ -174,7 +170,6 @@ class CustomerVerification extends Controller
         $ConsumerIDPhoto = $getPhoto['ConsumerIDPhoto'];
         $ConsumerCapturedPhoto = $getPhoto['ConsumerCapturedPhoto'];
 
-        // dd($ConsumerIDPhoto);
 
         // Check if corrupted or Incomplete
         $ConsumerIDPhoto = $ConsumerIDPhoto != null ? $ConsumerIDPhoto : null;
@@ -496,8 +491,6 @@ class CustomerVerification extends Controller
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
         $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
 
-        // dd($RiskStatusbyFICA);
-
         // app('debugbar')->info($RiskStatusbyFICA);
 
         $ProgressbyFICA = $ProgressbyFICA * 10;
@@ -588,7 +581,6 @@ class CustomerVerification extends Controller
             ->with('Logo', $Logo)
             ->with('Icon', $Icon)
             ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
             ->with('SNameMatch', $SNameMatch)
             ->with('IDMatch', $IDMatch)
             ->with('EmailMatch', $EmailMatch)
@@ -976,8 +968,6 @@ class CustomerVerification extends Controller
         $IDMatch = $consumerBankDoc['IDNUMBERMATCH'];
         $EmailMatch = $consumerBankDoc['EMAILMATCH'];
         $TaxNumMatch = $consumerBankDoc['TAXREFERENCEMATCH'];
-
-        dd($RiskStatusbyFICA);
 
         // $TitleDesc = $request->session()->get('TitleDesc');
         $getSearchUserTitle = KYC::getAddressDoc($request);
@@ -1830,7 +1820,6 @@ class CustomerVerification extends Controller
 
         app('debugbar')->info($CustomerEmail);
 
-        // dd($CustomerEmail);
 
         // $getreceive = Consumer::all()->where('Email', '=', $request->Email);
 
@@ -1974,14 +1963,10 @@ class CustomerVerification extends Controller
         // $Consumerid = $request->session()->get('LoggedUser');
         // $getLogUser = CustomerUser::where('Id', '=', $Consumerid)->first();
 
-        // dd($SearchConsumerID);
-
         $sentemails = SendEmail::where('Consumerid', '=', $SearchConsumerID)->get();
 
         $getPhoto = DOVS::where('FICA_id', '=', $SearchFica)->first();
         // $ConsumerCapturedPhoto = $getPhoto['ConsumerCapturedPhoto'];
-
-        // dd($ConsumerCapturedPhoto);
 
         $ConsumerCapturedPhoto = $getPhoto->ConsumerCapturedPhoto == null ? null : $getPhoto->ConsumerCapturedPhoto;
 
@@ -2059,7 +2044,6 @@ class CustomerVerification extends Controller
         $count = 0;
         //$identityId = Str::upper(Str::uuid());
 
-        // dd($request);
 
         $fica = FICA::where('FICA_id', '=',  $ficaId)->first();
         $identityConsumer = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -2084,7 +2068,6 @@ class CustomerVerification extends Controller
         $complianceAPI = $request->input('compliance-api-status');
 
         $APIsEnable = [];
-        // dd($conuserUserId);
 
         $riskSTATUS = isset($riskStatus) ?  $riskStatus : $fica->Risk_Status;
         $ficaSTATUS = isset($ficaStatus) ?  $ficaStatus : $fica->FICAStatus;
@@ -2103,12 +2086,10 @@ class CustomerVerification extends Controller
         }
 
         $ficaProgress = $fica->FICAProgress - $count;
-        // dd($ficaProgress);
         // $compliance = isset($complianceAPI) ?  $complianceAPI : null;
         //APIsEnable
         array_push($APIsEnable, isset($idasAPI) ? 'IDAS API' : null, isset($kycAPI) ? 'KYC API' : null, isset($avsAPI) ? 'AVS API' : null, isset($dovsAPI) ? 'DOVS API' : null, isset($complianceAPI) ? 'COMPLIANCE API' : null);
         $APIsEnable = array_filter($APIsEnable);
-        //dd($APIsEnable);
 
         //set API to correction - 2
         isset($idasAPI) ? ConsumerIdentity::where('FICA_id', $ficaId)->update(['Identity_status' => (int)$idasAPI]) : $identityConsumer->Identity_status;
@@ -2215,8 +2196,6 @@ class CustomerVerification extends Controller
         $Logo = $customer['Client_Logo'];
         $customerName = $customer['RegistrationName'];
         $Icon = $customer['Client_Icon'];
-
-        // dd($customerName);
 
         return back()->withSuccess('successfully')
             ->with('customerName', $customerName)
