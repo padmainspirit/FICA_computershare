@@ -246,14 +246,12 @@
                     <div class="col-sm-2">
                         <div class="card" style="width: 100%;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                <h5 class="card-title" style="text-align: center;">
-                                    Facial Recognition</h5>
+                                <h5 class="card-title" style="text-align: center;">Facial Recognition</h5>
 
-                                @if ($DOVS_Status == 1)
+                                @if ($ConsumerIDPhotoMatch == 'Matched')
                                 <h6 class="card-title" style="text-align: center;">
-                                    <i class="bx bx-check-circle  bx-md" style="color: #6ec300"></i>
-                                </h6>
-                                @elseif ($DOVS_Status == 0)
+                                    <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>                                    </h6>
+                                @elseif ($ConsumerIDPhotoMatch == 'Not Matched')
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                 </h6>
@@ -2127,7 +2125,7 @@ placeholder="Enter Your Marriage Type">
 
                 </div>
 
-                {{-- <hr style="color: #1a4f6e ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #1a4f6e; background-color: #1a4f6e; opacity: 100%;"> --}}
+                {{-- <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;"> --}}
 
                 <div class="row d-flex justify-content-center">
 
@@ -2238,15 +2236,15 @@ placeholder="Enter Your Marriage Type">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-1">
-                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #93186c; border-color: #1a4f6e">Save</button>
+                            <button type="submit" id="formsave1" class="btn btn-primary w-md" style="background-color: #93186c; border-color: #93186c">Save</button>
                         </div>
 
                         <div class="col-lg-1">
-                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #93186c; border-color: #1a4f6e">Edit</button>
+                            <button type="button" id="formedit1" class="btn btn-primary w-md" onclick="formEdit()" style="background-color: #93186c; border-color: #93186c">Edit</button>
                         </div>
 
                         <div class="col-lg-2">
-                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #93186c; border-color: #1a4f6e">Cancel</button>
+                            <button type="button" id="formcancel1" class="btn btn-primary w-md" onclick="formCancel()" style="background-color: #93186c; border-color: #93186c">Cancel</button>
                         </div>
 
                     </div>
@@ -3632,24 +3630,6 @@ placeholder="Enter Your Marriage Type">
                                                 by ComputerShare utilizing my own broker.</option>
                                         </select>
 
-                                        {{-- <select class="form-select" autocomplete="off"
-                                                            style="height: 27px;width:225px;padding-bottom: 3px;padding-top: 3px;"
-                                                            id="CustodyService" name="CustodyService">
-                                                            <option value="" selected disabled>Select A
-                                                                Response
-                                                            </option>
-                                                            <option value="" selected="" disabled="">
-                                                                {{ $CustodyService }}</option>
-                                        <option value="Securities Regarded">
-                                            Securities
-                                            held
-                                            on my behalf must be regarded.</option>
-                                        <option value="Securities In My Own Name">
-                                            Securities
-                                            must be registered in my own name.
-                                        </option>
-                                        </select> --}}
-
                                     </div>
                                 </div>
 
@@ -3695,7 +3675,7 @@ placeholder="Enter Your Marriage Type">
                             </div>
                         </div>
 
-                        <div class="col-lg-12" id="newoptions1">
+                        <div class="col-lg-12" id="newoptions1" style="display: none;">
                             <div class="row">
 
                                 <div class="col-md-2">
@@ -4131,23 +4111,6 @@ placeholder="Enter Your Marriage Type">
     });
 </script>
 
-
-
-{{-- <script>
-        document.getElementById("newoptions1").style.display = "none";
-        // document.getElementById("newoptions2").style.display = "none";
-        // document.getElementById("newoptions3").style.display = "none";
-        // document.getElementById("newoptions4").style.display = "none";
-
-        document.getElementById('CustodyService').addEventListener('change', function() {
-            var style = this.value == "Securities must be registered in my Own Name" ? 'block' : 'none';
-            document.getElementById("newoptions1").style.display = style;
-            // document.getElementById("newoptions2").style.display = style;
-            // document.getElementById("newoptions3").style.display = style;
-            // document.getElementById("newoptions4").style.display = style;
-        });
-    </script> --}}
-
 <script>
     //Get the button:
     mybutton = document.getElementById("myBtn");
@@ -4512,13 +4475,14 @@ placeholder="Enter Your Marriage Type">
 
 <script>
     $(document).ready(function() {
-        // alert($("#CustodyService option:selected").text());
-        var value = $("#CustodyService option:selected").text();
-        // alert(value);
-
-        value == 'Securities must be registered in my own name and maintained by ComputerShare'
-        s Deal Routing Service ' ? $("#newoptions1").hide() : $("#newoptions1").show();
-
+        $("#CustodyService").change(function() {
+            var selectedOption = $(this).val();
+            if (selectedOption === "Securities held on my behalf must be register") {
+                $("#newoptions1").prop("disabled", true).hide();
+            } else if (selectedOption === "Securities must be registered in my Own Name") {
+                $("#newoptions1").prop("disabled", false).show();
+            }
+        });
     });
 </script>
 

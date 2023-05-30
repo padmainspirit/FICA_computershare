@@ -18,7 +18,7 @@ var options = {
       show: !1
     }
   },
-  colors: ["#1a4f6e ", "#f1b44c"],
+  colors: ["#93186c ", "#f1b44c"],
   dataLabels: {
     enabled: !1
   },

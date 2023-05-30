@@ -135,7 +135,7 @@
                                             <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <button type="submit" id="submit"
-                                                        style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                        style="background-color: #93186c; border-color: #93186c"
                                                         class="btn btn-primary w-lg waves-effect waves-light">Save</button>
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                             {{-- <div class="col-md-2">
                                                 <div class="mb-3">
                                                     <button type="button" id="clearall" name="clearall"
-                                                        style="background-color: #1a4f6e; border-color: #1a4f6e"
+                                                        style="background-color: #93186c; border-color: #93186c"
                                                         class="btn btn-danger w-lg waves-effect waves-light">Clear</button>
                                                 </div>
                                             </div> --}}

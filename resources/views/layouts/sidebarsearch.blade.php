@@ -116,7 +116,7 @@
                         <div class="col-sm-6">
 
                             @if ($FICAStatusbyFICA == 'Completed')
-                            <span class="justify-content-md-center" style="color: #1a4f6e;">{{ $FICAStatusbyFICA }}</span>
+                            <span class="justify-content-md-center" style="color: #93186c;">{{ $FICAStatusbyFICA }}</span>
                             @elseif ($FICAStatusbyFICA == 'In progress')
                                 <span class="justify-content-md-center" style="color: #a98600">In Progress</span>
                             @elseif($FICAStatusbyFICA == 'Correction')

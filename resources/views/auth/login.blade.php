@@ -15,27 +15,9 @@
     @endsection
 
     @section('content')
-        {{-- <div class="row d-flex justify-content-center mb-3 mt-5">
-            <img src="{{ URL::asset('/assets/images/computershare.png') }}" style="width: 190px; height: 35px;" alt=""
-                class="img-fluid">
-        </div> --}}
-
-        {{-- @if ($customerName == 'ComputerShare')
-            <div class="row d-flex justify-content-center mb-3 mt-5">
-                <img src="{{ URL::asset('/assets/images/logo/computershare.png') }}" style="width: 190px; height: 35px;"
-                    alt="" class="img-fluid">
-            </div>
-        @elseif($customerName == 'InspiritData')
-            <div class="row d-flex justify-content-center mb-3 mt-3">
-                <img src="{{ URL::asset('/assets/images/logo/inspirit.png') }}" style="width: 23%" alt=""
-                    class="img-fluid">
-            </div>
-        @endif --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
-                class="img-fluid">
-                {{-- {{dd($Client_Logo)}} --}}
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -82,26 +64,15 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <div class="mb-3">
-                                                {{-- <div
-                                                class="input-group auth-pass-inputgroup @error('Password') is-invalid @enderror"> --}}
-                                                <input type="password" name="password" required
-                                                    class="form-control  @error('password') is-invalid @enderror"
-                                                    id="password" value="" placeholder="Password"
-                                                    aria-label="password" aria-describedby="password-addon" />
-                                                {{-- <button class="btn btn-light " type="button" id="password-addon"><i
-                                                        class="mdi mdi-eye-outline"></i></button> --}}
-                                                <span class="text-danger">
-                                                    @error('password')
-                                                        {{ $message }}
-                                                    @enderror
-                                                </span>
-                                                {{-- @error('Password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror --}}
+                                            <div class="input-group auth-pass-inputgroup">
+                                                <input type="password" name="password" required class="form-control @error('password') is-invalid @enderror" id="password" value="" placeholder="Password" aria-label="password" aria-describedby="password-addon">
+                                                <button onclick="togglePassword()" class="btn btn-light" type="button" id="password-addon"><i id="on" class="mdi mdi-eye-outline"></i><i id="off" style="display: none;" class="mdi mdi-eye-off-outline"></i></button>
                                             </div>
+                                            <span class="text-danger">
+                                                @error('password')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
 
                                         {{-- <div class="form-check">
@@ -768,6 +739,26 @@
     @endsection
 
     @section('script')
+
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            var currentType = passwordInput.getAttribute("type");
+            var eyeOn = document.getElementById("on");
+            var eyeOff = document.getElementById("off");
+    
+            if (currentType === "password") {
+                passwordInput.setAttribute("type", "input");
+                eyeOn.style.display = "none";
+                eyeOff.style.display = "block";
+            } else {
+                passwordInput.setAttribute("type", "password");
+                eyeOn.style.display = "block";
+                eyeOff.style.display = "none";
+            }
+        }
+    </script>
+
         <script src="{{ URL::asset('assets/js/app.min.js') }}"></script>
 
         <script>

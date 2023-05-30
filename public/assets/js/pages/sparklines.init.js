@@ -9,7 +9,7 @@ $(document).ready(function () {
       type: "pie",
       height: "200",
       resize: !0,
-      sliceColors: ["#34c38f", "#1a4f6e ", "#e9ecef"]
+      sliceColors: ["#34c38f", "#93186c ", "#e9ecef"]
     }), $("#sparkline2").sparkline([5, 6, 2, 8, 9, 4, 7, 10, 11, 12, 10, 4, 7, 10], {
       type: "bar",
       height: "200",
@@ -22,7 +22,7 @@ $(document).ready(function () {
       barWidth: "10",
       resize: !0,
       barSpacing: "7",
-      barColor: "#1a4f6e "
+      barColor: "#93186c "
     }), $("#sparkline3").sparkline([5, 6, 2, 9, 4, 7, 10, 12, 4, 7, 10], {
       type: "line",
       height: "200",
@@ -36,9 +36,9 @@ $(document).ready(function () {
       type: "line",
       width: "100%",
       height: "200",
-      lineColor: "#1a4f6e ",
+      lineColor: "#93186c ",
       fillColor: "transparent",
-      spotColor: "#1a4f6e ",
+      spotColor: "#93186c ",
       lineWidth: 2,
       minSpotColor: void 0,
       maxSpotColor: void 0,
@@ -50,7 +50,7 @@ $(document).ready(function () {
       height: "200",
       chartRangeMax: 50,
       resize: !0,
-      lineColor: "#1a4f6e ",
+      lineColor: "#93186c ",
       fillColor: "rgba(85, 110, 230, 0.3)",
       highlightLineColor: "rgba(0,0,0,.1)",
       highlightSpotColor: "rgba(0,0,0,.2)"
@@ -74,7 +74,7 @@ $(document).ready(function () {
       type: "bullet",
       width: "280",
       height: "80",
-      targetColor: "#1a4f6e ",
+      targetColor: "#93186c ",
       performanceColor: "#f46a6a"
     }), $("#sparkline8").sparkline([4, 27, 34, 52, 54, 59, 61, 68, 78, 82, 85, 87, 91, 93, 100], {
       type: "box",
@@ -90,7 +90,7 @@ $(document).ready(function () {
       height: "80",
       width: "100%",
       type: "tristate",
-      posBarColor: "#1a4f6e ",
+      posBarColor: "#93186c ",
       negBarColor: "#34c38f",
       zeroBarColor: "#f46a6a",
       barWidth: 8,

@@ -24,8 +24,8 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   fillOpacity: .5,
   radius: 500
 }).addTo(markermap), L.polygon([[51.509, -.08], [51.503, -.06], [51.51, -.047]], {
-  color: "#1a4f6e ",
-  fillColor: "#1a4f6e "
+  color: "#93186c ",
+  fillColor: "#93186c "
 }).addTo(markermap);
 var popupmap = L.map("leaflet-map-popup").setView([51.505, -.09], 13);
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {
@@ -39,8 +39,8 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   fillColor: "#f46a6a",
   fillOpacity: .5
 }).addTo(popupmap).bindPopup("I am a circle."), L.polygon([[51.509, -.08], [51.503, -.06], [51.51, -.047]], {
-  color: "#1a4f6e ",
-  fillColor: "#1a4f6e "
+  color: "#93186c ",
+  fillColor: "#93186c "
 }).addTo(popupmap).bindPopup("I am a polygon.");
 var popup = L.popup(),
     customiconsmap = L.map("leaflet-map-custom-icons").setView([51.5, -.09], 13);
@@ -63,7 +63,7 @@ L.marker([51.5, -.09], {
 var interactivemap = L.map("leaflet-map-interactive-map").setView([37.8, -96], 4);
 
 function getColor(e) {
-  return 1e3 < e ? "#435fe3" : 500 < e ? "#1a4f6e " : 200 < e ? "#677de9" : 100 < e ? "#798ceb" : 50 < e ? "#8a9cee" : 20 < e ? "#9cabf0" : 10 < e ? "#aebaf3" : "#c0c9f6";
+  return 1e3 < e ? "#435fe3" : 500 < e ? "#93186c " : 200 < e ? "#677de9" : 100 < e ? "#798ceb" : 50 < e ? "#8a9cee" : 20 < e ? "#9cabf0" : 10 < e ? "#aebaf3" : "#c0c9f6";
 }
 
 function style(e) {

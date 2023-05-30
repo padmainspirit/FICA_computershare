@@ -57,18 +57,18 @@ class LoginController extends Controller
 
 
     /* Function to render login screen */
-    public function index(Request $request)
+    public function index()
     {
-        $customer = Customer::getCustomerDetailsByUrl(); 
+        $customer = Customer::getCustomerDetailsByUrl();
 
         // $Client_Logo = 'https://file-upload-fica.s3.amazonaws.com/Logos/computershare.png';
         // $RegistrationName = 'Computershare';
 
-        $Client_Logo = $customer->Client_Logo;
+        // $Client_Logo = $customer->Client_Logo;
         $RegistrationName = $customer->RegistrationName;
         
         $this->guard()->logout();
-        return view('auth.login', ['customer' => $customer, 'Client_Logo' => $Client_Logo, 'RegistrationName' =>$RegistrationName]);
+        return view('auth.login', ['customer' => $customer,'RegistrationName' =>$RegistrationName]);
     }
 
     /**

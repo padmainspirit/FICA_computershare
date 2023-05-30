@@ -28,12 +28,10 @@ class ForgotPasswordController extends Controller
         //$Customerid = $request->session()->get('Customerid');
         $customer = Customer::getCustomerDetailsByUrl();
 
-        $Client_Logo = $customer->Client_Logo;
-        $RegistrationName = $customer->RegistrationName;
+        // $Client_Logo = $customer->Client_Logo;
+        // $RegistrationName = $customer->RegistrationName;
 
-        return view('auth.forget-password')->with('message', $message)
-            ->with('customer', $customer)
-            ->with('Client_Logo', $customer->Client_Logo);
+        return view('auth.forget-password')->with('message', $message)->with('customer', $customer);
     }
 
     public function submitForgetPasswordForm(Request $request)
@@ -207,7 +205,7 @@ class ForgotPasswordController extends Controller
                 DB::table('CustomerUsers')->where('Email', $user->Email)->update(['Password' => Hash::make($request->Password)]);
 
                 $message = 'Password has been successfully changed. Please go and sign in with your new password.';
-                return back()->with('success', 'Password has been successfully changed.')->with('Logo', $Logo)->with('Icon', $Icon)->with('Email', $Email);
+                return back()->with('success', 'Password has been successfully changed, you can close this window.')->with('Logo', $Logo)->with('Icon', $Icon)->with('Email', $Email);
                 // return view('auth.login')->with('fail', $message);
             } else {
                 $message = 'No registered user found.';

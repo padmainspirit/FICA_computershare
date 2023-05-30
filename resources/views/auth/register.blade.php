@@ -555,10 +555,17 @@
         <script src="{{ URL::asset('/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
         {{-- <script>
-            function myFunction() {
-                alert("Thank you for registering. Please to your email for your login details");
-            }
-            </script> --}}
+            $(document).ready(function() {
+                $('#FirstName, #LastName, #IDNumber, #Email').on('input', function() {
+                    var inputValue = $(this).val().trim();
+                    var cleanedValue = inputValue.replace(/\s+/g, ' ');
+
+                    if (inputValue !== cleanedValue) {
+                    $(this).val(cleanedValue);
+                    }
+                });
+            });
+        </script> --}}
 
         <script>
             document.getElementById("register-btn").addEventListener('click', () => {

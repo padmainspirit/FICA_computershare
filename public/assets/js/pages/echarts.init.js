@@ -92,7 +92,7 @@ option = null, (app = {}).title = "Data view", option = {
       }
     }
   },
-  color: ["#34c38f", "#1a4f6e ", "#f46a6a"],
+  color: ["#34c38f", "#93186c ", "#f46a6a"],
   legend: {
     data: ["Evaporation", "Precipitation", "Average temperature"],
     textStyle: {
@@ -179,7 +179,7 @@ option = {
       color: "#8791af"
     }
   },
-  color: ["#1a4f6e ", "#f1b44c", "#f46a6a", "#50a5f1", "#34c38f"],
+  color: ["#93186c ", "#f1b44c", "#f46a6a", "#50a5f1", "#34c38f"],
   series: [{
     name: "Total sales",
     type: "pie",
@@ -235,7 +235,7 @@ option = {
       color: "#8791af"
     }
   },
-  color: ["#f46a6a", "#34c38f", "#50a5f1", "#f1b44c", "#1a4f6e "],
+  color: ["#f46a6a", "#34c38f", "#50a5f1", "#f1b44c", "#93186c "],
   series: [{
     name: "Total sales",
     type: "pie",
@@ -458,9 +458,9 @@ option = {
     data: [[20, 30, 10, 35], [40, 35, 30, 55], [33, 38, 33, 40], [40, 40, 32, 42]],
     itemStyle: {
       normal: {
-        color: "#1a4f6e ",
+        color: "#93186c ",
         color0: "#34c38f",
-        borderColor: "#1a4f6e ",
+        borderColor: "#93186c ",
         borderColor0: "#34c38f"
       }
     }
@@ -489,7 +489,7 @@ option = {
     },
     axisLine: {
       lineStyle: {
-        color: [[.2, "#34c38f"], [.8, "#1a4f6e "], [1, "#f46a6a"]],
+        color: [[.2, "#34c38f"], [.8, "#93186c "], [1, "#f46a6a"]],
         width: 20
       }
     },
