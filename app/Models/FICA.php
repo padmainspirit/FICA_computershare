@@ -83,4 +83,37 @@ class FICA extends Model
 
         return $consumerBankDoc;
     }
+
+    public static function getStepState($fica)
+    {
+        $stepstate = 0;
+        $ficaProgress = $fica->FICAProgress;
+        if($ficaProgress != null){
+           
+            if($fica->ID_Status == null)
+            {
+                $stepstate = 0;
+            }
+            else if($fica->KYC_Status == null)
+            {
+                $stepstate = 1;
+            }
+            else if($fica->AVS_Status == null)
+            {
+                $stepstate = 2;
+            }
+            else if($fica->DOVS_Status == null)
+            {
+                $stepstate = 3;
+            }
+            else if($ficaProgress >= 9 && ($fica->Compliance_Status == null || $fica->Validation_Status == null))
+            {
+                $stepstate = 8;
+            }else{
+                $stepstate = (int)$fica->FICAProgress;
+            }
+        }
+
+        return $stepstate;
+    }
 }

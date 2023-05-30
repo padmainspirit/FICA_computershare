@@ -279,7 +279,8 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($homeTelephoneNumebr);
 
-        $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        $stepState = FICA::getStepState($fica);
 
         // app('debugbar')->info('stepState: ' . $stepState);
 

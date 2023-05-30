@@ -1965,7 +1965,7 @@ class CustomerVerification extends Controller
         $riskSTATUS = isset($riskStatus) ?  $riskStatus : $fica->Risk_Status;
         $ficaSTATUS = isset($ficaStatus) ?  $ficaStatus : $fica->FICAStatus;
 
-        if (isset($idasAPI)) {
+        /* if (isset($idasAPI)) {
             $count++;
         }
         if (isset($kycAPI)) {
@@ -1976,7 +1976,36 @@ class CustomerVerification extends Controller
         }
         if (isset($dovsAPI)) {
             $count++;
+        } */
+        $anyApi = false;
+
+        if (isset($idasAPI) && $fica->ID_Status != NULL) {
+            $count++;
+            $anyApi = true;
         }
+        if (isset($kycAPI) && $fica->KYC_Status != NULL) {
+           $count++;
+           $anyApi = true;
+        }
+        if (isset($avsAPI) && $fica->AVS_Status != NULL) {
+            $count++;
+            $anyApi = true;
+        }
+        if (isset($dovsAPI) && $fica->DOVS_Status != NULL) {
+            $count++;
+            $anyApi = true;
+        }//print_r($fica->Validation_Status);exit;
+
+        if(isset($complianceAPI)){
+            $anyApi = true;
+        }
+
+
+        if( $anyApi && $fica->Validation_Status != null)
+        {
+            $count++;
+        }
+
 
         $ficaProgress = $fica->FICAProgress - $count;
         // $compliance = isset($complianceAPI) ?  $complianceAPI : null;

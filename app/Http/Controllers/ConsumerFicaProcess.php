@@ -414,7 +414,8 @@ class ConsumerFicaProcess extends Controller
 
         //storing fica status on the session
         $request->session()->put('FICAProgress', $fica->FICAProgress);
-        $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        $stepState = FICA::getStepState($fica);
         $request->session()->put('stepState', $stepState);
         // } catch (\Exception $e) {
         //     app('debugbar')->info($e);
@@ -477,7 +478,8 @@ class ConsumerFicaProcess extends Controller
                 )
             );
             //update stepState
-            $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            $stepState = FICA::getStepState($fica);
             $request->session()->put('stepState', $stepState);
         } catch (\Exception $e) {
             app('debugbar')->info($e);
@@ -562,7 +564,8 @@ class ConsumerFicaProcess extends Controller
             );
 
             //update stepState
-            $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            $stepState = FICA::getStepState($fica);
             $request->session()->put('stepState', $stepState);
         } catch (\Exception $e) {
             app('debugbar')->info($e);
@@ -682,7 +685,8 @@ class ConsumerFicaProcess extends Controller
             );
 
             //update stepState
-            $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            $stepState = FICA::getStepState($fica);
             $request->session()->put('stepState', $stepState);
         } catch (\Exception $e) {
             app('debugbar')->info($e);
@@ -762,7 +766,8 @@ class ConsumerFicaProcess extends Controller
                 );
             }
             //update stepState, Progress bar
-            $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            // = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+            $stepState = FICA::getStepState($fica);
             $request->session()->put('stepState', $stepState);
         } catch (\Exception $e) {
             $request->session()->put($e);
