@@ -74,49 +74,16 @@ class CustomerVerification extends Controller
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
 
-        // $request->session()->put('LogUserName', $LogUserName);
-        // $request->session()->put('LogUserSurname', $LogUserSurname);
-
-        // Get ID Number, then get CustomerUSERID to get ConsumerID, Tables created from Get-started should allow a pre-created FicaID. 
-        // $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->where('CustomerId', '=', $Customerid)->first();
-        // $useridentitynum = CustomerUser::getCustomerUserId($request);
-        // $SearchCustomerUSERID = $useridentitynum['Id'];
-
-        // $getSearchConsumerID = Consumer::where('CustomerUSERID', '=', $SearchCustomerUSERID)->first();
-        // $SearchConsumerID = $getSearchConsumerID['Consumerid'];
-
         $getSearchConsumerID = Consumer::getConsumerId($request);
-        $SearchConsumerID = $getSearchConsumerID['Consumerid']; 
-        
-        // $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
-        // $SearchFica = $getSearchFica['FICA_ID'];
+        $SearchConsumerID = $getSearchConsumerID['Consumerid'];
 
         $getSearchFica = Declaration::getFicaId($request);
         $SearchFica = $getSearchFica['FICA_ID'];
 
-        // session()->put('SearchConsumerID', $SearchConsumerID);
-        // session()->put('SearchFica', $SearchFica);
-
-        // app('debugbar')->info($idnumber);
-        // app('debugbar')->info($SearchConsumerID);
-        // app('debugbar')->info($SearchFica);
-
         // User Search ID Document
         $getconsumerIDDoc = ConsumerIdentity::getconsumerIDDoc($request);
         $IDDoc = $getconsumerIDDoc['Identity_File_Path'];
-
-
         $IDDoc != '' ? $getconsumerIDDoc['Identity_File_Path'] : null;
-        // $request->session()->put('IDDoc', $IDDoc);
-
-        // $IDDoc != '' ? $getconsumerIDDoc['Identity_File_Path']-> $getconsumerIDDoc['Identity_File_Path'] : null;
-
-        // app('debugbar')->info($consumerIDDoc);
-
-        // User Search Proof of Address Document
-        // $consumerAddressDoc = KYC::where('FICA_id', '=', $SearchFica)->first();
-        // // $getconsumerAddressDoc = ['Address_File_Path' => $consumerAddressDoc->Address_File_Path];
-        // $AddressDoc = $consumerAddressDoc['Address_File_Path'];
 
         $consumerAddressDoc = KYC::getAddressDoc($request);
         $AddressDoc = $consumerAddressDoc['Address_File_Path'];
@@ -805,12 +772,8 @@ class CustomerVerification extends Controller
 
         );
 
-
-        // $WorkNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 10)->first();
-        // $HomeNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 11)->first();
-        // $CellNumber = Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->where('TelephoneTypeInd', '=', 12)->first();
-
         $Telephone = Telephones::getAllTelephonesAdmin();
+
         $CellNumber  = $Telephone['TelCell'];
         $HomeNumber = $Telephone['TelHome'];
         $WorkNumber  = $Telephone['TelWork'];
@@ -898,13 +861,8 @@ class CustomerVerification extends Controller
 
         // CELL NUMBER
         if ($CellNumberExist == true) {
-            if (
-                // $CellNumber->TelephoneCode == substr($request->CellularNo, 0, 3) &&
-                // $CellNumber->TelephoneNo == substr($request->CellularNo, 3, 10)
-                $CellNumber == $request->CellularNo
-
-            ) {
-            } else {
+            if ($CellNumber !== $request->CellularNo) {
+                CustomerUser::where('Id', '=', $getSearchConsumerID->CustomerUSERID)->update(['PhoneNumber' => $request->CellularNo]);
                 Telephones::where('ConsumerID', '=',  $SearchConsumerID)->where('TelephoneTypeInd', '=', 12)->update(['RecordStatusInd' => 0]);
                 $HomeNumber = Telephones::create([
                     'ConsumerID' => $SearchConsumerID,
@@ -919,6 +877,7 @@ class CustomerVerification extends Controller
             }
         } else {
             if (isset($request->CellularNo)) {
+                CustomerUser::where('Id', '=', $getSearchConsumerID->CustomerUSERID)->update(['PhoneNumber' => $request->CellularNo]);
                 $HomeNumber = Telephones::create([
                     'ConsumerID' => $SearchConsumerID,
                     'TelephoneTypeInd' => 12,
@@ -1027,74 +986,8 @@ class CustomerVerification extends Controller
     public function AddressDetailsUpdate(Request $request)
     {
         $idnumber = $request->session()->get('idnumber');
-
-        // $useridentitynum = ConsumerIdentity::where('Identity_Document_ID', '=', $idnumber)->first();
-        // $userconsumerid = Consumer::where('Consumerid', '=', $idnumber)->distinct()->first();
-        // $userconsumerid = Consumer::select('Consumerid')->where('Consumerid', '=', $idnumber)->get();
-
-        // $userconsumerid = Consumer::select(DB::raw('Consumerid'))
-        //             ->where('Consumerid', '=', $idnumber)
-        //             ->distinct()
-        //             ->get();
-
-        // $userconsumerid = Consumer::select(DB::raw('Consumerid'))
-        //             ->where('Consumerid', '=', $idnumber)
-        //             ->groupBy('Consumerid')
-        //             ->get();
-
-        // $Consumerid = $request->session()->get('LoggedUser');
-        // $NotificationLink = SendEmail::where('Consumerid', '=',  $Consumerid)->where('IsRead', '=', '1')->get();
-
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
         $userconsumerid = Address::where('ConsumerID', '=', $useridentitynum->Consumerid)->first();
-
-        // $consumerid = $request->input('ConsumerID');
-
-        // $userfica = ConsumerAVS::where('FICA_id', '=', $useridentitynum->FICA_id)->first();
-
-        // app('debugbar')->info($request->input(test));
-
-
-        // ConsumerAddress::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->update(
-        //     array(
-
-        //         // 'OriginalAddress1' => $request->OriginalAddress1,
-        //         // 'OriginalAddress2' => $request->OriginalAddress2,
-        //         // 'OriginalAddress3' => $request->OriginalAddress3,
-        //         // 'OriginalPostalCode' => $request->OriginalPostalCode,
-        //         // 'Province' => $request->input("test"),
-
-        //         // Residence Address
-        //         'OriginalAddress1' => $request->OriginalAddress1,
-        //         'OriginalAddress2' => $request->OriginalAddress2,
-        //         'OriginalAddress3' => $request->OriginalAddress3,
-        //         'OriginalPostalCode' => $request->OriginalPostalCode,
-        //         'Province' => $request->input("test1"),
-
-
-        //         // Postal Address
-        //         'OriginalAddress1' => $request->PostOriginalAddress1,
-        //         'OriginalAddress2' => $request->PostOriginalAddress2,
-        //         'OriginalAddress3' => $request->PostOriginalAddress3,
-        //         'OriginalPostalCode' => $request->PostOriginalPostalCode,
-        //         'Province' => $request->input("test2"),
-
-        //         // Work Address
-        //         'OriginalAddress1' => $request->WorkOriginalAddress1,
-        //         'OriginalAddress2' => $request->WorkOriginalAddress2,
-        //         'OriginalAddress3' => $request->WorkOriginalAddress3,
-        //         'OriginalPostalCode' => $request->WorkOriginalPostalCode,
-        //         'Province' => $request->input("test3"),
-
-        //     )
-
-        // );
-
-        //----------------------------------------------------- ADDRESS ----------------------------------------------
-
-        // $homeAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
-        // $postalAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
-        // $workAddress = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 14)->first();
 
         $Addresses = Address::getAllAddressesAdmin();
         $homeAddress  = $Addresses['Home'];

@@ -23,8 +23,7 @@
 
     @section('content')
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" style="max-width: 200px; max-height: 200px;" alt=""
-                class="img-fluid">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -112,10 +111,10 @@
                                 </form>
 
                                 <div class="mt-5 text-center">
-                                    <p>Remember It? <a
-                                            href="{{ route('login', ['customer' => $customer->RegistrationName]) }}"
-                                            class="fw-medium text-primary"><span style="color: #93186c">Sign In
-                                                here</span></a>
+                                    <p>Remember It? 
+                                        <a href="{{ route('login', ['customer' => $customer->RegistrationName]) }}">
+                                            <span style="color: #93186c">Sign In here</span>
+                                        </a>
                                     </p>
 
                                     <p>© {{ $customer->RegistrationName }}

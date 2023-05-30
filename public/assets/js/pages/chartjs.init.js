@@ -75,16 +75,16 @@ var __webpack_exports__ = {};
         fill: !0,
         lineTension: .5,
         backgroundColor: "rgba(85, 110, 230, 0.2)",
-        borderColor: "#1a4f6e ",
+        borderColor: "#93186c ",
         borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0,
         borderJoinStyle: "miter",
-        pointBorderColor: "#1a4f6e ",
+        pointBorderColor: "#93186c ",
         pointBackgroundColor: "#fff",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "#1a4f6e ",
+        pointHoverBackgroundColor: "#93186c ",
         pointHoverBorderColor: "#fff",
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -126,8 +126,8 @@ var __webpack_exports__ = {};
       labels: ["Desktops", "Tablets"],
       datasets: [{
         data: [300, 210],
-        backgroundColor: ["#1a4f6e ", "#ebeff2"],
-        hoverBackgroundColor: ["#1a4f6e ", "#ebeff2"],
+        backgroundColor: ["#93186c ", "#ebeff2"],
+        hoverBackgroundColor: ["#93186c ", "#ebeff2"],
         hoverBorderColor: "#fff"
       }]
     });
@@ -172,18 +172,18 @@ var __webpack_exports__ = {};
       }, {
         label: "Tablets",
         backgroundColor: "rgba(85, 110, 230, 0.2)",
-        borderColor: "#1a4f6e ",
-        pointBackgroundColor: "#1a4f6e ",
+        borderColor: "#93186c ",
+        pointBackgroundColor: "#93186c ",
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "#1a4f6e ",
+        pointHoverBorderColor: "#93186c ",
         data: [28, 48, 40, 19, 96, 27, 100]
       }]
     });
     this.respChart(l("#polarArea"), "PolarArea", {
       datasets: [{
         data: [11, 16, 7, 18],
-        backgroundColor: ["#f46a6a", "#34c38f", "#f1b44c", "#1a4f6e "],
+        backgroundColor: ["#f46a6a", "#34c38f", "#f1b44c", "#93186c "],
         label: "My dataset",
         hoverBorderColor: "#fff"
       }],

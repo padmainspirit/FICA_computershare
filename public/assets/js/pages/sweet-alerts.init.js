@@ -12,14 +12,14 @@ var __webpack_exports__ = {};
     t("#sa-basic").on("click", function () {
       Swal.fire({
         title: "Any fool can use a computer",
-        confirmButtonColor: "#1a4f6e "
+        confirmButtonColor: "#93186c "
       });
     }), t("#sa-title").click(function () {
       Swal.fire({
         title: "The Internet?",
         text: "That thing is still around?",
         icon: "question",
-        confirmButtonColor: "#1a4f6e "
+        confirmButtonColor: "#93186c "
       });
     }), t("#sa-success").click(function () {
       Swal.fire({
@@ -27,7 +27,7 @@ var __webpack_exports__ = {};
         text: "You clicked the button!",
         icon: "success",
         showCancelButton: !0,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         cancelButtonColor: "#f46a6a"
       });
     }), t("#sa-warning").click(function () {
@@ -70,7 +70,7 @@ var __webpack_exports__ = {};
         text: "Modal with a custom image.",
         imageUrl: "assets/images/logo-dark.png",
         imageHeight: 20,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         animation: !1
       });
     }), t("#sa-close").click(function () {
@@ -79,7 +79,7 @@ var __webpack_exports__ = {};
         title: "Auto close alert!",
         html: "I will close in <strong></strong> seconds.",
         timer: 2e3,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         onBeforeOpen: function onBeforeOpen() {
           Swal.showLoading(), t = setInterval(function () {
             Swal.getContent().querySelector("strong").textContent = Swal.getTimerLeft();
@@ -118,7 +118,7 @@ var __webpack_exports__ = {};
         title: "Custom width, padding, background.",
         width: 600,
         padding: 100,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         background: "#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)"
       });
     }), t("#ajax-alert").click(function () {
@@ -128,7 +128,7 @@ var __webpack_exports__ = {};
         showCancelButton: !0,
         confirmButtonText: "Submit",
         showLoaderOnConfirm: !0,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         cancelButtonColor: "#f46a6a",
         preConfirm: function preConfirm(n) {
           return new Promise(function (t, e) {
@@ -143,7 +143,7 @@ var __webpack_exports__ = {};
           icon: "success",
           title: "Ajax request finished!",
           html: "Submitted email: " + t,
-          confirmButtonColor: "#1a4f6e "
+          confirmButtonColor: "#93186c "
         });
       });
     }), t("#chaining-alert").click(function () {
@@ -151,7 +151,7 @@ var __webpack_exports__ = {};
         input: "text",
         confirmButtonText: "Next &rarr;",
         showCancelButton: !0,
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         cancelButtonColor: "#74788d",
         progressSteps: ["1", "2", "3"]
       }).queue([{
@@ -162,13 +162,13 @@ var __webpack_exports__ = {};
           title: "All done!",
           html: "Your answers: <pre><code>" + JSON.stringify(t.value) + "</code></pre>",
           confirmButtonText: "Lovely!",
-          confirmButtonColor: "#1a4f6e "
+          confirmButtonColor: "#93186c "
         });
       });
     }), t("#dynamic-alert").click(function () {
       swal.queue([{
         title: "Your public IP",
-        confirmButtonColor: "#1a4f6e ",
+        confirmButtonColor: "#93186c ",
         confirmButtonText: "Show my public IP",
         text: "Your public IP will be received via AJAX request",
         showLoaderOnConfirm: !0,

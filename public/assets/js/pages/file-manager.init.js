@@ -12,7 +12,7 @@ var options = {
       enabled: !0
     }
   },
-  colors: ["#1a4f6e "],
+  colors: ["#93186c "],
   plotOptions: {
     radialBar: {
       startAngle: -90,

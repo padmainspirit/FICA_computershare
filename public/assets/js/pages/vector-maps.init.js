@@ -22,7 +22,7 @@ var __webpack_exports__ = {};
       markerStyle: {
         initial: {
           r: 9,
-          fill: "#1a4f6e ",
+          fill: "#93186c ",
           "fill-opacity": .9,
           stroke: "#fff",
           "stroke-width": 7,
@@ -104,7 +104,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     }), a("#india-vectormap").vectorMap({
@@ -112,7 +112,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     }), a("#australia-vectormap").vectorMap({
@@ -120,7 +120,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     }), a("#chicago-vectormap").vectorMap({
@@ -128,7 +128,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     }), a("#uk-vectormap").vectorMap({
@@ -136,7 +136,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     }), a("#canada-vectormap").vectorMap({
@@ -144,7 +144,7 @@ var __webpack_exports__ = {};
       backgroundColor: "transparent",
       regionStyle: {
         initial: {
-          fill: "#1a4f6e "
+          fill: "#93186c "
         }
       }
     });

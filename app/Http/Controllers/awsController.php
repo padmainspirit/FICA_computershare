@@ -673,19 +673,27 @@ class awsController extends Controller
         $PostalState = strtoupper($request->input('po-state'));
         $PostalZip = $request->input('po-zip');
 
-        $AddressResult = ([
-            'streetName1' => $streetName1,
-            'streetName2' => $streetName2,
-            'city' => $city,
-            'state' => $state,
-            'zip' => $zip,
+        if($postalStreetName1 != '' && $postalStreetName2 != '')
+        {
+            $AddressResult = ([
+                'streetName1' => $streetName1,
+                'streetName2' => $streetName2,
+                // 'city' => $city,
+                // 'state' => $state,
+                // 'zip' => $zip,
 
-            'postalStreetName1' => $postalStreetName1,
-            'postalStreetName2' => $postalStreetName2,
-            'postalCity' => $postalCity,
-            'PostalState' => $PostalState,
-            'PostalZip' => $PostalZip,
-        ]);
+                'postalStreetName1' => $postalStreetName1,
+                'postalStreetName2' => $postalStreetName2,
+                // 'postalCity' => $postalCity,
+                // 'PostalState' => $PostalState,
+                // 'PostalZip' => $PostalZip,
+            ]);
+        }else{
+            $AddressResult = ([
+                'streetName1' => $streetName1,
+                'streetName2' => $streetName2,
+            ]);
+        }
 
         // $request->session()->put('AddressResult', $AddressResult);
         // app('debugbar')->info($streetName1 . ' ' .  $streetName2);
@@ -725,10 +733,10 @@ class awsController extends Controller
             }
         }
 
-
         $resultAddress = array_unique($addressDetails); //uncomment
+        app('debugbar')->info($removescore);
         app('debugbar')->info($resultAddress);
-        $addressPerc =  $this->getAddressFromIDSA($resultAddress);
+        $addressPerc =  $this->getAddressFromIDSA($AddressResult);
         app('debugbar')->info('addressPerc: ' . $addressPerc);
 
         $addressResponse = ([
@@ -807,9 +815,10 @@ class awsController extends Controller
 
         //months must not be more then 3 months
         // if ($months <= 700) {
-        if ($addressPerc >= 0) { //should be $addressPerc > 50
+        if ($addressPerc >= 25) { //should be $addressPerc > 50
 
-            //fica progress status
+            //fica progress status $FicaProgressValue
+            //$ficaProgress = $fica->FICAProgress + 1;
             $ficaProgress = $fica->FICAProgress + 1;
 
             //update KYC detalis

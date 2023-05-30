@@ -67,7 +67,7 @@ var barChartWidth = $("#bar-charts").width(),
     lineColor: "rgba(166, 176, 207, 0.1)"
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f"]
+    colors: ["#93186c ", "#34c38f"]
   },
   legend: {
     label: {
@@ -154,7 +154,7 @@ var columnChartWidth = $("#column-charts").width(),
     }
   },
   series: {
-    colors: ["#34c38f", "#1a4f6e ", "#f46a6a"]
+    colors: ["#34c38f", "#93186c ", "#f46a6a"]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -238,7 +238,7 @@ var lineChartWidth = $("#line-charts").width(),
     }
   },
   series: {
-    colors: ["#f46a6a", "#34c38f", "#1a4f6e "]
+    colors: ["#f46a6a", "#34c38f", "#93186c "]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -323,7 +323,7 @@ var areaChartWidth = $("#area-charts").width(),
     }
   },
   series: {
-    colors: ["#f46a6a", "#34c38f", "#1a4f6e "]
+    colors: ["#f46a6a", "#34c38f", "#93186c "]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -406,7 +406,7 @@ var radialChartWidth = $("#radial-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f", "#f1b44c", "#f46a6a"]
+    colors: ["#93186c ", "#34c38f", "#f1b44c", "#f46a6a"]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -895,7 +895,7 @@ var bubbleChartWidth = $("#bubble-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f", "#f1b44c", "#f46a6a"]
+    colors: ["#93186c ", "#34c38f", "#f1b44c", "#f46a6a"]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -2493,7 +2493,7 @@ var scatterChartWidth = $("#scatter-charts").width(),
     }
   },
   series: {
-    colors: ["#34c38f", "#1a4f6e "]
+    colors: ["#34c38f", "#93186c "]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -2554,7 +2554,7 @@ var pieChartWidth = $("#pie-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f", "#f46a6a", "#50a5f1", "#f1b44c"]
+    colors: ["#93186c ", "#34c38f", "#f46a6a", "#50a5f1", "#f1b44c"]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -2626,7 +2626,7 @@ var donutpieChartWidth = $("#donut-charts").width(),
   },
   series: {
     series: {
-      colors: ["#1a4f6e ", "#34c38f", "#f46a6a", "#50a5f1", "#f1b44c"]
+      colors: ["#93186c ", "#34c38f", "#f46a6a", "#50a5f1", "#f1b44c"]
     },
     label: {
       color: "#fff",
@@ -2707,7 +2707,7 @@ var heatmapchartsWidth = $("#heatmap-charts").width(),
     }
   },
   series: {
-    startColor: "#1a4f6e ",
+    startColor: "#93186c ",
     endColor: "#34c38f",
     overColor: "#75b5aa",
     borderColor: "#F4511E"
@@ -2799,7 +2799,7 @@ var treemapchartsWidth = $("#treemap-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f", "#f1b44c", "#f46a6a"],
+    colors: ["#93186c ", "#34c38f", "#f1b44c", "#f46a6a"],
     borderColor: "rgba(255, 255, 255, 0.4)",
     borderWidth: 4
   }
@@ -2994,7 +2994,7 @@ var mapchartsWidth = $("#map-charts").width(),
     }
   },
   series: {
-    startColor: "#1a4f6e ",
+    startColor: "#93186c ",
     endColor: "#34c38f",
     overColor: "#75b5aa",
     borderColor: "#F4511E"
@@ -3078,7 +3078,7 @@ var boxplotchartsWidth = $("#boxplot-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f"]
+    colors: ["#93186c ", "#34c38f"]
   }
 };
 tui.chart.registerTheme("myTheme", theme), options.theme = "myTheme";
@@ -3170,12 +3170,12 @@ var bulletchartsWidth = $("#bullet-charts").width(),
     }
   },
   series: {
-    colors: ["#1a4f6e ", "#34c38f", "#f1b44c", "#f46a6a"],
+    colors: ["#93186c ", "#34c38f", "#f1b44c", "#f46a6a"],
     ranges: [{
       color: "#eee",
       opacity: .7
     }, null, {
-      color: "#1a4f6e "
+      color: "#93186c "
     }]
   }
 };

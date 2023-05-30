@@ -25,12 +25,12 @@
     <div class="navbar-header">
 
         {{-- <span class="logo-lg">
-            <img src="{{ URL::asset($Logo) }}" alt="" height="30">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" alt="" height="30">
             <img src="{{ asset($Logo) }}" alt="" height="30">
         </span> --}}
 
         <div class="logo-lg">
-            <img src="{{ URL::asset($Logo) }}" alt="" width="150" style="margin-left: 20%;">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" alt="" width="150" style="margin-left: 20%;">
         </div>
 
         <div class="d-flex">
