@@ -44,8 +44,8 @@ class UserVerificationController extends Controller
 
     public function __construct()
     {
-        $this->xdsusername = config("app.API_USERNAME");
-        $this->xdspassword = config("app.API_PASSWORD");
+        $this->xdsusername = config("app.API_LOGIN_USERNAME");
+        $this->xdspassword = config("app.API_LOGIN_PASSWORD");
 
         $this->KYC = config("app.API_ID_KYC");
         $this->AVS = config("app.API_ID_AVS");
@@ -66,27 +66,6 @@ class UserVerificationController extends Controller
             $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
             $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
 
-            try {
-                AWSLogs::create([
-                    'Id' => Str::upper(Str::uuid()),
-                    'Createddate' => date("Y-m-d H:i:s"),
-                    'CustomerId' => $customers->Id,
-                    'FICAId' => $fica->FICA_id,
-                    'CustomerUserId' => $consumer->CustomerUSERID,
-                    'ConsumerID' => $fica->Consumerid,
-                    'AWS_Cost' => '30',
-                    'IdOrPassportNumber' => $IDNUMBER,
-                    'AWSSearchType' => '4',
-                    'Documentname' => NULL,
-                ]);
-            } catch (\Illuminate\Database\QueryException $exception) {
-                // You can check get the details of the error using `errorInfo`:
-                $errorInfo = $exception->errorInfo;
-                app('debugbar')->info($errorInfo);
-
-                // Return the response to the client..
-            }
-
             if ($client->isAdmin == 1 || $client->isAdmin == 0) {
                 $soapUrlLive = config("app.API_SOAP_URL_LIVE_FACIAL");
                 // $soapUrlDemo = 'https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl';
@@ -103,6 +82,27 @@ class UserVerificationController extends Controller
                 $enquiryResultId = null;
 
                 $tempData = explode('>', $returnValue);
+
+                try {
+                    AWSLogs::create([
+                        'Id' => Str::upper(Str::uuid()),
+                        'Createddate' => date("Y-m-d H:i:s"),
+                        'CustomerId' => $customers->Id,
+                        'FICAId' => $fica->FICA_id,
+                        'CustomerUserId' => $consumer->CustomerUSERID,
+                        'ConsumerID' => $fica->Consumerid,
+                        'AWS_Cost' => '30',
+                        'IdOrPassportNumber' => $IDNUMBER,
+                        'AWSSearchType' => '4',
+                        'Documentname' => NULL,
+                    ]);
+                } catch (\Illuminate\Database\QueryException $exception) {
+                    // You can check get the details of the error using `errorInfo`:
+                    $errorInfo = $exception->errorInfo;
+                    app('debugbar')->info($errorInfo);
+    
+                    // Return the response to the client..
+                }
 
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
@@ -137,7 +137,6 @@ class UserVerificationController extends Controller
                             }
                         }
 
-
                         $returnDOVRequest = $this->connectDOVRequest($soapUrlLive, $username, $password, $ticketNo, $enquiryId, $enquiryResultId, 194);
                         $tempData = explode('>', $returnDOVRequest);
                         $tempData2 = explode('<', $tempData[5]);
@@ -146,7 +145,6 @@ class UserVerificationController extends Controller
                         $tempData4 = str_replace('&gt', '', $tempData3);
                         $tempData5 = explode(';', $tempData4[0]);
                         //return $tempData5;
-
 
                         app('debugbar')->info('tempData5');
                         app('debugbar')->info($tempData5);

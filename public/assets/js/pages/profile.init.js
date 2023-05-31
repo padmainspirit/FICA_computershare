@@ -41,7 +41,7 @@ var options = {
   fill: {
     opacity: 1
   },
-  colors: ["#1a4f6e "]
+  colors: ["#93186c "]
 },
     chart = new ApexCharts(document.querySelector("#revenue-chart"), options);
 chart.render();

@@ -41,7 +41,7 @@ var options = {
   xaxis: {
     categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   },
-  colors: ["#1a4f6e ", "#f1b44c", "#34c38f"],
+  colors: ["#93186c ", "#f1b44c", "#34c38f"],
   legend: {
     position: "bottom"
   },
@@ -78,7 +78,7 @@ options = {
       }
     }
   },
-  colors: ["#1a4f6e "],
+  colors: ["#93186c "],
   fill: {
     type: "gradient",
     gradient: {

@@ -25,7 +25,7 @@
     <div class="navbar-header">
 
         <div class="logo-lg">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" alt="" width="150" style="margin-left: 20%;">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" alt="" width="150" style="margin-left: 20%;">
         </div>
 
         <div class="d-flex">

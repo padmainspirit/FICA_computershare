@@ -58,8 +58,11 @@ class Telephones extends Model
 
     public static function getAllTelephonesAdmin()
     {
-        $SearchConsumerID = session()->get('SearchConsumerID');
-        $Telephone = Telephones::where('ConsumerID', '=', $SearchConsumerID)->where('RecordStatusInd', '=', 1)->get();
+        $SearchID = session()->get('idnumber');
+        $SearchUserId = CustomerUser::where('IDNumber', '=', $SearchID)->first();
+        $SearchConsumerID = Consumer::where('IDNUMBER', '=', $SearchID)->where('CustomerUSERID', '=', $SearchUserId->Id)->first();
+        $Telephone = Telephones::where('ConsumerID', '=', $SearchConsumerID->Consumerid)->where('RecordStatusInd', '=', 1)->get();
+
         $telephones = [];
         if ($Telephone) {
 

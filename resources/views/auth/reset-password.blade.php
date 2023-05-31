@@ -81,7 +81,7 @@
         }
 
         .button {
-            background-color: #1a4f6e;
+            background-color: #93186c;
             padding: 1rem 2rem;
             border: none;
             border-radius: .25rem;
@@ -308,7 +308,7 @@
     @section('content')
     
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset($Logo) }}"  style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}"  style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
         </div>
 
         <div class="account-pages">
@@ -437,7 +437,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <p style="color:#1a4f6e;">Your password must contain:</p>
+                                    <p style="color:#93186c;">Your password must contain:</p>
                                     <ul class="list-unstyled">
                                         <li class="">
                                             <span class="low-upper-case">
@@ -491,8 +491,7 @@
                                 </form>
 
                                 <div class="mt-5 text-center">
-                                    <p>Remember It ? <a href="{{ route('login', ['customer' => $customerName]) }}"
-                                            class="fw-medium text-primary">Sign In here</a>
+                                    <p>Remember It ? <a href="{{ route('login', ['customer' => $customerName]) }}" class="fw-medium text-primary"><span style="color: #93186c">Sign In here</span></a>
                                     </p>
                                     <p>© {{$customerName}}
                                         <script>

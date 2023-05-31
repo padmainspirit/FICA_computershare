@@ -71,7 +71,7 @@
                                 Client Search
                             </h4>
 
-                            <hr style="color: #1a4f6e ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #1a4f6e; background-color: #1a4f6e; opacity: 100%;"> --}}
+                            <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;"> --}}
 
                             <div class="heading-fica-id mb-4">
                                 <div class="text-center">

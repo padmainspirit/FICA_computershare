@@ -25,7 +25,7 @@
     <div class="navbar-header">
 
         <div class="logo-lg">
-            <img src="{{ URL::asset($customer->Client_Logo) }}" alt="" width="150" style="margin-left: 20%;">
+            <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" alt="" width="150" style="margin-left: 20%;">
         </div>
 
         <div class="d-flex flex-wrap">
@@ -66,7 +66,7 @@
                             <div class="d-flex">
                                 <div class="avatar-xs me-3">
                                     <span class="avatar-title rounded-circle font-size-16"
-                                        style="background-color: #1a4f6e;">
+                                        style="background-color: #93186c;">
                                         <i class="bx text-white bx-user"></i>
                                     </span>
                                 </div>
@@ -153,7 +153,7 @@
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e; color:white;">Mark As Read
+                            style="background-color: #93186c; border-color: #93186c; color:white;">Mark As Read
                         </button>
                     </div>
                 </div>

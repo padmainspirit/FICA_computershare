@@ -221,15 +221,15 @@ var __webpack_exports__ = {};
     };
     n.plot(n(t), o, e);
   }, t.prototype.init = function () {
-    this.createPlotGraph("#website-stats", [[0, 50], [1, 130], [2, 80], [3, 70], [4, 180], [5, 105], [6, 250]], [[0, 80], [1, 100], [2, 60], [3, 120], [4, 140], [5, 100], [6, 105]], [[0, 20], [1, 80], [2, 70], [3, 140], [4, 250], [5, 80], [6, 200]], ["Desktops", "Laptops", "Tablets"], ["#f0f1f4", "#1a4f6e ", "#34c38f"], "rgba(166, 176, 207, 0.1)", "transparent");
-    this.createPieGraph("#pie-chart #pie-chart-container", ["Desktops", "Laptops", "Tablets"], [20, 30, 15], ["#1a4f6e ", "#34c38f", "#ebeff2"]);
+    this.createPlotGraph("#website-stats", [[0, 50], [1, 130], [2, 80], [3, 70], [4, 180], [5, 105], [6, 250]], [[0, 80], [1, 100], [2, 60], [3, 120], [4, 140], [5, 100], [6, 105]], [[0, 20], [1, 80], [2, 70], [3, 140], [4, 250], [5, 80], [6, 200]], ["Desktops", "Laptops", "Tablets"], ["#f0f1f4", "#93186c ", "#34c38f"], "rgba(166, 176, 207, 0.1)", "transparent");
+    this.createPieGraph("#pie-chart #pie-chart-container", ["Desktops", "Laptops", "Tablets"], [20, 30, 15], ["#93186c ", "#34c38f", "#ebeff2"]);
     var a = this.createRealTimeGraph("#flotRealTime", this.randomData(), ["#34c38f"]);
     a.draw();
     var o = this;
     !function t() {
       a.setData([o.randomData()]), a.draw(), setTimeout(t, (n("html").hasClass("mobile-device"), 1e3));
     }();
-    this.createDonutGraph("#donut-chart #donut-chart-container", ["Desktops", "Laptops", "Tablets"], [29, 20, 18], ["#f0f1f4", "#1a4f6e ", "#34c38f"]);
+    this.createDonutGraph("#donut-chart #donut-chart-container", ["Desktops", "Laptops", "Tablets"], [29, 20, 18], ["#f0f1f4", "#93186c ", "#34c38f"]);
   }, n.FlotChart = new t(), n.FlotChart.Constructor = t;
 }(window.jQuery), function () {
   "use strict";

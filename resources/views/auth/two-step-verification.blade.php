@@ -11,7 +11,7 @@
 
     @section('content')
         {{-- <div class="row d-flex justify-content-center mb-3 mt-4">
-        <img src="{{ URL::asset($Logo) }}" style="width: 190px; height: 35px;" alt="" class="img-fluid">
+        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="width: 190px; height: 35px;" alt="" class="img-fluid">
     </div> --}}
 
         <div class="row d-flex justify-content-center mb-2 mt-4">

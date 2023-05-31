@@ -10,7 +10,7 @@
 
                     <a href="{{ url('/roles') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-desktop label-icon"></i>
                             Edit Roles
                         </button>
@@ -19,7 +19,7 @@
 
                     <a href="{{ url('/admin-display') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-desktop label-icon"></i>
                             View Customers
                         </button>
@@ -27,7 +27,7 @@
 
                     <a href="{{ route('admin-customer') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-user-plus label-icon"></i>
                             Add New Customer 
                         </button>
@@ -35,7 +35,7 @@
 
                     <a href="{{ route('users.create') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-user-plus label-icon"></i>
                             Add New Customer Users
                         </button>
@@ -44,7 +44,7 @@
 
                     {{-- <a href="{{ route('users.admincreate') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-user-plus label-icon"></i>
                             Add New Admin User
                         </button>
@@ -52,7 +52,7 @@
 
                     {{-- <a href="{{ url('/admin-display') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #1a4f6e; border-color: #1a4f6e;  width: 100%">
+                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-wallet-alt label-icon"></i>
                             View Costing
                         </button>

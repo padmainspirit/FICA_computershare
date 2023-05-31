@@ -279,7 +279,8 @@ class FicaProcessController extends Controller
 
         // app('debugbar')->info($homeTelephoneNumebr);
 
-        $stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        //$stepState = $fica->FICAProgress != null ? (int)$fica->FICAProgress : 0;
+        $stepState = FICA::getStepState($fica);
 
         // app('debugbar')->info('stepState: ' . $stepState);
 
@@ -374,7 +375,7 @@ class FicaProcessController extends Controller
         $this->validate(
             $request,
             [
-                'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff'
+                'file' => 'required|file|mimes:jpg,jpeg,png,pdf,tiff,heic'
             ],
             [
                 'file.required' => 'Wrong document format. Please upload a PDF or Image file',
@@ -680,18 +681,34 @@ class FicaProcessController extends Controller
     }
 
     //Converting PDF to jpg Image
-    public function convertingPdfToImages($pdfTempPath,)
+    public function convertingPdfToImages($pdfTempPath)
     {
-        $imagick = new Imagick();
-        $imagick->setResolution(300, 300);
-        //$imagick->readImage(public_path('pdf/83260744002_20220517.pdf'));
-        //$imagick->readImage($pdfTempPath);
-        $imagick->readImage("{$pdfTempPath}[0]");
-        $imagick = $imagick->flattenImages();
-        //$imagick->setImageIndex(0);
-        $imagick->setImageFormat("jpg");
-        $imagick->writeImages(public_path('tempImages/page.jpg'), true);
-        return 'tempImages/page.jpg';
+        // $imagick = new Imagick();
+        // $imagick->setResolution(300, 300);
+        // $imagick->readImage("{$pdfTempPath}[0]");
+        // $imagick = $imagick->flattenImages();
+        // $imagick->setImageFormat("jpg");
+        // $imagick->writeImages(public_path('tempImages/page.jpg'), true);
+        // return 'tempImages/page.jpg';
+
+        $im = new Imagick($pdfTempPath);
+        $noOfPagesInPDF = $im->getNumberImages(); 
+ 
+        if ($noOfPagesInPDF) { 
+    
+            for ($i = 0; $i < $noOfPagesInPDF; $i++) { 
+                $url = $pdfTempPath.'['.$i.']'; 
+                $image = new Imagick();
+                $image->setResolution(300,300);
+                $image->readimage($url);
+                $image->setImageFormat("jpg"); 
+                $image->writeImages(public_path('tempImages/'.($i+1).'-page.jpg'), true);
+                //$image->writeImage("./".($i+1).'-'.rand().'.jpg'); 
+            } 
+            return true;
+        }
+ 
+        // $imagick->writeImages(public_path('tempImages/page.jpg'), true);
     }
 
     //Delete all Temp Files

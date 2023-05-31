@@ -272,8 +272,11 @@ return [
     'API_OTP_SEND_URL' => env("API_OTP_SEND_URL", "https://rest.mymobileapi.com/bulkmessages"),
 
     // User Verification API and credentials
-    'API_USERNAME' => env("API_USERNAME", "Insprt_uat"),
-    'API_PASSWORD' => env("API_PASSWORD", "Id@s0522"),
+    // 'API_USERNAME' => env("API_USERNAME", "Insprt_uat"),
+    // 'API_PASSWORD' => env("API_PASSWORD", "Id@s0522"),
+
+    'API_LOGIN_USERNAME' => env("API_LOGIN_USERNAME", "InspiritAPI_live"),
+    'API_LOGIN_PASSWORD' => env("API_LOGIN_PASSWORD", "Id@xds100"),
 
     // Subject to change in the event of dynamic distribution of User Verification
     'API_ID_KYC' => env("API_ID_KYC", "FA52707C-2DE9-4050-8350-E19988D1B311"),
@@ -282,15 +285,15 @@ return [
     'API_ID_COMPLIANCE' => env("API_ID_COMPLIANCE", "0DF4E073-923C-4352-BB12-E1F24D0438FE"),
 
     // Some links are the same but are coded in case XDS changes per channel
-    'API_SOAP_URL_LIVE_FACIAL' => env("API_SOAP_URL_LIVE_FACIAL", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_FACIAL' => env("API_SOAP_URL_LIVE_FACIAL", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx"),
     'API_SOAP_URL_DEMO_FACIAL' => env("API_SOAP_URL_DEMO_FACIAL", "https://www.web.xds.co.za/uatxdsconnect/?WSDL"),
-    'API_SOAP_URL_LIVE_XDS_SELFIE_RESULT' => env("API_SOAP_URL_LIVE_XDS_SELFIE_RESULT", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_XDS_SELFIE_RESULT' => env("API_SOAP_URL_LIVE_XDS_SELFIE_RESULT", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx"),
     'API_SOAP_URL_DEMO_XDS_SELFIE_RESULT' => env("API_SOAP_URL_DEMO_XDS_SELFIE_RESULT", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
-    'API_SOAP_URL_LIVE_VERIFY_KYC' => env("API_SOAP_URL_LIVE_VERIFY_KYC", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_KYC' => env("API_SOAP_URL_LIVE_VERIFY_KYC", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx"),
     'API_SOAP_URL_DEMO_VERIFY_KYC' => env("API_SOAP_URL_DEMO_VERIFY_KYC", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
-    'API_SOAP_URL_LIVE_VERIFY_BANK' => env("API_SOAP_URL_LIVE_VERIFY_BANK", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_BANK' => env("API_SOAP_URL_LIVE_VERIFY_BANK", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx"),
     'API_SOAP_URL_DEMO_VERIFY_BANK' => env("API_SOAP_URL_DEMO_VERIFY_BANK", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
-    'API_SOAP_URL_LIVE_VERIFY_COMPLIANCE' => env("API_SOAP_URL_LIVE_VERIFY_COMPLIANCE", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
+    'API_SOAP_URL_LIVE_VERIFY_COMPLIANCE' => env("API_SOAP_URL_LIVE_VERIFY_COMPLIANCE", "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx"),
     'API_SOAP_URL_DEMO_VERIFY_COMPLIANCE' => env("API_SOAP_URL_DEMO_VERIFY_COMPLIANCE", "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl"),
 
     // FicaProcess S3 bucket pathline

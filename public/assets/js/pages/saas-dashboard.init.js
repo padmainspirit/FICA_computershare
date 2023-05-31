@@ -24,7 +24,7 @@ var options = {
   dataLabels: {
     enabled: !1
   },
-  colors: ["#1a4f6e "],
+  colors: ["#93186c "],
   stroke: {
     curve: "smooth",
     width: 3
@@ -39,7 +39,7 @@ options = {
     height: 262
   },
   labels: ["Series A", "Series B", "Series C"],
-  colors: ["#1a4f6e ", "#34c38f", "#f46a6a"],
+  colors: ["#93186c ", "#34c38f", "#f46a6a"],
   legend: {
     show: !1
   },
@@ -65,7 +65,7 @@ var radialoptions1 = {
   dataLabels: {
     enabled: !1
   },
-  colors: ["#1a4f6e "],
+  colors: ["#93186c "],
   plotOptions: {
     radialBar: {
       hollow: {

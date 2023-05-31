@@ -18,7 +18,7 @@ var options = {
       show: !1
     }
   },
-  colors: ["#1a4f6e ", "#34c38f"],
+  colors: ["#93186c ", "#34c38f"],
   dataLabels: {
     enabled: !1
   },
@@ -98,7 +98,7 @@ options = {
       show: !1
     }
   },
-  colors: ["#1a4f6e ", "#f46a6a", "#34c38f"],
+  colors: ["#93186c ", "#f46a6a", "#34c38f"],
   dataLabels: {
     enabled: !1
   },
@@ -181,7 +181,7 @@ options = {
     name: "series2",
     data: [32, 60, 34, 46, 34, 52, 41]
   }],
-  colors: ["#1a4f6e ", "#34c38f"],
+  colors: ["#93186c ", "#34c38f"],
   xaxis: {
     type: "datetime",
     categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"]
@@ -229,7 +229,7 @@ options = {
     name: "Free Cash Flow",
     data: [37, 42, 38, 26, 47, 50, 54, 55, 43]
   }],
-  colors: ["#34c38f", "#1a4f6e ", "#f46a6a"],
+  colors: ["#34c38f", "#93186c ", "#f46a6a"],
   xaxis: {
     categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]
   },
@@ -286,7 +286,7 @@ options = {
     name: "Inflation",
     data: [2.5, 3.2, 5, 10.1, 4.2, 3.8, 3, 2.4, 4, 1.2, 3.5, .8]
   }],
-  colors: ["#1a4f6e "],
+  colors: ["#93186c "],
   grid: {
     borderColor: "#f1f1f1"
   },
@@ -403,7 +403,7 @@ options = {
       columnWidth: "50%"
     }
   },
-  colors: ["#f46a6a", "#1a4f6e ", "#34c38f"],
+  colors: ["#f46a6a", "#93186c ", "#34c38f"],
   series: [{
     name: "Team A",
     type: "column",
@@ -480,7 +480,7 @@ options = {
   },
   series: [44, 55, 67, 83],
   labels: ["Computer", "Tablet", "Laptop", "Mobile"],
-  colors: ["#1a4f6e ", "#34c38f", "#f46a6a", "#f1b44c"]
+  colors: ["#93186c ", "#34c38f", "#f46a6a", "#f1b44c"]
 };
 (chart = new ApexCharts(document.querySelector("#radial_chart"), options)).render();
 options = {
@@ -490,7 +490,7 @@ options = {
   },
   series: [44, 55, 41, 17, 15],
   labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-  colors: ["#34c38f", "#1a4f6e ", "#f46a6a", "#50a5f1", "#f1b44c"],
+  colors: ["#34c38f", "#93186c ", "#f46a6a", "#50a5f1", "#f1b44c"],
   legend: {
     show: !0,
     position: "bottom",
@@ -520,7 +520,7 @@ options = {
   },
   series: [44, 55, 41, 17, 15],
   labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-  colors: ["#34c38f", "#1a4f6e ", "#f46a6a", "#50a5f1", "#f1b44c"],
+  colors: ["#34c38f", "#93186c ", "#f46a6a", "#50a5f1", "#f1b44c"],
   legend: {
     show: !0,
     position: "bottom",

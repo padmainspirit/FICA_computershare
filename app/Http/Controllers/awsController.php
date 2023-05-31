@@ -27,6 +27,7 @@ use App\Models\APILogs;
 use App\Models\AWSLogs;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class awsController extends Controller
 {
@@ -437,6 +438,9 @@ class awsController extends Controller
     //Proof of Address
     function address($texts, Request $request)
     {
+        if(Session::has('addressTextractData')){
+            Session::forget('addressTextractData');
+        }
         try {
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
@@ -449,6 +453,13 @@ class awsController extends Controller
             $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $consumerIdentity = ConsumerIdentity::where('Identity_Document_ID', '=',  $consumer->IDNUMBER)->first();
             $request->session()->put('dataTextracted', $texts);
+
+            $addressTextractData = [];
+            foreach($texts as $text){
+                strstr($text,'-',true);
+                array_push($addressTextractData, strstr($text,'-',true));
+            }
+            $request->session()->put('addressTextractData', $addressTextractData);
 
             // $homeAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 16)->first();
             // $postalAddress = Address::where('Consumerid', '=',  $consumer->Consumerid)->where('RecordStatusInd', '=', 1)->where('AddressTypeInd', '=', 15)->first();
@@ -673,19 +684,27 @@ class awsController extends Controller
         $PostalState = strtoupper($request->input('po-state'));
         $PostalZip = $request->input('po-zip');
 
-        $AddressResult = ([
-            'streetName1' => $streetName1,
-            'streetName2' => $streetName2,
-            'city' => $city,
-            'state' => $state,
-            'zip' => $zip,
+        if($postalStreetName1 != '' && $postalStreetName2 != '')
+        {
+            $AddressResult = ([
+                'streetName1' => $streetName1,
+                'streetName2' => $streetName2,
+                // 'city' => $city,
+                // 'state' => $state,
+                // 'zip' => $zip,
 
-            'postalStreetName1' => $postalStreetName1,
-            'postalStreetName2' => $postalStreetName2,
-            'postalCity' => $postalCity,
-            'PostalState' => $PostalState,
-            'PostalZip' => $PostalZip,
-        ]);
+                'postalStreetName1' => $postalStreetName1,
+                'postalStreetName2' => $postalStreetName2,
+                // 'postalCity' => $postalCity,
+                // 'PostalState' => $PostalState,
+                // 'PostalZip' => $PostalZip,
+            ]);
+        }else{
+            $AddressResult = ([
+                'streetName1' => $streetName1,
+                'streetName2' => $streetName2,
+            ]);
+        }
 
         // $request->session()->put('AddressResult', $AddressResult);
         // app('debugbar')->info($streetName1 . ' ' .  $streetName2);
@@ -725,10 +744,10 @@ class awsController extends Controller
             }
         }
 
-
         $resultAddress = array_unique($addressDetails); //uncomment
+        app('debugbar')->info($removescore);
         app('debugbar')->info($resultAddress);
-        $addressPerc =  $this->getAddressFromIDSA($resultAddress);
+        $addressPerc =  $this->getAddressFromIDSA($AddressResult);
         app('debugbar')->info('addressPerc: ' . $addressPerc);
 
         $addressResponse = ([
@@ -807,9 +826,10 @@ class awsController extends Controller
 
         //months must not be more then 3 months
         // if ($months <= 700) {
-        if ($addressPerc >= 0) { //should be $addressPerc > 50
+        if ($addressPerc >= 25) { //should be $addressPerc > 50
 
-            //fica progress status
+            //fica progress status $FicaProgressValue
+            //$ficaProgress = $fica->FICAProgress + 1;
             $ficaProgress = $fica->FICAProgress + 1;
 
             //update KYC detalis
@@ -950,6 +970,7 @@ class awsController extends Controller
 
     function getAddressFromIDSA($resultAddress)
     {
+        $documentAddress = Session::get('addressTextractData');
         try {
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
@@ -981,7 +1002,7 @@ class awsController extends Controller
             );
 
             app('debugbar')->info($addressOnIDAS);
-            $perc = $this->getAddressPercentageAccuracy($resultAddress, $addressOnIDAS);
+            $perc = $this->getAddressPercentageAccuracy($resultAddress, $documentAddress);
             // app('debugbar')->info($perc);
             return $perc;
         } catch (\Exception $e) {

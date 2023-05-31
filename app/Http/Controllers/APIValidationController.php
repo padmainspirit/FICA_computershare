@@ -91,11 +91,13 @@ class APIValidationController extends Controller
                 $ficaProgress =  $fica->FICAProgress;
             }
 
+            $ficaSTATUS  = ($ficaProgress == 10) ? 'Completed' : $fica->FICAStatus;
             if ($fica->Validation_Status == null) {
                 FICA::where('Consumerid', $consumer->Consumerid)->update(
                     array(
                         'LastUpdatedDate' => date("Y-m-d H:i:s"),
                         'FICAProgress' =>  $ficaProgress,
+                        'FICAStatus' =>  $ficaSTATUS,
                         'Validation_Status' => date("Y-m-d H:i:s"),
                         'Correction_Status' => null
                     )
