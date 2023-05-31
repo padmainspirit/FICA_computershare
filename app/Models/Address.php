@@ -56,11 +56,11 @@ class Address extends Model
         return $address;
     }
 
-    public static function getAllAddressesAdmin()
+    public static function getAllAddressesAdmin($userconsumerid)
     {
-        $SearchConsumerID = session()->get('SearchConsumerID');
+        // $SearchConsumerID = $userconsumerid;
         // $consumer = Consumer::where('IDNUMBER', '=',  $loggedInUserId)->first();
-        $Addresses = Address::where('ConsumerID', '=',  $SearchConsumerID)->where('RecordStatusInd', '=', 1)->get();
+        $Addresses = Address::where('ConsumerID', '=',  $userconsumerid->ConsumerID)->where('RecordStatusInd', '=', 1)->get();
         $address = [];
         if ($Addresses) {
             $address['Home'] = null;

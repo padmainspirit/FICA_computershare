@@ -43,6 +43,8 @@ Route::get('/', function () {
 Route::fallback(function(){ return response()->view('errors.404', [], 404); });
 
 Auth::routes();
+Route::get('/search', [AdminController::class, 'search'])->name('search');
+Route::post('/ajax-search', [AdminController::class, 'ajaxSearch'])->name('ajax-search');
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);

@@ -988,13 +988,13 @@ class CustomerVerification extends Controller
         $idnumber = $request->session()->get('idnumber');
         $useridentitynum = Consumer::where('IDNUMBER', '=', $idnumber)->first();
         $userconsumerid = Address::where('ConsumerID', '=', $useridentitynum->Consumerid)->first();
+        $getSearchFica = Declaration::getFicaId($request);
+        $SearchFica = $getSearchFica['FICA_ID'];
 
-        $Addresses = Address::getAllAddressesAdmin();
+        $Addresses = Address::getAllAddressesAdmin($userconsumerid);
         $homeAddress  = $Addresses['Home'];
         $postalAddress = $Addresses['Postal'];
         $workAddress  = $Addresses['Work'];
-
-        // app('debugbar')->info($homeAddress);
 
         //Check if addresses exist
         $homeAddressExist =  $homeAddress != null ? true : false;
@@ -1132,15 +1132,11 @@ class CustomerVerification extends Controller
         $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
         $ProgressbyFICA = $getRiskStatusbyFICA['FICAProgress'];
         $ProgressbyFICA = $ProgressbyFICA * 10;
-
-        // $NotificationLink = $request->session()->get('NotificationLink');
-        // $LogUserName = $request->session()->get('LogUserName');
-        // $LogUserSurname = $request->session()->get('LogUserSurname');
-        // $Email = $request->session()->get('Email');
         $ContactNumbers = $request->session()->get('ContactNumbers');
         $client = Auth::user();
         $LogUserName = $client->FirstName;
         $LogUserSurname = $client->LastName;
+        $getRiskStatusbyFICA = FICA::getRiskStatusbyFICA($request);
         $FICAStatusbyFICA = $getRiskStatusbyFICA['FICAStatus'];
         $RiskStatusbyFICA = $getRiskStatusbyFICA['Risk_Status'];
         $kycstatus = $request->session()->get('kycstatus');
@@ -1149,8 +1145,33 @@ class CustomerVerification extends Controller
         $compliancestatus = $request->session()->get('compliancestatus');
         $residential = $request->session()->get('residential');
         $getPhoto = DOVS::getConsumerID($request);
-        $ConsumerIDPhoto = $getPhoto['ConsumerIDPhoto'];
-        $ConsumerCapturedPhoto = $getPhoto['ConsumerCapturedPhoto'];
+
+        // exit;
+        if ($getPhoto == null || $getPhoto->ConsumerIDPhoto == null ) {
+            DOVS::where('FICA_id', '=', $SearchFica)->update(
+                array(
+
+                    'ConsumerIDPhoto' => NULL,
+
+                )
+            );
+            $ConsumerIDPhoto = base64_encode(file_get_contents('assets/images/nouser.png'));
+        }else{
+            $ConsumerIDPhoto = $getPhoto->ConsumerIDPhoto;
+        }
+
+        if ($getPhoto == null || $getPhoto->ConsumerCapturedPhoto == null ) {
+            DOVS::where('FICA_id', '=', $SearchFica)->update(
+                array(
+
+                    'ConsumerCapturedPhoto' => NULL,
+
+                )
+            );
+            $ConsumerCapturedPhoto = base64_encode(file_get_contents('assets/images/nouser.png'));
+        }else{
+            $ConsumerCapturedPhoto = $getPhoto->ConsumerCapturedPhoto;
+        }
         $ComplianceData = $request->session()->get('ComplianceData');
         $FetchComplianceSanct = $request->session()->get('FetchComplianceSanct');
         $FetchComplianceAdd = $request->session()->get('FetchComplianceAdd');
@@ -1159,11 +1180,19 @@ class CustomerVerification extends Controller
         $getconsumerIDDoc = ConsumerIdentity::getconsumerIDDoc($request);
         $IDDoc = $getconsumerIDDoc['Identity_File_Path'];
         $consumerBankDoc = AVS::getconsumerBankDoc($request);
-        $BankDoc = $consumerBankDoc['Bank_File_Path'];
-        $SNameMatch = $consumerBankDoc['SURNAMEMATCH'];
-        $IDMatch = $consumerBankDoc['IDNUMBERMATCH'];
-        $EmailMatch = $consumerBankDoc['EMAILMATCH'];
-        $TaxNumMatch = $consumerBankDoc['TAXREFERENCEMATCH'];
+        if($consumerBankDoc == null){
+            $BankDoc = null;
+            $SNameMatch = null;
+            $IDMatch = null;
+            $EmailMatch = null;
+            $TaxNumMatch = null;
+        }else{
+            $BankDoc = $consumerBankDoc['Bank_File_Path'];
+            $SNameMatch = $consumerBankDoc['SURNAMEMATCH'];
+            $IDMatch = $consumerBankDoc['IDNUMBERMATCH'];
+            $EmailMatch = $consumerBankDoc['EMAILMATCH'];
+            $TaxNumMatch = $consumerBankDoc['TAXREFERENCEMATCH'];
+        }
         $getSearchUserTitle = KYC::getAddressDoc($request);
         $TitleDesc = $getSearchUserTitle['TitleDesc'];
 
@@ -1175,32 +1204,19 @@ class CustomerVerification extends Controller
 
         $getIndustryOccupation = IndustryOccupation::all('Industry_occupation')->sortBy('Industry_occupation');
 
-        // $customerBranding = Customer::where('Id', '=', $request->session()->get('Customerid'))->first();
-        // $Logo = $customerBranding['Client_Logo'];
-
-        // app('debugbar')->info($Logo);
-
-        // $Logo =  $request->session()->get('Logo');
-        // $customerName =  $request->session()->get('customerName');
-
         $Customerid = Auth::user()->CustomerId;
-        $customer = Customer::where('Id', '=',  $Customerid)->first();
-        $Logo = $customer['Client_Logo'];
-        $Icon = $customer['Client_Icon'];
-        $customerName = $customer['RegistrationName'];
+        $customer = Customer::getCustomerDetails($Customerid);
 
         return view('admin-tabs')
 
             ->with('ConsumerCapturedPhoto', $ConsumerCapturedPhoto)
 
-            // ->with('NotificationLink', $NotificationLink)
             ->with('LogUserName', $LogUserName)
             ->with('LogUserSurname', $LogUserSurname)
 
-            ->with('Logo', $Logo)
-            ->with('Icon', $Icon)
-            ->with('customerName', $customerName)
-            ->with('Icon', $Icon)
+            ->with('Logo',  $customer->Client_Logo)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
             ->with('getIndustryOccupation', $getIndustryOccupation)
 
             ->with($insidedata)
@@ -1217,8 +1233,6 @@ class CustomerVerification extends Controller
             ->with('kycstatus', $kycstatus)
             ->with('bankstatus', $bankstatus)
             ->with('facialrecognitionstatus', $facialrecognitionstatus)
-            ->with('compliancestatus', $compliancestatus)
-            ->with('residential', $residential)
             ->with('compliancestatus', $compliancestatus)
             ->with('residential', $residential)
             ->with('ConsumerIDPhoto', $ConsumerIDPhoto)

@@ -177,6 +177,7 @@ class AdminController extends Controller
 
     public function Display(Request $request)
     {
+
         $request->session()->pull('exception');
 
         $SearchType = "0";
@@ -187,8 +188,6 @@ class AdminController extends Controller
         $cel = $request->PhoneNumber;
         $status = $request->FICAStatus;
         $refnum = $request->ClientUniqueRef;
-        // $cusid = $request->Id;
-
 
         if (!empty($idno) && empty($first) && empty($last) && empty($cel) && empty($refnum)) {
             $SearchType = "1";
@@ -329,7 +328,8 @@ class AdminController extends Controller
                     $clientsDetails = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?', [$customerid, $SearchType, '', '', '',  $CONTACTNO]);
                     $cell =  $clientsDetails[0]->PhoneNumber;
 
-                    app('debugbar')->info($clientsDetails);
+                    app('debugbar')->info($request);
+                    
 
                     if (!$cell) {
                         return back()->with('fail', 'Contact Number does not exsist');
@@ -428,7 +428,6 @@ class AdminController extends Controller
 
         }
 
-
     }
 
     public function ReadNotification(Request $request)
@@ -472,5 +471,34 @@ class AdminController extends Controller
             ->with('Icon', $Icon)
             ->with('LogUserName', $LogUserName)
             ->with('LogUserSurname', $LogUserSurname);
+    }
+
+    public function ajaxSearch(Request $request)
+    {
+        /* $users = User::paginate(1);
+
+        if (request()->ajax()) {
+            return view('search_ajax', ['users' => $users]);
+        }
+
+        return view('search_ajax', ['users' => $users]); */
+
+        $idno = $request->IDNumber;
+        $first = $request->FirstName;
+        $last = $request->LastName;
+        $cel = $request->PhoneNumber;
+        $status = $request->FICAStatus;
+        $riskStatus = $request->FICARiskStatus;
+        $total = 0;
+
+
+        $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
+        
+
+        if (request()->ajax()) {
+            return view('search_ajax', ['users' => $results]);
+        }
+
+        return view('search_ajax', ['users' => $results]);
     }
 }
