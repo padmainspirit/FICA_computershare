@@ -31,8 +31,8 @@
                 <td>{{ $user->Surname }}</td>
                 <!-- <td>{{ $user->Email }}</td> -->
                 <td>{{ $user->FICAStatus }}</td>
-                <td><?php echo date("D, d M Y H:i A", strtotime($user->CreatedOnDate)); ?></td>
-                <td><?php echo date("D, d M Y H:i A", strtotime($user->LastUpdatedDate)); ?></td>
+                <td><?php echo date("d M Y H:i A", strtotime($user->CreatedOnDate)); ?></td>
+                <td><?php echo date("d M Y H:i A", strtotime($user->LastUpdatedDate)); ?></td>
             </tr>
             @endforeach
 

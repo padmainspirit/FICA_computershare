@@ -186,7 +186,7 @@
                                                             <select class="form-select" autocomplete="off"
                                                                 style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px;"
                                                                 id="FICAStatus" name="FICAStatus">
-                                                                <option selected style="font-size: 12px;" disabled>
+                                                                <option value="" style="font-size: 12px;">
                                                                     Select
                                                                 </option>
 
@@ -291,6 +291,42 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-2">
+                                                <label for="basicpill-vatno-input" class="font-weight-bold"
+                                                        style="font-size: 12px; color: rgb(0, 0, 0)">Risk Status:</label>
+
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <div class="input-group" style="height: 27px; width: 225px;">
+
+                                                        <div class="input-group" style="height: 27px; width: 225px;">
+                                                            <select class="form-select" autocomplete="off"
+                                                                style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px;"
+                                                                id="FICARiskStatus" name="FICARiskStatus">
+                                                                <option value="" selected style="font-size: 12px;" >
+                                                                    Select
+                                                                </option>
+
+                                                                <option value="LOW" style="font-size: 12px;">
+                                                                    LOW
+                                                                </option>
+
+                                                                <option value="MEDIUM" style="font-size: 12px;">
+                                                                    MEDIUM
+                                                                </option>
+
+                                                                <option value="HIGH" style="font-size: 12px;">
+                                                                    HIGH
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
                                             {{-- <div class="col-md-2">
                                                 <div class="mb-3">
 
@@ -317,20 +353,9 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="col-sm-6 col-form-label">FICA Status</label>
-                                                <select class="form-select" autocomplete="off" id="FICAStatus"
-                                                    name="FICAStatus">
-                                                    <option value="" selected disabled>Select Type</option>
-                                                    <option value="In progress">In Progress</option>
-                                                    <option value="Completed">Completed</option>
-                                                    <option value="Failed">Failed</option>
-                                                    <option value="Rejected">Rejected</option>
-                                                </select>
-                                            </div>
-                                    </div> --}}
+                                    
 
+                                    <span class="text-danger" id="error_msg" styel="display:none"></span><br/>
                                     <div class="row">
 
                                         <div class="col-md-2">
@@ -389,106 +414,107 @@
     <script>
         
         function clearAll() {
+            $('#search-container').html('');
+            document.getElementById("error_msg").style.display = 'none';
             document.getElementById("IDNumber").value = '';
             document.getElementById("FirstName").value = '';
             document.getElementById("LastName").value = '';
             document.getElementById("PhoneNumber").value = '';
-            document.getElementById("FICAStatus").value = '';
-            
+            document.getElementById("FICAStatus").value = ''; 
+            document.getElementById("FICARiskStatus").value = '';            
         }
 
         var btn = document.getElementById("clearall");
-
         btn.addEventListener("click", clearAll);
+
+        
     </script>
 
-   
-
-    <script>
-        // $(document).ready(function() {
-        //     setInterval(function() {
-        //         $("#errordisplay").load(location.href + " #errordisplay");
-        //     }, 1600);
-        // });
-    </script>
-
+  
 
 
 <script>
-    // $(document).on('submit', '#search-form', function(e) {
-    //     e.preventDefault();
-    //     var formData = $(this).serialize();
-    //     $.ajax({
-    //         url: '{{ route('search') }}',
-    //         method: 'GET',
-    //         data: formData,
-    //         success: function(response) {
-    //             $('#search-results').html(response);
-    //         }
-    //     });
-    // });
-
-
     
 
-
-
     $(document).ready(function() {
-    loadEmployees(1);
+    //loadEmployees(1);
+    // var IDNUMBER = sessionStorage.getItem("idNumber");
+    // console.log(IDNumber);
+    // if(IDNUMBER != null || IDNUMBER != ''){
+    //     document.getElementById("IDNumber").value = IDNUMBER;
+    //     validateForm();
+    // }
 
-    $(document).on('submit', '#searchclient', function(e) {
+    $(document).on('submit', '#searchclient', function(e) { 
         e.preventDefault();
-        loadEmployees(1);
+        validateForm();
     });
-    /* function loadEmployees(page) {
-        $.ajax({
-            url: '/ajax-search?page=' + page,
-            type: 'get',
-            success: function(response) {
-                $('#employees-container').html(response);
-            }
-        });
 
-        $.ajax({
-            url: '/ajax-search?page=' + page,
-            type: 'get',
-            success: function(response) {
-                $('#pagination-links').html(response);
-            }
-        });
-    } */
+    function validateForm()
+    {      
+        $('#search-container').empty();  
+        document.getElementById("error_msg").style.display = 'none';
+        var idVal = document.getElementById("IDNumber").value;
+        var fname = document.getElementById("FirstName").value;
+        var lname = document.getElementById("LastName").value;
+        var phonenum = document.getElementById("PhoneNumber").value;
+        var ficaStatus = document.getElementById("FICAStatus").value;
+        var FICARiskStatus = document.getElementById("FICARiskStatus").value;
+
+        if((idVal === null || idVal === '') && (fname === null || fname === '') && (lname === null || lname === '') && (phonenum === '' || phonenum === null) && (ficaStatus === '' || ficaStatus === null) && (FICARiskStatus === '' || FICARiskStatus === null) )
+        { 
+            document.getElementById("error_msg").innerHTML = 'Please enter any of the search criteria';
+            document.getElementById("error_msg").style.display = 'block';
+            return false;
+        }else{
+            document.getElementById("error_msg").style.display = 'none';
+            loadEmployees(1);
+            return true;
+        }
+        return false;
+
+    }
+    
 
     function loadEmployees(page) { 
-       
         var form = $('#searchclient');
         var formData = form.serialize();
+        $('#search-container').html('');
         $.ajax({
             url: '{{ route('ajax-search') }}',
             method: 'POST',
             data: formData + '&page=' + page,
             success: function(response) {
+                $('#datatable').DataTable({ 
+                      "destroy": true, 
+                   });
+
                 $('#search-container').html(response);
+
+                $('button.idnumber').on('click', function(val) {
+                    //sessionStorage.setItem("idNumber", document.getElementById("IDNumber").value);
+                    var readIdNumber = this.id;
+                    var IdButton = $('#' + readIdNumber).text();
+
+                    // console.log(IdButton)
+                    $("#idnumberResult").val(IdButton)
+                    $("#testresult-btn").click();
+                });
             }
         });
 
-        /* $.ajax({
-            url: '{{ route('ajax-search') }}',
-            method: 'POST',
-            data: formData + '&page=' + page,
-            success: function(response) {
-                $('#pagination-links').html(response);
-            }
-        }); */
 
     }
 
-        $(document).on('click', '.pagination a', function(e) {
-            e.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            loadEmployees(page);
-        });
+        // $(document).on('click', '.pagination a', function(e) {
+        //     e.preventDefault();
+        //     var page = $(this).attr('href').split('page=')[1];
+        //     loadEmployees(page);
+        // });
+
     });
 
     
 </script>
 @endsection
+
