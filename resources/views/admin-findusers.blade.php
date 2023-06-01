@@ -379,10 +379,13 @@
                                 </form>
 
                                 
-                                <div id="search-results">
+                                <form method="POST" action='{{ route('testresult') }}' id="idForm">
+                                    @csrf
+                                    <input type="type" id="idnumberResult" name="idnumberResult">
+                                    <button type="submit" id="testresult-btn"></button>
+                                </form>
 
-                                
-                                </div>
+                                <br/><br/>    
 
                                 <div id="search-container"></div>
                                 <div id="pagination-links"></div>
