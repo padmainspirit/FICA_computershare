@@ -177,5 +177,5 @@ return [
   "Edit_Details" => "Edit Details",
   "Placeholders" => "Placeholders",
   "Toasts" => "Toasts",
-
+  "selfbankingservice" => "Self Banking Service"
 ];

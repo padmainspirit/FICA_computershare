@@ -49,7 +49,6 @@ class GetStartedController extends Controller
 
 
         // $SearchCustomerId = CustomerUser::where('Id', '=', $Consumerid)->first();
-
         $Customerid = Auth::user()->CustomerId;
 
         $customer = Customer::getCustomerDetails($Customerid);
@@ -86,6 +85,7 @@ class GetStartedController extends Controller
         //try {
         //create Consumer  
         $user = Auth::user();
+        
         $customerUserId = Auth::user()->Id;
         $client = CustomerUser::where('Id', '=',  $customerUserId)->first();
         app('debugbar')->error($client);

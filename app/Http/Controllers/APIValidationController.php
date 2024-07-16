@@ -43,7 +43,7 @@ class APIValidationController extends Controller
         //Run All API's
         if ($kyc->KYC_Status != 2 && $avs->AVS_Status != 2 && $comply->Compliance_Status != 2) {
             $this->validateKYCAPI($request);
-            $this->validateAVSPI($request);
+            $this->validateAVSPI($request, 1);
             $this->validateCOMPLIENCEAPI($request);
         }
 
@@ -54,7 +54,7 @@ class APIValidationController extends Controller
 
         //Run AVS API 
         if ($avs->AVS_Status == 2) {
-            $this->validateAVSPI($request);
+            $this->validateAVSPI($request, 1);
         }
 
         //Run Compliance API 
@@ -143,10 +143,22 @@ class APIValidationController extends Controller
         $validate = new UserVerificationController();
         $validate->verifyClientKYC($request);
     }
-    public function validateAVSPI(Request $request)
+    public function validateAVSPI(Request $request, $i = null)
     {
-        $validate = new UserVerificationController();
-        $validate->verifyClientBankAccount($request);
+        $loggedInUserId = Auth::user()->Id;
+        $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+        $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
+        $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+        if($i <= 2){
+            $validate = new UserVerificationController();
+            $validate->verifyClientBankAccount($request);
+            $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
+            if($avs['AVS_Status']!= 1){
+                $i++;
+                $this->validateAVSPI($request, $i);
+            }
+        }
+        
     }
     public function validateCOMPLIENCEAPI(Request $request)
     {

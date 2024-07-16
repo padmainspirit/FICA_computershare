@@ -21,34 +21,7 @@
                             Search Clients
                         </button>
                     </a>
-
-                    {{--  <div class="card rounded-pill text-black-25 center-block mb-2 mt-2"
-                        style="width: 200px; height: 35px; background-color: #93186c;margin-left: 16px;">
-                        <a href="{{ url('/admin-dashboard') }}">
-                            <div class="card-body"
-                                style="padding-bottom: 5px;padding-right: 0px;padding-left: 16px;padding-top: 7px;">
-                                <h5 class="mb-4 text-white"
-                                    style="font-size: 14px;margin-bottom: 0px;margin-top: 0px; font-style: normal;">
-                                    <i class="bx bx-task" style="margin-right: 12px; font-size: 16px;"></i>
-                                    Dashboard
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="card rounded-pill text-black-25 center-block mb-2 mt-2"
-                        style="width: 200px; height: 35px; background-color: #93186c;margin-left: 16px;">
-                        <a href="{{ url('/admin-findusers') }}">
-                            <div class="card-body"
-                                style="padding-bottom: 5px;padding-right: 0px;padding-left: 16px;padding-top: 7px;">
-                                <h5 class="mb-4 text-white" style="font-size: 14px;margin-bottom: 0px;margin-top: 3px;">
-                                    <i class="fas fa-desktop" style="margin-right: 12px;"></i>
-                                    Search Clients
-                                </h5>
-                            </div>
-                        </a>
-                    </div>  --}}
-
+                    
                 </div>
             </div>
         </div>

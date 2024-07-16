@@ -86,7 +86,6 @@ class VerificationDataController extends Controller
             $result =   substr(rtrim($jsonDataMod3, ']'), 0, -3);
             //here we removing the last 2 character
             $idas_data = explode(",", $result);
-
           
 
 

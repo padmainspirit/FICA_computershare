@@ -19,7 +19,9 @@ use App\Http\Controllers\ConsumerFicaProcess;
 use App\Http\Controllers\CustomerVerification;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCreateController;
+use App\Http\Controllers\AdminSelfBankController;
 use App\Http\Controllers\ClientCaptureController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\tomerVerification;
 use App\Http\Controllers\FAQ;
 use App\Http\Controllers\VerificationDataController;
@@ -131,7 +133,6 @@ Route::post('/admin-create', [App\Http\Controllers\AdminCreateController::class,
 Route::get('/admin-customer', [App\Http\Controllers\AdminCreateController::class, 'ShowCustomerCreate']);
 Route::post('/admin-customer', [App\Http\Controllers\AdminCreateController::class, 'CreateCustomer'])->name('admin-customer');
 
-
 Route::get('/admin-users', [AdminController::class, 'show']);
 Route::get('/admin-tabs', [ClientCaptureController::class, 'ScreenUsersTabs'])->name('admin-tabs');
 Route::post('/admin-tabs-personal', [CustomerVerification::class, 'PersonalDetailsUpdate'])->name('admin-tabs-personal');
@@ -152,8 +153,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('todos', TodoController::class);
+    Route::resource('companies', CompanyController::class);
 });
+
+
 
 Route::post('/users.admincreate', [App\Http\Controllers\UserController::class, 'adminstore'])->name('users.adminstore');
 Route::get('/users.admincreate', [App\Http\Controllers\UserController::class, 'admincreate'])->name('users.admincreate');
 Route::get('/admin-client', [App\Http\Controllers\UserController::class, 'edit'])->name('edit');
+
+/* self banking related routes */
+//Route::any('/send-selfservicelink', [AdminSelfBankController::class, 'SendLink'])->name('send-selfservicelink');
+Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->name('send-selfservicelink');
+Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
+Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
+Route::post('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+

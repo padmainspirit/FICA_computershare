@@ -65,6 +65,7 @@ class CustomerVerification extends Controller
             session()->pull('exception');
         }
         $idnumber = $request->idnumberResult;
+        
         $request->session()->put('idnumber', $idnumber);
 
         $Customerid = $client->CustomerId;
@@ -1850,7 +1851,7 @@ class CustomerVerification extends Controller
     { 
         
         $idnumber = $request->session()->get('idnumber');
-
+        
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->first();
         $SearchCustomerUSERID = $useridentitynum['Id'];
 
@@ -2109,7 +2110,7 @@ class CustomerVerification extends Controller
                     'Validation_Status' => $enableValidation,
                     'FailedDate' => NULL,
                     'Correction_Status' => date("Y-m-d H:i:s"),
-                    'FICAProgress' => $ficaProgress - 1,
+                    'FICAProgress' => $ficaProgress,
                     'CompletedDate' => NULL,
                     'FICA_Active' => 1,
                 )

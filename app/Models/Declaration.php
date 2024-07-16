@@ -37,6 +37,7 @@ class Declaration extends Model
         $getSearchConsumerID = Consumer::getConsumerId($request);
         $SearchConsumerID = $getSearchConsumerID['Consumerid']; 
         $getSearchFica = Declaration::where('ConsumerID', '=', $SearchConsumerID)->first();
+        //$getSearchFica = FICA::where('Consumerid', '=', $SearchConsumerID)->first();
         // $SearchFica = $getSearchFica['FICA_ID'];
 
         return $getSearchFica;

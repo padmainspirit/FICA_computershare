@@ -116,7 +116,9 @@ class CustomerUser extends Authenticatable
         $Customerid = $client->CustomerId;
         // $idnumber = $request->idnumberResult;
         $idnumber = $request->session()->get('idnumber');
+        
         $useridentitynum = CustomerUser::where('IDNumber', '=', $idnumber)->where('CustomerId', '=', $Customerid)->first();
+       
         // $SearchCustomerUSERID = $useridentitynum['Id'];
 
         return $useridentitynum;

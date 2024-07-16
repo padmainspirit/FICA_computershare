@@ -16,7 +16,6 @@
                         </button>
                     </a>
 
-
                     <a href="{{ url('/admin-display') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
                             style="background-color: #93186c; border-color: #93186c;  width: 100%">
@@ -41,22 +40,13 @@
                         </button>
                     </a>
 
-
-                    {{-- <a href="{{ route('users.admincreate') }}">
+                    <a href="{{ route('send-selfservicelink') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
                             style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-user-plus label-icon"></i>
-                            Add New Admin User
+                            Banking Self Service Link
                         </button>
-                    </a> --}}
-
-                    {{-- <a href="{{ url('/admin-display') }}">
-                        <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
-                            style="background-color: #93186c; border-color: #93186c;  width: 100%">
-                            <i class="bx text-white bx-wallet-alt label-icon"></i>
-                            View Costing
-                        </button>
-                    </a> --}}
+                    </a>
 
                 </div>
             </div>

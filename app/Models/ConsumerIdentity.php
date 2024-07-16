@@ -147,4 +147,11 @@ class ConsumerIdentity extends Model
 
         return $getconsumerIDDoc;
     }
+
+    public static function getconsumerIDDoc1($ficaId)
+    {
+        $getconsumerIDDoc = ConsumerIdentity::where('FICA_id', '=', $ficaId)->first();
+
+        return $getconsumerIDDoc;
+    }
 }

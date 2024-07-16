@@ -67,11 +67,11 @@ class ForgotPasswordController extends Controller
 
         //Check if user in not a robot using Recaptcha
         //$responseData->score = 0.4;
-        if ($responseData->score < 0.5) {
+        /* if ($responseData->score < 0.5) {
             $message = 'Please contact Administrator';
             return back()->with('message', $message)
                 ->with('customer', $customer);
-        }
+        } */
 
 
         if ($user != null) {

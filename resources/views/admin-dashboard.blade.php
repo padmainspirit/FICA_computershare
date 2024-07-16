@@ -219,49 +219,6 @@
 
                 </div>
 
-                {{--  <div class="col-xl-4">
-
-                    <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">FICA
-                        Status
-                    </h3>
-
-                    <div class="card" id="card"
-                        style="border-top-width: 1px;border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px">
-                        <div class="card-body" style="padding-bottom: 0px;">
-
-                            <div class="text-center">
-                                <div class="mb-1">
-                                    <i class="bx bx-user-check display-4" style="color: #09203F;"></i>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive mt-4">
-                                <table class="table align-middle table-nowrap">
-                                    <tbody>
-
-                                        <tr>
-                                            <td style="width: 50%">
-                                                <p class="font-size-14 mb-0">Total Number of Clients:</p>
-                                            </td>
-                                            <td style="width: 50%">
-                                                <h5 class="mb-0">{{ $NumClients }}</h5>
-                                            </td>
-                                            <td>
-                                                <div class="progress bg-transparent progress-sm">
-                                                    <div class="progress-bar bg-primary rounded" role="progressbar"
-                                                        style="width: 50%; background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);"
-                                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>  --}}
-
                 <div class="col-xl-6">
 
                     <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">

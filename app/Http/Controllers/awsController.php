@@ -216,12 +216,12 @@ class awsController extends Controller
 
 
             $verifyData = new VerificationDataController(); //Uncomment
-            // app('debugbar')->info($verifyData);
+
             if (isset($IdAndConfidence[0], $IdAndConfidence[1])) {
                 $IdData = ['Id' => $IdAndConfidence[0], 'Score' => $IdAndConfidence[1], 'IdType' => isset($IdAndConfidence[2]) ? $IdAndConfidence[2] : null, 'DateOfIssue' => isset($IdAndConfidence[3]) ? date('Y-m-d', strtotime($IdAndConfidence[3])) : null, 'Nationality' => $IdAndConfidence[4]];
                 $IdDataResult = (object) $IdData;
                 // app('debugbar')->info($IdDataResult, 'DATA RESULT');
-                // app('debugbar')->info($IdDataResult->Id);
+                 app('debugbar')->info('$IdDataResult->Id'.$IdDataResult->Id);
                 if (strlen($IdDataResult->Id) == 13 && $IdDataResult->Score >= 50) {
                     //1.save to database
                     $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
@@ -627,13 +627,13 @@ class awsController extends Controller
                 'py-street-line-2' => ['required', 'string', 'min:2', 'max:255'],
                 'py-city' => ['required'],
                 'py-state' => ['required'],
-                'py-zip' => ['required'],
+                'py-zip' => ['required', 'regex:/^[0-9]+$/'],
                 'checkbox-address' => 'sometimes',
-                'po-street-line-1' => ['required_without:checkbox-address', 'max:255'],
-                'po-street-line-2' => ['required_without:checkbox-address', 'max:255'],
-                'po-city' => ['required_without:checkbox-address'],
-                'po-state' => ['required_without:checkbox-address'],
-                'po-zip' => ['required_without:checkbox-address'],
+                'po-street-line-1' => ['nullable', 'required_without:checkbox-address', 'max:255'],
+                'po-street-line-2' => ['nullable', 'required_without:checkbox-address', 'max:255'],
+                'po-city' => ['nullable', 'required_without:checkbox-address'],
+                'po-state' => ['nullable', 'required_without:checkbox-address'],
+                'po-zip' => ['nullable', 'required_without:checkbox-address', 'regex:/^[0-9]+$/'],
             ],
             [
                 'py-street-line-1.required' => 'The address line 1 is required.',
@@ -1018,8 +1018,8 @@ class awsController extends Controller
         try {
             foreach ($addresses as $address) {
                 foreach ($homeAddresses as $homeAddress) {
-                    $s1 = $address;
-                    $s2 = $homeAddress;
+                    $s1 = strtolower($address);
+                    $s2 = strtolower($homeAddress);
                     $words1 = preg_split('/\s+/', $s1);
                     $words2 = preg_split('/\s+/', $s2);
                     $diffs1 = array_diff($words2, $words1);
@@ -1132,19 +1132,21 @@ class awsController extends Controller
         $this->validate(
             $request,
             [
-                'initials' => ['required', 'string', 'min:1', 'max:255'],
+                'initials' => ['required', 'string', 'min:1', 'max:3','regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
                 'surname' => ['required', 'string', 'min:2', 'max:255'],
-                'acc-number' => ['required', 'numeric'],
+                'acc-number' => ['required', 'numeric','max_digits:13'],
                 'bank-name-dd' => ['required'],
                 'BankTypeid' => ['required'],
                 'branch' => ['required', 'numeric'],
             ],
             [
                 'initials.required' => 'The initials is required.',
+                'initials.regex'=>'Initials can only contain alphabets and spaces.',
                 'surname.required' => 'The surname is required.',
                 'surname.min' => 'The surname  must be at least 2 characters..',
                 'acc-number.required' => 'The account number is required.',
                 'acc-number.numeric' => 'The account number must be numeric.',
+                'acc-number.max_digits' => 'The account number cannot be more than 13 digits.',
                 'bank-name-dd.required' => 'The bank name is required.',
                 'BankTypeid.required' => 'The Bank Type is required.',
                 'branch.required' => 'The Bank Code is required.',

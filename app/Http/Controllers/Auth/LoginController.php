@@ -57,8 +57,10 @@ class LoginController extends Controller
 
 
     /* Function to render login screen */
-    public function index()
+    public function index(Request $request)
     {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         $customer = Customer::getCustomerDetailsByUrl();
 
         // $Client_Logo = 'https://file-upload-fica.s3.amazonaws.com/Logos/computershare.png';

@@ -276,7 +276,8 @@ return [
     // 'API_PASSWORD' => env("API_PASSWORD", "Id@s0522"),
 
     'API_LOGIN_USERNAME' => env("API_LOGIN_USERNAME", "InspiritAPI_live"),
-    'API_LOGIN_PASSWORD' => env("API_LOGIN_PASSWORD", "Id@xds100"),
+    'API_LOGIN_PASSWORD' => env("API_LOGIN_PASSWORD", "xds100"),
+
 
     // Subject to change in the event of dynamic distribution of User Verification
     'API_ID_KYC' => env("API_ID_KYC", "FA52707C-2DE9-4050-8350-E19988D1B311"),
@@ -318,6 +319,7 @@ return [
 
     // Role Id for Register Controller
     'CUSTOMER_USER_ROLE_ID' => env('CUSTOMER_USER_ROLE_ID', 3),
+    'CUSTOMER_DEFAULT_ID' => env('CUSTOMER_DEFAULT_ID', '4717E73D-1F3F-4ACE-BE1A-0244770D6272'),
 
     //  Verfication Data Controller Credentials
     'VERIFICATION_USER_NAME' => env("VERIFICATION_USER_NAME", "idasAPI@inspirit.co.za"),

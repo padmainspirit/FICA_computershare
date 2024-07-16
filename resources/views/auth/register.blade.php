@@ -300,7 +300,7 @@
 {{-- Recaptcha --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {!! RecaptchaV3::initJs() !!}
-<script src="https://www.google.com/recaptcha/api.js?render=6LcWWaQhAAAAACvrLhpsnG_XdOPR0WI_LdHmsr9s"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LcLL_gkAAAAAHNZImBWzj1zbnN3iu3eQRI2AZ5e"></script>
 
 @section('body')
 
@@ -555,22 +555,15 @@
         <script src="{{ URL::asset('/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
         {{-- <script>
-            $(document).ready(function() {
-                $('#FirstName, #LastName, #IDNumber, #Email').on('input', function() {
-                    var inputValue = $(this).val().trim();
-                    var cleanedValue = inputValue.replace(/\s+/g, ' ');
-
-                    if (inputValue !== cleanedValue) {
-                    $(this).val(cleanedValue);
-                    }
-                });
-            });
-        </script> --}}
+            function myFunction() {
+                alert("Thank you for registering. Please to your email for your login details");
+            }
+            </script> --}}
 
         <script>
             document.getElementById("register-btn").addEventListener('click', () => {
                 grecaptcha.ready(function() {
-                    grecaptcha.execute('6LcWWaQhAAAAACvrLhpsnG_XdOPR0WI_LdHmsr9s', {
+                    grecaptcha.execute('6LcLL_gkAAAAAHNZImBWzj1zbnN3iu3eQRI2AZ5e', {
                         action: 'register'
                     }).then(function(token) {
                         console.log(token)

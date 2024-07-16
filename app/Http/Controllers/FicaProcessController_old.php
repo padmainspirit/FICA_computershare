@@ -497,49 +497,32 @@ class FicaProcessController extends Controller
 
         //Check if uploaded file is pdf
 
-        //$path = public_path('C:/PROJECT/Computershare_FICA/public/tempImages/');
-        $path = public_path('tempImages');
-        $pdfpath = public_path('pdf');
-        $cust_image_path = public_path('tempImages/'.$loggedInUserId);
-        $cust_pdf_path = public_path('pdf/'.$loggedInUserId);
-        //print_r($path);exit;
+        $path = public_path('C:/PROJECT/Computershare_FICA/public/tempImages/');
        
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        
-        if (!File::isDirectory($cust_image_path)) {
-            File::makeDirectory($cust_image_path, 0777, true, true);
-        }
-        if (!File::isDirectory($pdfpath)) {
-            File::makeDirectory($pdfpath, 0777, true, true);
-        }
-        if (!File::isDirectory($cust_pdf_path)) {
-            File::makeDirectory($cust_pdf_path, 0777, true, true);
-        }
-
         if ($type == 'pdf') {
             app('debugbar')->info($type);
-            $request->file->move(public_path('pdf/'.$loggedInUserId), $fileName);
+            $request->file->move(public_path('pdf'), $fileName);
             //$firstPage =  $fileName . '[0]';
             // $pdfPath = 'pdf/' .  $fileName;
             // $pdfPath = 'C:/PROJECT/V1.2/FICA_V1/public/pdf/' .  $fileName;
-            $pdfPath = public_path('pdf/'.$loggedInUserId.'/'.$fileName);
+            $pdfPath = 'C:/PROJECT/Computershare_FICA/public/pdf/' .  $fileName;
 
             app('debugbar')->info('pdfPath');
             app('debugbar')->info($pdfPath);
             $imagePath = $this->convertingPdfToImages($pdfPath);
         } elseif ($type == 'jpg'  || 'jpeg' || 'tiff' || 'png') {
-            $request->file->move(public_path('tempImages/'.$loggedInUserId), $fileName);
-            $imagePath =  $cust_image_path.'/'. $fileName;
+            $request->file->move(public_path('tempImages'), $fileName);
+            $imagePath = 'tempImages/' . $fileName;
         } else {
 
             unlink($imagePath);
         }
 
         //Get all the images on the tempImages
-       // $files = File::files(public_path('tempImages/'));
-       $files = File::files($cust_image_path);
+        $files = File::files(public_path('tempImages/'));
         //Looping through tempImage folder
         foreach ($files as $file) {
             $images[] = $file->getRelativePathname();
@@ -548,8 +531,7 @@ class FicaProcessController extends Controller
         //Read the first two pages using aws textract
         foreach ($images as $page) {
             if (count($extractedData) < 2) {
-                //$data =  $aws->TextractAmazonOCR(public_path('tempImages/' . $page), $request);
-                $data =  $aws->TextractAmazonOCR($cust_image_path.'/'.$page, $request);
+                $data =  $aws->TextractAmazonOCR(public_path('tempImages/' . $page), $request);
                 array_push($extractedData, $data);
             }
         }
@@ -576,9 +558,9 @@ class FicaProcessController extends Controller
                 //Storing the file in s3 bucket
                 if ($type == 'pdf') {
                     $pdfTempPath = public_path('pdf/' . $fileName);
-                    Storage::disk('s3')->put($filePath, file_get_contents($pdfPath));
+                    Storage::disk('s3')->put($filePath, file_get_contents($pdfTempPath));
                 } else {
-                    Storage::disk('s3')->put($filePath, file_get_contents($imagePath));
+                    Storage::disk('s3')->put($filePath, file_get_contents(public_path('tempImages/' . $fileName)));
                 }
                 $urlFile =   $url . $filePath;
 
@@ -594,10 +576,8 @@ class FicaProcessController extends Controller
 
             // $pathPDF = 'pdf/' . $fileName;
             //Remove the file in the application
-            //$this->deleteAllTempFiles(public_path('tempImages/'.$loggedInUserId.'/*'));
-           // $this->deleteAllTempFiles(public_path('pdf/'.$loggedInUserId.'/*'));
-           $this->rrmdir(public_path('tempImages/'.$loggedInUserId));
-           $this->rrmdir(public_path('pdf/'.$loggedInUserId));
+            $this->deleteAllTempFiles(public_path('tempImages/*'));
+            $this->deleteAllTempFiles(public_path('pdf/*'));
             // $this->removeImage($imagePath);
             // $this->removeImage($pathPDF);
             $response = ['status' => true, 'data' =>  $IDResults];
@@ -617,9 +597,9 @@ class FicaProcessController extends Controller
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
                 $pdfTempPath = public_path('pdf/' . $fileName);
-                Storage::disk('s3')->put($filePath, file_get_contents($pdfPath));
+                Storage::disk('s3')->put($filePath, file_get_contents($pdfTempPath));
             } else {
-                Storage::disk('s3')->put($filePath, file_get_contents($imagePath));
+                Storage::disk('s3')->put($filePath, file_get_contents(public_path('tempImages/' . $fileName)));
             }
             $urlFile =   $url . $filePath;
 
@@ -633,8 +613,8 @@ class FicaProcessController extends Controller
             //}
             // $pathPDF = 'pdf/' . $fileName;
             //Remove the file in the application
-            $this->rrmdir(public_path('tempImages/'.$loggedInUserId));
-           $this->rrmdir(public_path('pdf/'.$loggedInUserId));
+            $this->deleteAllTempFiles(public_path('tempImages/*'));
+            $this->deleteAllTempFiles(public_path('pdf/*'));
 
             app('debugbar')->info('Document Date: ' . $docDate);
         }
@@ -653,9 +633,9 @@ class FicaProcessController extends Controller
             //Storing the file in s3 bucket
             if ($type == 'pdf') {
                 $pdfTempPath = public_path('pdf/' . $fileName);
-                Storage::disk('s3')->put($filePath, file_get_contents($pdfPath));
+                Storage::disk('s3')->put($filePath, file_get_contents($pdfTempPath));
             } else {
-                Storage::disk('s3')->put($filePath, file_get_contents($imagePath));
+                Storage::disk('s3')->put($filePath, file_get_contents(public_path('tempImages/' . $fileName)));
             }
             $urlFile =   $url . $filePath;
             app('debugbar')->info('urlFile', $urlFile);
@@ -668,8 +648,8 @@ class FicaProcessController extends Controller
                 )
             );
             //   }
-            $this->rrmdir(public_path('tempImages/'.$loggedInUserId));
-            $this->rrmdir(public_path('pdf/'.$loggedInUserId));
+            $this->deleteAllTempFiles(public_path('tempImages/*'));
+            $this->deleteAllTempFiles(public_path('pdf/*'));
         }
 
         //API Checks
@@ -701,21 +681,6 @@ class FicaProcessController extends Controller
         // }
     }
 
-    function rrmdir($dir) {
-        if (is_dir($dir)) {
-          $objects = scandir($dir);
-          foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-              if (filetype($dir."/".$object) == "dir") 
-                 $this->rrmdir($dir."/".$object); 
-              else unlink   ($dir."/".$object);
-            }
-          }
-          reset($objects);
-          rmdir($dir);
-        }
-    }
-
     //Converting PDF to jpg Image
     public function convertingPdfToImages($pdfTempPath)
     {
@@ -729,7 +694,6 @@ class FicaProcessController extends Controller
 
         $im = new Imagick($pdfTempPath);
         $noOfPagesInPDF = $im->getNumberImages(); 
-        $uid = Auth::user()->Id;
  
         if ($noOfPagesInPDF) { 
             for ($i = 0; $i < $noOfPagesInPDF; $i++) {
@@ -739,7 +703,7 @@ class FicaProcessController extends Controller
                 $image->readimage($url);
                 $image = $image->flattenImages();
                 $image->setImageFormat("jpg");
-                $image->writeImages(public_path('tempImages/'.$uid.'/'.($i+1).'-page.jpg'), true);
+                $image->writeImages(public_path('tempImages/'.($i+1).'-page.jpg'), true);
                 //$image->writeImage("./".($i+1).'-'.rand().'.jpg');
             }
             return true;

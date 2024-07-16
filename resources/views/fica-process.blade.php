@@ -586,30 +586,9 @@ Fica Progress
                             </form>
                             @else
                             <div class="text-center">
-
-                                <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step
-                                    Completed</p>
-
-                                {{-- <br><br><br><br>
-                                                        <div class="card border w-75 mx-auto"
-                                                            style="color: #000 ; background-color: #f0f4fc;">
-                                                            <br>
-                                                            <div class="card-header bg-transparent border-success">
-                                                                <h5 class="my-0 text-success2" style="font-size: 18px"></i>Step
-                                                                    Completed
-                                                                </h5>
-
-                                                                <br>
-                                                            </div>
-                                                            <div class="card-body"
-                                                                style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 20px;">
-                                                                <div class="text-center">
-                                                                    <img src="{{ URL::asset('/assets/images/checked2.png') }}"
-                                alt="cloud upload" width="25%">
+                                <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step Completed</p>
                             </div>
-                        </div>
-                        <br>
-                        </div> --}}
+                            
                         </div>
                         @endif
 
@@ -762,14 +741,6 @@ Fica Progress
                                                         <select class="form-select @error('country-input') is-invalid @enderror" autocomplete="off" style="height: 27px; padding-left: 24px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="country-input" name="country-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }}>
                                                             <option value=""> Select Country </option>
 
-                                                            {{-- @foreach ($occupation as $industry)
-                                                                                <option value="{{ $industry->Industry_occupation }}"
-                                                            {{ old('industry-of-occupation-input') == $industry ? 'selected' : '' }}
-                                                            {{ isset($selectedIndustryofoccupation) && $industry->Industry_occupation == $selectedIndustryofoccupation ? 'selected' : '' }}>
-                                                            {{ $industry->Industry_occupation }}
-                                                            </option>
-                                                            @endforeach --}}
-
                                                             @foreach ($countries as $country)
                                                             <option value="{{ $country->Nationality }}" {{ old('country-input') == $country->Nationality ? 'selected' : '' }} {{-- {{ $country == $consumerIdentity->ID_CountryResidence ? 'selected' : '' }}> --}}
                                                                 {{ Str::upper(isset($selectedCountry)) && Str::upper($country->Nationality) == Str::upper($selectedCountry) ? 'selected' : '' }}>
@@ -790,39 +761,6 @@ Fica Progress
 
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-lg-12">
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                <div class="mb-3">
-                                                                    <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                                        style="font-size: 12px; color: rgb(0, 0, 0); padding-top:4%;">ID Issue
-                                                                        Date:
-                                                                    </label>
-
-                                                                    <span style="color: red; font-size: 20px;" class="required">
-                                                                        *
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div>
-                                                                    <input autocomplete="off" type="date"
-                                                                        class="form-control input-sm @error('id-issuedate-input') is-invalid @enderror"
-                                                                        style="height: 27px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;padding-top: 0px;padding-bottom: 0px;"
-                                                                        id="id-issuedate-input" name="id-issuedate-input" 
-                                                                        value="{{ old('id-issuedate-input')}}"
-                                {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
-                                value="{{ isset($consumerIdentity->ID_DateofIssue) ? substr(date('Y-m-d', strtotime($consumerIdentity->ID_DateofIssue)), 0, 10) : old('id-issuedate-input') }}">
-                            </div>
-                            @error('id-issuedate-input')
-                            <div style="color: red">
-                                {{ $message = 'Field is required' }}
-                            </div>
-                            @enderror
-                            </div>
-                            </div>
-                            </div> --}}
 
                             <br>
                             <br>
@@ -1016,7 +954,7 @@ Fica Progress
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                <input autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip Code" />
+                                                <input pattern="[0-9]*" inputmode="numeric" autocomplete="off" type="text" class="form-control input-sm" style="height: 27px; width: 10px; padding-left: 24px; width: 200px; font-size:12px; text-transform: uppercase;" id="zip-postal" name="zip-postal" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} value="{{ $Postal != null ? $Postal->OriginalPostalCode : '' }}" placeholder="Enter Zip Code" />
                                             </div>
                                         </div>
 
@@ -1303,7 +1241,7 @@ Fica Progress
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <div class="input-group" style="height: 27px; width: 200px;">
-                                                    <input autocomplete="off" type="text" class="form-control input-sm @error('employeer-postal-code-input') is-invalid @enderror" style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;" id="employeer-postal-code-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} name="employeer-postal-code-input" placeholder="Enter Postal Code" value="{{ $Work != null ? $Work->OriginalPostalCode : '' }}">
+                                                    <input pattern="[0-9]*" inputmode="numeric" autocomplete="off" type="text" class="form-control input-sm @error('employeer-postal-code-input') is-invalid @enderror" style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;" id="employeer-postal-code-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} name="employeer-postal-code-input" placeholder="Enter Postal Code" value="{{ $Work != null ? $Work->OriginalPostalCode : '' }}">
                                                 </div>
 
                                             </div>
@@ -2854,7 +2792,7 @@ Fica Progress
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="py-zip" class="form-label">ZIP</label>
-                                <input type="type" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" >
+                                <input pattern="[0-9]*" inputmode="numeric" type="text" class="form-control" id="py-zip" style="padding-left: 24px" name="py-zip" placeholder="ENTER ZIP" autocomplete="off" >
                                 <span id="error-py-zip" class="text-danger" role="alert">
                                 </span>
                             </div>
@@ -3062,130 +3000,106 @@ Fica Progress
         <div class="modal-content">
             <div class="card-body">
                 <div id="loader-address-model" class="center"></div>
-                <form id="fileUpload-bank-model" action='{{ route('proofofbank') }}' method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="col">
-                        <div class=" text-center">
-                            <h4 class="card-title mb-4" style="color: #93186c"><strong> Bank Account
-                                Details</strong></h4>
+                    <form id="fileUpload-bank-model" action='{{ route('proofofbank') }}' method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="col-md-12">
+                            <div class=" text-center">
+                                <h4 class="card-title mb-4" style="color: #93186c"><strong> Bank Account Details</strong></h4>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="initials" class="form-label">Initials</label>
+                                    <input type="type" class="form-control @error('initials') is-invalid @enderror" id="initials" name="initials" placeholder="ENTER INITIALS" autocomplete="off">
+                                    <span id="error-initials" class="text-danger" role="alert">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="initials" class="form-label">Initials</label>
-                                <input type="type" class="form-control @error('initials') is-invalid @enderror" id="initials" name="initials" placeholder="ENTER INITIALS" autocomplete="off">
-                                <span id="error-initials" class="text-danger" role="alert">
+                                <label for="surname" class="form-label  @error('surname') is-invalid @enderror">Surname</label>
+                                <input type="type" class="form-control" id="surname" name="surname" autocomplete="off" placeholder="ENTER SURNAME">
+                                <span id="error-surname" class="text-danger" role="alert">
                                 </span>
-                                {{-- @error('initials')
-                                    <div style="color: red">
-                                    {{ $message = 'Field is required' }}
                             </div>
-                            @enderror --}}
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="mb-3">
-                            <label for="surname" class="form-label  @error('surname') is-invalid @enderror">Surname</label>
-                            <input type="type" class="form-control" id="surname" name="surname" autocomplete="off" placeholder="ENTER SURNAME">
-                            <span id="error-surname" class="text-danger" role="alert">
-                            </span>
-                            {{-- @error('surname')
-                                        <div style="color: red">
-                                            {{ $message = 'Field is required' }}
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="acc-number" class="form-label">Account Number</label>
+                                <input type="type" class="form-control @error('acc-number') is-invalid @enderror" id="acc-number" autocomplete="off" name="acc-number" placeholder="ENTER ACCOUNT NUMBER">
+                                <span id="error-acc-number" class="text-danger" role="alert">
+                                </span>
+                            </div>
                         </div>
-                        @enderror --}}
-                    </div>
-            </div>
-            <div class="col-md-12">
-                <div class="mb-3">
-                    <label for="acc-number" class="form-label">Account Number</label>
-                    <input type="type" class="form-control @error('acc-number') is-invalid @enderror" id="acc-number" autocomplete="off" name="acc-number" placeholder="ENTER ACCOUNT NUMBER">
-                    <span id="error-acc-number" class="text-danger" role="alert">
-                    </span>
-                    {{-- @error('acc-number')
-                                        <div style="color: red">
-                                            {{ $message = 'Field is required' }}
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="bank-name-dd" class="form-label">Bank Name</label>
+                                <div class="input-group" style="height: 35px; width: 100%;">
+                                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off"  style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
+                                        <option hidden>Select Bank Name</option>
+                                        @foreach ($bankNames as $bank)
+                                        <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode }}">
+                                            {{ $bank->bankname }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <span id="error-bank-name-dd" class="text-danger" role="alert">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="acc-number" class="form-label">Account Type</label>
+                                <div class="input-group" style="height: 35px; width: 100%;">
+                                    <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="" name="BankTypeid">
+                                        @if ($bankTpye->count())
+                                        <option hidden>Select Bank Type</option>
+                                        @foreach ($bankTpye as $type)
+                                        <option value="{{ isset($type->BankTypeid) ? $type->BankTypeid : null }}">
+                                            {{ $type->AccountType }}
+                                        </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                    <span id="error-BankTypeid" class="text-danger" role="alert">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="branch" class="form-label">Branch Code</label>
+                                <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" readonly id="branch" name="branch" value="">
+                                <span id="error-branch" class="text-danger" role="alert">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn text-center w-md text-white" style="width: 10%; background-color: #93186c; border-color: #93186c">
+                                Submit
+                            </button>
+
+                            <a href="javascript:window.location.reload()">
+                                <div style="padding-left:2px">
+                                    <button type="button" class="btn btn-primary w-md mt-2 mb-2" data-bs-dismiss="modal"
+                                        style="width: 10%; background-color: #93186c; border-color: #93186c">Cancel</button>
+                                </div>
+                            </a>
+
+                            <button type="button" class="btn btn-primary" id="btn-hidden-bank-modal" data-bs-toggle="modal" data-bs-target="#composemodal-bank-model-success">
+                                Show PopUp
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btn-hidden-bank-failed" data-bs-toggle="modal" data-bs-target="#composemodal-bank-failed">
+                                Show PopUp
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                @enderror --}}
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="mb-3">
-                <label for="bank-name-dd" class="form-label">Bank Name</label>
-                <div class="input-group" style="height: 35px; width: 100%;">
-                    <select class="form-select @error('bank-name-dd') is-invalid @enderror" autocomplete="off"  style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="bank-name-dd" name="bank-name-dd" placeholder="ENTER BANK NAME">
-                        <option hidden>Select Bank Name</option>
-                        @foreach ($bankNames as $bank)
-                        <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode }}">
-                            {{ $bank->bankname }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <span id="error-bank-name-dd" class="text-danger" role="alert">
-                    </span>
-                    {{-- @error('bank-name-dd')
-                                            <div style="color: red">
-                                                {{ $message = 'Field is required' }}
-                </div>
-                @enderror --}}
             </div>
         </div>
     </div>
-
-    <div class="col-md-12">
-        <div class="mb-3">
-            <label for="acc-number" class="form-label">Account Type</label>
-            <div class="input-group" style="height: 35px; width: 100%;">
-                <select class="form-select @error('BankTypeid') is-invalid @enderror" autocomplete="off" style="height: 35px; padding-left: 12px;padding-top: 2px;padding-bottom: 2px; font-size:12px; text-transform: uppercase;" id="" name="BankTypeid">
-                    @if ($bankTpye->count())
-                    <option hidden>Select Bank Type</option>
-                    @foreach ($bankTpye as $type)
-                    <option value="{{ isset($type->BankTypeid) ? $type->BankTypeid : null }}">
-                        {{ $type->AccountType }}
-                    </option>
-                    @endforeach
-                    @endif
-                </select>
-                <span id="error-BankTypeid" class="text-danger" role="alert">
-                </span>
-                {{-- @error('BankTypeid')
-                <div style="color: red">
-                {{ $message = 'Field is required' }}
-            </div>
-            @enderror --}}
-        </div>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="mb-3">
-        <label for="branch" class="form-label">Branch Code</label>
-        <input type="type" class="form-control @error('branch') is-invalid @enderror" autocomplete="off" readonly id="branch" name="branch" value="">
-        <span id="error-branch" class="text-danger" role="alert">
-        </span>
-        {{-- @error('branch')
-        <div style="color: red">
-        {{ $message = 'Field is required' }}
-    </div>
-    @enderror --}}
-</div>
-</div>
-</div>
-<div class="text-center">
-    <button type="submit" class="btn text-center w-md text-white" style="width: 10%; background-color: #93186c; border-color: #93186c">
-        Submit
-    </button>
-
-    <button type="button" class="btn btn-primary" id="btn-hidden-bank-modal" data-bs-toggle="modal" data-bs-target="#composemodal-bank-model-success">
-        Show PopUp
-    </button>
-    <button type="button" class="btn btn-primary" id="btn-hidden-bank-failed" data-bs-toggle="modal" data-bs-target="#composemodal-bank-failed">
-        Show PopUp
-    </button>
-</div>
-
-</form>
-</div>
-</div>
-</div>
 </div>
 {{-- End Bank Popup Modal --}}
 
@@ -3344,8 +3258,7 @@ Fica Progress
                     <br><br>
                     <div class="row justify-content-center">
                         <div class="col-xl-10">
-                            <h4 style="color: #696969"> Your submission requires additional verification. An
-                                administrator will be in touch.
+                            <h4 style="color: #696969"> Thank you for your submission. An administrator will contact you to discuss the next steps. You can logout now.
                             </h4>
                         </div>
                     </div>
@@ -3447,9 +3360,43 @@ Fica Progress
     </div>
 </div>
 
+    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#myModal" id="liveToastBtn" hidden>Standard modal</button>
+
+    <!-- sample modal content -->
+    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>API(s) failure to run has been detected, please click to validate again or try again later.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary waves-effect" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 @endsection
 
 @section('script')
+
+<script>
+    $(document).ready(function() {
+        // var id = {{$APIResultStatus['IDAS_Status']}};
+        // var kyc = {{$APIResultStatus['KYC_Status']}};
+        // var avs = {{$APIResultStatus['AVS_Status']}};
+        // var dovs = {{$APIResultStatus['DOVS_Status']}};
+        var comp = {{$APIResultStatus['Compliance_Status']}};
+        var check = {{$validationCheck}};
+
+        /* if (check !== 0){
+            if (comp == 0) {
+                $('#liveToastBtn').click();
+            }
+        } */
+    });
+</script>
+
 {{-- ID upload --}}
 <script type="text/javascript">
     $(document).ready(function() {
@@ -4218,13 +4165,14 @@ Fica Progress
                         /* $("#validate-status").load(location.href +
                             " #validate-status"); */
                         
-                        // $('#validate-status').load(location.href + ' #validate-status');
+                        $('#validate-status').load(location.href + ' #validate-status');
                         
                 },
 
                 error: function() {
                     console.log('Failed');
                     // $("#btn-hidden-failed").click();
+                    $('#validate-status').load(location.href + ' #validate-status');
                 }
 
                 // function updateDiv(string id) {
@@ -4603,15 +4551,9 @@ Fica Progress
 </script>
 
 <script>
-$('#bank-name-dd').on('change',function(){
-    var price = $(this).children('option:selected').data('price');
-    $('#branch').val(price);
-});
-
-// let sel = document.getElementById('bank-name-dd');
-// sel.addEventListener('click', function (e) {
-//     let price = e.srcElement.selectedOptions["0"].dataset.price;
-//     document.getElementById('branch').value = price;
-// });
+    $('#bank-name-dd').on('change',function(){
+        var price = $(this).children('option:selected').data('price');
+        $('#branch').val(price);
+    });
 </script>
 @endsection

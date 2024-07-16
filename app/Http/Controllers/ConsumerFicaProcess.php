@@ -50,7 +50,9 @@ class ConsumerFicaProcess extends Controller
                 'employee-status-input' => ['required', 'in:Employed,Unemployed'],
                 'industry-of-occupation-input' => 'required_if:employee-status-input,==,Employed',
                 // 'id-issuedate-input' => 'required',
-                'titleId' => 'required'
+                'titleId' => 'required',
+                'zip-postal' => ['numeric', 'min:10'],
+                'employeer-postal-code-input' => ['numeric', 'min:10'],
             ],
         );
 
@@ -446,7 +448,8 @@ class ConsumerFicaProcess extends Controller
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+            //$fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $avs = AVS::where('FICA_id', '=',  $fica->FICA_id)->first();
 
             $ficaProgress = ($fica->Financial_status == null) ? $fica->FICAProgress + 1 : $fica->FICAProgress;
@@ -505,7 +508,8 @@ class ConsumerFicaProcess extends Controller
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+            //$fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
             //Update Fica Progress
@@ -602,7 +606,7 @@ class ConsumerFicaProcess extends Controller
             $loggedInUserId = Auth::user()->Id;
             $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
             // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
-            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->where('FICAStatus', '=', 'In progress')->first();
+            $fica = FICA::where('Consumerid', '=',  $consumer->Consumerid)->first();
             $request->session()->put('FICAProgress', $fica->FICAProgress);
 
             //Update Fica Progress

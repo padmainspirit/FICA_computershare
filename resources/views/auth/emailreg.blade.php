@@ -24,16 +24,17 @@
                 </p>
                 <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">Thank you for visiting Computershare’s website to 
                     complete our electronic FICA verification process.</p>
-                <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">Your
-                    temporary login details are:</p>
-                <ul>
-                    <li style="font-size:16px;">
-                        Username: <span style="color: #93186c">{{ $Email }}</span>
-                    </li>
-                    <li style="font-size:16px;">
+                <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">
+                    Your registered email is: {{ $Email }}
+                </p>
+                {{-- <ul> --}}
+                    {{-- <li style="font-size:16px;">
+                        Username: <span style="color: #93186c"></span>
+                    </li> --}}
+                    {{-- <li style="font-size:16px;">
                         Password: <span style="color: #93186c">{{ $Password }}</span>
-                    </li>
-                </ul>
+                    </li> --}}
+                {{-- </ul> --}}
                 <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">These will be
                     valid for the next 24 hours, using the button below to login to your account.</p>
 

@@ -28,6 +28,131 @@ class AdminController extends Controller
         $this->middleware('permission:admin-seach-user', ['only' => ['FindUsers']]);
     }
 
+
+    public function ShowDiviSearch()
+    {
+
+        if (session()->has('success')) {
+            session()->pull('success');
+        }
+
+        if (session()->has('fail')) {
+            session()->pull('fail');
+        }
+
+        if (session()->has('getLoggedUsersID')) {
+            session()->pull('getLoggedUsersID');
+        }
+
+        $user = Auth::user();
+        $Customerid = $user->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
+
+        return view('admin-divi-search')
+
+        ->with('Logo',  $customer->Client_Logo)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('customer', $customer)
+
+        ->with('LogUserName', $user->FirstName)
+        ->with('LogUserSurname', $user->LastName);
+    }
+
+    public function ShowDiviDashboard()
+    {
+
+        if (session()->has('success')) {
+            session()->pull('success');
+        }
+
+        if (session()->has('fail')) {
+            session()->pull('fail');
+        }
+
+        if (session()->has('getLoggedUsersID')) {
+            session()->pull('getLoggedUsersID');
+        }
+
+        $user = Auth::user();
+        $Customerid = $user->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
+
+        return view('admin-divi-dashboard')
+
+        ->with('Logo',  $customer->Client_Logo)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('customer', $customer)
+
+        ->with('LogUserName', $user->FirstName)
+        ->with('LogUserSurname', $user->LastName);
+    }
+
+    public function ShowDivi()
+    {
+
+        if (session()->has('success')) {
+            session()->pull('success');
+        }
+
+        if (session()->has('fail')) {
+            session()->pull('fail');
+        }
+
+        if (session()->has('getLoggedUsersID')) {
+            session()->pull('getLoggedUsersID');
+        }
+
+        $user = Auth::user();
+        $Customerid = $user->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
+
+        return view('admin-divi')
+
+        ->with('Logo',  $customer->Client_Logo)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('customer', $customer)
+
+        ->with('LogUserName', $user->FirstName)
+        ->with('LogUserSurname', $user->LastName);
+    }
+
+    public function ShowDiviUpload()
+    {
+        $user = Auth::user();
+        $Customerid = $user->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
+
+        return view('admin-divi-upload')
+
+        ->with('Logo',  $customer->Client_Logo)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('customer', $customer)
+
+        ->with('LogUserName', $user->FirstName)
+        ->with('LogUserSurname', $user->LastName);
+    }
+
+    public function ShowDiviDatatable()
+    {
+        $user = Auth::user();
+        $Customerid = $user->CustomerId;
+        $customer = Customer::getCustomerDetails($Customerid);
+
+        return view('admin-divi-datatable')
+
+        ->with('Logo',  $customer->Client_Logo)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('customer', $customer)
+
+        ->with('LogUserName', $user->FirstName)
+        ->with('LogUserSurname', $user->LastName);
+    }
+
     public function ShowDashboard(Request $request)
     {
 
@@ -396,7 +521,9 @@ class AdminController extends Controller
 
             $request->session()->put('exception', $exception);
 
-            $Customerid = $request->session()->get('Customerid');
+            //$Customerid = $request->session()->get('Customerid');
+            $Customerid = Auth::user()->CustomerId;
+            
             $customer = Customer::where('Id', '=',  $Customerid)->first();
             $Logo = $customer['Client_Logo'];
             $customerName = $customer['RegistrationName'];
@@ -405,7 +532,7 @@ class AdminController extends Controller
             // app('debugbar')->info($exception);
 
             return view('admin-findusers')->with('exception', $exception)
-
+                ->with('customer', $customer)
                 ->with('customerName', $customerName)
                 ->with('Logo', $Logo)
                 ->with('Icon', $Icon)

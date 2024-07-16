@@ -299,7 +299,7 @@
 {{-- Recaptcha --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {!! RecaptchaV3::initJs() !!}
-<script src="https://www.google.com/recaptcha/api.js?render=6LcWWaQhAAAAACvrLhpsnG_XdOPR0WI_LdHmsr9s"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LcLL_gkAAAAAHNZImBWzj1zbnN3iu3eQRI2AZ5e"></script>
 
 @section('body')
 
@@ -516,7 +516,7 @@
 <script>
     document.getElementById("reset-btn").addEventListener('click', () => {
         grecaptcha.ready(function() {
-            grecaptcha.execute('6LcWWaQhAAAAACvrLhpsnG_XdOPR0WI_LdHmsr9s', {
+            grecaptcha.execute('6LcLL_gkAAAAAHNZImBWzj1zbnN3iu3eQRI2AZ5e', {
                 action: 'register'
             }).then(function(token) {
                 console.log(token)

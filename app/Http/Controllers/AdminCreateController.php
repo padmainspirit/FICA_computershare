@@ -25,7 +25,6 @@ class AdminCreateController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index(Request $request)
     {
         $client = Auth::user();
@@ -57,7 +56,6 @@ class AdminCreateController extends Controller
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);
     }
-
 
     public function ShowConglomerateEdit(Request $request)
     {
@@ -124,7 +122,6 @@ class AdminCreateController extends Controller
             ->with('customer', $customer)
             ->with('Logo', $GetAllConglomerateDetails->Client_Logo);
     }
-
 
     public function EditDetails(Request $request)
     {

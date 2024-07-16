@@ -250,7 +250,7 @@
 
                                 @if ($ConsumerIDPhotoMatch == 'Matched')
                                 <h6 class="card-title" style="text-align: center;">
-                                    <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>                                    </h6>
+                                    <i class="bx bx-check-circle  bx-md" style="color: #6ec300"></i>                                    </h6>
                                 @elseif ($ConsumerIDPhotoMatch == 'Not Matched')
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
@@ -362,7 +362,7 @@
                                             <button type="button" id="newpdf" name="newpdf" onclick="generate();" class="btn btn-rounded waves-effect waves-light mt-3 text-white font-size-14" style="background-color: rgb(193, 22, 28); width: 120px;padding-top: 0px;
                                                 padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                                 Export to PDF
-                                            </button>
+                                            </button>										
                                         </div>
 
                                     </div>
@@ -499,7 +499,7 @@
                                                                                 {{ $BirthDate }}
                                                                             </td>
                                                                             <td style="font-weight: bold;">
-                                                                                Country of Birth
+                                                                                Country of Residence
                                                                             </td>
                                                                             <td>
                                                                                 {{ $ID_CountryResidence }}
@@ -4147,18 +4147,18 @@ placeholder="Enter Your Marriage Type">
 
         {{--  console.log(SancList);  --}}
 
-        var kyc = ({{ $KYC_Status }} == 1) ? 'Passed' : 'Failed';
-        var avs = ({{ $AVS_Status }} == 1) ? 'Passed' : 'Failed';
-        var taxObl = ({{ $Tax_Oblig_outside_SA }} == 1) ? 'Yes' : 'No';
-        var acc = ({{ $BankTypeid }} == 1) ? 'Passed' : 'Failed';
-        var pubOff = ({{ $Public_official }} == 1) ? 'Yes' : 'No';
-        var pubOffFam = ({{ $Public_official_Family }} == 1) ? 'Yes' : 'No';
-        var sanc = ({{ $SanctionList }} == 1) ? 'Yes' : 'No';
-        var advs = ({{ $AdverseMedia }} == 1) ? 'Yes' : 'No';
-        var nonRes = ({{ $NonResidentOther }} == 1) ? 'Yes' : 'No';
-        var divTax = ({{ $DividendTax }} == 1) ? 'Yes' : 'No';
-        var bee = ({{ $BeeShareholder }} == 1) ? 'Yes' : 'No';
-        var stamp = ({{ $StampDuty }} == 1) ? 'Yes' : 'No';
+        var kyc = ("<?= $KYC_Status; ?>" == 1) ? 'Passed' : 'Failed';
+        var avs = ("<?= $AVS_Status; ?>" == 1) ? 'Passed' : 'Failed';
+        var taxObl = ("<?= $Tax_Oblig_outside_SA; ?>" == 1) ? 'Yes' : 'No';
+        var acc = ("<?= $BankTypeid; ?>" == 1) ? 'Passed' : 'Failed';
+        var pubOff = ("<?= $Public_official; ?>" == 1) ? 'Yes' : 'No';
+        var pubOffFam = ("<?= $Public_official_Family; ?>" == 1) ? 'Yes' : 'No';
+        var sanc = ("<?= $SanctionList; ?>" == 1) ? 'Yes' : 'No';
+        var advs = ("<?= $AdverseMedia; ?>" == 1) ? 'Yes' : 'No';
+        var nonRes = ("<?= $NonResidentOther; ?>" == 1) ? 'Yes' : 'No';
+        var divTax = ("<?= $DividendTax; ?>" == 1) ? 'Yes' : 'No';
+        var bee = ("<?= $BeeShareholder; ?>" == 1) ? 'Yes' : 'No';
+        var stamp = ("<?= $StampDuty; ?>" == 1) ? 'Yes' : 'No';
 
         // var homephoto = ({{ $ConsumerIDPhoto }} == null) ? {{$ConsumerIDPhoto}} : null;
         // var capphoto = ({{ $ConsumerCapturedPhoto }} == null) ? {{$ConsumerCapturedPhoto}} : null;
@@ -4241,7 +4241,7 @@ placeholder="Enter Your Marriage Type">
                 ['Email:', '{{ $Email }}', 'Nationality:', '{{ $Nationality }}'],
                 ['Telephone (W):', '{{ $WorkTelCode }}{{ $WorkTelNo }}', 'Telephone (H):', '{{ $HomeTelCode }}{{ $HomeTelNo }}'],
                 ['Telephone (C):', '{{ $CellCode }}{{ $CellNo }}','Date of Birth:', '{{ $BirthDate }}'],
-                ['ID Date of Issue:', '{{ $ID_DateofIssue }}','Country of Birth:', '{{ $ID_CountryResidence }}'],
+                ['ID Date of Issue:', '{{ $ID_DateofIssue }}','Country of Residence:', '{{ $ID_CountryResidence }}'],
                 ['Employment Industry:', '{{ $Industryofoccupation }}','Employment Status:', '{{ $Employmentstatus }}'],
                 ['Name Of Employer:', '{{ $Nameofemployer }}'],
             ],
@@ -4447,12 +4447,17 @@ placeholder="Enter Your Marriage Type">
         }  
 
         doc.save('{{ $FirstName }} {{ $SURNAME }} - Information Report.pdf');  
-    }  
+    } 
+    
 </script>
 
 
 <script>
     $(document).ready(function() {
+        if(document.URL.indexOf("#")==-1){
+            window.location = window.location + '#';
+            window.location.reload();
+        }
         // alert($("#Public_official").val());
         var value = $("#Public_official").val();
         // alert(value);
@@ -4475,14 +4480,20 @@ placeholder="Enter Your Marriage Type">
 
 <script>
     $(document).ready(function() {
-        $("#CustodyService").change(function() {
+        var custodyServiceSelect = $("#CustodyService");
+        var newOptions1 = $("#newoptions1");
+
+        custodyServiceSelect.change(function() {
             var selectedOption = $(this).val();
             if (selectedOption === "Securities held on my behalf must be register") {
-                $("#newoptions1").prop("disabled", true).hide();
+                newOptions1.prop("disabled", true).hide();
             } else if (selectedOption === "Securities must be registered in my Own Name") {
-                $("#newoptions1").prop("disabled", false).show();
+                newOptions1.prop("disabled", false).show();
             }
         });
+
+        // Trigger the change event handler on page load
+        custodyServiceSelect.change();
     });
 </script>
 

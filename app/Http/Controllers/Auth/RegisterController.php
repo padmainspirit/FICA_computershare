@@ -86,14 +86,15 @@ class RegisterController extends Controller
                 ]
             ]
         );
-        $responseData = json_decode((string)$response->getBody());
+        // $responseData = json_decode((string)$response->getBody());
 
-        $scoreResponse = $responseData->score;
-        //Check if user is not a robot using Recaptcha
-        //$responseData->score = 0.4;
-        if ($scoreResponse < 0.5) {
-            return back()->with('fail', 'Please contact Administrator')->with('customer', $customer);
-        }
+        // $scoreResponse = $responseData->score;
+        // dd($scoreResponse);
+        // Check if user is not a robot using Recaptcha
+        // $responseData->score = 0.4;
+        // if ($scoreResponse < 0.5) {
+        //     return back()->with('fail', 'Please contact Administrator')->with('customer', $customer);
+        // }
 
         $emailPassword = $request['Password'];
         $request['Password'] = Hash::make($request['Password']);

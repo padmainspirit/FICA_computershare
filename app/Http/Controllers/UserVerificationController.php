@@ -810,8 +810,11 @@ class UserVerificationController extends Controller
                 $soapUrlDemo = config("app.API_SOAP_URL_DEMO_VERIFY_BANK");
 
                 $soapUrlLive = $soapUrlLive; //here we are changing the url to the demo/dev/testing environment
-                $username = 'Inspirit_Live';
-                $password = 'cal100';
+                // $username = 'Inspirit_Live';
+                // $password = 'cal100';
+
+                $username = config("app.API_LOGIN_USERNAME");
+                $password = config("app.API_LOGIN_PASSWORD");
 
 
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
@@ -901,7 +904,7 @@ class UserVerificationController extends Controller
 
 
 
-                        sleep(7); //here we are waiting for 5 sec before the next call
+                        sleep(4); //here we are waiting for 5 sec before the next call
 
                         //$referenceNo = '70492474';
 
@@ -1107,6 +1110,7 @@ class UserVerificationController extends Controller
                         } else {
                             //invalid bank information 
                             $errorMessage = str_replace('/Error', '', $tempData5[2]);
+                            $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
                             AVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
                                     'AVS_Status' => 0,
@@ -1133,7 +1137,7 @@ class UserVerificationController extends Controller
                                     'EnquiryStatus' => NULL,
                                     'XDsRefNo' => NULL,
                                     'ExternalRef' => NULL,
-                                    'ErrorMessage' => 'AVS Failed, Please contact administrator'
+                                    'ErrorMessage' => $message
                                 )
                             );
                             app('debugbar')->info($tempData5);
@@ -1156,8 +1160,11 @@ class UserVerificationController extends Controller
         // $password = $this->xdspassword;
 
         // Move to ENV File
-        $username = 'Inspirit_Live';
-        $password = 'cal100';
+        // $username = 'Inspirit_Live';
+        // $password = 'cal100';
+
+        $username = config("app.API_LOGIN_USERNAME");
+        $password = config("app.API_LOGIN_PASSWORD");
 
         try {
             $loggedInUserId = Auth::user()->Id;
@@ -2163,8 +2170,8 @@ class UserVerificationController extends Controller
         $branchCode = $branchCode;
         $accType = $accType;
         $bankName = $bankName;
-        $contactNo = $contactNo;
-        $email = $email;
+        $contactNo = $contactNo == null ? '': $contactNo;
+        $email = $email == null ? '': $email;
         // $voucherCode = 'EBB79E69-41A7-44F6-B07E-6F2642F05E8F';
         $referenceNo = $referenceNo;
 
@@ -2306,26 +2313,26 @@ class UserVerificationController extends Controller
         }
     }
 
-    public function ConnectGetAccountVerificationResult($url, $user, $pass, $ticketNo, $referenceNo)
+    public function ConnectGetAccountVerificationResult($url, $user, $pass, $ticketNo, $AvsreferenceNo)
     {
-
         $ticketNo = $ticketNo; //"password"; // password
         $soapUrl = $url;
         $soapUser =  $user; //"username";  //  username
         $soapPassword = $pass; //"password"; // password
         //$referenceNo = $referenceNo;
-        //$referenceNo = 70492469;
 
-        $xml_post_string = '<?xml version="1.0" encoding="utf-8"?>
+        $xml_post_string_data = '<?xml version="1.0" encoding="utf-8"?>
                                 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
                                   <soap12:Body>
                                     <ConnectGetAccountVerificationResult xmlns="http://www.web.xds.co.za/XDSConnectWS">
                                       <ConnectTicket>' . $ticketNo . '</ConnectTicket>
-                                      <EnquiryLogID>' . $referenceNo . '</EnquiryLogID>
+                                      <EnquiryLogID>'.intval($AvsreferenceNo).'</EnquiryLogID>
                                     </ConnectGetAccountVerificationResult>
                                   </soap12:Body>
                                 </soap12:Envelope>';   // data from the form, e.g. some ID number
-
+                                
+                                
+        
         $headers = array(
             "POST /xdsconnect/XDSconnectWS.asmx HTTP/1.1",
             //"Host: www.web.xds.co.za",
@@ -2333,11 +2340,13 @@ class UserVerificationController extends Controller
             "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
-            "Content-length: " . strlen($xml_post_string),
+            "Content-length: " . strlen($xml_post_string_data),
             //"Authorization: Basic Y3pzX3dzOjFDb24xJEFkbSE=",
             "SOAPAction: http://www.web.xds.co.za/XDSConnectWS/ConnectGetAccountVerificationResult",
         ); //SOAPAction: your op URL
 
+        sleep(5);
+        
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -2345,7 +2354,7 @@ class UserVerificationController extends Controller
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_USERPWD => $soapUser . ":" . $soapPassword,
-            CURLOPT_POSTFIELDS => $xml_post_string,
+            CURLOPT_POSTFIELDS => $xml_post_string_data,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_HTTPAUTH => CURLAUTH_ANY,
             CURLOPT_SSL_VERIFYPEER => 1
@@ -2364,7 +2373,5 @@ class UserVerificationController extends Controller
 
             return $response;
         }
-
-       
     }
 }

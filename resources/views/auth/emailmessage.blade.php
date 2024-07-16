@@ -19,8 +19,8 @@
         <tr>
             <td style="padding: 30px 30px 30px 30px;color:#696969;">
                 {{-- <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">New Email Message</h1> --}}
-                <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">From:
-                    {{ $data['Sender'] }}</p>
+                {{-- <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">From:
+                    {{ $data['Sender'] }}</p> --}}
                 <p style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;">Subject:</p>
                 <p
                     style="margin:0 0 12px 0;font-size:14px;line-height:16px;font-family:Arial,sans-serif; color: #000000">
