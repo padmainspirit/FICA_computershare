@@ -20,5 +20,6 @@ composer.json
 composer.lock
 package.json
 package-lock.json
+/config/app.php
 /config/database.php
 /public/assets/logo
