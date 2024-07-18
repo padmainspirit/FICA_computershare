@@ -72,7 +72,7 @@ class AdminSelfBankController extends Controller
     {
         $selfbankingId = Str::upper(Str::uuid());
         $linkGenerated = URL::temporarySignedRoute(
-            'selfbanking', now()->addHours(2), ['sbid'=>$selfbankingId]
+            'selfbanking', now()->addHours(("app.SelfBankingLink_ExpiryTime")), ['sbid'=>$selfbankingId]
         );
         $request['Id'] = $selfbankingId;
         $request['CustomerId'] = config("app.CUSTOMER_DEFAULT_ID");
@@ -121,7 +121,7 @@ class AdminSelfBankController extends Controller
         $customer = Customer::getCustomerDetails($sbid);
         if($sbid == '' || $sbid == null){
             $url = '/';
-                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+                return response()->view('errors.401', ['message'=>'Link has been expired','url'=>$url], 401);
         }else if(!empty($_POST)){ 
             
             $this->validate($request, [
