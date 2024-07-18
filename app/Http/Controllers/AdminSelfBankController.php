@@ -37,15 +37,15 @@ class AdminSelfBankController extends Controller
             }else{
                 return false;
             }
-            
+
             $request['Id'] = $selfbankingId;
             $request['CustomerUserId'] = $user->Id;
             $request['CustomerId'] = $user->CustomerId;
             $request['LinkGenerated'] = $linkGenerated;
             SelfBankingLink::create($request->all());
 
-            
-           
+
+
             if($_POST['Media'] == 'Email'){
                 Mail::send(
                     'email.email-selfbankinglink',
@@ -77,7 +77,12 @@ class AdminSelfBankController extends Controller
         $request['Id'] = $selfbankingId;
         $request['CustomerId'] = config("app.CUSTOMER_DEFAULT_ID");
         $request['LinkGenerated'] = $linkGenerated;
-        SelfBankingLink::create($request->all());
+        try {
+            SelfBankingLink::create($request->all());
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
         return redirect()->away($linkGenerated);
     }
 
@@ -89,17 +94,17 @@ class AdminSelfBankController extends Controller
         $selfbanking = SelfBankingLink::find($sbid);
         /* $selfbanking = SelfBankingLink::with(['actionStatusType'=>function ($query) {
             $query->select('ActionTypeid', 'Action_description');
-        }])->where('Consumerid',$consumerId)->orderBy('ActionDate', 'desc')->get();  */ 
+        }])->where('Consumerid',$consumerId)->orderBy('ActionDate', 'desc')->get();  */
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
-        
+
         if (! $request->hasValidSignature()) {
             $url = '/';
                 return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
-        }else{ 
+        }else{
             //$request->session()->invalidate();
             $request->session()->put('sbid', $sbid);
-            if($selfbanking->tnc_flag == 1){    
-                
+            if($selfbanking->tnc_flag == 1){
+
                 return view('self-banking.sb_personalinfo')
                 ->with('customer', $customer)
                 ->with('sbid', $sbid);
@@ -109,21 +114,21 @@ class AdminSelfBankController extends Controller
             ->with('customer', $customer)
             ->with('sbid', $sbid);
         }
-   
+
     }
 
 
     /* Self banking flow link  */
     public function selfBankingStart(Request $request)
-    {    
+    {
         $sbid = $request->session()->get('sbid');
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($sbid);
         if($sbid == '' || $sbid == null){
             $url = '/';
-                return response()->view('errors.401', ['message'=>'Link has been expired','url'=>$url], 401);
-        }else if(!empty($_POST)){ 
-            
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }else if(!empty($_POST)){
+
             $this->validate($request, [
                 'sb-tnc' => ['required'],
             ],
@@ -138,22 +143,22 @@ class AdminSelfBankController extends Controller
         return view('self-banking.sb_personalinfo')
             ->with('customer', $customer)
             ->with('sbid', $sbid);
-       
+
     }
 
 
      /* Self banking flow link  */
      public function sbPersonalInfo(Request $request)
-     { 
+     {
         $sbid = $request->session()->get('sbid');
-        
+
         if($sbid == '' || $sbid == null){
             $url = '/';
                 return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
         }
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
-        if(!empty($_POST)){           
+        if(!empty($_POST)){
 
             $this->validate($request, [
                 'IDNUMBER' => ['required','digits:13'],

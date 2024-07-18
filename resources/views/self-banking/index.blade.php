@@ -22,19 +22,20 @@
                 <div class="col-md-10">
                     <div class="card overflow-hidden">
 
-                        <div style="background-image: linear-gradient(#93186c, #93186c);">
+                        <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h5 class="text-white">Welcome to self service banking</h5>
+                                        <h4 class="text-white">Welcome to Self Service Banking</h4>
                                         <p>Please agree to the terms and conditions to continue the flow</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
                         <div class="card-body pt-0">
-                            
+
                             <div class="p-2">
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
@@ -45,7 +46,14 @@
                                 </ul>
                             </div>
                             @endif
-
+                            <div class="heading-fica-id mb-1">
+                                <div class="">
+                                    <h4 class="font-size-18"
+                                        style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
+                                        Before We Get Started
+                                    </h4>
+                                </div>
+                            </div>
 
                                 <form method="post" action="{{ route('agree-selfbanking-tnc') }}" id="sb-tnc-form">
                                 @csrf
