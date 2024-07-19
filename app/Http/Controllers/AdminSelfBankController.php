@@ -182,4 +182,31 @@ class AdminSelfBankController extends Controller
             ->with('customer', $customer);
      }
 
+
+     /* Self banking flow link  */
+     public function sbEmailorPhone(Request $request)
+     {
+        $sbid = $request->session()->get('sbid');
+
+        if($sbid == '' || $sbid == null){
+            $url = '/';
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+
+
+
+
+            $request['SelfBankingDetailsId'] = Str::upper(Str::uuid());
+            $request['Customerid'] = $selfbanking->CustomerId;
+            $request['SelfBankingLinkId'] = $sbid;
+
+
+            return view('self-banking.idvlink')
+            ->with('customer', $customer);
+     }
+
 }
+
+
