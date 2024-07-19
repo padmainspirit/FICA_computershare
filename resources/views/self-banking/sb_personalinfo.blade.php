@@ -259,13 +259,13 @@
 
                                     <div class="form-group row">
                                         <div class="col-sm-6">
-                                                <label for="refnum">Email <span style="color:red;">*</span></label>
-                                                <input id="email" name="email" placeholder="Enter Email"
-                                                    type="email" style="border-radius: 15px;" class="form-control"
-                                                    value="{{ old('email') }}" required="required" />
+                                                <label for="Email">Email <span style="color:red;">*</span></label>
+                                                <input id="Email" name="email" placeholder="Enter Email"
+                                                    type="Email" style="border-radius: 15px;" class="form-control"
+                                                    value="{{ old('Email') }}" required />
 
                                                 <span class="error-messg"></span>
-                                                @error('refnum')
+                                                @error('Email')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
