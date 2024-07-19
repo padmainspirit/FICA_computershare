@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\SmsOtpController;
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\SelfBankingDetails;
 use App\Models\SelfBankingLink;
@@ -72,7 +73,7 @@ class AdminSelfBankController extends Controller
     {
         $selfbankingId = Str::upper(Str::uuid());
         $linkGenerated = URL::temporarySignedRoute(
-            'selfbanking', now()->addHours(("app.SelfBankingLink_ExpiryTime")), ['sbid'=>$selfbankingId]
+            'selfbanking', now()->addHours(config("app.SelfBankingLink_ExpiryTime")), ['sbid'=>$selfbankingId]
         );
         $request['Id'] = $selfbankingId;
         $request['CustomerId'] = config("app.CUSTOMER_DEFAULT_ID");
@@ -105,9 +106,10 @@ class AdminSelfBankController extends Controller
             $request->session()->put('sbid', $sbid);
             if($selfbanking->tnc_flag == 1){
 
-                return view('self-banking.sb_personalinfo')
+               /*  return view('self-banking.sb_personalinfo')
                 ->with('customer', $customer)
-                ->with('sbid', $sbid);
+                ->with('sbid', $sbid); */
+                return redirect()->route('agree-selfbanking-tnc');
             }
             SelfBankingLink::where(['Id'=>$sbid])->update(['IsClicked'=>1]);
             return view('self-banking.index')
@@ -123,7 +125,7 @@ class AdminSelfBankController extends Controller
     {
         $sbid = $request->session()->get('sbid');
         $selfbanking = SelfBankingLink::find($sbid);
-        $customer = Customer::getCustomerDetails($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         if($sbid == '' || $sbid == null){
             $url = '/';
                 return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
@@ -140,8 +142,10 @@ class AdminSelfBankController extends Controller
             return view('self-banking.sb_personalinfo')
             ->with('customer', $customer);
         }
+        $companies = Company::all('Company_Name')->sortBy('Company_Name');
         return view('self-banking.sb_personalinfo')
             ->with('customer', $customer)
+            ->with('companies', $companies)
             ->with('sbid', $sbid);
 
     }
@@ -159,7 +163,7 @@ class AdminSelfBankController extends Controller
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         if(!empty($_POST)){
-
+print_r($_POST);exit;
             $this->validate($request, [
                 'IDNUMBER' => ['required','digits:13'],
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],

@@ -32,6 +32,9 @@
                 <div class="col-md-10">
                     <div class="card overflow-hidden" style="border-radius: 10px;">
 
+                    <form method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
+                    @csrf
+
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
                             <div class="row">
                                 <div class="col-12">
@@ -86,7 +89,7 @@
 
                                                 <input autocomplete="off" type="text" class="form-control input-sm"
                                                     style="border-radius: 15px; "
-                                                    id="ShareholderRef1" name="ShareholderRef1" placeholder="Enter Shareholder Reference Number"
+                                                    id="ShareholderRef1" name="ShareholderRef" placeholder="Enter Shareholder Reference Number"
                                                     value="{{ old('ShareholderRef') }}">
 
                                                     <span class="error-messg"></span>
@@ -107,45 +110,18 @@
                                                     <div class="input-group" style="height: 27px; width: 225px;">
                                                         <select class="form-select" autocomplete="off"
                                                         style="border-radius: 15px; "
-                                                            id="company1" name="company1">
+                                                            id="company1" name="company1" multiple>
+
                                                             <option value="" selected style="font-size: 12px;" >
                                                                 --SELECT COMPANY--
                                                             </option>
 
-                                                            <option value="Vodacom" style="font-size: 12px;">
-                                                                Vodacom
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                                {{ $company->Company_Name }}
                                                             </option>
-
-                                                            <option value="MTN" style="font-size: 12px;">
-                                                                MTN
-                                                            </option>
-
-                                                            <option value="Telkom" style="font-size: 12px;">
-                                                                Telkom
-                                                            </option>
-
-                                                            <option value="Hullet" style="font-size: 12px;">
-                                                                Hullet
-                                                            </option>
-
-                                                            <option value="KMPG" style="font-size: 12px;">
-                                                                KMPG
-                                                            </option>
-                                                            <option value="Sasol" style="font-size: 12px;">
-                                                                Sasol
-                                                            </option>
-                                                            <option value="Delloite" style="font-size: 12px;">
-                                                                Delloite
-                                                            </option>
-                                                            <option value="EY" style="font-size: 12px;">
-                                                                EY
-                                                            </option>
-                                                            <option value="Mukuru" style="font-size: 12px;">
-                                                                Mukuru
-                                                            </option>
-                                                            <option value="Unilever" style="font-size: 12px;">
-                                                                Unilever
-                                                            </option>
+                                                            @endforeach
+                                                            
 
                                                         </select>
                                                     </div>
@@ -176,7 +152,7 @@
 
                                                 <input autocomplete="off" type="text" class="form-control input-sm"
                                                     style="border-radius: 15px; "
-                                                    id="ShareholderRef" name="ShareholderRef" placeholder="Enter Shareholder Reference Number"
+                                                    id="ShareholderRef2" name="ShareholderRef2" placeholder="Enter Shareholder Reference Number"
                                                     value="{{ old('ShareholderRef2') }}">
 
                                                     <span class="error-messg"></span>
@@ -202,40 +178,11 @@
                                                                 --SELECT COMPANY--
                                                             </option>
 
-                                                            <option value="Vodacom" style="font-size: 12px;">
-                                                                Vodacom
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                                {{ $company->Company_Name }}
                                                             </option>
-
-                                                            <option value="MTN" style="font-size: 12px;">
-                                                                MTN
-                                                            </option>
-
-                                                            <option value="Telkom" style="font-size: 12px;">
-                                                                Telkom
-                                                            </option>
-
-                                                            <option value="Hullet" style="font-size: 12px;">
-                                                                Hullet
-                                                            </option>
-
-                                                            <option value="KMPG" style="font-size: 12px;">
-                                                                KMPG
-                                                            </option>
-                                                            <option value="Sasol" style="font-size: 12px;">
-                                                                Sasol
-                                                            </option>
-                                                            <option value="Delloite" style="font-size: 12px;">
-                                                                Delloite
-                                                            </option>
-                                                            <option value="EY" style="font-size: 12px;">
-                                                                EY
-                                                            </option>
-                                                            <option value="Mukuru" style="font-size: 12px;">
-                                                                Mukuru
-                                                            </option>
-                                                            <option value="Unilever" style="font-size: 12px;">
-                                                                Unilever
-                                                            </option>
+                                                            @endforeach
 
                                                         </select>
                                                     </div>
@@ -292,41 +239,11 @@
                                                                 --SELECT COMPANY--
                                                             </option>
 
-                                                            <option value="Vodacom" style="font-size: 12px;">
-                                                                Vodacom
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                                {{ $company->Company_Name }}
                                                             </option>
-
-                                                            <option value="MTN" style="font-size: 12px;">
-                                                                MTN
-                                                            </option>
-
-                                                            <option value="Telkom" style="font-size: 12px;">
-                                                                Telkom
-                                                            </option>
-
-                                                            <option value="Hullet" style="font-size: 12px;">
-                                                                Hullet
-                                                            </option>
-
-                                                            <option value="KMPG" style="font-size: 12px;">
-                                                                KMPG
-                                                            </option>
-                                                            <option value="Sasol" style="font-size: 12px;">
-                                                                Sasol
-                                                            </option>
-                                                            <option value="Delloite" style="font-size: 12px;">
-                                                                Delloite
-                                                            </option>
-                                                            <option value="EY" style="font-size: 12px;">
-                                                                EY
-                                                            </option>
-                                                            <option value="Mukuru" style="font-size: 12px;">
-                                                                Mukuru
-                                                            </option>
-                                                            <option value="Unilever" style="font-size: 12px;">
-                                                                Unilever
-                                                            </option>
-
+                                                            @endforeach
                                                         </select>
                                                     </div>
 
@@ -382,40 +299,11 @@
                                                                 --SELECT COMPANY--
                                                             </option>
 
-                                                            <option value="Vodacom" style="font-size: 12px;">
-                                                                Vodacom
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                                {{ $company->Company_Name }}
                                                             </option>
-
-                                                            <option value="MTN" style="font-size: 12px;">
-                                                                MTN
-                                                            </option>
-
-                                                            <option value="Telkom" style="font-size: 12px;">
-                                                                Telkom
-                                                            </option>
-
-                                                            <option value="Hullet" style="font-size: 12px;">
-                                                                Hullet
-                                                            </option>
-
-                                                            <option value="KMPG" style="font-size: 12px;">
-                                                                KMPG
-                                                            </option>
-                                                            <option value="Sasol" style="font-size: 12px;">
-                                                                Sasol
-                                                            </option>
-                                                            <option value="Delloite" style="font-size: 12px;">
-                                                                Delloite
-                                                            </option>
-                                                            <option value="EY" style="font-size: 12px;">
-                                                                EY
-                                                            </option>
-                                                            <option value="Mukuru" style="font-size: 12px;">
-                                                                Mukuru
-                                                            </option>
-                                                            <option value="Unilever" style="font-size: 12px;">
-                                                                Unilever
-                                                            </option>
+                                                            @endforeach
 
                                                         </select>
                                                     </div>
@@ -472,40 +360,11 @@
                                                                 --SELECT COMPANY--
                                                             </option>
 
-                                                            <option value="Vodacom" style="font-size: 12px;">
-                                                                Vodacom
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                                {{ $company->Company_Name }}
                                                             </option>
-
-                                                            <option value="MTN" style="font-size: 12px;">
-                                                                MTN
-                                                            </option>
-
-                                                            <option value="Telkom" style="font-size: 12px;">
-                                                                Telkom
-                                                            </option>
-
-                                                            <option value="Hullet" style="font-size: 12px;">
-                                                                Hullet
-                                                            </option>
-
-                                                            <option value="KMPG" style="font-size: 12px;">
-                                                                KMPG
-                                                            </option>
-                                                            <option value="Sasol" style="font-size: 12px;">
-                                                                Sasol
-                                                            </option>
-                                                            <option value="Delloite" style="font-size: 12px;">
-                                                                Delloite
-                                                            </option>
-                                                            <option value="EY" style="font-size: 12px;">
-                                                                EY
-                                                            </option>
-                                                            <option value="Mukuru" style="font-size: 12px;">
-                                                                Mukuru
-                                                            </option>
-                                                            <option value="Unilever" style="font-size: 12px;">
-                                                                Unilever
-                                                            </option>
+                                                            @endforeach
 
                                                         </select>
                                                     </div>
@@ -539,8 +398,7 @@
                             </div>
 
 
-                                <form method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
-                                    @csrf
+                                
 
                                     <div class="form-group row">
                                         <div class="col-sm-6">
@@ -667,10 +525,13 @@
 
                                         </div>
 
-                                </form>
+                                
                             </div>
 
                         </div>
+
+                        </form>
+                        
                     </div>
 
 
