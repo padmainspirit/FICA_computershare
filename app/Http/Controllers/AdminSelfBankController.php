@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Auth\SmsOtpController;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\SelfBankingCompanySRN;
 use App\Models\SelfBankingDetails;
 use App\Models\SelfBankingLink;
 use Carbon\Carbon;
@@ -124,12 +125,14 @@ class AdminSelfBankController extends Controller
     public function selfBankingStart(Request $request)
     {
         $sbid = $request->session()->get('sbid');
-        $selfbanking = SelfBankingLink::find($sbid);
-        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         if($sbid == '' || $sbid == null){
             $url = '/';
                 return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
-        }else if(!empty($_POST)){
+        }
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+        $companies = Company::all('Company_Name')->sortBy('Company_Name');
+        if(!empty($_POST)){
 
             $this->validate($request, [
                 'sb-tnc' => ['required'],
@@ -139,10 +142,11 @@ class AdminSelfBankController extends Controller
             ]);
 
             SelfBankingLink::where(['Id'=>$sbid])->update(['tnc_flag'=>1]);
-            return view('self-banking.sb_personalinfo')
-            ->with('customer', $customer);
+            /* return view('self-banking.sb_personalinfo')
+            ->with('companies', $companies)
+            ->with('customer', $customer); */
+            return redirect()->route('agree-selfbanking-tnc');
         }
-        $companies = Company::all('Company_Name')->sortBy('Company_Name');
         return view('self-banking.sb_personalinfo')
             ->with('customer', $customer)
             ->with('companies', $companies)
@@ -163,27 +167,82 @@ class AdminSelfBankController extends Controller
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         if(!empty($_POST)){
-print_r($_POST);exit;
+
             $this->validate($request, [
                 'IDNUMBER' => ['required','digits:13'],
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
                 'PhoneNumber' => ['required', 'digits:10', 'max:50'],
                 'Email' => ['required', 'string', 'email', 'max:50'],
+                'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/',],
+                'reflist.*.company' => ['required', 'string']
             ],[
-                'IDNUMBER.digits' => 'ID Number must be of 13 digits',
+                'IDNUMBER.required'=>'ID Number should be of 13 digits',
+                'reflist.*.refnum.required' => 'The SRN Number is required at :position row of Account details',
+                'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
+                'reflist.*.company.required' => 'The company selection is required at :position row of Account details',
             ]);
 
-            $request['SelfBankingDetailsId'] = Str::upper(Str::uuid());
+            $selfbankingdetailsid = Str::upper(Str::uuid());
+            $request['SelfBankingDetailsId'] = $selfbankingdetailsid;
             $request['Customerid'] = $selfbanking->CustomerId;
             $request['SelfBankingLinkId'] = $sbid;
             SelfBankingDetails::create($request->all());
 
-            return view('self-banking.digi_verify')
-            ->with('customer', $customer);
+            foreach ($request['reflist'] as $srndet) {
+                $compnanysrn = new SelfBankingCompanySRN;
+                $compnanysrn->ID = Str::upper(Str::uuid());                
+                $compnanysrn->SelfBankingDetailsId = $selfbankingdetailsid;
+                $compnanysrn->SRN = $srndet['refnum'];
+                $compnanysrn->companies = $srndet['company'];
+                $compnanysrn->save();
+            }
+
+
+            /* return view('self-banking.digi_verify')
+            ->with('customer', $customer); */
+            return redirect()->route('digi-verify');
         }
             return view('self-banking.digi_verify')
             ->with('customer', $customer);
      }
 
+
+     /* Digital verification of self service banking */
+     public function DigiVerification(Request $request) {
+        $sbid = $request->session()->get('sbid');
+
+        if($sbid == '' || $sbid == null){
+            $url = '/';
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+        return view('self-banking.digi_verify')
+            ->with('customer', $customer);
+     }
+
+     /* Self banking flow link  */
+     public function sbEmailorPhone(Request $request)
+     {
+        $sbid = $request->session()->get('sbid');
+
+        if($sbid == '' || $sbid == null){
+            $url = '/';
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+
+            $request['SelfBankingDetailsId'] = Str::upper(Str::uuid());
+            $request['Customerid'] = $selfbanking->CustomerId;
+            $request['SelfBankingLinkId'] = $sbid;
+
+
+            return view('self-banking.idvlink')
+            ->with('customer', $customer);
+     }
+
 }
+
+

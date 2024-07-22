@@ -167,5 +167,8 @@ Route::get('/admin-client', [App\Http\Controllers\UserController::class, 'edit']
 Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->name('send-selfservicelink');
 Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
-Route::post('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
+Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
+
 

@@ -47,7 +47,7 @@
                             @endif
 
 
-                                <form method="post" action="{{ route('agree-selfbanking-tnc') }}" id="sb-tnc-form">
+                                <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
                                 @csrf
                                     <div class="row">
                                         <div class="heading-fica-id mb-1">
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center d-flex justify-content-center align-items-center">
-                                    <button id="capture" style="display: none; background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Capture Photo</button>
+                                    <button id="capture" type="submit" style="display: none; background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Capture Photo</button>
                                     </div>
 
 

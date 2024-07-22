@@ -40,13 +40,13 @@
                         </button>
                     </a>
 
-                    <a href="{{ route('send-selfservicelink') }}">
+                    <!-- <a href="{{ route('send-selfservicelink') }}">
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
                             style="background-color: #93186c; border-color: #93186c;  width: 100%">
                             <i class="bx text-white bx-user-plus label-icon"></i>
                             Banking Self Service Link
                         </button>
-                    </a>
+                    </a> -->
 
                 </div>
             </div>

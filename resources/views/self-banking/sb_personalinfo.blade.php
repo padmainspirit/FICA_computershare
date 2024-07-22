@@ -32,9 +32,6 @@
                 <div class="col-md-10">
                     <div class="card overflow-hidden" style="border-radius: 10px;">
 
-                    <form method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
-                    @csrf
-
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
                             <div class="row">
                                 <div class="col-12">
@@ -58,6 +55,9 @@
                             </div>
                             @endif
 
+
+
+
                             <div class="heading-fica-id mb-1">
                                 <div class="">
                                     <h4 class="font-size-18"
@@ -67,113 +67,28 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-
-                                <div class="col-lg-12">
-                                    <div class="row">
-
-                                        {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                    style="font-size: 12px; color: rgb(0, 0, 0)">Shareholder Reference Number <span style="color:red;" class="required">*</span></label>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <input autocomplete="off" type="text" class="form-control input-sm"
-                                                    style="border-radius: 15px; "
-                                                    id="ShareholderRef1" name="ShareholderRef" placeholder="Enter Shareholder Reference Number"
-                                                    value="{{ old('ShareholderRef') }}">
-
-                                                    <span class="error-messg"></span>
-                                                    @error('ShareholderRef1')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                    @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-4 ">
-                                            <div class="mb-3">
-                                                <div class="input-group" style="height: 27px; width: 225px;">
-
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
-                                                        <select class="form-select" autocomplete="off"
-                                                        style="border-radius: 15px; "
-                                                            id="company1" name="company1" multiple>
-
-                                                            <option value="" selected style="font-size: 12px;" >
-                                                                --SELECT COMPANY--
-                                                            </option>
-
-                                                            @foreach($companies as $company)
-                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
-                                                                {{ $company->Company_Name }}
-                                                            </option>
-                                                            @endforeach
-                                                            
-
-                                                        </select>
-                                                    </div>
+                                <form class="repeater" method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
+                                    @csrf
+                                    <div data-repeater-list="reflist">
+                                        <?php $reflist = Request::old('reflist')!=null ? count(Request::old('reflist')) : 1;
+                                            for ($i=0; $i < $reflist ; $i++) {
+                                                $value = 'reflist.'.$i.'.refnum';
+                                            ?>
+                                            <div data-repeater-item class="row">
+                                                <div class="mb-3 col-md-3">
+                                                    <label for="subject">Shareholder Reference Number<span style="color:red;">*</span></label>
 
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <div class="mb-3 col-md-3">
+
+                                                    <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control" value="<?php echo Request::old($value);?>" placeholder="Enter Your Ref Number" required/>
+                                                </div>
 
 
-                                    </div>
-                                    <div style="display:none;" class="row hidden" id = "div2">
-
-                                        {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                    style="font-size: 12px; color: rgb(0, 0, 0)">Shareholder Reference Number <span style="color:red;" class="required">*</span></label>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <input autocomplete="off" type="text" class="form-control input-sm"
-                                                    style="border-radius: 15px; "
-                                                    id="ShareholderRef2" name="ShareholderRef2" placeholder="Enter Shareholder Reference Number"
-                                                    value="{{ old('ShareholderRef2') }}">
-
-                                                    <span class="error-messg"></span>
-                                                    @error('ShareholderRef2')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                    @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-4 ">
-                                            <div class="mb-3">
-                                                <div class="input-group" style="height: 27px; width: 225px;">
-
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
-                                                        <select class="form-select" autocomplete="off"
+                                                <div class="mb-3 col-md-3" >
+                                                    <select class="form-select" autocomplete="off"
                                                         style="border-radius: 15px; "
-                                                            id="company2" name="company2">
+                                                            id="company1" name="company">
                                                             <option value="" selected style="font-size: 12px;" >
                                                                 --SELECT COMPANY--
                                                             </option>
@@ -185,205 +100,23 @@
                                                             @endforeach
 
                                                         </select>
-                                                    </div>
 
-                                                </div>
                                             </div>
+                                            <div class="mb-3 col-md-3" >
+                                                <p data-repeater-delete style="cursor:pointer;"><img  src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+
+                                        </div>
+                                            </div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="col-lg-3 mt-3">
+
+                                            <p data-repeater-create style="cursor:pointer;"><img  src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE</p>
                                         </div>
 
 
-                                    </div>
-                                    <div style="display:none;" class="row hidden" id = "div3">
-
-                                        {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                    style="font-size: 12px; color: rgb(0, 0, 0)">Shareholder Reference Number <span style="color:red;" class="required">*</span></label>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <input autocomplete="off" type="text" class="form-control input-sm"
-                                                    style="border-radius: 15px; "
-                                                    id="ShareholderRef3" name="ShareholderRef3" placeholder="Enter Shareholder Reference Number"
-                                                    value="{{ old('ShareholderRef3') }}">
-
-                                                    <span class="error-messg"></span>
-                                                    @error('ShareholderRef3')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                    @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-4 ">
-                                            <div class="mb-3">
-                                                <div class="input-group" style="height: 27px; width: 225px;">
-
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
-                                                        <select class="form-select" autocomplete="off"
-                                                        style="border-radius: 15px; "
-                                                            id="company3" name="company3">
-                                                            <option value="" selected style="font-size: 12px;" >
-                                                                --SELECT COMPANY--
-                                                            </option>
-
-                                                            @foreach($companies as $company)
-                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
-                                                                {{ $company->Company_Name }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                    <div style="display:none;" class="row hidden" id = "div4">
-
-                                        {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                    style="font-size: 12px; color: rgb(0, 0, 0)">Shareholder Reference Number <span style="color:red;" class="required">*</span></label>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <input autocomplete="off" type="text" class="form-control input-sm"
-                                                    style="border-radius: 15px; "
-                                                    id="ShareholderRef4" name="ShareholderRef4" placeholder="Enter Shareholder Reference Number"
-                                                    value="{{ old('ShareholderRef4') }}">
-
-                                                    <span class="error-messg"></span>
-                                                    @error('ShareholderRef4')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                    @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-4 ">
-                                            <div class="mb-3">
-                                                <div class="input-group" style="height: 27px; width: 225px;">
-
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
-                                                        <select class="form-select" autocomplete="off"
-                                                        style="border-radius: 15px; "
-                                                            id="company4" name="company4">
-                                                            <option value="" selected style="font-size: 12px;" >
-                                                                --SELECT COMPANY--
-                                                            </option>
-
-                                                            @foreach($companies as $company)
-                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
-                                                                {{ $company->Company_Name }}
-                                                            </option>
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                    <div style="display:none;" class="row hidden" id = "div5">
-
-                                        {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                    style="font-size: 12px; color: rgb(0, 0, 0)">Shareholder Reference Number <span style="color:red;" class="required">*</span></label>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-
-                                                <input autocomplete="off" type="text" class="form-control input-sm"
-                                                    style="border-radius: 15px; "
-                                                    id="ShareholderRef5" name="ShareholderRef5" placeholder="Enter Shareholder Reference Number"
-                                                    value="{{ old('ShareholderRef5') }}">
-
-                                                    <span class="error-messg"></span>
-                                                    @error('ShareholderRef5')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                    @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-4 ">
-                                            <div class="mb-3">
-                                                <div class="input-group" style="height: 27px; width: 225px;">
-
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
-                                                        <select class="form-select" autocomplete="off"
-                                                        style="border-radius: 15px; "
-                                                            id="company5" name="company5">
-                                                            <option value="" selected style="font-size: 12px;" >
-                                                                --SELECT COMPANY--
-                                                            </option>
-
-                                                            @foreach($companies as $company)
-                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
-                                                                {{ $company->Company_Name }}
-                                                            </option>
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
                                 </div>
 
-                                </div>
-                                <div class="mt-2">
-
-                                    <p ><img id="addmore" src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE</p>
-
-
-                                    </div>
 
 
                             <hr style="color: rgb(238, 226, 226) ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid rgb(238, 226, 226); background-color: rgb(238, 226, 226); opacity: 100%;">
@@ -398,7 +131,7 @@
                             </div>
 
 
-                                
+
 
                                     <div class="form-group row">
                                         <div class="col-sm-6">
@@ -497,10 +230,10 @@
 
                                     <div class="form-group row">
                                         <div class="col-sm-6">
-                                                <label for="Email">Email <span style="color:red;" class="required">*</span></label>
+                                                <label for="Email">Email <span style="color:red;">*</span></label>
                                                 <input id="Email" name="Email" placeholder="Enter Email"
-                                                    type="email" style="border-radius: 15px;" class="form-control"
-                                                    value="{{ old('Email') }}" required="required" />
+                                                    type="Email" style="border-radius: 15px;" class="form-control"
+                                                    value="{{ old('Email') }}" required />
 
                                                 <span class="error-messg"></span>
                                                 @error('Email')
@@ -525,13 +258,10 @@
 
                                         </div>
 
-                                
+                                </form>
                             </div>
 
                         </div>
-
-                        </form>
-                        
                     </div>
 
 
@@ -543,16 +273,8 @@
     @endsection
 
     @section('script')
-    <script>
-        let currentDiv = 0;
-        const divs = document.querySelectorAll('.row .hidden');
 
-        document.getElementById('addmore').addEventListener('click', () => {
-            if (currentDiv < divs.length) {
-                divs[currentDiv].style.display = 'block';
-                currentDiv++;
-            }
-        });
-    </script>
+<script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 
+<script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
     @endsection
