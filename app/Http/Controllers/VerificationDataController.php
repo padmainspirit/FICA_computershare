@@ -25,7 +25,7 @@ class VerificationDataController extends Controller
         date_default_timezone_set('Africa/Johannesburg');
     }
 
-    public function verifyClientData($IDNum, Request $request)
+    public function verifyClientData($IDNum, Request $request, $fica_id=null)
     {
         // $user = Auth::user();
         // $client = User::find($request->clientId);

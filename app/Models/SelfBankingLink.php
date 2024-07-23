@@ -24,11 +24,40 @@ class SelfBankingLink extends Model
         'LinkGenerated',
         'IsClicked',
         'CustomerId',
-        'tnc_flag'
+        'tnc_flag',
+        'PersonalDetails',
+        'DOVS',
+        'BankingDetails'
     ];
 
     public function customer()
     {
         return $this->hasOne(CustomerUser::class,'Id','CustomerUserId');
+    }
+
+    /* Function to check the steps done */
+    public static function checkStep($sblink_id)
+    {
+        $selfbankingLink= SelfBankingLink::find($sblink_id);
+        
+        if($selfbankingLink->tnc_flag == 0)
+        {    
+            //return redirect()->route('agree-selfbanking-tnc');
+            $routename = 'agree-selfbanking-tnc';
+        }else if($selfbankingLink->PersonalDetails == 0){
+
+            //return redirect()->route('sb-personalinfo');
+            $routename = 'sb-personalinfo';
+        }
+        else if($selfbankingLink->DOVS == 0){print_r('dovs');
+            //return redirect()->route('digi-verify');
+            $routename = 'digi-verify';
+        }
+        else if($selfbankingLink->BankingDetails == 0){
+            //return redirect()->route('bank-verify');
+            $routename = 'bank-verify';
+        }
+        return $routename;
+
     }
 }

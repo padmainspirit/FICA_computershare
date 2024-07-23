@@ -169,6 +169,7 @@ Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])-
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
+Route::any('/bank-verification', [AdminSelfBankController::class, 'BankVerification'])->name('bank-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
 
 

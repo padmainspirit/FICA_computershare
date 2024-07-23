@@ -1,7 +1,7 @@
 @extends('layouts.master-without-nav')
 
 @section('title')
-@lang('translation.selfbankingservice')
+@lang('translation.sb_personaldetails')
 @endsection
 
 @section('css')
@@ -45,6 +45,11 @@
                         <div class="card-body pt-0">
 
                             <div class="p-2">
+                            @if (Session::has('message'))
+                                <div class="alert alert-danger">
+                                {{ Session::get('message') }}
+                                </div>
+                            @endif
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
