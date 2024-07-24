@@ -66,9 +66,9 @@
                                         <div id="" class="mt-4 text-center">
 
 
-                                                <h5 style="color:red;">Sorry, we are unable to detect a camera on this device</h5>
 
-                                                <p class="font-size-16">Please Select an alternative device with a camera</p>
+
+                                                <p class="font-size-16">Please Confirm your Cellphone to recieve a selfie link to your device.</p>
 
 
                                         <div class="form-group row">

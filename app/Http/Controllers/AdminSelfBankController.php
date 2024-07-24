@@ -333,7 +333,8 @@ class AdminSelfBankController extends Controller
                                         }
 
                                             $IDNumber = $get_user_id[0]["IDNUMBER"];
-                                            $PhoneNumber = $get_user_id[0]["PhoneNumber"];
+                                            //$PhoneNumber = $get_user_id[0]["PhoneNumber"];
+                                            $PhoneNumber = $request->input('phone');
                                             $DOVS_id = $get_user_id[0]["DOVS_id"];
 
 
