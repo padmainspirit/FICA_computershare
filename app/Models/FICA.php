@@ -41,6 +41,7 @@ class FICA extends Model
         'Risk_Status',
         'Risk_Score',
         'Validation_Status',
+        'ConsumerReferance',
         'Correction_Status',
         'Extracted'
     ];
@@ -89,7 +90,7 @@ class FICA extends Model
         $stepstate = 0;
         $ficaProgress = $fica->FICAProgress;
         if($ficaProgress != null){
-           
+
             if($fica->ID_Status == null)
             {
                 $stepstate = 0;

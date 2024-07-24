@@ -170,5 +170,7 @@ Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
+Route::any('/idvlink', [AdminSelfBankController::class, 'idvlink'])->name('idvlink');
+
 
 

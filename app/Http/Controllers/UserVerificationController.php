@@ -100,7 +100,7 @@ class UserVerificationController extends Controller
                     // You can check get the details of the error using `errorInfo`:
                     $errorInfo = $exception->errorInfo;
                     app('debugbar')->info($errorInfo);
-    
+
                     // Return the response to the client..
                 }
 
@@ -114,7 +114,7 @@ class UserVerificationController extends Controller
                     $tempData2 = explode('<', $tempData[5]);
                     $valid = $tempData2[0];
 
-                    if ($valid  == "true") { //if ticket is valid 
+                    if ($valid  == "true") { //if ticket is valid
 
                         //here we want to use the consumer match DOVS methods
                         //$returnMatchDOVS = $this->connectConsumerMatchDOVS($soapUrlLive, $username, $password, $ticketNo, 194, '7711025013082', $passport_no = null, '0727926612');
@@ -369,7 +369,7 @@ class UserVerificationController extends Controller
                                     'FICA_id' => $fica->FICA_id,
                                 ]);
                                 $dovsuser->save();
-                            }                  
+                            }
 
                             DOVS::where('FICA_id', $fica->FICA_id)->update(
                                 array(
@@ -457,19 +457,19 @@ class UserVerificationController extends Controller
                 //$username = 'czs_ws'; // Live username
                 $password = $this->xdspassword;
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
-                
+
                 app('debugbar')->info($returnValue);
-                
+
                 $enquiryId = null;
                 $enquiryResultId = null;
                 $SECONDNAME = $idasData->SECONDNAME;
                 $SURNAME =  $idasData->SURNAME;
                 $IdentityDocumentID = $idasData->Identity_Document_ID;
-                
+
                 $physicalAddr1 =   $homeAddress->OriginalAddress1;
                 $physicalAddr2 =  $homeAddress->OriginalAddress2;
                 $clientZipCode = $homeAddress->OriginalPostalCode;
-                
+
 
                 $testResponse = ([
                     'FirstName' => $idasData->SECONDNAME,
@@ -500,14 +500,14 @@ class UserVerificationController extends Controller
 
 
                $tempData = explode('>', $returnValue);
-               
+
                 if (isset($tempData[5])) {
                     $tempData2 = explode('<', $tempData[5]);
                     $ticketNo = $tempData2[0];
 
                     $returnValue = $this->soapValidateTicketNo($soapUrlLive, $username, $password, $ticketNo);
-                    
-                    
+
+
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
                     $valid = $tempData2[0];
@@ -818,7 +818,7 @@ class UserVerificationController extends Controller
 
 
                 $returnValue = $this->soapLoginAPICall($soapUrlLive, $username, $password);
-                
+
                 $enquiryId = null;
                 $enquiryResultId = null;
 
@@ -831,7 +831,7 @@ class UserVerificationController extends Controller
                     app('debugbar')->info('ticketNo');
                     app('debugbar')->info($ticketNo);
                     $returnValue = $this->soapValidateTicketNo($soapUrlLive, $username, $password, $ticketNo);
-                    
+
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
                     $valid = $tempData2[0];
@@ -866,7 +866,7 @@ class UserVerificationController extends Controller
                         // $contactNo = '0727926612';
 
                         $accountHolder = explode(" ", $avs->Account_name);
-                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);  
+                        $SNAME = substr($avs->Account_name, strpos($avs->Account_name, " ") + 1);
 
                         app('debugbar')->info('$accountHolder');
                         app('debugbar')->info($accountHolder);
@@ -895,7 +895,7 @@ class UserVerificationController extends Controller
                         app('debugbar')->info($testResponse);
                         //here we want to verify the bank account details
                         $returnValue = $this->soapBankVerificationAPICall($soapUrlLive, $username, $password, $ticketNo, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, null, null);
-                        
+
                         // app('debugbar')->info($returnValue);
                         $tempData = explode('>', $returnValue);
                         $tempData2 = explode('<', $tempData[5]);
@@ -909,7 +909,7 @@ class UserVerificationController extends Controller
                         //$referenceNo = '70492474';
 
                         $returnValue = $this->ConnectGetAccountVerificationResult($soapUrlLive, $username, $password, $ticketNo, $referenceNo);
-                        
+
                         $tempData = explode('>', $returnValue);
                         $tempData2 = explode('<', $tempData[5]);
 
@@ -1108,7 +1108,7 @@ class UserVerificationController extends Controller
                             ]);
 
                         } else {
-                            //invalid bank information 
+                            //invalid bank information
                             $errorMessage = str_replace('/Error', '', $tempData5[2]);
                             $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
                             AVS::where('FICA_id', $fica->FICA_id)->update(
@@ -1421,7 +1421,7 @@ class UserVerificationController extends Controller
                                 }
                             }
 
-                            //get the AdditionalInfo 
+                            //get the AdditionalInfo
                             for ($i = 0; $i < count($SupplierDataArray); $i++) {
                                 $IDIndex = $this->searchIndex('ID', $sanctionAndAdverseData, $SupplierDataArray[$i]) + 1;
                                 $ID1  = str_replace('/ID', '', $sanctionAndAdverseData[$IDIndex]);
@@ -1495,7 +1495,7 @@ class UserVerificationController extends Controller
                                 ]);
                                 app('debugbar')->info($sanctionScreenResponse[$i]);
 
-                                //create Consumer Compliance Sanction 
+                                //create Consumer Compliance Sanction
                                 $consumerComplianceSanction = ConsumerComplianceSanction::create([
                                     'Sanction_id' => Str::upper(Str::uuid()),
                                     'Compliance_id' => $compliance->Compliance_id,
@@ -1591,7 +1591,7 @@ class UserVerificationController extends Controller
                                 // app('debugbar')->info($complianceEntityadditional);
                             }
                             app('debugbar')->info($sanctionAndAdverseData);
-                           
+
                             return $sanctionAndAdverseData;
                         } else {
                             app('debugbar')->info($sanctionAndAdverseData);
@@ -1691,10 +1691,10 @@ class UserVerificationController extends Controller
 
             return $response;
 
-            // a new dom object 
+            // a new dom object
             $dom = new DOMDocument();
 
-            // load the html into the object 
+            // load the html into the object
             $dom->load($response);
 
             $array = json_decode($dom->textContent, TRUE);
@@ -1744,10 +1744,10 @@ class UserVerificationController extends Controller
         curl_close($ch);
         $response;
 
-        // a new dom object 
+        // a new dom object
         $dom = new DOMDocument('1.0', 'utf-8');
 
-        // load the html into the object 
+        // load the html into the object
         $dom->loadXml($response);
 
         $array = json_decode($dom->textContent, TRUE);
@@ -2181,7 +2181,7 @@ class UserVerificationController extends Controller
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
-            <ConnectAccountVerificationRealTimeWithContacts 
+            <ConnectAccountVerificationRealTimeWithContacts
                 xmlns="http://www.web.xds.co.za/XDSConnectWS">
                     <ConnectTicket>' . $ticketNo . '</ConnectTicket>
                     <VerificationType>' . $verificationType . '</VerificationType>
@@ -2330,9 +2330,9 @@ class UserVerificationController extends Controller
                                     </ConnectGetAccountVerificationResult>
                                   </soap12:Body>
                                 </soap12:Envelope>';   // data from the form, e.g. some ID number
-                                
-                                
-        
+
+
+
         $headers = array(
             "POST /xdsconnect/XDSconnectWS.asmx HTTP/1.1",
             //"Host: www.web.xds.co.za",
@@ -2346,7 +2346,7 @@ class UserVerificationController extends Controller
         ); //SOAPAction: your op URL
 
         sleep(5);
-        
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

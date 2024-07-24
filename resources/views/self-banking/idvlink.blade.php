@@ -77,15 +77,15 @@
                                                 <div class="row justify-content-center align-items-center">
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-
+                                                    <form method="post" action="{{ route('sbEmailorPhone') }}" id="">
                                                     <div class="col-md-6">
                                                         <div class="mb-3 justify-content-center align-items-center;">
-                                                            <div class="form-check form-check-inline font-size-16">
+                                                           {{-- <div class="form-check form-check-inline font-size-16">
                                                                 <input class="form-check-input" checked type="radio" id="emailOption" name="option" value="Email">
                                                                 <label class="form-check-label" for="emailOption">Email</label>
-                                                            </div>
+                                                            </div>--}}
                                                             <div class="form-check form-check-inline font-size-16">
-                                                                <input class="form-check-input" type="radio" id="smsOption" name="option" value="SMS">
+                                                                <input class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
                                                                 <label class="form-check-label" for="smsOption">SMS</label>
                                                             </div>
                                                         </div>
@@ -95,10 +95,8 @@
                                                         <div class="mb-3 font-size-16">
 
 
-                                                                    <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="emailInput" name="email" placeholder="Enter Email Address" value="">
-                                                                    <input autocomplete="off" type="text" class="form-control input-sm" style="display:none;border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="">
-
-
+                                                                   {{-- <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="emailInput" name="email" placeholder="Enter Email Address" value="">--}}
+                                                                    <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
 
                                                                 <span class="error-messg"></span>
                                                                 @error('email')
@@ -124,6 +122,7 @@
                                                     <button id="capture" type="submit" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Send Link</button>
                                                     </div>
                                             </div>
+                                        </form>
                                     </div>
                                     <div class="text-center d-flex justify-content-center align-items-center">
                                         <div>
@@ -165,28 +164,7 @@
 
     @section('script')
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const emailOption = document.getElementById('emailOption');
-        const smsOption = document.getElementById('smsOption');
-        const emailInput = document.getElementById('emailInput');
-        const smsInput = document.getElementById('smsInput');
 
-        emailOption.addEventListener('change', function() {
-            if (emailOption.checked) {
-                emailInput.style.display = 'block';
-                smsInput.style.display = 'none';
-            }
-        });
-
-        smsOption.addEventListener('change', function() {
-            if (smsOption.checked) {
-                smsInput.style.display = 'block';
-                emailInput.style.display = 'none';
-            }
-        });
-    });
-</script>
 
 
     @endsection

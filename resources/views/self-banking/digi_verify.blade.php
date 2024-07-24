@@ -47,7 +47,7 @@
                             @endif
 
 
-                                <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
+                                <form method="post" action="{{ route('idvlink') }}" id="sb-tnc-form">
                                 @csrf
                                     <div class="row">
                                         <div class="heading-fica-id mb-1">
@@ -61,22 +61,14 @@
 
                                         <div id="" class="mt-4 text-center">
 
-                                            <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="cursor:pointer;width:140px; margin-right:5px;" />
-                                            <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display:none;">
-
+                                            <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
+                                            </button>
                                                 <p id="info">Click on the camera icon above to start with your ID Verification process</p>
                                             </div>
-                                    </div>
-                                    <div class="text-center d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <video style="display: none; height: 400px; width: 400px;" id="video" autoplay></video>
 
-                                            <div style="height: 400px; width: 400px; display: none;" id="capturedPhoto"></div>
-                                        </div>
                                     </div>
-                                    <div class="text-center d-flex justify-content-center align-items-center">
-                                    <button id="capture" type="submit" style="display: none; background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Capture Photo</button>
-                                    </div>
+
 
 
                                       {{-- store Recaptcha token --}}
@@ -106,50 +98,7 @@
     @endsection
 
     @section('script')
+    <script>
 
-<script>
-    const openCameraButton = document.getElementById('openCam');
-    const video = document.getElementById('video');
-    const captureButton = document.getElementById('capture');
-    const capturedPhotoDiv = document.getElementById('capturedPhoto');
-    const ptag = document.getElementById('info');
-
-    openCameraButton.addEventListener('click', async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            video.srcObject = stream;
-            video.style.display = 'block'; // Show the video element
-            captureButton.style.display = 'block'; // Show the capture button
-            openCameraButton.style.display = 'none';
-            ptag.style.display = 'none';
-        } catch (err) {
-            console.error('Error accessing the camera: ', err);
-        }
-    });
-
-    captureButton.addEventListener('click', () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Stop the video stream
-        const stream = video.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
-
-        // Show the captured photo
-        const img = document.createElement('img');
-        img.src = canvas.toDataURL('image/png');
-        capturedPhotoDiv.innerHTML = ''; // Clear previous images
-        capturedPhotoDiv.appendChild(img);
-
-        // Hide the video and capture button after capturing
-        video.style.display = 'none';
-        captureButton.style.display = 'none';
-    });
-</script>
-
+    </script>
     @endsection
