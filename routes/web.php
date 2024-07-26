@@ -60,7 +60,7 @@ Route::post('/login', [LoginController::class, 'login']);
 //API's
 Route::post('/selfie', [UserVerificationController::class, 'facialRecognitionWithXDS'])->name('selfie');
 Route::post('/getselfieresult', [UserVerificationController::class, 'getSelfieResultFromxXDS'])->name('getselfieresult');
-Route::post('/getselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('getselfieresult');
+//Route::post('/getselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('getselfieresult');
 Route::post('/verifykyc-api', [APIValidationController::class, 'validateKYCAPI'])->name('kyc-api');
 Route::post('/verifyavs-api', [APIValidationController::class, 'validateAVSPI'])->name('avs-api');
 Route::post('/verifycompliance-api', [APIValidationController::class, 'validateCOMPLIENCEAPI'])->name('compliance-api');
