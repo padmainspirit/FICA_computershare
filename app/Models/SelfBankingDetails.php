@@ -57,4 +57,9 @@ class SelfBankingDetails extends Model
         return $this->hasOne(SelfBankingLink::class,'Id','SelfBankingDetailsId');
     }
 
+    public function SBCompanySRN()
+    {
+        return $this->hasMany(SelfBankingCompanySRN::class,'SelfBankingDetailsId','SelfBankingDetailsId');
+    }
+
 }

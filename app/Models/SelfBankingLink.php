@@ -35,6 +35,12 @@ class SelfBankingLink extends Model
         return $this->hasOne(CustomerUser::class,'Id','CustomerUserId');
     }
 
+    public function SelfBankingExceptions()
+    {
+        return $this->hasMany(SelfBankingExceptions::class,'SelfBankingLinkId','Id');
+    }
+
+
     /* Function to check the steps done */
     public static function checkStep($sblink_id)
     {

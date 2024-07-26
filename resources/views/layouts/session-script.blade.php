@@ -29,7 +29,7 @@
 
 <script type="text/javascript">
 
-    /* function clearSession()
+    function clearSession()
     {
         sessionStorage.removeItem('sbid');
         window.location="/";
@@ -39,8 +39,8 @@
         var idleState = false;
         var idleTimer = null;
         var idleTimer2 = null;
-        const timeout = <?php //echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
-        const modaltime = <?php //echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
+        const timeout = <?php echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
+        const modaltime = <?php echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
 
         $('*').bind(
             'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick'
@@ -60,7 +60,7 @@
             });
         $("body").trigger("mousemove");
         
-    }); */
+    });
 
     </script>
 

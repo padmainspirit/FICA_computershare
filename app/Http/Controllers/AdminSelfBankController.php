@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\FICA;
 use App\Models\SelfBankingCompanySRN;
 use App\Models\SelfBankingDetails;
+use App\Models\SelfBankingExceptions;
 use App\Models\SelfBankingLink;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -222,6 +223,40 @@ class AdminSelfBankController extends Controller
             if($apiresult[24] != ''|| $apiresult[24] != null)
             {
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Idnumber of deseased persona has been entered');
+            }
+
+
+            $selfbankingdetailsid = Str::upper(Str::uuid());
+            $request['SelfBankingDetailsId'] = $selfbankingdetailsid;
+            $request['Customerid'] = $selfbanking->CustomerId;
+            $request['SelfBankingLinkId'] = $sbid;
+            SelfBankingDetails::create($request->all());
+
+
+            /* Matches First name only */
+            if(strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) != strtoupper($request->SecondName))
+            {
+                $sbe = SelfBankingExceptions::create([
+                    'Id' => Str::upper(Str::uuid()),
+                    'SelfBankingLinkId'=>$selfbankingdetailsid,
+                    'API'=>1,
+                    'Status'=> 'Validation Pending',
+                    'Comment' => 'Pending Surname'
+                ]);
+                $sbe->save();
+            }
+
+            /* Matches First name and Second name only */
+            if(strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) == strtoupper($request->SecondName))
+            {
+                $sbe = SelfBankingExceptions::create([
+                    'Id' => Str::upper(Str::uuid()),
+                    'SelfBankingLinkId'=>$selfbankingdetailsid,
+                    'API'=>1,
+                    'Status'=> 'Validation Pending',
+                    'Comment' => 'Pending Surname'
+                ]);
+                $sbe->save();
             }
 
             
