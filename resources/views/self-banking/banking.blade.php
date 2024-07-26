@@ -139,17 +139,16 @@
                                     </div>
 
                                     <div class="mt-4 text-center" style="display:none;" id="otherBank">
-                                        <h5 class="mb-4" style="color: red;" id="info">We could not find/verify your picture.</h5>
-                                        <p class="mb-4">We have not been able to verify your selfie. To finalize the verification
-                                            , upload or take a photo of your South African ID Document or Smart ID Card. If using an ID Card, we require both sides.
-                                            We will not accept blurry images, photocopies, or illegal information. Details of your ID document must
-                                            be fully visible, clear, and east-to-read.
+
+                                        <p class="mb-4">Please upload a picture of your bank statement. We will not accept blurry
+                                            images, photocopies or illegible information. Your bank account number must be fully visible,
+                                            clear easy-to-read.
                                         </p>
 
                                         <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
                                         <div class="row justify-content-center mt-3">
-                                            <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:5px;">
+                                            <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:15px;">
 
                                                 <h5 class="mt-5">Drag Files Here</h5>
                                                 <button type="button" style="border:none; background: none;" onclick="document.getElementById('fileInput').click();">
@@ -159,7 +158,7 @@
                                                 <h5 class="mt-1">Browse Image/PDF Files</h5>
                                             </div>
                                             <div class="col-auto" style="height:300px;width:300px;">
-                                                <h5 class="mt-5">Take a Photo of your ID</h5>
+                                                <h5 class="mt-5">Take a Photo</h5>
                                                 <button type="button" style="border:none; background: none;" >
                                                     <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
                                                 </button>

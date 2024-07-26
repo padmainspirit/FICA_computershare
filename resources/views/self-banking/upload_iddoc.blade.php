@@ -70,7 +70,7 @@
                                             <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
                                             <div class="row justify-content-center mt-3">
-                                                <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:5px;">
+                                                <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:15px;">
 
                                                     <h5 class="mt-5">Drag Files Here</h5>
                                                     <button type="button" style="border:none; background: none;" onclick="document.getElementById('fileInput').click();">
