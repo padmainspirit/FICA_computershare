@@ -588,7 +588,7 @@ Fica Progress
                             <div class="text-center">
                                 <p style="color: #696969 ; background-color: #ffffff;font-size: 24px">Step Completed</p>
                             </div>
-                            
+
                         </div>
                         @endif
 
@@ -980,8 +980,8 @@ Fica Progress
                                         <div class="mb-3">
                                             <input autocomplete="off" type="text" class="form-control input-sm @error('telephone-home-input') is-invalid @enderror" style="height:
                                             27px; padding-left: 24px; width: 200px; font-size:12px;
-                                            text-transform: uppercase;" id="telephone-home-input" 
-                                            name="telephone-home-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }} 
+                                            text-transform: uppercase;" id="telephone-home-input"
+                                            name="telephone-home-input" {{ $fica->Personal_Status !== null ? 'disabled' : '' }}
                                             placeholder="Enter a 10 digits Number" value="{{ isset($TelHome) ? $TelHome : null }}">
                                         </div>
                                         @error('telephone-home-input')
@@ -2350,7 +2350,7 @@ Fica Progress
                                             <input class="form-check-input big-checkbox @error('terms-and-conditions-checkbox') is-invalid @enderror" type="checkbox" value=1 {{ $fica->TandC_Status != null ? 'checked' : '' }} id="terms-and-conditions-checkbox" name="terms-and-conditions-checkbox" style="border-bottom-width: 2px;border-top-width: 2px;border-right-width: 2px;border-left-width: 2px;margin-top: 5%;">
 
                                             {{-- <label class="form-check-label" for="salary-checkbox" style="padding-left:15px;font-size: 12px; color: rgb(0, 0, 0);padding-top: 0.25em;">
-                                                                        I agree to the 
+                                                                        I agree to the
                                                                         <a style="color: red" href="{{ $customer->CustomerTerms_URL }}" target="_blank">
                                             Terms and Conditions
                                             </a>
@@ -4092,7 +4092,7 @@ Fica Progress
                     $("#loading-wait-validation").hide();
                 },
                 success: function(response) {
-                
+
                     console.log('Passed');
                         console.log(response);
                         if (response.data.IDAS_Status == 1) {
@@ -4155,7 +4155,7 @@ Fica Progress
                             $('#validation-submit').prop('disabled', true);
                             $('#continue-validation').prop('disabled', false);
                         }
-                        
+
 
                         // update fica validationstatus
                         $("#fica-validation-status").load(location.href +
@@ -4164,9 +4164,9 @@ Fica Progress
                         //update validate status
                         /* $("#validate-status").load(location.href +
                             " #validate-status"); */
-                        
+
                         $('#validate-status').load(location.href + ' #validate-status');
-                        
+
                 },
 
                 error: function() {

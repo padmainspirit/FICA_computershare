@@ -60,6 +60,7 @@ Route::post('/login', [LoginController::class, 'login']);
 //API's
 Route::post('/selfie', [UserVerificationController::class, 'facialRecognitionWithXDS'])->name('selfie');
 Route::post('/getselfieresult', [UserVerificationController::class, 'getSelfieResultFromxXDS'])->name('getselfieresult');
+Route::post('/getselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('getselfieresult');
 Route::post('/verifykyc-api', [APIValidationController::class, 'validateKYCAPI'])->name('kyc-api');
 Route::post('/verifyavs-api', [APIValidationController::class, 'validateAVSPI'])->name('avs-api');
 Route::post('/verifycompliance-api', [APIValidationController::class, 'validateCOMPLIENCEAPI'])->name('compliance-api');
@@ -171,6 +172,8 @@ Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
 Route::any('/idvlink', [AdminSelfBankController::class, 'idvlink'])->name('idvlink');
+Route::any('/banking', [AdminSelfBankController::class, 'bankingAvs'])->name('banking');
+
 
 
 
