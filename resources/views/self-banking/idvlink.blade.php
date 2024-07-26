@@ -132,11 +132,21 @@
                                                 </button>
                                                 </div>
 
+
                                             </div>
 
 
 
                                         </form>
+                                        <form method="post" action="{{ route('uploadid') }}" id="">
+                                            <div class="text-center mb-3">
+                                                {{-- <div id="save-and-cancel-declaration-btn" style="display: none"> --}}
+                                                <button type="submit" class="btn-primary text-center w-md "
+                                                    style="width: 10%; ;margin-bottom: 3%;">
+                                                    Upload ID Doc
+                                                </button>
+                                            </form>
+
                                         <div class="text-center d-flex justify-content-center align-items-center mt-2">
                                             {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('/banking') }}">Proceed</a>--}}
                                             </div>
@@ -218,12 +228,14 @@
                                 button below to continue.
                             </p>
                         </div>
+
                         <div class="text-center mb-3">
                             {{-- <div id="save-and-cancel-declaration-btn" style="display: none"> --}}
                             <button type="submit" id="submitBtn" class="btn-primary text-center w-md "
                                 style="width: 10%; ;margin-bottom: 3%;">
                                 Continue
                             </button>
+
 
                             <button type="button" id="selfie-continue" class="btn-primary text-center w-md text-white"
                                 style="width: 10%; margin-bottom: 3%;"

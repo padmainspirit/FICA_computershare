@@ -258,13 +258,25 @@ class AdminSelfBankController extends Controller
 
             /* return view('self-banking.digi_verify')
             ->with('customer', $customer); */
-            return redirect()->route('digi-verify');
+           // return redirect()->route('digi-verify');
         }
             return view('self-banking.digi_verify')
             ->with('customer', $customer);
      }
 
 
+     public function uploadid(Request $request) {
+        $sbid = $request->session()->get('sbid');
+
+        if($sbid == '' || $sbid == null){
+            $url = '/';
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+        return view('self-banking.upload_iddoc')
+            ->with('customer', $customer);
+     }
      /* Digital verification of self service banking */
      public function DigiVerification(Request $request) {
         $sbid = $request->session()->get('sbid');

@@ -75,7 +75,6 @@ Route::get('auth/forget-password', [ForgotPasswordController::class, 'ForgetPass
 Route::post('auth/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('auth/reset-password/{token?}', [ForgotPasswordController::class, 'ResetPassword'])->name('reset');
 Route::post('auth/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
 Route::post('/validate-api', [APIValidationController::class, 'validateAPIs'])->name('validateapi');
 
 // Route::get('/startfica', [GetStartedController::class, 'startFica'])->name('startfica');
@@ -169,6 +168,7 @@ Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->n
 Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+Route::any('/uploadid', [AdminSelfBankController::class, 'uploadid'])->name('uploadid');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
 Route::any('/idvlink', [AdminSelfBankController::class, 'idvlink'])->name('idvlink');
