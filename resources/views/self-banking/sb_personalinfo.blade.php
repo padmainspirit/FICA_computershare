@@ -11,6 +11,9 @@
     }
 
 </style>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
 @endsection
 
@@ -90,23 +93,29 @@
                                                 </div>
 
 
+
                                                 <div class="mb-3 col-md-3" >
                                                     <select class="form-select" autocomplete="off"
                                                         style="border-radius: 15px; "
-                                                            id="company1" name="company">
+                                                            id="company" name="company">
                                                             <option value="" selected style="font-size: 12px;" >
                                                                 --SELECT COMPANY--
+                                                            </option>
+                                                            <option value="testcompany" selected style="font-size: 12px;" >
+                                                                Test COMPANY
                                                             </option>
 
                                                             @foreach($companies as $company)
                                                             <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
                                                                 {{ $company->Company_Name }}
                                                             </option>
+
                                                             @endforeach
 
                                                         </select>
-
                                             </div>
+
+
                                             <div class="mb-3 col-md-3" >
                                                 <p data-repeater-delete style="cursor:pointer;"><img  src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
 
@@ -146,7 +155,7 @@
                                                 value="{{ old('IDNUMBER') }}" required="required" />
 
                                             <span class="error-messg"></span>
-                                            @error('FirstName')
+                                            @error('IDNUMBER')
                                                 <span class="text-danger" role="alert">
                                                     <small>{{ $message }}</small>
                                                 </span>
@@ -279,7 +288,38 @@
 
     @section('script')
 
+    <script>
+        $(document).ready(function(){
+
+            // Initialize select2
+            $("#company").select2();
+
+            // Read selected option
+            $('#but_read').click(function(){
+                var username = $('#company option:selected').text();
+                var userid = $('#company').val();
+
+                $('#result').html("id : " + userid + ", name : " + username);
+
+            });
+        });
+
+        </script>
+
+
+    <!-- jQuery -->
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 <script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 
 <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
+
+<script>
+
+</script>
+
+
+
     @endsection

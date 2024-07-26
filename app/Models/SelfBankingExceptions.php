@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SelfBankingExceptions extends Model
 {
     use HasFactory;
-    protected $connection = 'sqlsrv';
+    protected $connection = 'sqlsrv2';
     protected $table = 'SelfBankingExceptions';
     public $timestamps = true;
 
