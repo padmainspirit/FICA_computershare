@@ -27,7 +27,7 @@ class SelfBankingDetails extends Model
         'Surname',
         'Email',
         'PhoneNumber',
-        'PhoneNumberHome',
+        'DovsPhoneNumber',
         'PhoneNumberWork',
         'Address_Line1',
         'Address_Line2',
@@ -54,12 +54,22 @@ class SelfBankingDetails extends Model
 
     public function selfBankingLink()
     {
-        return $this->hasOne(SelfBankingLink::class,'Id','SelfBankingDetailsId');
+        return $this->hasOne(SelfBankingLink::class,'Id','SelfBankingLinkId');
     }
 
     public function SBCompanySRN()
     {
         return $this->hasMany(SelfBankingCompanySRN::class,'SelfBankingDetailsId','SelfBankingDetailsId');
+    }
+
+    public function fica()
+    {
+        return $this->hasOne(FICA::class,'Consumerid','SelfBankingDetailsId');
+    }
+
+    public function bankAccountType()
+    {
+        return $this->hasOne(BankAccountType::class,'BankTypeid','AccountType');
     }
 
 }

@@ -27,7 +27,9 @@ class SelfBankingLink extends Model
         'tnc_flag',
         'PersonalDetails',
         'DOVS',
-        'BankingDetails'
+        'IdDocumentUpload',
+        'BankingDetails',
+        'BankDocumentUpload',
     ];
 
     public function customer()
@@ -40,6 +42,11 @@ class SelfBankingLink extends Model
         return $this->hasMany(SelfBankingExceptions::class,'SelfBankingLinkId','Id');
     }
 
+    public function selfBankingDetails()
+    {
+        return $this->belongsTo(SelfBankingDetails::class,'Id','SelfBankingLinkId');
+    }
+
 
     /* Function to check the steps done */
     public static function checkStep($sblink_id)
@@ -48,20 +55,26 @@ class SelfBankingLink extends Model
         
         if($selfbankingLink->tnc_flag == 0)
         {    
-            //return redirect()->route('agree-selfbanking-tnc');
             $routename = 'agree-selfbanking-tnc';
         }else if($selfbankingLink->PersonalDetails == 0){
 
-            //return redirect()->route('sb-personalinfo');
             $routename = 'sb-personalinfo';
         }
-        else if($selfbankingLink->DOVS == 0){print_r('dovs');
-            //return redirect()->route('digi-verify');
+        else if($selfbankingLink->DOVS == 0){
             $routename = 'digi-verify';
         }
+        else if($selfbankingLink->DOVS == 2 && $selfbankingLink->IdDocumentUpload == 0){
+            $routename = 'uploadid';
+        }else if($selfbankingLink->DOVS == 2 && $selfbankingLink->IdDocumentUpload == 1){
+            $routename = 'banking';
+        }
         else if($selfbankingLink->BankingDetails == 0){
-            //return redirect()->route('bank-verify');
-            $routename = 'bank-verify';
+            $routename = 'banking';
+        }
+        else if($selfbankingLink->BankingDetails != 0 && $selfbankingLink->BankDocumentUpload == 1){
+            $routename = 'sb-preview-details';
+        }else{
+            $routename = 'register';
         }
         return $routename;
 

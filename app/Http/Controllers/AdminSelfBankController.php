@@ -7,6 +7,10 @@ use App\Models\APILogs;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Http\Controllers\UserVerificationController;
+use App\Models\AVS;
+use App\Models\BankAccountType;
+use App\Models\Banks;
+use App\Models\ConsumerIdentity;
 use App\Models\DOVS;
 use App\Models\FICA;
 use App\Models\LookupDatas;
@@ -19,10 +23,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use PhpParser\Node\Stmt\TryCatch;
 
 class AdminSelfBankController extends Controller
 {
@@ -37,6 +43,10 @@ class AdminSelfBankController extends Controller
     protected $DOVS; //DOVS
     protected $FACE; //DOVS
 
+    protected $soapUrlLive;
+    protected $soapUrlDemo;
+    protected $s3url;
+
     public function __construct()
     {
         //$this->middleware('permission:compliance-lite', ['only' => ['index']]);
@@ -50,9 +60,10 @@ class AdminSelfBankController extends Controller
 
         $this->DOVS = config("app.API_ID_DOVS");
         $this->FACE = config("app.API_ID_FACE");
-        // $this->Key = config("app.AWS_ACCESS_KEY_ID");
-        // $this->Secret = config("app.AWS_SECRET_ACCESS_KEY");
-        // $this->Region = config("app.AWS_DEFAULT_REGION");
+
+        $this->soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
+        $this->soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
+        $this->s3url = config('app.API_UPLOAD_PATH');
 
         date_default_timezone_set('Africa/Johannesburg');
     }
@@ -239,7 +250,7 @@ class AdminSelfBankController extends Controller
 
             $validator->after(function ($validator) {
                 foreach ($validator->getData()['reflist'] as $key => $value) {
-                    print_r($value['company']);
+                    //print_r($value['company']);
                     $position = $key + 1;
                     if ((preg_match('/[C|c]{1}[0-9]{10}/', $value['refnum'])) && $value['company'] == null && $value['company'] == '') {
                         $validator->errors()->add('reflist.' . $key . '.company', 'The company selection is required at row number ' . $position . ' of Account details');
@@ -250,7 +261,7 @@ class AdminSelfBankController extends Controller
             /* code for validating ID number using idas API */
             $verifyData = new VerifyUserController();
             $apiresult = $verifyData->verifyUser($request->IDNUMBER, $request);
-            print_r($apiresult); //exit;
+            //print_r($apiresult); //exit;
 
             if ($apiresult[0] != $request->IDNUMBER) {
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Invalid ID number has been entered');
@@ -310,7 +321,17 @@ class AdminSelfBankController extends Controller
             $sbfica->save();
 
             $clientdata = new VerificationDataController();
-            $clientdata->verifyClientData($request->IDNUMBER, $request, $fica_id);
+
+            $consumerIdentity = ConsumerIdentity::where('FICA_id', '=',  $fica_id)->first();
+            if ($consumerIdentity == null) {
+                $consumeriden = ConsumerIdentity::create([
+                    'Identity_ID' => Str::upper(Str::uuid()),
+                    'FICA_id' =>  $fica_id,
+                    'Identity_Document_ID' => $request->IDNUMBER,
+                ]);
+                $consumeriden->save();
+            }
+            $clientdata->verifyClientDataSb($request->IDNUMBER, $request, $fica_id);
 
             SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 1]);
 
@@ -334,7 +355,7 @@ class AdminSelfBankController extends Controller
 
             /* return view('self-banking.digi_verify')
             ->with('customer', $customer); */
-            return redirect()->route('digi-verify');
+             return redirect()->route('digi-verify');
         }
         return view('self-banking.sb_personalinfo')
             ->with('customer', $customer)
@@ -343,20 +364,77 @@ class AdminSelfBankController extends Controller
     }
 
 
-    /* Digital verification of self service banking */
-    public function DigiVerification(Request $request)
-    {
+     public function uploadid(Request $request) {
+        $sbid = $request->session()->get('sbid');
+        if($sbid == '' || $sbid == null){
+            $url = '/';
+                return response()->view('errors.401', ['message'=>'link has been expired','url'=>$url], 401);
+        }
+
+        $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        }
+
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first(); 
+        $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
+
+        if($_POST)
+        {
+            $this->validate(
+                $request,
+                [
+                    'file' => 'required|file|mimes:jpg,jpeg,png,pdf',
+                ],
+                [
+                    'file.required' => 'Please upload a ID document',
+                    'file.mimes' => 'Invalid document format. Please upload a PDF or Image with jpg, jpeg or png format',
+                ]
+            );
+            $fileName = $request->file->getClientOriginalName();
+            $filePath = 'SelfBanking/' . $sbid . '/IdDocs/'. $fileName;
+
+            //Storing the file in s3 bucket            
+            //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
+            Storage::disk('public')->put($filePath, file_get_contents($request->file));
+            $urlFile = $this->s3url.$filePath;
+
+            ConsumerIdentity::where('FICA_id', $fica_id)->update([
+                    'Identity_Documentname' => $fileName,
+                    'Identity_File_Path' =>  $urlFile,
+            ]);
+
+            SelfBankingLink::where(['Id'=>$sbid])->update(['IdDocumentUpload'=>1]);
+            return redirect()->route('banking');
+
+        }
+
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+        return view('self-banking.upload_iddoc')
+            ->with('customer', $customer);
+     }
+
+     /* Digital verification of self service banking */
+     public function DigiVerification(Request $request) {
         $sbid = $request->session()->get('sbid');
 
         if ($sbid == '' || $sbid == null) {
             $url = '/';
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
+
+        $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        }
+
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         return view('self-banking.digi_verify')
             ->with('customer', $customer);
     }
+
     public function idvlink(Request $request)
     {
         $sbid = $request->session()->get('sbid');
@@ -365,6 +443,12 @@ class AdminSelfBankController extends Controller
             $url = '/';
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
+
+        /* $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        } */
+
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->first();
@@ -377,29 +461,398 @@ class AdminSelfBankController extends Controller
 
     public function bankingAvs(Request $request)
     {
-        $sbid = $request->session()->get('sbid');
-
+        $sbid = $request->session()->get('sbid');       
         if ($sbid == '' || $sbid == null) {
             $url = '/';
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
-        $selfbanking = SelfBankingLink::find($sbid);
-        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+
+        /* $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        } */
+
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first(); 
+        $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
+
+        if (!empty($_POST)) { 
+
+            $this->validate(
+                $request,
+                [
+                    'initial' => 'required|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|max:3',
+                    'accnumber' => 'required|numeric|max_digits:13',
+                    'BankName' => ['required'],
+                    'AccountType' => ['required'],
+                    'branchcode' => ['required'],
+                    'file'=> 'required_if:BankName,other|mimes:jpg,jpeg,png,pdf'
+                ],
+                [
+                    'sb-tnc.required' => 'You have to agree to the terms and conditions of banking service to continue the flow',
+                    'accnumber.max_digits' => 'The account number cannot be more than 13 digits.',
+                    'file.required' => 'Bank document is required when bank name is other.',
+                    'file.mimes' => 'Invalid document format. Please upload a PDF or Image with jpg, jpeg or png format',
+                ]
+            );
+
+            $avs = AVS::where('FICA_id', '=', $fica_id)->first();
+            if ($avs == null) {
+                $avsuser = AVS::create([
+                    'Bank_id' => Str::upper(Str::uuid()),
+                    'FICA_id' => $fica_id,
+                    'Bank_name' => $request->BankName,
+                    'Branch_code' => $request->branchcode,
+                    'Account_no' => $request->accnumber,
+                    'Account_name' => $request->initial.' '.$selfbankinglinkdetails->selfBankingDetails->FirstName.' '.$selfbankinglinkdetails->selfBankingDetails->Surname,
+                    'BankTypeid' => $request->AccountType,
+                    'CreatedOnDate' => date("Y-m-d H:i:s"),
+                ]);
+                $avsuser->save();
+
+            }
+
+            SelfBankingDetails::where(['SelfBankingLinkId'=>$sbid])->update([                
+                'AccountType'=> $request->AccountType,
+                'BankName' => $request->BankName,
+                'BranchCode'=> $request->branchcode,
+                'AccountNumber'=> $request->accnumber,
+                'AccountHolderInitial' => $request->initial
+            ]);
+
+            if($request->BankName == 'other')
+            {
+                $fileName = $request->file->getClientOriginalName();
+                $filePath = 'SelfBanking/' . $sbid . '/BankDocs/'. $fileName;
+
+                //Storing the file in s3 bucket            
+                //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
+                Storage::disk('public')->put($filePath, file_get_contents($request->file));
+                $urlFile = $this->s3url.$filePath;
+
+                $sbe = SelfBankingExceptions::create([
+                    'Id' => Str::upper(Str::uuid()),
+                    'SelfBankingLinkId' => $sbid,
+                    'API' => 3,
+                    'Status' => 'Validation Pending',
+                    'Comment' => '3-Month Bank Statement'
+                ]);
+                $sbe->save();
+                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>2,'BankDocumentUpload'=>1]);
+
+                //return redirect()->route('sb-preview-details')->withInput($request->input())->with('Success', 'AVS has been executed succesfully');
+                //return redirect()->route('banking')->withInput($request->input())->with('Success', 'Bank document is received succesfully');
+            }else{
+                /* 
+                    $sb_api = new AdminSelfServiceBankingApiController();
+                ob_start();
+                $ticket = Session::has('xdsTicket') ? Session::get('xdsTicket') : $sb_api->connectandgetNewTicket(); //$this->connectandgetTicket();
+                ob_end_clean();
+                
+                $bankInfo = BankAccountType::where('BankTypeid', '=',  $request->AccountType)->first();
+                $verifyType = 'Individual';
+                $entity = 'None';
+
+                $avsLookup = LookupDatas::where(['Type'=>'API_ID','Text'=>'AVS'])->first();
+                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname; 
+                $email = $selfbankinglinkdetails->selfBankingDetails->Email;
+                $id_type = 'SID';
+                $initials =  $request->initial;
+                $accNo =   $request->accnumber;
+                $branchCode =  $request->branchcode;
+                $accType = $bankInfo->Account_description;
+                $bankName =  $request->BankName;
+                $id_no =  $selfbankinglinkdetails->selfBankingDetails->IDNUMBER;
+                $contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
+        
+                $userVerification = new UserVerificationController();
+        
+                $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
+             
+                // app('debugbar')->info($returnValue);
+                
+                
+                $jsonres = $sb_api->parseSoapXml($returnValue);
+                
+                $jbody = $jsonres['Body']['ConnectAccountVerificationRealTimeWithContactsResponse']['ConnectAccountVerificationRealTimeWithContactsResult'];
+                if(preg_match('<Error>', $jbody))
+                {
+                    $errorMessage = strip_tags($jbody);
+                            $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 0,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ErrorMessage' => $message
+                                )
+                            );
+                    return redirect()->route('banking')->withInput($request->input())->with('message', 'AVS Failure');
+                }
+                else if(array_key_exists('Fault',$jsonres['Body'])){
+                    return redirect()->route('banking')->withInput($request->input())->with('message', 'There might be some sort of server or internet issue, please try again later.');
+                } else {
+                    $tempData = explode('>', $returnValue);
+                    $tempData2 = explode('<', $tempData[5]);
+        
+                    $referenceNo = (int)preg_replace('/[^0-9]/', '', $tempData2[0]); //here we want to get only numbers and filter the rest of the characters
+        
+                    $returnValue = $userVerification->ConnectGetAccountVerificationResult($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $referenceNo);
+        
+                    $tempData = explode('>', $returnValue);
+                    $tempData2 = explode('<', $tempData[5]);
+        
+                    $tempData3 = str_replace('&lt;', '', $tempData2);
+                    $tempData4 = str_replace('&gt', '', $tempData3);
+                    $tempData5 = explode(';', $tempData4[0]);
+                    //print_r($returnValue);exit;
+        
+                    if ($tempData5[2] == 'Invalid Ticket/Error') {
+                        return redirect()->route('banking')->withInput($request->input())->with('message', 'Internal error, please try again.');
+                    } else {
+                        app('debugbar')->info($tempData5);
+        
+                        $ERRORCONDITIONNUMBER = NULL;
+                        $ACCOUNTFOUND = NULL;
+                        $IDNUMBERMATCH = NULL;
+                        $INITIALSMATCH = NULL;
+                        $SURNAMEMATCH = NULL;
+                        $ACCOUNT_OPEN = NULL;
+                        $ACCOUNTDORMANT = NULL;
+                        $ACCOUNTOPENFORATLEASTTHREEMONTHS = NULL;
+                        $ACCOUNTACCEPTSDEBITS = NULL;
+                        $ACCOUNTACCEPTSCREDITS = NULL;
+                        $EMAILMATCH = NULL;
+                        $PHONEMATCH = NULL;
+                        $TAXREFERENCEMATCH = NULL;
+                        $EnquiryDate = NULL;
+                        $EnquiryType = NULL;
+                        $SubscriberName = NULL;
+                        $SubscriberUserName = NULL;
+                        $EnquiryInput = NULL;
+                        $EnquiryStatus = NULL;
+                        $XDsRefNo = NULL;
+                        $ExternalRef = NULL;
+                        // $BankTypeid = 3;
+                        //print_r($tempData5);exit;
+        
+                        for ($i = 0; $i < count($tempData5); $i++) {
+                            if ($tempData5[$i] == 'ERRORCONDITIONNUMBER') {
+                                $ERRORCONDITIONNUMBER  = $tempData5[$i + 1];
+                                $ERRORCONDITIONNUMBER = str_replace('/ERRORCONDITIONNUMBER', '', $ERRORCONDITIONNUMBER);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTFOUND') {
+                                $ACCOUNTFOUND  = $tempData5[$i + 1];
+                                $ACCOUNTFOUND = str_replace('/ACCOUNTFOUND', '', $ACCOUNTFOUND);
+                            }
+                            if ($tempData5[$i] == 'IDNUMBERMATCH') {
+                                $IDNUMBERMATCH  = $tempData5[$i + 1];
+                                $IDNUMBERMATCH = str_replace('/IDNUMBERMATCH', '', $IDNUMBERMATCH);
+                            }
+                            if ($tempData5[$i] == 'INITIALSMATCH') {
+                                $INITIALSMATCH  = $tempData5[$i + 1];
+                                $INITIALSMATCH = str_replace('/INITIALSMATCH', '', $INITIALSMATCH);
+                            }
+                            if ($tempData5[$i] == 'SURNAMEMATCH') {
+                                $SURNAMEMATCH  = $tempData5[$i + 1];
+                                $SURNAMEMATCH = str_replace('/SURNAMEMATCH', '', $SURNAMEMATCH);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNT-OPEN') {
+                                $ACCOUNT_OPEN  = $tempData5[$i + 1];
+                                $ACCOUNT_OPEN = str_replace('/ACCOUNT-OPEN', '', $ACCOUNT_OPEN);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTDORMANT') {
+                                $ACCOUNTDORMANT  = $tempData5[$i + 1];
+                                $ACCOUNTDORMANT = str_replace('/ACCOUNTDORMANT', '', $ACCOUNTDORMANT);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTOPENFORATLEASTTHREEMONTHS') {
+                                $ACCOUNTOPENFORATLEASTTHREEMONTHS  = $tempData5[$i + 1];
+                                $ACCOUNTOPENFORATLEASTTHREEMONTHS = str_replace('/ACCOUNTOPENFORATLEASTTHREEMONTHS', '', $ACCOUNTOPENFORATLEASTTHREEMONTHS);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTACCEPTSDEBITS') {
+                                $ACCOUNTACCEPTSDEBITS  = $tempData5[$i + 1];
+                                $ACCOUNTACCEPTSDEBITS = str_replace('/ACCOUNTACCEPTSDEBITS', '', $ACCOUNTACCEPTSDEBITS);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTACCEPTSCREDITS') {
+                                $ACCOUNTACCEPTSCREDITS  = $tempData5[$i + 1];
+                                $ACCOUNTACCEPTSCREDITS = str_replace('/ACCOUNTACCEPTSCREDITS', '', $ACCOUNTACCEPTSCREDITS);
+                            }
+                            if ($tempData5[$i] == 'PHONEMATCH') {
+                                $PHONEMATCH  = $tempData5[$i + 1];
+                                $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
+                            }
+        
+                            if ($tempData5[$i] == 'EMAILMATCH') {
+                                $EMAILMATCH  = $tempData5[$i + 1];
+                                $EMAILMATCH = str_replace('/EMAILMATCH', '', $EMAILMATCH);
+                            }
+        
+                            if ($tempData5[$i] == 'PHONEMATCH') {
+                                $PHONEMATCH  = $tempData5[$i + 1];
+                                $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
+                            }
+                            if ($tempData5[$i] == 'TAXREFERENCEMATCH') {
+                                $TAXREFERENCEMATCH  = $tempData5[$i + 1];
+                                $TAXREFERENCEMATCH = str_replace('/TAXREFERENCEMATCH', '', $TAXREFERENCEMATCH);
+                            }
+                            if ($tempData5[$i] == 'EnquiryDate') {
+                                $EnquiryDate  = $tempData5[$i + 1];
+                                $EnquiryDate = str_replace('/EnquiryDate', '', $EnquiryDate);
+                            }
+        
+                            if ($tempData5[$i] == 'EnquiryType') {
+                                $EnquiryType  = $tempData5[$i + 1];
+                                $EnquiryType = str_replace('/EnquiryType', '', $EnquiryType);
+                            }
+                            if ($tempData5[$i] == 'SubscriberName') {
+                                $SubscriberName  = $tempData5[$i + 1];
+                                $SubscriberName = str_replace('/SubscriberName', '', $SubscriberName);
+                            }
+                            if ($tempData5[$i] == 'SubscriberUserName') {
+                                $SubscriberUserName  = $tempData5[$i + 1];
+                                $SubscriberUserName = str_replace('/SubscriberUserName', '', $SubscriberUserName);
+                            }
+                            if ($tempData5[$i] == 'EnquiryInput') {
+                                $EnquiryInput  = $tempData5[$i + 1];
+                                $EnquiryInput = str_replace('/EnquiryInput', '', $EnquiryInput);
+                            }
+                            if ($tempData5[$i] == 'EnquiryStatus') {
+                                $EnquiryStatus  = $tempData5[$i + 1];
+                                $EnquiryStatus = str_replace('/EnquiryStatus', '', $EnquiryStatus);
+                            }
+                            if ($tempData5[$i] == 'XDsRefNo') {
+                                $XDsRefNo  = $tempData5[$i + 1];
+                                $XDsRefNo = str_replace('/XDsRefNo', '', $XDsRefNo);
+                            }
+                        }
+                        // app('debugbar')->info($ACCOUNTNUMBER);
+        
+                        $returnData = ([
+                            'CreatedOnDate' => date("Y-m-d H:i:s"),
+                            'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                            'ERRORCONDITIONNUMBER' => $ERRORCONDITIONNUMBER,
+                            'ACCOUNTFOUND' => $ACCOUNTFOUND,
+                            'IDNUMBERMATCH' => $IDNUMBERMATCH,
+                            'INITIALSMATCH' => $INITIALSMATCH,
+                            'SURNAMEMATCH' => $SURNAMEMATCH,
+                            'ACCOUNT_OPEN' => $ACCOUNT_OPEN,
+                            'ACCOUNTDORMANT' => $ACCOUNTDORMANT,
+                            'ACCOUNTOPENFORATLEASTTHREEMONTHS' => $ACCOUNTOPENFORATLEASTTHREEMONTHS,
+                            'ACCOUNTACCEPTSDEBITS' => $ACCOUNTACCEPTSDEBITS,
+                            'ACCOUNTACCEPTSCREDITS' => $ACCOUNTACCEPTSCREDITS,
+                            'PHONEMATCH' => $PHONEMATCH,
+                            'EMAILMATCH' => $EMAILMATCH,
+                            'TAXREFERENCEMATCH' => $TAXREFERENCEMATCH,
+                            'EnquiryDate' => $EnquiryDate,
+                            'EnquiryType' => $EnquiryType,
+                            'SubscriberName' => $SubscriberName,
+                            'SubscriberUserName' => $SubscriberUserName,
+                            'EnquiryInput' => $EnquiryInput,
+                            'EnquiryStatus' => $EnquiryStatus,
+                            'XDsRefNo' => $XDsRefNo,
+                            'ExternalRef' => $ExternalRef,
+                        ]);
+                    //print_r($tempData5);exit;
+                        if ($tempData5[1] == 'ResultFile') {
+                            app('debugbar')->info($returnData);
+                            app('debugbar')->info('tempData5');
+                            app('debugbar')->info($tempData5);
+                            //bank verification successful
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 1,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ERRORCONDITIONNUMBER' => $ERRORCONDITIONNUMBER,
+                                    'ACCOUNTFOUND' => $ACCOUNTFOUND,
+                                    'IDNUMBERMATCH' => $IDNUMBERMATCH,
+                                    'INITIALSMATCH' => $INITIALSMATCH,
+                                    'SURNAMEMATCH' => $SURNAMEMATCH,
+                                    'ACCOUNT_OPEN' => $ACCOUNT_OPEN,
+                                    'ACCOUNTDORMANT' => $ACCOUNTDORMANT,
+                                    'ACCOUNTOPENFORATLEASTTHREEMONTHS' => $ACCOUNTOPENFORATLEASTTHREEMONTHS,
+                                    'ACCOUNTACCEPTSDEBITS' => $ACCOUNTACCEPTSDEBITS,
+                                    'ACCOUNTACCEPTSCREDITS' => $ACCOUNTACCEPTSCREDITS,
+                                    'PHONEMATCH' => $PHONEMATCH,
+                                    'EMAILMATCH' => $EMAILMATCH,
+                                    'TAXREFERENCEMATCH' => $TAXREFERENCEMATCH,
+                                    'EnquiryDate' => date('Y-m-d H:i:s', strtotime($EnquiryDate)),
+                                    'EnquiryType' => $EnquiryType,
+                                    'SubscriberName' => $SubscriberName,
+                                    'SubscriberUserName' => $SubscriberUserName,
+                                    'EnquiryInput' => $EnquiryInput,
+                                    'EnquiryStatus' => $EnquiryStatus,
+                                    'XDsRefNo' => $XDsRefNo,
+                                    'ExternalRef' => $ExternalRef,
+                                    'ErrorMessage' => NULL,
+                                    'AVSResponse' => $returnValue
+                                )
+                            );
+        
+                            //API LOGS
+                            APILogs::create([
+                                'API_Log_Id' => Str::upper(Str::uuid()),
+                                'FICAId' => $fica_id,
+                                'ConsumerID' => $selfbankinglinkdetails->selfBankingDetails->Id,
+                                'CustomerID' =>  config("app.CUSTOMER_DEFAULT_ID"),
+                                'Createddate' => date("Y-m-d H:i:s"),
+                                'API_ID' => $avsLookup->Value,
+                            ]);
+                            if($ACCOUNTFOUND == 'No'){
+                                return redirect()->route('banking')->withInput($request->input())->with('message', 'Internal checks are failed');
+                            }else{
+                                return redirect()->route('banking')->withInput($request->input())->with('Success', 'Internal checks been executed succesfully');
+                            }
+                        } else {
+                            //invalid bank information
+                            $errorMessage = str_replace('/Error', '', $tempData5[2]);
+                            $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 0,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ErrorMessage' => $message
+                                )
+                            );
+                            return redirect()->route('banking')->withInput($request->input())->with('message', 'AVS Failure');
+                        }
+                    }
+                }
+            
+                */
+                
+            }
+            
+
+            return redirect()->route('sb-preview-details');
+        }
+        $banks = Banks::all()->sortBy('bankname');
+        $bankTpye = BankAccountType::all();
+
+       
+        $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->first();
         $phoneNumber = $selfbankingdetails->PhoneNumber;
         return view('self-banking.banking')
-            ->with('customer', $customer);
+            ->with('customer', $customer)
+            ->with('bankNames', $banks)
+            ->with('bankTpye', $bankTpye)
+            ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
     }
+
+
     /* Self banking flow link  */
     public function sbEmailorPhone(Request $request)
     {
-        $sbid = $request->session()->get('sbid');
 
+        $sbid = $request->session()->get('sbid');
 
         if ($sbid == '' || $sbid == null) {
             $url = '/';
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
+
+        /* $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        } */
 
         $selfbanking = SelfBankingLink::find($sbid);
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
@@ -431,6 +884,7 @@ class AdminSelfBankController extends Controller
                 $PhoneNumber = $request->input('phone');
                 $DOVS_id = $get_user_id[0]["DOVS_id"];
 
+                SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->update(['DovsPhoneNumber'=>$PhoneNumber]);
 
                 $soapUrlLive = config("app.API_SOAP_URL_LIVE_FACIAL");
                 $soapUrlDemo = config("app.API_SOAP_URL_DEMO_FACIAL");
@@ -551,6 +1005,8 @@ class AdminSelfBankController extends Controller
 
     public function getSelfieResultFromxXDS(Request $request)
     {
+       /* $output_data = ['response' => true, 'message' => 'request is successful.', 'data' =>  'Consumer','process_status' => 'NoPhoto'];
+                        return $output_data; */
         $sbid = $request->session()->get('sbid');
 
         if ($sbid == '' || $sbid == null) {
@@ -782,7 +1238,8 @@ class AdminSelfBankController extends Controller
                         );
 
 
-                        $process = 'Passed';
+                        $process = 'Success';
+                        /* Process passed due to no home affairs photo we have to redirect todocument upload screen */
                         if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null)
                         {
                             $sbe = SelfBankingExceptions::create([
@@ -793,9 +1250,12 @@ class AdminSelfBankController extends Controller
                                 'Comment' => 'No home affairs photo'
                             ]);
                             $sbe->save();
-                            $process = 'Passed';
-                        }else if($ConsumerIDPhotoMatch != 'Matched')
-                        {
+
+                            SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
+
+                            $process = 'NoPhoto';
+                        }else if($ConsumerIDPhotoMatch != 'Matched'){ 
+                            /* Process failed flow, terminate the execution */
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
                                 'SelfBankingLinkId' => $sbid,
@@ -804,7 +1264,13 @@ class AdminSelfBankController extends Controller
                                 'Comment' => 'Photo does not match'
                             ]);
                             $sbe->save();
+
+                            SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>-2]);
+
                             $process = 'Failed';
+                        }else if($ConsumerIDPhotoMatch == 'Matched'){ 
+                            SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>1]);
+                            $process = 'Success';
                         }
 
                         FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
@@ -836,5 +1302,333 @@ class AdminSelfBankController extends Controller
         } catch (\Exception $e) {
             app('debugbar')->info($e);
         }
+    }
+
+
+    public function previewDetails(Request $request)
+    {
+        $sbid = $request->session()->get('sbid');
+
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first(); 
+        //print_r($selfbankinglinkdetails);exit;
+        $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
+        $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
+        if ($sbid == '' || $sbid == null) {
+            $url = '/';
+            return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
+        }
+
+
+        if($_POST){ 
+
+            $sb_api = new AdminSelfServiceBankingApiController();
+                ob_start();
+                $ticket = Session::has('xdsTicket') ? Session::get('xdsTicket') : $sb_api->connectandgetNewTicket(); //$this->connectandgetTicket();
+                ob_end_clean();
+                
+                $verifyType = 'Individual';
+                $entity = 'None';
+
+                $avsLookup = LookupDatas::where(['Type'=>'API_ID','Text'=>'AVS'])->first();
+                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname; 
+                $email = $selfbankinglinkdetails->selfBankingDetails->Email;
+                $id_type = 'SID';
+                $initials =  $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial;
+                $accNo =   $selfbankinglinkdetails->selfBankingDetails->AccountNumber;
+                $branchCode =  $selfbankinglinkdetails->selfBankingDetails->BranchCode;
+                $accType = $selfbankinglinkdetails->selfBankingDetails->bankAccountType->Account_description;
+                $bankName =  $selfbankinglinkdetails->selfBankingDetails->BankName;
+                $id_no =  $selfbankinglinkdetails->selfBankingDetails->IDNUMBER;
+                $contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
+        
+                $userVerification = new UserVerificationController();
+        
+                $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
+             
+                // app('debugbar')->info($returnValue);
+                
+                
+                $jsonres = $sb_api->parseSoapXml($returnValue);
+                
+                $jbody = $jsonres['Body']['ConnectAccountVerificationRealTimeWithContactsResponse']['ConnectAccountVerificationRealTimeWithContactsResult'];
+                if(preg_match('<Error>', $jbody))
+                {
+                    $errorMessage = strip_tags($jbody);
+                            $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 0,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ErrorMessage' => $message
+                                )
+                            );
+                    //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
+                    return redirect()->route('process-status');
+                }
+                else if(array_key_exists('Fault',$jsonres['Body'])){
+                    //return redirect()->route('process-status')->withInput($request->input())->with('message', 'There might be some sort of server or internet issue, please try again later.');
+                    return redirect()->route('process-status');
+                } else {
+                    $tempData = explode('>', $returnValue);
+                    $tempData2 = explode('<', $tempData[5]);
+        
+                    $referenceNo = (int)preg_replace('/[^0-9]/', '', $tempData2[0]); //here we want to get only numbers and filter the rest of the characters
+        
+                    $returnValue = $userVerification->ConnectGetAccountVerificationResult($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $referenceNo);
+        
+                    $tempData = explode('>', $returnValue);
+                    $tempData2 = explode('<', $tempData[5]);
+        
+                    $tempData3 = str_replace('&lt;', '', $tempData2);
+                    $tempData4 = str_replace('&gt', '', $tempData3);
+                    $tempData5 = explode(';', $tempData4[0]);
+                    //print_r($returnValue);exit;
+        
+                    if ($tempData5[2] == 'Invalid Ticket/Error') {
+                       // return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal error, please try again.');
+                       return redirect()->route('process-status');
+                    } else {
+                        app('debugbar')->info($tempData5);
+        
+                        $ERRORCONDITIONNUMBER = NULL;
+                        $ACCOUNTFOUND = NULL;
+                        $IDNUMBERMATCH = NULL;
+                        $INITIALSMATCH = NULL;
+                        $SURNAMEMATCH = NULL;
+                        $ACCOUNT_OPEN = NULL;
+                        $ACCOUNTDORMANT = NULL;
+                        $ACCOUNTOPENFORATLEASTTHREEMONTHS = NULL;
+                        $ACCOUNTACCEPTSDEBITS = NULL;
+                        $ACCOUNTACCEPTSCREDITS = NULL;
+                        $EMAILMATCH = NULL;
+                        $PHONEMATCH = NULL;
+                        $TAXREFERENCEMATCH = NULL;
+                        $EnquiryDate = NULL;
+                        $EnquiryType = NULL;
+                        $SubscriberName = NULL;
+                        $SubscriberUserName = NULL;
+                        $EnquiryInput = NULL;
+                        $EnquiryStatus = NULL;
+                        $XDsRefNo = NULL;
+                        $ExternalRef = NULL;
+                        // $BankTypeid = 3;
+                        //print_r($tempData5);exit;
+        
+                        for ($i = 0; $i < count($tempData5); $i++) {
+                            if ($tempData5[$i] == 'ERRORCONDITIONNUMBER') {
+                                $ERRORCONDITIONNUMBER  = $tempData5[$i + 1];
+                                $ERRORCONDITIONNUMBER = str_replace('/ERRORCONDITIONNUMBER', '', $ERRORCONDITIONNUMBER);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTFOUND') {
+                                $ACCOUNTFOUND  = $tempData5[$i + 1];
+                                $ACCOUNTFOUND = str_replace('/ACCOUNTFOUND', '', $ACCOUNTFOUND);
+                            }
+                            if ($tempData5[$i] == 'IDNUMBERMATCH') {
+                                $IDNUMBERMATCH  = $tempData5[$i + 1];
+                                $IDNUMBERMATCH = str_replace('/IDNUMBERMATCH', '', $IDNUMBERMATCH);
+                            }
+                            if ($tempData5[$i] == 'INITIALSMATCH') {
+                                $INITIALSMATCH  = $tempData5[$i + 1];
+                                $INITIALSMATCH = str_replace('/INITIALSMATCH', '', $INITIALSMATCH);
+                            }
+                            if ($tempData5[$i] == 'SURNAMEMATCH') {
+                                $SURNAMEMATCH  = $tempData5[$i + 1];
+                                $SURNAMEMATCH = str_replace('/SURNAMEMATCH', '', $SURNAMEMATCH);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNT-OPEN') {
+                                $ACCOUNT_OPEN  = $tempData5[$i + 1];
+                                $ACCOUNT_OPEN = str_replace('/ACCOUNT-OPEN', '', $ACCOUNT_OPEN);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTDORMANT') {
+                                $ACCOUNTDORMANT  = $tempData5[$i + 1];
+                                $ACCOUNTDORMANT = str_replace('/ACCOUNTDORMANT', '', $ACCOUNTDORMANT);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTOPENFORATLEASTTHREEMONTHS') {
+                                $ACCOUNTOPENFORATLEASTTHREEMONTHS  = $tempData5[$i + 1];
+                                $ACCOUNTOPENFORATLEASTTHREEMONTHS = str_replace('/ACCOUNTOPENFORATLEASTTHREEMONTHS', '', $ACCOUNTOPENFORATLEASTTHREEMONTHS);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTACCEPTSDEBITS') {
+                                $ACCOUNTACCEPTSDEBITS  = $tempData5[$i + 1];
+                                $ACCOUNTACCEPTSDEBITS = str_replace('/ACCOUNTACCEPTSDEBITS', '', $ACCOUNTACCEPTSDEBITS);
+                            }
+                            if ($tempData5[$i] == 'ACCOUNTACCEPTSCREDITS') {
+                                $ACCOUNTACCEPTSCREDITS  = $tempData5[$i + 1];
+                                $ACCOUNTACCEPTSCREDITS = str_replace('/ACCOUNTACCEPTSCREDITS', '', $ACCOUNTACCEPTSCREDITS);
+                            }
+                            if ($tempData5[$i] == 'PHONEMATCH') {
+                                $PHONEMATCH  = $tempData5[$i + 1];
+                                $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
+                            }
+        
+                            if ($tempData5[$i] == 'EMAILMATCH') {
+                                $EMAILMATCH  = $tempData5[$i + 1];
+                                $EMAILMATCH = str_replace('/EMAILMATCH', '', $EMAILMATCH);
+                            }
+        
+                            if ($tempData5[$i] == 'PHONEMATCH') {
+                                $PHONEMATCH  = $tempData5[$i + 1];
+                                $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
+                            }
+                            if ($tempData5[$i] == 'TAXREFERENCEMATCH') {
+                                $TAXREFERENCEMATCH  = $tempData5[$i + 1];
+                                $TAXREFERENCEMATCH = str_replace('/TAXREFERENCEMATCH', '', $TAXREFERENCEMATCH);
+                            }
+                            if ($tempData5[$i] == 'EnquiryDate') {
+                                $EnquiryDate  = $tempData5[$i + 1];
+                                $EnquiryDate = str_replace('/EnquiryDate', '', $EnquiryDate);
+                            }
+        
+                            if ($tempData5[$i] == 'EnquiryType') {
+                                $EnquiryType  = $tempData5[$i + 1];
+                                $EnquiryType = str_replace('/EnquiryType', '', $EnquiryType);
+                            }
+                            if ($tempData5[$i] == 'SubscriberName') {
+                                $SubscriberName  = $tempData5[$i + 1];
+                                $SubscriberName = str_replace('/SubscriberName', '', $SubscriberName);
+                            }
+                            if ($tempData5[$i] == 'SubscriberUserName') {
+                                $SubscriberUserName  = $tempData5[$i + 1];
+                                $SubscriberUserName = str_replace('/SubscriberUserName', '', $SubscriberUserName);
+                            }
+                            if ($tempData5[$i] == 'EnquiryInput') {
+                                $EnquiryInput  = $tempData5[$i + 1];
+                                $EnquiryInput = str_replace('/EnquiryInput', '', $EnquiryInput);
+                            }
+                            if ($tempData5[$i] == 'EnquiryStatus') {
+                                $EnquiryStatus  = $tempData5[$i + 1];
+                                $EnquiryStatus = str_replace('/EnquiryStatus', '', $EnquiryStatus);
+                            }
+                            if ($tempData5[$i] == 'XDsRefNo') {
+                                $XDsRefNo  = $tempData5[$i + 1];
+                                $XDsRefNo = str_replace('/XDsRefNo', '', $XDsRefNo);
+                            }
+                        }
+                        // app('debugbar')->info($ACCOUNTNUMBER);
+        
+                        $returnData = ([
+                            'CreatedOnDate' => date("Y-m-d H:i:s"),
+                            'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                            'ERRORCONDITIONNUMBER' => $ERRORCONDITIONNUMBER,
+                            'ACCOUNTFOUND' => $ACCOUNTFOUND,
+                            'IDNUMBERMATCH' => $IDNUMBERMATCH,
+                            'INITIALSMATCH' => $INITIALSMATCH,
+                            'SURNAMEMATCH' => $SURNAMEMATCH,
+                            'ACCOUNT_OPEN' => $ACCOUNT_OPEN,
+                            'ACCOUNTDORMANT' => $ACCOUNTDORMANT,
+                            'ACCOUNTOPENFORATLEASTTHREEMONTHS' => $ACCOUNTOPENFORATLEASTTHREEMONTHS,
+                            'ACCOUNTACCEPTSDEBITS' => $ACCOUNTACCEPTSDEBITS,
+                            'ACCOUNTACCEPTSCREDITS' => $ACCOUNTACCEPTSCREDITS,
+                            'PHONEMATCH' => $PHONEMATCH,
+                            'EMAILMATCH' => $EMAILMATCH,
+                            'TAXREFERENCEMATCH' => $TAXREFERENCEMATCH,
+                            'EnquiryDate' => $EnquiryDate,
+                            'EnquiryType' => $EnquiryType,
+                            'SubscriberName' => $SubscriberName,
+                            'SubscriberUserName' => $SubscriberUserName,
+                            'EnquiryInput' => $EnquiryInput,
+                            'EnquiryStatus' => $EnquiryStatus,
+                            'XDsRefNo' => $XDsRefNo,
+                            'ExternalRef' => $ExternalRef,
+                        ]);
+                    //print_r($tempData5);exit;
+                        if ($tempData5[1] == 'ResultFile') {
+                            app('debugbar')->info($returnData);
+                            app('debugbar')->info('tempData5');
+                            app('debugbar')->info($tempData5);
+                            //bank verification successful
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 1,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ERRORCONDITIONNUMBER' => $ERRORCONDITIONNUMBER,
+                                    'ACCOUNTFOUND' => $ACCOUNTFOUND,
+                                    'IDNUMBERMATCH' => $IDNUMBERMATCH,
+                                    'INITIALSMATCH' => $INITIALSMATCH,
+                                    'SURNAMEMATCH' => $SURNAMEMATCH,
+                                    'ACCOUNT_OPEN' => $ACCOUNT_OPEN,
+                                    'ACCOUNTDORMANT' => $ACCOUNTDORMANT,
+                                    'ACCOUNTOPENFORATLEASTTHREEMONTHS' => $ACCOUNTOPENFORATLEASTTHREEMONTHS,
+                                    'ACCOUNTACCEPTSDEBITS' => $ACCOUNTACCEPTSDEBITS,
+                                    'ACCOUNTACCEPTSCREDITS' => $ACCOUNTACCEPTSCREDITS,
+                                    'PHONEMATCH' => $PHONEMATCH,
+                                    'EMAILMATCH' => $EMAILMATCH,
+                                    'TAXREFERENCEMATCH' => $TAXREFERENCEMATCH,
+                                    'EnquiryDate' => date('Y-m-d H:i:s', strtotime($EnquiryDate)),
+                                    'EnquiryType' => $EnquiryType,
+                                    'SubscriberName' => $SubscriberName,
+                                    'SubscriberUserName' => $SubscriberUserName,
+                                    'EnquiryInput' => $EnquiryInput,
+                                    'EnquiryStatus' => $EnquiryStatus,
+                                    'XDsRefNo' => $XDsRefNo,
+                                    'ExternalRef' => $ExternalRef,
+                                    'ErrorMessage' => NULL,
+                                    'AVSResponse' => $returnValue
+                                )
+                            );
+        
+                            //API LOGS
+                            APILogs::create([
+                                'API_Log_Id' => Str::upper(Str::uuid()),
+                                'FICAId' => $fica_id,
+                                'ConsumerID' => $selfbankinglinkdetails->selfBankingDetails->Id,
+                                'CustomerID' =>  config("app.CUSTOMER_DEFAULT_ID"),
+                                'Createddate' => date("Y-m-d H:i:s"),
+                                'API_ID' => $avsLookup->Value,
+                            ]);
+                            /* if($ACCOUNTFOUND == 'No'){
+                                return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+                            }else{
+                                return redirect()->route('process-status')->withInput($request->input())->with('Success', 'Internal checks been executed succesfully');
+                            } */
+                            return redirect()->route('process-status');
+                        } else {
+                            //invalid bank information
+                            $errorMessage = str_replace('/Error', '', $tempData5[2]);
+                            $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
+                            AVS::where('FICA_id', $fica_id)->update(
+                                array(
+                                    'AVS_Status' => 0,
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'ErrorMessage' => $message
+                                )
+                            );
+                            //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
+                            return redirect()->route('process-status');
+                        }
+                    }
+                }
+
+        }
+
+        return view('self-banking.preview-details')
+            ->with('customer', $customer)
+            ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
+    }
+
+
+    public function processStatus(Request $request)
+    {
+        $sbid = $request->session()->get('sbid');
+
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first(); 
+        //print_r($selfbankinglinkdetails);exit;
+        $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
+        $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
+        if ($sbid == '' || $sbid == null) {
+            $url = '/';
+            return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
+        }
+
+        if($selfbankinglinkdetails->PersonalDetails == 1 && $selfbankinglinkdetails->DOVS == 1 && $selfbankinglinkdetails->BankingDetails == 1)
+        {
+            $success = "Your details have been verified and your account will be updated within 24 hours, followed by communication confirming that your account has been updated. Your reference for your application is your shareholder reference number(SRN) and today's date";
+        }else{
+            $success = "Your details have been partially verified and one of our agent will contact you within two working days. Your reference for your application is your shareholder reference number(SRN) and today's date";
+        }
+
+        return view('self-banking.process-status')
+            ->with('customer', $customer)
+            ->with('Success', $success)
+            ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
     }
 }

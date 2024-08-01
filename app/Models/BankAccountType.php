@@ -20,4 +20,5 @@ class BankAccountType extends Model
         'Createondate',
         'Lastupdate'
     ];
+
 }

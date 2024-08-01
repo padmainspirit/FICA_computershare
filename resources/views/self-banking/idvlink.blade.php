@@ -140,11 +140,14 @@
                                                 </button>
                                                 </div>
 
+
                                             </div>
 
 
 
                                         </form>
+                                        
+
                                         <div class="text-center d-flex justify-content-center align-items-center mt-2">
                                             {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('/banking') }}">Proceed</a>--}}
                                             </div>
@@ -226,6 +229,7 @@
                                 button below to continue.
                             </p>
                         </div>
+
                         <div class="text-center mb-3">
                             {{-- <div id="save-and-cancel-declaration-btn" style="display: none"> --}}
                             <button type="submit" id="submitBtn" class="btn-primary text-center w-md "
@@ -233,12 +237,13 @@
                                 Submit
                             </button>
 
+
                             <button type="button" id="selfie-continue" class="btn-primary text-center w-md text-white"
-                                style="width: 10%; margin-bottom: 3%;"
+                                style="width: 10%; margin-bottom: 3%;" route="{{ route('agree-selfbanking-tnc') }}"
                                 disabled data-bs-dismiss="modal">
                                 Continue
                             </button>
-
+                            
                             <button type="button" id="selfie-cancel" class="btn-primary text-center w-md text-white"
                                 style="width: 10%;margin-bottom: 3%;"
                                 data-bs-dismiss="modal">
@@ -358,7 +363,6 @@
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
                                 'Selfie has been taken successfully!');
-                            //$("#selfie-continue").hide();
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
                             $("#selfie-continue").prop("disabled", false);
@@ -380,7 +384,7 @@
             });
         });
         $("#selfie-continue").click(function() {
-            location.reload();
+            window.location = '/sb-initiate';
 
         });
 
@@ -418,9 +422,6 @@
                 , success: function(output_data) {
                     // if (output_data.data === 'Consumer') {
                     $('#seflie-text').text(output_data.data);
-                    // console.log('textResult: ' + textResult);
-                    // }
-
                 }
                 , error: function() {
                     // $("#btn-hidden-failed").click();

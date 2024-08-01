@@ -48,6 +48,7 @@
 
 
                                 <form method="post" action="{{ route('idvlink') }}" id="sb-tnc-form">
+
                                 @csrf
                                     <div class="row">
                                         <div class="heading-fica-id mb-1">

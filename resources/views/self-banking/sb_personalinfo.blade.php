@@ -77,12 +77,12 @@
                             <div class="form-group row">
                                 <form class="repeater" method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
                                     @csrf
-                                    <div data-repeater-list="reflist">
+                                    <div data-repeater-list="reflist" data-limit="5">
                                         <?php $reflist = Request::old('reflist')!=null ? count(Request::old('reflist')) : 1;
                                             for ($i=0; $i < $reflist ; $i++) {
                                                 $value = 'reflist.'.$i.'.refnum';
                                             ?>
-                                            <div data-repeater-item class="row">
+                                            <div data-repeater-item class="row repeater">
                                                 <div class="mb-3 col-md-3">
                                                     <label for="subject">Shareholder Reference Number<span style="color:red;">*</span></label>
 
@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="col-lg-3 mt-3">
 
-                                            <p data-repeater-create style="cursor:pointer;"><img  src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE</p>
+                                            <p data-repeater-create id="createclick" style="cursor:pointer;"><img  src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE</p>
                                         </div>
 
 
@@ -302,8 +302,8 @@
                 $('#result').html("id : " + userid + ", name : " + username);
 
             });
-        });
 
+            
         </script>
 
 
@@ -312,14 +312,11 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-<script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 
-<script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
+    <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
 
-<script>
-
-</script>
-
+    
 
 
     @endsection
