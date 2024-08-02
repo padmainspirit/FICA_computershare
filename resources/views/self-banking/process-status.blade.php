@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.selfbankingservice')
@@ -50,18 +50,14 @@
                                 
 
 
-                                <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
-                                            Status
-                                        </h4>
-                                    </div>
-                                </div>
+                            
 
 
-                                <div class="form-group row" style="border: 1px solid black;width: 70%;padding: 25px 50px;margin: 50px 125px;">
+                                <div class="form-group row" style="border: 1px solid black;width: 70%;padding: 25px 50px;margin: 50px 125px;text-align:center;font-size:20px;">
+                                        
                                     @if ($Success)
                                         <div class="alert alert-success">
+                                        <p>Thank you<p>
                                         {{$Success }}
                                         </div>
                                     @endif

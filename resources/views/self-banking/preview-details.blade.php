@@ -1,4 +1,8 @@
-@extends('layouts.master-without-nav')
+<?php
+
+use Illuminate\Support\Facades\Session;
+?>
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.selfbankingservice')
@@ -52,11 +56,7 @@
                                     {{ Session::get('Success') }}
                                     </div>
                                 @endif
-                                @if (Session::has('message'))
-                                    <div class="alert alert-danger">
-                                    {{ Session::get('message') }}
-                                    </div>
-                                @endif
+                                
 
                                 @if (count($errors) > 0)
                                 <div class="alert alert-danger">
@@ -212,7 +212,10 @@
 
                                     <button type="reset" id="clearall" onclick="window.location='{{ url("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
                                     <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Confirm</button>
-
+                                    <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup"
+                                                    data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
+                                                    Popup
+                                                </button>
                                 </div>
 
                                 </form>
@@ -227,6 +230,47 @@
         </div>
     </div>
     <!-- end account-pages -->
+
+
+    {{-- Selfie Popup Modal --}}
+    <div class="modal fade" id="composemodal-selfie" tabindex="-1" role="dialog"
+        aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{{ route('sbgetselfieresult') }}" method="post" enctype="multipart/form-data"
+                    id="getselfieResult">
+                    @csrf
+                    <div class="modal-body">
+                        <br><br>
+                        <div class="text-center mb-4">                            
+                            <div class="row justify-content-center">
+                                <br>
+                                <div class="col-xl-10" id="selfie-link-title">
+                                    <h4 style="color: #000000">Bank execution Status.
+                                    </h4>
+                                </div>
+
+                                <div id="alertError" class="alert alert-danger" role="alert">
+                                    <br>
+                                    <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;">Your verification has not been successful. Please contact our call center for further assistance</p>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="text-center mb-3">
+                            <button type="button" class="btn w-md text-white" onclick="window.location='{{ url("/") }}'" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
+
+                        </div>
+
+                    </div>
+                </form>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+
+
     @endsection
 
     @section('script')
@@ -249,8 +293,10 @@
     <script>
         $(document).ready(function() {
 
-            // Initialize select2
-            //$("#BankName").select2();
+            var message = "<?= Session::has('message') ? Session::get('message'): null  ?>";
+            if(message != null && message != ''){
+                $("#btn-hidden-popup").click();
+            }
         });
     </script>
 

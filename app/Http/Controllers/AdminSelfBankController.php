@@ -228,6 +228,7 @@ class AdminSelfBankController extends Controller
         }
 
         $selfbanking = SelfBankingLink::find($sbid);
+        $selfbanking->Id = $sbid;
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         $companies = Company::all('Company_Name')->sortBy('Company_Name');
         if (!empty($_POST)) {
@@ -250,7 +251,6 @@ class AdminSelfBankController extends Controller
 
             $validator->after(function ($validator) {
                 foreach ($validator->getData()['reflist'] as $key => $value) {
-                    //print_r($value['company']);
                     $position = $key + 1;
                     if ((preg_match('/[C|c]{1}[0-9]{10}/', $value['refnum'])) && $value['company'] == null && $value['company'] == '') {
                         $validator->errors()->add('reflist.' . $key . '.company', 'The company selection is required at row number ' . $position . ' of Account details');
@@ -261,7 +261,6 @@ class AdminSelfBankController extends Controller
             /* code for validating ID number using idas API */
             $verifyData = new VerifyUserController();
             $apiresult = $verifyData->verifyUser($request->IDNUMBER, $request);
-            //print_r($apiresult); //exit;
 
             if ($apiresult[0] != $request->IDNUMBER) {
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Invalid ID number has been entered');
@@ -270,13 +269,14 @@ class AdminSelfBankController extends Controller
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Firstname and surname does not match with the IDnumber');
             }
             if ($apiresult[24] != '' || $apiresult[24] != null) {
-                return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Idnumber of deseased persona has been entered');
+                return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Idnumber of deseased person has been entered');
             }
 
 
             $selfbankingdetailsid = Str::upper(Str::uuid());
+            SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 1]);
 
-
+            $selfbanking->PersonalDetails = 1;
             /* Matches First name only */
             if (strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) != strtoupper($request->SecondName)) {
                 $sbe = SelfBankingExceptions::create([
@@ -287,6 +287,7 @@ class AdminSelfBankController extends Controller
                     'Comment' => 'Pending Surname'
                 ]);
                 $sbe->save();
+                SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 2]);
             }
 
             /* Matches First name and Second name only */
@@ -299,6 +300,7 @@ class AdminSelfBankController extends Controller
                     'Comment' => 'Pending Surname'
                 ]);
                 $sbe->save();
+                SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 2]);
             }
 
 
@@ -333,7 +335,7 @@ class AdminSelfBankController extends Controller
             }
             $clientdata->verifyClientDataSb($request->IDNUMBER, $request, $fica_id);
 
-            SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 1]);
+            
 
             foreach ($request['reflist'] as $srndet) {
                 $compnanysrn = new SelfBankingCompanySRN;
@@ -537,6 +539,11 @@ class AdminSelfBankController extends Controller
                     'Comment' => '3-Month Bank Statement'
                 ]);
                 $sbe->save();
+
+                AVS::where('FICA_id', $fica_id)->update([
+                        'Bank_Documentname' => $fileName,
+                        'Bank_File_Path' =>  $urlFile,
+                ]);
                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>2,'BankDocumentUpload'=>1]);
 
                 //return redirect()->route('sb-preview-details')->withInput($request->input())->with('Success', 'AVS has been executed succesfully');
@@ -1363,10 +1370,12 @@ class AdminSelfBankController extends Controller
                                 )
                             );
                     //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
+                    SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
                     return redirect()->route('process-status');
                 }
                 else if(array_key_exists('Fault',$jsonres['Body'])){
                     //return redirect()->route('process-status')->withInput($request->input())->with('message', 'There might be some sort of server or internet issue, please try again later.');
+                    SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-1,'BankDocumentUpload'=>0]);
                     return redirect()->route('process-status');
                 } else {
                     $tempData = explode('>', $returnValue);
@@ -1575,12 +1584,32 @@ class AdminSelfBankController extends Controller
                                 'Createddate' => date("Y-m-d H:i:s"),
                                 'API_ID' => $avsLookup->Value,
                             ]);
-                            /* if($ACCOUNTFOUND == 'No'){
+
+                            if($ACCOUNTFOUND == 'No'){
+
+                                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
+                                return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
+                                //return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+
+                            }else if($ACCOUNTOPENFORATLEASTTHREEMONTHS == 'Yes'){
+
+                                $sbe = SelfBankingExceptions::create([
+                                    'Id' => Str::upper(Str::uuid()),
+                                    'SelfBankingLinkId' => $sbid,
+                                    'API' => 3,
+                                    'Status' => 'Review',
+                                    'Comment' => 'ACCOUNT OPEN FOR ATLEAST THREE MONTHS'
+                                ]);
+                                $sbe->save();
+                                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
                                 return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+
                             }else{
+                                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
                                 return redirect()->route('process-status')->withInput($request->input())->with('Success', 'Internal checks been executed succesfully');
-                            } */
-                            return redirect()->route('process-status');
+
+                            }
+                           // return redirect()->route('process-status');
                         } else {
                             //invalid bank information
                             $errorMessage = str_replace('/Error', '', $tempData5[2]);
@@ -1593,7 +1622,8 @@ class AdminSelfBankController extends Controller
                                 )
                             );
                             //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
-                            return redirect()->route('process-status');
+                            SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
+                                return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
                         }
                     }
                 }

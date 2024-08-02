@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.Login')
@@ -13,7 +13,7 @@
     @section('content')
 
     <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
     </div>
 
     <div class="account-pages">

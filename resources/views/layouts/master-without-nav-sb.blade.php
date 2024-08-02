@@ -19,6 +19,11 @@
 
 @include('layouts.vendor-scripts')
 
+@guest
+@if(session()->has('sbid'))
+@include('layouts.session-script')
+@endif
+@endguest
 
 </body>
 

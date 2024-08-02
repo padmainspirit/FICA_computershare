@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.sb_index')

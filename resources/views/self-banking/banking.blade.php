@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.selfbankingservice')
@@ -25,7 +25,7 @@
     @section('content')
 
     <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
     </div>
 
     <div class="account-pages">
@@ -101,12 +101,12 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label for="accnumber">Account Number <span style="color:red;" class="required">*</span></label>
-                                        <input id="accnumber" name="accnumber" placeholder="Enter Your Bank Account Number" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('accnumber') ? old('accnumber') : $selfbankinglinkdetails->selfBankingDetails->AccountNumber }} " required="required" />
+                                        <input id="accnumber" name="accnumber" placeholder="Enter Your Bank Account Number" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('accnumber') ? old('accnumber') : $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}" required="required" />
 
                                         <span class="error-messg"></span>
                                         @error('accnumber')
                                         <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
+                                            <small>{{ $accnumber }}</small>
                                         </span>
                                         @enderror
 
@@ -185,7 +185,7 @@
 
                                 </div>
 
-                                <div class="mt-4 text-center" style="display: {{ old('BankName') == 'other' ? 'block' : 'none' }}" id="otherBank">
+                                <div class="mt-4 text-center" style="display:<?=  old('BankName') == 'other' ? 'block' : 'none'; ?> ;" id="otherBank">
 
                                     <p class="mb-4">Please upload a picture of your bank statement. We will not accept blurry
                                         images, photocopies or illegible information. Your bank account number must be fully visible,
@@ -232,7 +232,7 @@
 
                                     <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Clear</button>
                                     <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Next</button>
-
+                                    
                                 </div>
 
                                 </form>
@@ -246,6 +246,10 @@
             </div>
         </div>
     </div>
+
+
+    
+
     <!-- end account-pages -->
     @endsection
 
