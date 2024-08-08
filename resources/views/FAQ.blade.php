@@ -4,6 +4,7 @@
     @lang('translation.FAQs')
 @endsection
 
+
 @section('css')
     <style>
         .heading-fica-id {
