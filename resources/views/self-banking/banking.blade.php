@@ -34,20 +34,20 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-   
-       
+
+
     </div>
     <div class="step text-center">
-    
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
@@ -62,7 +62,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -163,7 +163,7 @@
                                                 --Select Bank--
                                             </option>
                                             @foreach ($bankNames as $bank)
-                                            <?php 
+                                            <?php
                                                 $selected = '';
                                                 if(old('BankName') == $bank->bankname){
                                                     $selected = 'selected';
@@ -176,7 +176,7 @@
                                             </option>
                                             @endforeach
                                             <option value="other" data-price='' {{ old('BankName') == 'other' ? 'selected' : '' }}>Other</option>
-                                           
+
 
                                         </select>
 
@@ -196,7 +196,7 @@
                                             @if ($bankTpye->count())
                                             <option value="">Select Bank Type</option>
                                             @foreach ($bankTpye as $type)
-                                            <?php 
+                                            <?php
                                                 $selected = '';
                                                 if(old('AccountType') == $type->BankTypeid){
                                                     $selected = 'selected';
@@ -237,7 +237,7 @@
                                     </p>
                                     <div class="col-lg-3 mt-3">
 
-<p title="Please upload a 3-month bank statement" 
+<p title="Please upload a 3-month bank statement"
 style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
 </div>
 
@@ -253,13 +253,13 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
                                             <p style="font-size:16px;" class="mt-3">or</p>
                                             <h5 class="mt-1">Browse Image/PDF Files</h5>
                                         </div>
-                                        <div class="col-auto" style="height:300px;width:300px;">
+                                        {{--<div class="col-auto" style="height:300px;width:300px;">
                                             <h5 class="mt-5">Take a Photo</h5>
                                             <button type="button" style="border:none; background: none;">
                                                 <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
                                             </button>
                                             <p style="font-size:16px;" class="mt-1">Click on the camera above to take a picture</p>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <h6 id="fileNameDisplay" style="margin-top: 10px;"></h6>
@@ -281,7 +281,7 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
 
                                     <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Clear</button>
                                     <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Next</button>
-                                    
+
                                 </div>
 
                                 </form>
@@ -297,7 +297,7 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
     </div>
 
 
-    
+
 
     <!-- end account-pages -->
     @endsection
@@ -305,7 +305,7 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
     @section('script')
 
     <script>
-      
+
         $('#BankName').on('change', function() {
 
             var price = $(this).children('option:selected').data('price');

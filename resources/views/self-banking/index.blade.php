@@ -74,19 +74,19 @@
                                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-        
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                                     <div class="progress mt-2" style="height: 20px;">
@@ -101,7 +101,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -127,8 +127,8 @@
                                             <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-left:15px;padding-right:15px;padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
                                                 <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px;">By ticking this box, you authorize Computershare to verify your banking details against any third party database. <a data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
                                             </label>
-                                            
-                                                    
+
+
                                         </div>
 
                                     </div>
@@ -154,36 +154,36 @@
         aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
         <div class="modal-dialog modal-dialog-centered"  role="document">
             <div class="modal-content" style="overflow-y: scroll;">
-                
+
                     <div class="modal-body">
                         <br><br>
                         <div class="text-center mb-4">
                            <h5>Terms & Conditions</h5>
                             <hr>
-                           
+
                        </div>
                         <p style="color: #000000">
                                     By ticking this box, you authorize Computershare to verify your banking details against any third party database. You acknowledge that Computershare might be unable to verify the authenticity of electronic instructions and therefore you hereby indemnify Computershare against any loss or damage incurred as a result of acting upon such instructions. you further acknowledge that it is your responsibility as the account holder to inform Computershare immediately and not later than a period of 1 month of any change made to the registered email address
                                                            </p>
-                     
+
 
                         <div class="text-center mb-3">
-                          
+
                             <div class="row">
-                                       
+
                                         <div class="col-12" style="text-align:center;">
                                         <button type="button" id="selfie-cancel" class="btn btn-primary"
                                 data-bs-dismiss="modal">
-                                Hide
+                                OK
                             </button>
                             </div>
                                     </div>
-                           
+
 
                         </div>
 
                     </div>
-                
+
                 <br><br><br>
             </div>
             {{-- </form> --}}

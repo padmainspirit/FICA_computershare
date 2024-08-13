@@ -30,20 +30,20 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
@@ -58,7 +58,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -190,7 +190,7 @@
 
 
                                         </form>
-                                        
+
 
                                         <div class="text-center d-flex justify-content-center align-items-center mt-2">
                                             {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('banking') }}">Proceed</a>--}}
@@ -207,7 +207,7 @@
 
 
 
-                                          <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c"
+                                          <button type="reset" id="clearall" onclick="window.location='{{ url("digital-verification") }}'" style="background-color: #93186c; border-color: #93186c"
                                               class="btn w-md text-white">Back</button>
 
 
@@ -239,7 +239,7 @@
                             <div id="facial-loading-dynamic">
                                 <img src="{{ URL::asset('/assets/images/selfie2.gif') }}" width="120px" />
                             </div>
-                            
+
                             <br><br>
                             <div class="row justify-content-center">
                                 <br>
@@ -285,8 +285,8 @@
                             </button>
                             </div>
                                     </div>
-                            
-                           
+
+
 
                             <button type="button" class="btn text-center w-md text-white" id="btn-Okay"
                                 style="width: 10%;margin-bottom: 3%;"
@@ -308,7 +308,7 @@
     @endsection
 
     @section('script')
-    
+
 {{-- take selfie --}}
 <script type="text/javascript">
     $(document).ready(function() {
@@ -397,21 +397,21 @@
                             clearInterval(x);
                             console.log('Selfie has been taken successfully!');
                             $('#selfie-link-title').hide();
-                            $('#thankyou').show();                    
+                            $('#thankyou').show();
                             $('#facial-loading-dynamic').hide();
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
                                 'We received your image');
-                                $("#selfie-cancel").hide(); 
-                                $("#continue-btn").show(); 
-                                 
+                                $("#selfie-cancel").hide();
+                                $("#continue-btn").show();
+
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
                             $("#selfie-continue").prop("disabled", false);
                             $("#alertSuccess").show();
                             $("#selfie-cancel").prop("disabled", true);
                             $('#seflie-text').text(
-                                'We received your image'); 
+                                'We received your image');
                             // $("#submitBtn").prop("disabled", false);
                             clearInterval(x);
                         }

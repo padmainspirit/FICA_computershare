@@ -34,24 +34,24 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-   
-       
+
+
     </div>
     <div class="step text-center">
-    
+
     </div>
     <div class="step text-center">
-    <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
+
     </div>
     <div class="step text-center">
-       
+        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 75%;background-color: green;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 100%;background-color: green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                     <div class="step text-center">
@@ -62,7 +62,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -91,14 +91,14 @@
                         <div class="card-body pt-0">
 
                             <div class="p-2">
-                                
 
 
-                            
+
+
 
 
                                 <div class="form-group row" style="border: 1px solid black;width: 70%;padding: 25px 50px;margin: 50px 125px;text-align:center;font-size:20px;">
-                                        
+
                                     @if ($Success)
                                         <div class="alert alert-success">
                                         <p>Thank you<p>
@@ -130,4 +130,3 @@
     <!-- end account-pages -->
     @endsection
 
-    

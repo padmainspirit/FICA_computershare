@@ -335,7 +335,7 @@ class AdminSelfBankController extends Controller
             }
             $clientdata->verifyClientDataSb($request->IDNUMBER, $request, $fica_id);
 
-            
+
 
             foreach ($request['reflist'] as $srndet) {
                 $compnanysrn = new SelfBankingCompanySRN;
@@ -378,7 +378,7 @@ class AdminSelfBankController extends Controller
             return redirect()->route($routename);
         }
 
-        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first(); 
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first();
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
 
         if($_POST)
@@ -396,7 +396,7 @@ class AdminSelfBankController extends Controller
             $fileName = $request->file->getClientOriginalName();
             $filePath = 'SelfBanking/' . $sbid . '/IdDocs/'. $fileName;
 
-            //Storing the file in s3 bucket            
+            //Storing the file in s3 bucket
             //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
             Storage::disk('public')->put($filePath, file_get_contents($request->file));
             $urlFile = $this->s3url.$filePath;
@@ -439,6 +439,7 @@ class AdminSelfBankController extends Controller
 
     public function idvlink(Request $request)
     {
+
         $sbid = $request->session()->get('sbid');
 
         if ($sbid == '' || $sbid == null) {
@@ -455,6 +456,7 @@ class AdminSelfBankController extends Controller
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->first();
         $phoneNumber = $selfbankingdetails->PhoneNumber;
+
         return view('self-banking.idvlink')
             ->with('customer', $customer)
             ->with('phoneNumber', $phoneNumber)
@@ -464,8 +466,8 @@ class AdminSelfBankController extends Controller
     public function bankingAvs(Request $request)
     {
        // $sbid = "90E7B1CC-4F65-4183-A0F4-2717CD9C82A0";
-        $sbid = $request->session()->get('sbid');  
-           
+        $sbid = $request->session()->get('sbid');
+
         if ($sbid == '' || $sbid == null) {
             $url = '/';
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
@@ -476,11 +478,11 @@ class AdminSelfBankController extends Controller
             return redirect()->route($routename);
         } */
 
-        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first(); 
-        
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica'])->where('Id',$sbid)->first();
+
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
 
-        if (!empty($_POST)) { 
+        if (!empty($_POST)) {
 
             $this->validate(
                 $request,
@@ -516,7 +518,7 @@ class AdminSelfBankController extends Controller
 
             }
 
-            SelfBankingDetails::where(['SelfBankingLinkId'=>$sbid])->update([                
+            SelfBankingDetails::where(['SelfBankingLinkId'=>$sbid])->update([
                 'AccountType'=> $request->AccountType,
                 'BankName' => $request->BankName,
                 'BranchCode'=> $request->branchcode,
@@ -529,7 +531,7 @@ class AdminSelfBankController extends Controller
                 $fileName = $request->file->getClientOriginalName();
                 $filePath = 'SelfBanking/' . $sbid . '/BankDocs/'. $fileName;
 
-                //Storing the file in s3 bucket            
+                //Storing the file in s3 bucket
                 //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
                 Storage::disk('public')->put($filePath, file_get_contents($request->file));
                 $urlFile = $this->s3url.$filePath;
@@ -552,18 +554,18 @@ class AdminSelfBankController extends Controller
                 //return redirect()->route('sb-preview-details')->withInput($request->input())->with('Success', 'AVS has been executed succesfully');
                 //return redirect()->route('banking')->withInput($request->input())->with('Success', 'Bank document is received succesfully');
             }else{
-                /* 
+                /*
                     $sb_api = new AdminSelfServiceBankingApiController();
                 ob_start();
                 $ticket = Session::has('xdsTicket') ? Session::get('xdsTicket') : $sb_api->connectandgetNewTicket(); //$this->connectandgetTicket();
                 ob_end_clean();
-                
+
                 $bankInfo = BankAccountType::where('BankTypeid', '=',  $request->AccountType)->first();
                 $verifyType = 'Individual';
                 $entity = 'None';
 
                 $avsLookup = LookupDatas::where(['Type'=>'API_ID','Text'=>'AVS'])->first();
-                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname; 
+                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname;
                 $email = $selfbankinglinkdetails->selfBankingDetails->Email;
                 $id_type = 'SID';
                 $initials =  $request->initial;
@@ -573,16 +575,16 @@ class AdminSelfBankController extends Controller
                 $bankName =  $request->BankName;
                 $id_no =  $selfbankinglinkdetails->selfBankingDetails->IDNUMBER;
                 $contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
-        
+
                 $userVerification = new UserVerificationController();
-        
+
                 $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
-             
+
                 // app('debugbar')->info($returnValue);
-                
-                
+
+
                 $jsonres = $sb_api->parseSoapXml($returnValue);
-                
+
                 $jbody = $jsonres['Body']['ConnectAccountVerificationRealTimeWithContactsResponse']['ConnectAccountVerificationRealTimeWithContactsResult'];
                 if(preg_match('<Error>', $jbody))
                 {
@@ -602,24 +604,24 @@ class AdminSelfBankController extends Controller
                 } else {
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
-        
+
                     $referenceNo = (int)preg_replace('/[^0-9]/', '', $tempData2[0]); //here we want to get only numbers and filter the rest of the characters
-        
+
                     $returnValue = $userVerification->ConnectGetAccountVerificationResult($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $referenceNo);
-        
+
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
-        
+
                     $tempData3 = str_replace('&lt;', '', $tempData2);
                     $tempData4 = str_replace('&gt', '', $tempData3);
                     $tempData5 = explode(';', $tempData4[0]);
                     //print_r($returnValue);exit;
-        
+
                     if ($tempData5[2] == 'Invalid Ticket/Error') {
                         return redirect()->route('banking')->withInput($request->input())->with('message', 'Internal error, please try again.');
                     } else {
                         app('debugbar')->info($tempData5);
-        
+
                         $ERRORCONDITIONNUMBER = NULL;
                         $ACCOUNTFOUND = NULL;
                         $IDNUMBERMATCH = NULL;
@@ -643,7 +645,7 @@ class AdminSelfBankController extends Controller
                         $ExternalRef = NULL;
                         // $BankTypeid = 3;
                         //print_r($tempData5);exit;
-        
+
                         for ($i = 0; $i < count($tempData5); $i++) {
                             if ($tempData5[$i] == 'ERRORCONDITIONNUMBER') {
                                 $ERRORCONDITIONNUMBER  = $tempData5[$i + 1];
@@ -689,12 +691,12 @@ class AdminSelfBankController extends Controller
                                 $PHONEMATCH  = $tempData5[$i + 1];
                                 $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
                             }
-        
+
                             if ($tempData5[$i] == 'EMAILMATCH') {
                                 $EMAILMATCH  = $tempData5[$i + 1];
                                 $EMAILMATCH = str_replace('/EMAILMATCH', '', $EMAILMATCH);
                             }
-        
+
                             if ($tempData5[$i] == 'PHONEMATCH') {
                                 $PHONEMATCH  = $tempData5[$i + 1];
                                 $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
@@ -707,7 +709,7 @@ class AdminSelfBankController extends Controller
                                 $EnquiryDate  = $tempData5[$i + 1];
                                 $EnquiryDate = str_replace('/EnquiryDate', '', $EnquiryDate);
                             }
-        
+
                             if ($tempData5[$i] == 'EnquiryType') {
                                 $EnquiryType  = $tempData5[$i + 1];
                                 $EnquiryType = str_replace('/EnquiryType', '', $EnquiryType);
@@ -734,7 +736,7 @@ class AdminSelfBankController extends Controller
                             }
                         }
                         // app('debugbar')->info($ACCOUNTNUMBER);
-        
+
                         $returnData = ([
                             'CreatedOnDate' => date("Y-m-d H:i:s"),
                             'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -795,7 +797,7 @@ class AdminSelfBankController extends Controller
                                     'AVSResponse' => $returnValue
                                 )
                             );
-        
+
                             //API LOGS
                             APILogs::create([
                                 'API_Log_Id' => Str::upper(Str::uuid()),
@@ -825,18 +827,18 @@ class AdminSelfBankController extends Controller
                         }
                     }
                 }
-            
+
                 */
-                
+
             }
-            
+
 
             return redirect()->route('sb-preview-details');
         }
         $banks = Banks::all()->sortBy('bankname');
         $bankTpye = BankAccountType::all();
 
-       
+
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->first();
         $phoneNumber = $selfbankingdetails->PhoneNumber;
@@ -873,7 +875,9 @@ class AdminSelfBankController extends Controller
         $ficadetails = FICA::where('Consumerid', '=', $selfbankingdetails->SelfBankingDetailsId)->first();
 
 
-        if($_POST){
+        if($_POST)
+       {
+
             $UserVerificationController = new UserVerificationController;
             try {
                 $get_user_id = DOVS::select("TBL_Consumer_DOVS.*", "TBL_Consumer_SelfBankingDetails.*")
@@ -884,7 +888,7 @@ class AdminSelfBankController extends Controller
                     ->get()
                     ->toArray();
 
-               
+
                 if (count($get_user_id) == 0) {
                     return redirect("some thing went wrong");
                 }
@@ -1026,7 +1030,7 @@ class AdminSelfBankController extends Controller
         $selfbanking = SelfBankingLink::find($sbid);
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
         $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
-     
+
         try {
             /* $loggedInUserId = Auth::user()->Id;
             $client = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
@@ -1057,7 +1061,7 @@ class AdminSelfBankController extends Controller
 
 
             //if ($client->isAdmin == 1 || $client->isAdmin == 0) {
-                
+
             $UserVerificationController = new UserVerificationController;
             $soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
             $soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
@@ -1065,7 +1069,7 @@ class AdminSelfBankController extends Controller
             $username = $this->xdsusername; // Demo username
 
             $password = $this->xdspassword;
-           
+
             $returnValue = $UserVerificationController->soapLoginAPICall($soapUrlLive, $username, $password);
             //$enquiryId = $request->enquiryId;
             //$enquiryId = 57080687/57096945
@@ -1264,7 +1268,7 @@ class AdminSelfBankController extends Controller
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
 
                             $process = 'NoPhoto';
-                        }else if($ConsumerIDPhotoMatch != 'Matched'){ 
+                        }else if($ConsumerIDPhotoMatch != 'Matched'){
                             /* Process failed flow, terminate the execution */
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
@@ -1278,7 +1282,7 @@ class AdminSelfBankController extends Controller
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>-2]);
 
                             $process = 'Failed';
-                        }else if($ConsumerIDPhotoMatch == 'Matched'){ 
+                        }else if($ConsumerIDPhotoMatch == 'Matched'){
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>1]);
                             $process = 'Success';
                         }
@@ -1319,8 +1323,8 @@ class AdminSelfBankController extends Controller
     {
         $sbid = $request->session()->get('sbid');
 
-        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first(); 
-        
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first();
+
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
         if ($sbid == '' || $sbid == null) {
@@ -1329,7 +1333,7 @@ class AdminSelfBankController extends Controller
         }
 
 
-        if($_POST){ 
+        if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")
             {
                 return redirect()->route('process-status');
@@ -1339,12 +1343,12 @@ class AdminSelfBankController extends Controller
                 ob_start();
                 $ticket = Session::has('xdsTicket') ? Session::get('xdsTicket') : $sb_api->connectandgetNewTicket(); //$this->connectandgetTicket();
                 ob_end_clean();
-                
+
                 $verifyType = 'Individual';
                 $entity = 'None';
 
                 $avsLookup = LookupDatas::where(['Type'=>'API_ID','Text'=>'AVS'])->first();
-                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname; 
+                $surname = $selfbankinglinkdetails->selfBankingDetails->Surname;
                 $email = $selfbankinglinkdetails->selfBankingDetails->Email;
                 $id_type = 'SID';
                 $initials =  $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial;
@@ -1354,16 +1358,16 @@ class AdminSelfBankController extends Controller
                 $bankName =  $selfbankinglinkdetails->selfBankingDetails->BankName;
                 $id_no =  $selfbankinglinkdetails->selfBankingDetails->IDNUMBER;
                 $contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
-        
+
                 $userVerification = new UserVerificationController();
-        
+
                 $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
-             
+
                 // app('debugbar')->info($returnValue);
-                
-                
+
+
                 $jsonres = $sb_api->parseSoapXml($returnValue);
-                
+
                 $jbody = $jsonres['Body']['ConnectAccountVerificationRealTimeWithContactsResponse']['ConnectAccountVerificationRealTimeWithContactsResult'];
                 if(preg_match('<Error>', $jbody))
                 {
@@ -1387,25 +1391,25 @@ class AdminSelfBankController extends Controller
                 } else {
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
-        
+
                     $referenceNo = (int)preg_replace('/[^0-9]/', '', $tempData2[0]); //here we want to get only numbers and filter the rest of the characters
-        
+
                     $returnValue = $userVerification->ConnectGetAccountVerificationResult($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $referenceNo);
-        
+
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
-        
+
                     $tempData3 = str_replace('&lt;', '', $tempData2);
                     $tempData4 = str_replace('&gt', '', $tempData3);
                     $tempData5 = explode(';', $tempData4[0]);
                     //print_r($returnValue);exit;
-        
+
                     if ($tempData5[2] == 'Invalid Ticket/Error') {
                        // return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal error, please try again.');
                        return redirect()->route('process-status');
                     } else {
                         app('debugbar')->info($tempData5);
-        
+
                         $ERRORCONDITIONNUMBER = NULL;
                         $ACCOUNTFOUND = NULL;
                         $IDNUMBERMATCH = NULL;
@@ -1429,7 +1433,7 @@ class AdminSelfBankController extends Controller
                         $ExternalRef = NULL;
                         // $BankTypeid = 3;
                         //print_r($tempData5);exit;
-        
+
                         for ($i = 0; $i < count($tempData5); $i++) {
                             if ($tempData5[$i] == 'ERRORCONDITIONNUMBER') {
                                 $ERRORCONDITIONNUMBER  = $tempData5[$i + 1];
@@ -1475,12 +1479,12 @@ class AdminSelfBankController extends Controller
                                 $PHONEMATCH  = $tempData5[$i + 1];
                                 $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
                             }
-        
+
                             if ($tempData5[$i] == 'EMAILMATCH') {
                                 $EMAILMATCH  = $tempData5[$i + 1];
                                 $EMAILMATCH = str_replace('/EMAILMATCH', '', $EMAILMATCH);
                             }
-        
+
                             if ($tempData5[$i] == 'PHONEMATCH') {
                                 $PHONEMATCH  = $tempData5[$i + 1];
                                 $PHONEMATCH = str_replace('/PHONEMATCH', '', $PHONEMATCH);
@@ -1493,7 +1497,7 @@ class AdminSelfBankController extends Controller
                                 $EnquiryDate  = $tempData5[$i + 1];
                                 $EnquiryDate = str_replace('/EnquiryDate', '', $EnquiryDate);
                             }
-        
+
                             if ($tempData5[$i] == 'EnquiryType') {
                                 $EnquiryType  = $tempData5[$i + 1];
                                 $EnquiryType = str_replace('/EnquiryType', '', $EnquiryType);
@@ -1520,7 +1524,7 @@ class AdminSelfBankController extends Controller
                             }
                         }
                         // app('debugbar')->info($ACCOUNTNUMBER);
-        
+
                         $returnData = ([
                             'CreatedOnDate' => date("Y-m-d H:i:s"),
                             'LastUpdatedDate' => date("Y-m-d H:i:s"),
@@ -1581,7 +1585,7 @@ class AdminSelfBankController extends Controller
                                     'AVSResponse' => $returnValue
                                 )
                             );
-        
+
                             //API LOGS
                             APILogs::create([
                                 'API_Log_Id' => Str::upper(Str::uuid()),
@@ -1647,7 +1651,7 @@ class AdminSelfBankController extends Controller
     {
         $sbid = $request->session()->get('sbid');
 
-        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first(); 
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first();
         //print_r($selfbankinglinkdetails);exit;
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);

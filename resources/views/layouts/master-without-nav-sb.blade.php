@@ -10,13 +10,17 @@
     @include('layouts.head-css')
 </head>
 <style>
-   
+
    .step {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 20px;
 }
+.big-checkbox:checked {
+        background-color: green;
+        border: green;
+    }
 
 .step img {
     margin-bottom: 5px;

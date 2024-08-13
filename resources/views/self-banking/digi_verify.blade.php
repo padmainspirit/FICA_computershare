@@ -22,20 +22,20 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-   
-       
+
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
@@ -50,7 +50,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -120,11 +120,11 @@
                                       <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                                 </form>
-                                
+
                                 <div class="mt-3">
 
 
-<button id="clearall" onclick="window.location='{{ url("sb-personalinfo") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
+<button type="reset" id="clearall" onclick="window.location='{{ url("sb_personalinfo") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
 
 
 
