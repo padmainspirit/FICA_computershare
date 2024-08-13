@@ -1885,8 +1885,10 @@ class CustomerVerification extends Controller
 
         $ProgressbyFICA = $ProgressbyFICA * 10;
 
-        $SetActions = Actions::where('Consumerid', '=', $SearchConsumerID)->get();
-
+        $SetActions = Actions::with(['customerUser'=>function ($query) {
+            $query->select('Id','FirstName', 'LastName');
+        }])->where('Consumerid', '=', $SearchConsumerID)->get();
+       
         $DisplayData = Consumer::where('Consumerid', '=', $SearchConsumerID)->first();
 
         $Email = $DisplayData['Email'];
@@ -2050,7 +2052,7 @@ class CustomerVerification extends Controller
             $actionType = 'RISK STATUS';
             $actionComment = 'UPDATE TO ' .  $riskStatus;
             Actions::create([
-                'AdminID' => $consumer->Consumerid,
+                'AdminID' => Auth::user()->Id,  //$consumer->Consumerid,
                 'Consumerid' =>  $consumerId,
                 'ActionDate' => date("Y-m-d H:i:s"),
                 'ActionType' => $actionType,
@@ -2062,7 +2064,7 @@ class CustomerVerification extends Controller
             $actionType = 'FICA STATUS';
             $actionComment = 'UPDATE TO ' .  $ficaStatus;
             Actions::create([
-                'AdminID' => $consumer->Consumerid,
+                'AdminID' => Auth::user()->Id,  //$consumer->Consumerid,
                 'Consumerid' =>  $consumerId,
                 'ActionDate' => date("Y-m-d H:i:s"),
                 'ActionType' => $actionType,
@@ -2074,7 +2076,7 @@ class CustomerVerification extends Controller
             $actionType = 'API STATUS';
             foreach ($APIsEnable as $apiComment) {
                 Actions::create([
-                    'AdminID' => $consumer->Consumerid,
+                    'AdminID' => Auth::user()->Id,  //$consumer->Consumerid,
                     'Consumerid' =>  $consumerId,
                     'ActionDate' => date("Y-m-d H:i:s"),
                     'ActionType' => $actionType,

@@ -462,7 +462,10 @@
                                                                         @foreach ($SetActions as $item)
                                                                             <tr>
                                                                                 <td class="font-size-12">
-                                                                                    {{ $LogUserName }} {{ $LogUserSurname }}
+                                                                                    <!-- {{ $LogUserName }} {{ $LogUserSurname }} -->
+                                                                                    @if($item->customerUser)
+                                                                                    {{ $item->customerUser->FirstName. " ". $item->customerUser->LastName }}
+                                                                                    @endif
                                                                                 </td>
                                                                                 <td class="font-size-12">
                                                                                     {{ $FirstName }} {{ $SURNAME }}

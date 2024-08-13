@@ -20,4 +20,9 @@ class Actions extends Model
         ,'Action_Comment'
         ,'Admin_User'
     ];
+
+    public function customerUser()
+    {
+        return $this->hasOne(CustomerUser::class,'Id','AdminID');
+    }
 }

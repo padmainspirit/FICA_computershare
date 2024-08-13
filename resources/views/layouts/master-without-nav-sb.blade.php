@@ -9,6 +9,25 @@
     <link rel="icon" href="{{ URL::asset('assets/images/logo/.png') }}">
     @include('layouts.head-css')
 </head>
+<style>
+   
+   .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.step img {
+    margin-bottom: 5px;
+}
+
+.text-center {
+    width: 100%;
+}
+
+
+</style>
 
 @yield('body')
 
@@ -19,6 +38,11 @@
 
 @include('layouts.vendor-scripts')
 
+@guest
+@if(session()->has('sbid'))
+@include('layouts.session-script')
+@endif
+@endguest
 
 </body>
 

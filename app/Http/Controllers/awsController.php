@@ -224,17 +224,20 @@ class awsController extends Controller
                  app('debugbar')->info('$IdDataResult->Id'.$IdDataResult->Id);
                 if (strlen($IdDataResult->Id) == 13 && $IdDataResult->Score >= 50) {
                     //1.save to database
-                    $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
-                    $IdResult =   $dataValidated;
-                    $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
-                    //  $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->where('FICAStatus', '=', 'In progress')->first();
                     $loggedInUserId = Auth::user()->Id;
                     $IDNUMBER = Auth::user()->IDNumber;
                     $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+                    $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
+
+                    $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request, $fica->FICA_id);
+                    $IdResult =   $dataValidated;
+                    $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
+                    //  $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->where('FICAStatus', '=', 'In progress')->first();
+                    
                     //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
                     // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
                     $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
-                    $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
+                    
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
                     $identity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
@@ -308,19 +311,26 @@ class awsController extends Controller
 
                     app('debugbar')->info($dataValidated);
                 } else if (strlen($IdDataResult->Id) >= 11 || $IdDataResult->Id < 13 && $IdDataResult->Score >= 50) {
-                    $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request);
+
+                    $loggedInUserId =  Auth::user()->Id ;
+                    //$IDNUMBER = Auth::user()->IDNumber;
+                    $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
+                    //$consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
+                    // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
+                    $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+                    $IDNUMBER = $customerUser->IDNumber;
+                    $fica = FICA::where('Consumerid', '=', $consumer->Consumerid)->first();
+                    $dataValidated = $verifyData->verifyClientData($IdDataResult->Id, $request, $fica->FICA_id);
                     $IdResult =  $dataValidated;
-                    $ficaId = ConsumerIdentity::where('Identity_Document_ID', '=', $dataValidated)->first();
-                    $fica = FICA::where('FICA_id', '=', $ficaId->FICA_id)->first();
 
                     // $customerUser = CustomerUser::where('Id', '=', session()->get('LoggedUser'))->first();
-                    $loggedInUserId = Auth::user()->Id;
-                    $IDNUMBER = Auth::user()->IDNumber;
-                    $consumer = Consumer::where('CustomerUSERID', '=',  $loggedInUserId)->first();
-                    $customerUser = CustomerUser::where('Id', '=',  $loggedInUserId)->first();
+
                     $customers = Customer::where('Id', '=',  $customerUser->CustomerId)->first();
                     $customerID = $customers->Id;
-                    $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
+                    $IDNUMBER = Auth::user()->IDNumber;
+                    $FicaProgressValue = FICA::getFicaProgressValue(Auth::user()->CustomerId);
+                    //$ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + 1 : 1;
+                    $ficaProgress = isset($fica->FICAProgress) ? $fica->FICAProgress + $FicaProgressValue : $FicaProgressValue;
                     $identity = ConsumerIdentity::where('FICA_id', '=',  $fica->FICA_id)->first();
 
                     //FICA Progress

@@ -632,15 +632,18 @@
             function validateEmail(event) {
                 let error = event.target.nextElementSibling;
                 error.innerText = "";
+                var filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
                 try {
 
                     if (event.target.validity.valueMissing)
                         throw event.target.validationMessage;
-
-                    else if ((!event.target.validity.valid || event.target.value.slice(-4) != '.com') && (!event.target.validity
+                    else if(!filter.test(event.target.value))
+                        throw "Please enter a valid email.";
+                   /*  else if ((!event.target.validity.valid || event.target.value.slice(-4) != '.com') && (!event.target.validity
                             .valid || event.target.value.slice(-6) != '.co.za' && (!event.target.validity.valid || event.target
                                 .value.slice(-6) != '.org')))
-                        throw "Please enter a valid email.";
+                        throw "Please enter a valid email."; */
 
                     else
                         event.target.style.borderBottom = '2px solid lime';

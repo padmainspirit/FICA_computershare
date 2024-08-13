@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-without-nav-sb')
 
 @section('title')
 @lang('translation.Login')
@@ -13,13 +13,57 @@
     @section('content')
 
     <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
     </div>
 
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
+                <div class="text-center mt-3 d-flex justify-content-between align-items-center">
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+    <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+</div>
+                <div class="progress mb-4 mt-3" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: green;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                                                  <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
+                                                                  <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
+        <h5>Welcome</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
+        <h5>Personal Details</h5>
+    </div>
+   
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
+        <h5>Digital ID Verification</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
+        <h5>Banking Details</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
+        <h5>Finish</h5>
+    </div>
+</div>
                     <div class="card overflow-hidden">
 
 
@@ -47,7 +91,7 @@
                             @endif
 
 
-                            <form method="post" action="" id="sb-tnc-form">
+                            <form method="post" action="" id="sb-tnc-form"  enctype="multipart/form-data">
                                 @csrf
                                     <div class="row">
                                         <div class="heading-fica-id mb-1">
@@ -66,6 +110,11 @@
                                                 We will not accept blurry images, photocopies, or illegal information. Details of your ID document must
                                                 be fully visible, clear, and east-to-read.
                                             </p>
+                                            <div class="col-lg-3 mt-3">
+
+<p title="If the shareholder is uploading an ID card, Take a clear photo of ID document" 
+style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+</div>
 
                                             <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
