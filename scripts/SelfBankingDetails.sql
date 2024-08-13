@@ -1,14 +1,12 @@
 USE [IDAS_FICASA]
 GO
 
-
-
-/****** Object:  Table [dbo].[TBL_Consumer_SelfBankingDetails]    Script Date: 22-07-2024 12:00:23 ******/
+/****** Object:  Table [dbo].[TBL_Consumer_SelfBankingDetails]    Script Date: 05-08-2024 18:12:07 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TBL_Consumer_SelfBankingDetails]') AND type in (N'U'))
 DROP TABLE [dbo].[TBL_Consumer_SelfBankingDetails]
 GO
 
-/****** Object:  Table [dbo].[TBL_Consumer_SelfBankingDetails]    Script Date: 22-07-2024 12:00:23 ******/
+/****** Object:  Table [dbo].[TBL_Consumer_SelfBankingDetails]    Script Date: 05-08-2024 18:12:07 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -30,13 +28,15 @@ CREATE TABLE [dbo].[TBL_Consumer_SelfBankingDetails](
 	[LastUpdatedDate] [datetime] NULL,
 	[Email] [varchar](100) NULL,
 	[PhoneNumber] [nchar](10) NULL,
-	[PhoneNumberHome] [nchar](10) NULL,
+	[DovsPhoneNumber] [nchar](10) NULL,
 	[PhoneNumberWork] [nchar](10) NULL,
 	[AccountType] [varchar](50) NULL,
 	[AccountHolderInitial] [nchar](10) NULL,
 	[BankName] [varchar](50) NULL,
 	[AccountNumber] [varchar](50) NULL,
-	[Client_Ref] [varchar](150) NULL
+	[Client_Ref] [varchar](150) NULL,
+	[BranchCode] [varchar](50) NULL
 ) ON [PRIMARY]
 GO
+
 

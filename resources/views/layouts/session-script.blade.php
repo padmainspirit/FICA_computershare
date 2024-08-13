@@ -14,8 +14,8 @@
             </div>
             <div class="modal-body">
                 <br/>
-                <span style="color: #696969">Your Session will expire in 2 mins, please click on the logout button to
-                    logout or on stay connected to continue.</span>
+                <span style="color: #696969"><p id="countdown">Time remaining: 00:00</p> to expire your session, please click on the Clear Session button to
+                    clear your session or on stay connected to continue.</span>
                 <br/>
             </div>
             <div class="modal-footer">
@@ -29,33 +29,51 @@
 
 <script type="text/javascript">
 
-    /* function clearSession()
+    function clearSession()
     {
         sessionStorage.removeItem('sbid');
         window.location="/";
     }
 
-    $(document).ready(function() {
+    /* $(document).ready(function() {
         var idleState = false;
         var idleTimer = null;
         var idleTimer2 = null;
+        const countdownElement = document.getElementById('countdown');
         const timeout = <?php //echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
         const modaltime = <?php //echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
+        let timeRemaining = (modaltime/1000);
+        let countdownInterval;
+            
+        function updateCountdown()
+        {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            countdownElement.textContent = `Time remaining: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timeRemaining--;
+
+            if (timeRemaining < 0) {
+                clearInterval(countdownInterval);
+            }
+        }
 
         $('*').bind(
             'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick'
             , function() {
                 clearTimeout(idleTimer);
+                
                 idleState = false;
                 idleTimer = setTimeout(function() {
                     document.getElementById('modalbtn').click();
 
-                    idleTimer2 = setTimeout(function() {alert('inmodel');
+                    countdownInterval = setInterval(updateCountdown, 1000);
+
+                    idleTimer2 = setTimeout(function() {
                         sessionStorage.removeItem('sbid');
                         window.location="/";
                         idleState = true;
-                    }, timeout);
-                }, modaltime);
+                    }, modaltime);
+                }, timeout);
 
             });
         $("body").trigger("mousemove");

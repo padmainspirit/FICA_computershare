@@ -131,7 +131,15 @@
                                                 {{ $bank->bankname }}
                                             </option>
                                             @endforeach
-                                            <option value="other" data-price='' {{ old('BankName') == 'other' ? 'selected' : '' }}>Other</option>
+                                            <?php 
+                                                $selected = '';
+                                                if(old('BankName') == 'other'){
+                                                    $selected = 'selected';
+                                                }else if($selfbankinglinkdetails->selfBankingDetails->BankName == 'other'){
+                                                    $selected = 'selected';
+                                                }
+                                            ?>
+                                            <option value="other" data-price='' {{ $selected }}>Other</option>
                                            
 
                                         </select>
@@ -185,12 +193,26 @@
 
                                 </div>
 
-                                <div class="mt-4 text-center" style="display:<?=  old('BankName') == 'other' ? 'block' : 'none'; ?> ;" id="otherBank">
+                                <?php 
+                                                $display = '';
+                                                if(old('BankName') == 'other'){
+                                                    $display = 'block';
+                                                }else if($selfbankinglinkdetails->selfBankingDetails->BankName == 'other'){
+                                                    $display = 'block';
+                                                }else{
+                                                    $display = 'none';
+                                                }
+                                            ?>
+                                <div class="mt-4 text-center" style="display:<?=  $display; ?> ;" id="otherBank">
 
                                     <p class="mb-4">Please upload a picture of your bank statement. We will not accept blurry
                                         images, photocopies or illegible information. Your bank account number must be fully visible,
                                         clear easy-to-read.
                                     </p>
+
+                                    @if ($avs->Bank_File_Path != null)
+                                    <img src="{{ $avs->Bank_File_Path }}" alt="img" class="image" height="50px" width="50px">
+                                    @endif
 
                                     <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
@@ -215,9 +237,9 @@
 
                                     <h6 id="fileNameDisplay" style="margin-top: 10px;"></h6>
 
-                                    <div class="mb-3 mt-3">
+                                   <!--  <div class="mb-3 mt-3">
                                         <button type="button" id="upload" style="background-color: #93186c; border-color: #93186c" class="btn btn-primary w-lg waves-effect waves-light">Upload</button>
-                                    </div>
+                                    </div> -->
 
                                 </div>
 
