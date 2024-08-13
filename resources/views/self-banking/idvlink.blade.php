@@ -28,6 +28,50 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
+                <div class="text-center mt-3 d-flex justify-content-between align-items-center">
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+    <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+    <div class="step text-center">
+       
+    </div>
+</div>
+                <div class="progress mb-4 mt-3" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: green;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
+                                    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
+        <h5>Welcome</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
+        <h5>Personal Details</h5>
+    </div>
+   
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
+        <h5>Digital ID Verification</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
+        <h5>Banking Details</h5>
+    </div>
+    <div class="step text-center">
+        <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
+        <h5>Finish</h5>
+    </div>
+</div>
                     <div class="card overflow-hidden">
 
 
@@ -44,6 +88,8 @@
                         <div class="card-body pt-0">
 
                             <div class="p-2">
+                            <div id="form-errors" ></div>
+                            
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -93,7 +139,7 @@
                                                                 <label class="form-check-label" for="emailOption">Email</label>
                                                             </div>--}}
                                                             <div class="form-check form-check-inline font-size-16">
-                                                                <input class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
+                                                                <input style="background-color:green;border: 1px solid green;" class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
                                                                 <label class="form-check-label" for="smsOption">SMS</label>
                                                             </div>
                                                         </div>
@@ -149,7 +195,7 @@
                                         
 
                                         <div class="text-center d-flex justify-content-center align-items-center mt-2">
-                                            {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('/banking') }}">Proceed</a>--}}
+                                            {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('banking') }}">Proceed</a>--}}
                                             </div>
                                     </div>
 
@@ -195,18 +241,16 @@
                             <div id="facial-loading-dynamic">
                                 <img src="{{ URL::asset('/assets/images/selfie2.gif') }}" width="120px" />
                             </div>
-                            <div id="facial-loading-static" style="display: none">
-                                <img src="{{ URL::asset('/assets/images/selfie2.png') }}" width="120px" />
-                            </div>
+                            
                             <br><br>
                             <div class="row justify-content-center">
                                 <br>
                                 <div class="col-xl-10" id="selfie-link-title">
                                     <h4 style="color: #000000">Selfie Link SMS has been sent.
                                     </h4>
-                                    <h5 style="color: #000000">
+                                    <p style="color: #000000">
                                         Please ensure that your browser cookies are enabled.
-                                    </h5>
+                                                           </p>
                                 </div>
                                 <div id="alertSuccess" class="alert alert-success" role="alert">
                                     <br>
@@ -219,9 +263,7 @@
                                 </div>
                             </div>
                             <br>
-                           <p class="text-muted font-size-14 mb-4" style="color:#000000;margin-bottom: 3%;">Please
-                                click the
-                                button below to continue.
+                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank You, Your ID has been verified, please click on Continue
                             </p>
                         </div>
 
@@ -233,17 +275,20 @@
                             </button>
 
 
-                            <button type="button" id="selfie-continue" class="btn-primary text-center w-md text-white"
-                                style="width: 10%; margin-bottom: 3%;" route="{{ route('agree-selfbanking-tnc') }}"
-                                disabled data-bs-dismiss="modal">
-                                Continue
-                            </button>
-                            
-                            <button type="button" id="selfie-cancel" class="btn-primary text-center w-md text-white"
-                                style="width: 10%;margin-bottom: 3%;"
+                            <div class="row">
+                                        <div class="col-12" style="text-align:center;">
+                                        <button id="continue-btn" type="button" style="display:none;" class="btn btn-primary"  route="{{ route('banking') }}"
+                                         data-bs-dismiss="modal">Continue</button>
+                                        </div>
+                                        <div class="col-12" style="text-align:center;">
+                                        <button type="button" id="selfie-cancel" class="btn btn-primary"
                                 data-bs-dismiss="modal">
                                 Cancel
                             </button>
+                            </div>
+                                    </div>
+                            
+                           
 
                             <button type="button" class="btn text-center w-md text-white" id="btn-Okay"
                                 style="width: 10%;margin-bottom: 3%;"
@@ -297,7 +342,7 @@
                     $('#loading-send-sms').show();
                     $('#click-icon-facial').hide();
                     $('#click-icon-static-facial').show();
-                    $('#submit-facial').hide();
+                    //$('#submit-facial').hide();
                     $("#submit-facial").prop("disabled", true);
                     $('#selfie-upload-box').hide();
                 }
@@ -354,17 +399,21 @@
                             clearInterval(x);
                             console.log('Selfie has been taken successfully!');
                             $('#selfie-link-title').hide();
+                            $('#thankyou').show();                    
                             $('#facial-loading-dynamic').hide();
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
-                                'Selfie has been taken successfully!');
+                                'We received your image');
+                                $("#selfie-cancel").hide(); 
+                                $("#continue-btn").show(); 
+                                 
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
                             $("#selfie-continue").prop("disabled", false);
                             $("#alertSuccess").show();
                             $("#selfie-cancel").prop("disabled", true);
                             $('#seflie-text').text(
-                                'Selfie has been taken successfully!');
+                                'We received your image'); 
                             // $("#submitBtn").prop("disabled", false);
                             clearInterval(x);
                         }
@@ -373,7 +422,18 @@
                     //location.reload();
                 }
                 , error: function(response) {
-                    console.log(reponse);
+                    console.log(response);
+                    var errors = response.responseJSON;
+                    if(response.responseJSON.errors != null){
+                        errorsHtml = '<div class="alert alert-danger"><ul>';
+
+                        $.each( errors.errors, function( key, value ) {
+                            errorsHtml += '<li>'+ value[0] + '</li>'; //showing only the first error.
+                        });
+                        errorsHtml += '</ul></div>';
+
+                        $( '#form-errors' ).html( errorsHtml );
+                    }
                     // $("#btn-hidden-failed").click();
                 }
             });

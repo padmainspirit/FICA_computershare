@@ -1,10 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\Session;
-
-?>
-
-
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -16,26 +9,41 @@ use Illuminate\Support\Facades\Session;
     <link rel="icon" href="{{ URL::asset('assets/images/logo/.png') }}">
     @include('layouts.head-css')
 </head>
+<style>
+   
+   .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.step img {
+    margin-bottom: 5px;
+}
+
+.text-center {
+    width: 100%;
+}
+
+
+</style>
 
 @yield('body')
 
-<div class="justify-content-center">
-    <div class="progress">
-        <?php $progress_sb = Session::get('sb_progress'); ?>
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ $progress_sb }}" aria-valuemin="0" aria-valuemax="100" style="width:<?= $progress_sb . '%'; ?> "></div>
-    </div>
-<div>
 
-        @yield('content')
 
-        @include('layouts.vendor-scripts')
 
-        @guest
-        @if(session()->has('sbid'))
-        @include('layouts.session-script')
-        @endif
-        @endguest
+@yield('content')
 
-        </body>
+@include('layouts.vendor-scripts')
+
+@guest
+@if(session()->has('sbid'))
+@include('layouts.session-script')
+@endif
+@endguest
+
+</body>
 
 </html>

@@ -29,18 +29,18 @@
 
 <script type="text/javascript">
 
-    function clearSession()
+    /*function clearSession()
     {
         sessionStorage.removeItem('sbid');
         window.location="/";
     }
 
-    /* $(document).ready(function() {
+    $(document).ready(function() {
         var idleState = false;
         var idleTimer = null;
         var idleTimer2 = null;
         const countdownElement = document.getElementById('countdown');
-        const timeout = <?php //echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
+        const timeout = 180000; <?php //echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
         const modaltime = <?php //echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
         let timeRemaining = (modaltime/1000);
         let countdownInterval;
@@ -78,8 +78,8 @@
             });
         $("body").trigger("mousemove");
         
-    }); */
-
+    });
+*/
     </script>
 
 </body>
