@@ -339,6 +339,7 @@
                 beforeSend: function() {
                     // document.querySelector("#loader-selfie").style.visibility =
                     //     "visible";
+                    $( '#form-errors' ).html('');
                     $('#loading-send-sms').show();
                     $('#click-icon-facial').hide();
                     $('#click-icon-static-facial').show();
