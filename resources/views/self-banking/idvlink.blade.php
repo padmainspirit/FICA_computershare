@@ -88,6 +88,8 @@
                         <div class="card-body pt-0">
 
                             <div class="p-2">
+                            <div id="form-errors" ></div>
+                            
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -337,10 +339,11 @@
                 beforeSend: function() {
                     // document.querySelector("#loader-selfie").style.visibility =
                     //     "visible";
+                    $( '#form-errors' ).html('');
                     $('#loading-send-sms').show();
                     $('#click-icon-facial').hide();
                     $('#click-icon-static-facial').show();
-                    $('#submit-facial').hide();
+                    //$('#submit-facial').hide();
                     $("#submit-facial").prop("disabled", true);
                     $('#selfie-upload-box').hide();
                 }
@@ -420,7 +423,18 @@
                     //location.reload();
                 }
                 , error: function(response) {
-                    console.log(reponse);
+                    console.log(response);
+                    var errors = response.responseJSON;
+                    if(response.responseJSON.errors != null){
+                        errorsHtml = '<div class="alert alert-danger"><ul>';
+
+                        $.each( errors.errors, function( key, value ) {
+                            errorsHtml += '<li>'+ value[0] + '</li>'; //showing only the first error.
+                        });
+                        errorsHtml += '</ul></div>';
+
+                        $( '#form-errors' ).html( errorsHtml );
+                    }
                     // $("#btn-hidden-failed").click();
                 }
             });

@@ -15,10 +15,36 @@ $(document).ready(function () {
       "radio-input": "B"
     },
     show: function show() {
-      $(this).slideDown();
+      //$(this).slideDown();
+      var limitcount = $(this).parents(".repeater").data("limit");
+      var itemcount = $(this).parents(".repeater").find("div[data-repeater-item]").length;
+      if (limitcount) {
+          if (itemcount <= limitcount) {
+              $(this).slideDown();
+          } else {
+              $(this).remove();
+          }
+      } else {
+          $(this).slideDown();
+      }
+
+      if (itemcount >= limitcount) {
+          $(".repeater p[data-repeater-create]").hide("slow");
+      }
     },
     hide: function hide(e) {
-      confirm("Are you sure you want to delete this element?") && $(this).slideUp(e);
+      //confirm("Are you sure you want to delete this element?") && $(this).slideUp(e);
+      var limitcount = $(this).parents(".repeater").data("limit");
+      var itemcount = $(this).parents(".repeater").find("div[data-repeater-item]").length;
+
+      if (confirm('Are you sure you want to delete this element?')) {
+          $(this).slideUp(e);
+      }
+      if (limitcount) {
+          if (itemcount <= limitcount) {
+              $(".repeater p[data-repeater-create]").show("slow");
+          }
+      }
     },
     ready: function ready(e) {}
   }), window.outerRepeater = $(".outer-repeater").repeater({

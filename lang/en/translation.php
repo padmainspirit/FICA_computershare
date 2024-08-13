@@ -177,5 +177,8 @@ return [
   "Edit_Details" => "Edit Details",
   "Placeholders" => "Placeholders",
   "Toasts" => "Toasts",
-  "selfbankingservice" => "Self Banking Service"
+  "selfbankingservice" => "Self Banking Service",
+  "sb_personaldetails" => "Self Banking - Personal Details",
+  "sb_index" => "Self Banking - Terms & Conditions",
+  "sb_digi_verify" => "Self Banking - Digital verification",
 ];

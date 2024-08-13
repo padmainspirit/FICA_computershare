@@ -152,11 +152,14 @@
 
                                                     <label class="form-label">Client Logo:</label>
                                                     <input class="form-control @error('Client_logo') is-invalid @enderror" type="file" id="Client_logo" name="Client_logo" placeholder="Upload a logo" >
+                                                    @if ($Logo != null)
+                                                    <img src="{{ asset('assets/logo') . '/' . $CustomerId . '/' . $Logo }}" alt="img" class="image" height="50px" width="50px">
+                                                    @endif
                                                     @error('Client_logo')
-                                                   <div class="mb-3" style="color: red">
-                                                {{ $message }}
-                                                 </div>
-                                                @enderror
+                                                    <div class="mb-3" style="color: red">
+                                                    {{ $message }}
+                                                    </div>
+                                                    @enderror
                                                 </div>
 
                                                 <div class="mb-3">

@@ -41,7 +41,7 @@
         var idleTimer2 = null;
         const countdownElement = document.getElementById('countdown');
         const timeout = 180000; <?php //echo config("app.SYSTEM_IDLE_TIME");?>;//300000; // 300000 ms = 5 minutes
-        const modaltime = <?php echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
+        const modaltime = <?php //echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
         let timeRemaining = (modaltime/1000);
         let countdownInterval;
             
