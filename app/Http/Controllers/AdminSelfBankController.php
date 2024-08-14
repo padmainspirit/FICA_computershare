@@ -1626,7 +1626,6 @@ class AdminSelfBankController extends Controller
                                 //return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
 
                             }else if($ACCOUNTOPENFORATLEASTTHREEMONTHS == 'Yes'){
-
                                 $sbe = SelfBankingExceptions::create([
                                     'Id' => Str::upper(Str::uuid()),
                                     'SelfBankingLinkId' => $sbid,
@@ -1636,8 +1635,8 @@ class AdminSelfBankController extends Controller
                                 ]);
                                 $sbe->save();
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
-                                return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
-
+                                //return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+                                return redirect()->route('process-status');
                             }else{
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
                                 return redirect()->route('process-status')->withInput($request->input())->with('Success', 'Internal checks been executed succesfully');

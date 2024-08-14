@@ -69,20 +69,22 @@ class SelfBankingLink extends Model
         else if($selfbankingLink->DOVS == 2 && $selfbankingLink->IdDocumentUpload == 0){
             Session::put('sb_progress', 50);
             $routename = 'uploadid';
-        }else if($selfbankingLink->DOVS == 2 && $selfbankingLink->IdDocumentUpload == 1){
+        }
+        /* else if($selfbankingLink->DOVS == 2 && $selfbankingLink->IdDocumentUpload == 1){
+            Session::put('sb_progress', 75);
+            $routename = 'banking';
+        } */
+        else if($selfbankingLink->BankingDetails == 0 && $selfbankingLink->BankDocumentUpload == 0){
             Session::put('sb_progress', 75);
             $routename = 'banking';
         }
-        else if($selfbankingLink->BankingDetails == 0){
-            Session::put('sb_progress', 75);
-            $routename = 'banking';
-        }
-        else if($selfbankingLink->BankingDetails != 0 || $selfbankingLink->BankDocumentUpload == 1){
+        /* else if($selfbankingLink->BankingDetails != 0 || $selfbankingLink->BankDocumentUpload != 0){
             Session::put('sb_progress', 75);
             $routename = 'sb-preview-details';
-        }else{
+        } */
+        else{
             Session::put('sb_progress', 100);
-            $routename = 'sb-status';
+            $routename = 'process-status';
         }
         return $routename;
     }
