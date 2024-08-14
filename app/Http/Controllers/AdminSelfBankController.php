@@ -499,7 +499,7 @@ class AdminSelfBankController extends Controller
                 $request,
                 [
                     'initial' => 'required|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|max:3',
-                    'accnumber' => 'required|numeric|max_digits:13',
+                    'accnumber' => 'required|numeric|min:7|max_digits:11',
                     'BankName' => ['required'],
                     'AccountType' => ['required'],
                     'branchcode' => ['required'],
@@ -1358,6 +1358,10 @@ class AdminSelfBankController extends Controller
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
 
+        $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename) {
+            return redirect()->route($routename);
+        }
 
         if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")

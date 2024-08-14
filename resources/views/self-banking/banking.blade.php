@@ -124,23 +124,6 @@
                                         </div>
                                     </div>
 
-
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <label for="branchcode">Account Holders Initial <span style="color:red;" class="required">*</span></label>
-                                            <input id="initial" name="initial" placeholder="Account Holder Initial" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('initial') ? old('initial') : $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}" required="required" />
-
-                                            <span class="error-messg"></span>
-                                            @error('initial')
-                                            <span class="text-danger" role="alert">
-                                                <small>{{ $initial }}</small>
-                                            </span>
-                                            @enderror
-
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row mb-1">
                                         <div class="col-sm-12">
                                             <label for="branchcode">Account holder's initial <span style="color:red;" class="required">*</span></label>

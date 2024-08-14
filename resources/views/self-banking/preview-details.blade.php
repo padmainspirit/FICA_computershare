@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
     .required {
         color: "#ff0000" !important;
     }
-    
+
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -39,17 +39,17 @@ use Illuminate\Support\Facades\Session;
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-    
-       
+
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
@@ -67,7 +67,7 @@ use Illuminate\Support\Facades\Session;
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -103,7 +103,7 @@ use Illuminate\Support\Facades\Session;
                                     {{ Session::get('Success') }}
                                     </div>
                                 @endif
-                                
+
 
                                 @if (count($errors) > 0)
                                 <div class="alert alert-danger">
@@ -130,7 +130,7 @@ use Illuminate\Support\Facades\Session;
 
 
                                 <div class="form-group row" style="border: 1px solid grey;border-radius:10px;width: 70%;padding: 25px 50px;margin: 50px 125px;">
-                                    
+
                                 <div class="heading-fica-id mb-1">
                                     <div class="">
                                         <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
@@ -142,14 +142,14 @@ use Illuminate\Support\Facades\Session;
                                     @foreach($selfbankinglinkdetails->selfBankingDetails->SBCompanySRN as $key => $srn)
                                     <div data-repeater-item class="row">
                                        <div class="col-sm-6">
-                                            <label>SRN</label> 
+                                            <label>SRN</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $srn->SRN }}</span>
                                         </div>
                                         <hr>
                                         <div class="col-sm-6">
-                                            <label>Company</label> 
+                                            <label>Company</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                         <span>{{ $srn->companies }}</span>
@@ -158,8 +158,8 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     @endforeach
                                     <br/><br/>
-                                    
-                                    
+
+
                                     <div class="heading-fica-id mb-1">
                                     <div class="">
                                         <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
@@ -169,7 +169,7 @@ use Illuminate\Support\Facades\Session;
                                 </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>First Name</label> 
+                                            <label>First Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->FirstName }}</span>
@@ -178,7 +178,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Second Name</label> 
+                                            <label>Second Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->SecondName }}</span>
@@ -187,7 +187,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Surname</label> 
+                                            <label>Surname</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Surname }}</span>
@@ -196,7 +196,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>ID Number</label> 
+                                            <label>ID Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->IDNUMBER }}</span>
@@ -205,7 +205,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Phone Number</label> 
+                                            <label>Phone Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->PhoneNumber }}</span>
@@ -214,7 +214,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Email</label> 
+                                            <label>Email</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Email }}</span>
@@ -222,7 +222,7 @@ use Illuminate\Support\Facades\Session;
                                         <hr>
                                     </div>
                                     <br/><br/>
-                                   
+
                                     <div class="heading-fica-id mb-1">
                                     <div class="">
                                         <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
@@ -232,7 +232,7 @@ use Illuminate\Support\Facades\Session;
                                 </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Account Holder Initial</label> 
+                                            <label>Account Holder Initial</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}</span>
@@ -241,7 +241,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Bank Name</label> 
+                                            <label>Bank Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BankName }}</span>
@@ -250,7 +250,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Account Number</label> 
+                                            <label>Account Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}</span>
@@ -259,7 +259,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Account Type</label> 
+                                            <label>Account Type</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->bankAccountType->Account_description }}</span>
@@ -268,7 +268,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row">
                                         <div class="col-sm-6">
-                                            <label>Branch code</label> 
+                                            <label>Branch code</label>
                                         </div>
                                         <div class="col-sm-6 text-end" >
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BranchCode }}</span>
@@ -278,7 +278,7 @@ use Illuminate\Support\Facades\Session;
                                 </div>
 
 
-                               
+
 
 
 
@@ -286,9 +286,9 @@ use Illuminate\Support\Facades\Session;
 
                                 <div class="mt-5">
 
-                                  
 
-                                    <button type="reset" id="clearall" onclick="window.location='{{ url("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
+
+                                    <button type="button" id="clearall" onclick="window.location='{{ route("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
                                     <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Confirm</button>
                                     <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup"
                                                     data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
@@ -320,7 +320,7 @@ use Illuminate\Support\Facades\Session;
                     @csrf
                     <div class="modal-body">
                         <br><br>
-                        <div class="text-center mb-4">                            
+                        <div class="text-center mb-4">
                             <div class="row justify-content-center">
                                 <br>
                                 <div class="col-xl-10" id="selfie-link-title">
@@ -354,7 +354,7 @@ use Illuminate\Support\Facades\Session;
     @section('script')
 
     <script>
-      
+
         $('#BankName').on('change', function() {
 
             var price = $(this).children('option:selected').data('price');
