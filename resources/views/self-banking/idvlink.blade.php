@@ -89,7 +89,7 @@
 
                             <div class="p-2">
                             <div id="form-errors" ></div>
-                            
+
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -277,8 +277,8 @@
 
                             <div class="row">
                                         <div class="col-12" style="text-align:center;">
-                                        <button id="continue-btn" type="button" style="display:none;" class="btn btn-primary"  route="{{ route('banking') }}"
-                                         data-bs-dismiss="modal">Continue</button>
+                                        <button id="continue-btn" type="button" style="display:none;" class="btn btn-primary" onclick="window.location='{{ route("banking") }}'"
+                                         >Continue</button>
                                         </div>
                                         <div class="col-12" style="text-align:center;">
                                         <button type="button" id="selfie-cancel" class="btn btn-primary"

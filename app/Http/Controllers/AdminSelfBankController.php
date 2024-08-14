@@ -1640,7 +1640,7 @@ class AdminSelfBankController extends Controller
                                 ]);
                                 $sbe->save();
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
-                                return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+                                return redirect()->route('process-status');//->withInput($request->input())->with('message', 'Internal checks are failed');
 
                             }else{
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);

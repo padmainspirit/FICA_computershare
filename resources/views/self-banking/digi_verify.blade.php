@@ -121,14 +121,7 @@
 
                                 </form>
 
-                                <div class="mt-3">
 
-
-<button type="reset" id="clearall" onclick="window.location='{{ url("sb_personalinfo") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
-
-
-
-</div>
                             </div>
 
                         </div>

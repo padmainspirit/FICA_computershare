@@ -155,15 +155,7 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
                                       {{-- store Recaptcha token --}}
                                       <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
-                                      <div class="mt-3">
 
-
-
-                                          <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c"
-                                              class="btn w-md text-white">Back</button>
-
-
-                                      </div>
                                 </form>
                             </div>
 
