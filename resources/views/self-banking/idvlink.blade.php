@@ -396,6 +396,37 @@
                             i++;
                         }
 
+                        if (text === 'Failed') {
+                            clearInterval(x);
+                            console.log('Photos does not match, IDV verification failed');
+                            $('#thankyou').hide();
+                            $('#seflie-text-error').text(
+                                    'Photos does not match, IDV verification failed'
+                            );
+                            $("#selfie-continue").hide();
+                            $("#alertError").show();
+                            $("#seflie-text-error").show();  
+                            /* $('#selfie-link-title').hide();
+                            $('#thankyou').html('Photos does not match, IDV verification failed');
+                            $('#thankyou').show();                    
+                            $('#facial-loading-dynamic').hide();
+                            $('#facial-loading-static').show();
+                            $('#seflie-text').text(
+                                'We received your image');
+                                $("#selfie-cancel").hide(); 
+                                $("#continue-btn").show(); 
+                                 
+                            $("#seflie-text").show();
+                            // $("#submitBtn").show();
+                            $("#selfie-continue").prop("disabled", false);
+                            $("#alertSuccess").show();
+                            $("#selfie-cancel").prop("disabled", true);
+                            $('#seflie-text').text(
+                                'We received your image'); 
+                            // $("#submitBtn").prop("disabled", false);
+                            clearInterval(x); */
+                        }
+
                         if (text === 'Consumer') {
                             clearInterval(x);
                             console.log('Selfie has been taken successfully!');
@@ -477,7 +508,13 @@
                 }
                 , success: function(output_data) {
                     // if (output_data.data === 'Consumer') {
-                    $('#seflie-text').text(output_data.data);
+                    //$('#seflie-text').text(output_data.data);
+                    if(output_data.process_status == 'Failed')
+                    {
+                        $('#seflie-text').text('Failed');
+                    }else{
+                        $('#seflie-text').text(output_data.data);
+                    }
                 }
                 , error: function() {
                     // $("#btn-hidden-failed").click();
