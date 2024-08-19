@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Session;
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%;background-color: green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 100%;background-color: #91C60F;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                     <div class="step text-center">
@@ -276,10 +276,6 @@ use Illuminate\Support\Facades\Session;
                                         <hr>
                                     </div>
                                 </div>
-
-
-
-
 
 
                                 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">

@@ -55,14 +55,14 @@ class SelfBankingLink extends Model
         $selfbankingLink= SelfBankingLink::find($sblink_id);
         $progress = 0;
         if($selfbankingLink->tnc_flag == 0)
-        {    
+        {
             Session::put('sb_progress', 0);
             $routename = 'agree-selfbanking-tnc';
         }else if($selfbankingLink->PersonalDetails == 0){
             Session::put('sb_progress', 25);
             $routename = 'sb-personalinfo';
         }
-        else if($selfbankingLink->DOVS == 0){
+        else if($selfbankingLink->DOVS == 0 ||$selfbankingLink->DOVS == -2){
             Session::put('sb_progress', 50);
             $routename = 'digi-verify';
         }

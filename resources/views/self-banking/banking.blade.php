@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="progress mb-4 mt-3" style="height: 20px;">
-                        <div class="progress-bar" role="progressbar" style="width: 75%;background-color: green;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 75%;background-color: #91C60F;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                         <div class="step text-center">
@@ -124,103 +124,94 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row mb-1">
+                                    <div class="form-group row mb-3">
                                         <div class="col-sm-12">
-                                            <label for="branchcode">Account holder's initial <span style="color:red;" class="required">*</span></label>
-                                            <input id="initial" name="initial" placeholder="Account holder initial" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('initial') ? old('initial') : $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}" required="required" />
+                                            <div style="display: flex; align-items: center;">
+                                                <label for="branchcode"><span style="color:red;" class="required">*</span></label>
+                                                <input id="initial" name="initial" placeholder="Account holder initial" type="text" style="border-radius: 15px;margin-left:5px;" class="form-control" value="{{ old('initial') ? old('initial') : $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}"  />
+                                            </div>
 
-                                            <span class="error-messg"></span>
-                                            @error('initial')
-                                            <span class="text-danger" role="alert">
-                                                <small>{{ $initial }}</small>
-                                            </span>
-                                            @enderror
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group row mb-3">
+                                        <div class="col-sm-12">
+
+                                            <div style="display: flex; align-items: center;">
+                                                <span style="color:red;">*</span>
+                                                <input id="accnumber" name="accnumber" placeholder="Account number" type="text" style="border-radius: 15px;margin-left:5px;" class="form-control" value="{{ old('accnumber') ? old('accnumber') : $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}"  />
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-sm-12 mt-3">
+                                            <div style="display: flex; align-items: center;">
+                                                <span style="color:red;">*</span>
+                                                <select class="form-select" autocomplete="off" style="border-radius: 15px;margin-left:5px; " id="BankName" name="BankName">
+                                                    <option value="" style="">
+                                                        --Select Bank--
+                                                    </option>
+                                                    @foreach ($bankNames as $bank)
+                                                    <?php
+                                                    $selected = '';
+                                                    if (old('BankName') == $bank->bankname) {
+                                                        $selected = 'selected';
+                                                    } else if ($selfbankinglinkdetails->selfBankingDetails->BankName == $bank->bankname) {
+                                                        $selected = 'selected';
+                                                    }
+                                                    ?>
+                                                    <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode}}" {{ $selected }}>
+                                                        {{ $bank->bankname }}
+                                                    </option>
+                                                    @endforeach
+                                                    <option value="other" data-price='' {{ old('BankName') == 'other' ? 'selected' : '' }}>Other</option>
+
+
+                                                </select>
+                                            </div>
+
+
+
+
 
                                         </div>
                                     </div>
 
-
-                                    <div class="form-group row mb-1">
-                                        <div class="col-sm-12">
-                                            <label for="accnumber">Account number <span style="color:red;" class="required">*</span></label>
-                                            <input id="accnumber" name="accnumber" placeholder="Enter your bank account number" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('accnumber') ? old('accnumber') : $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}" required="required" />
-
-                                            <span class="error-messg"></span>
-                                            @error('accnumber')
-                                            <span class="text-danger" role="alert">
-                                                <small>{{ $accnumber }}</small>
-                                            </span>
-                                            @enderror
-
-                                        </div>
-
-                                        <div class="col-sm-12 mt-1">
-                                            <label for="BankName">Bank name <span style="color:red;" class="required">*</span></label>
-                                            <select class="form-select" autocomplete="off" style="border-radius: 15px; " id="BankName" name="BankName">
-                                                <option value="" style="">
-                                                    --Select Bank--
-                                                </option>
-                                                @foreach ($bankNames as $bank)
+                                    <div class="col-sm-12 mb-3">
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color:red;">*</span>
+                                            <select class="form-select" autocomplete="off" style="border-radius: 15px; margin-left:5px;" id="AccountType" name="AccountType">
+                                                @if ($bankTpye->count())
+                                                <option value="">Select Bank Type</option>
+                                                @foreach ($bankTpye as $type)
                                                 <?php
                                                 $selected = '';
-                                                if (old('BankName') == $bank->bankname) {
+                                                if (old('AccountType') == $type->BankTypeid) {
                                                     $selected = 'selected';
-                                                } else if ($selfbankinglinkdetails->selfBankingDetails->BankName == $bank->bankname) {
+                                                } else if ($selfbankinglinkdetails->selfBankingDetails->AccountType == $type->BankTypeid) {
                                                     $selected = 'selected';
                                                 }
                                                 ?>
-                                                <option value="{{ $bank->bankname }}" data-price="{{ $bank->branchcode}}" {{ $selected }}>
-                                                    {{ $bank->bankname }}
+                                                <option value="{{ $type->BankTypeid }}" {{ $selected }}>
+                                                    {{ $type->AccountType }}
                                                 </option>
                                                 @endforeach
-                                                <option value="other" data-price='' {{ old('BankName') == 'other' ? 'selected' : '' }}>Other</option>
-
-
+                                                @endif
                                             </select>
-
-                                            <span class="error-messg"></span>
-                                            @error('BankName')
-                                            <span class="text-danger" role="alert">
-                                                <small>{{ $message }}</small>
-                                            </span>
-                                            @enderror
-
                                         </div>
+
+
                                     </div>
 
-                                    <div class="col-sm-12 mb-1">
-                                        <label for="BankName">Bank type <span style="color:red;" class="required">*</span></label>
-                                        <select class="form-select" autocomplete="off" style="border-radius: 15px; " id="AccountType" name="AccountType">
-                                            @if ($bankTpye->count())
-                                            <option value="">Select Bank Type</option>
-                                            @foreach ($bankTpye as $type)
-                                            <?php
-                                            $selected = '';
-                                            if (old('AccountType') == $type->BankTypeid) {
-                                                $selected = 'selected';
-                                            } else if ($selfbankinglinkdetails->selfBankingDetails->AccountType == $type->BankTypeid) {
-                                                $selected = 'selected';
-                                            }
-                                            ?>
-                                            <option value="{{ $type->BankTypeid }}" {{ $selected }}>
-                                                {{ $type->AccountType }}
-                                            </option>
-                                            @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group row mb-1">
+                                    <div class="form-group row mb-3">
                                         <div class="col-sm-12">
-                                            <label for="branchcode">Branch code <span style="color:red;" class="required">*</span></label>
-                                            <input id="branchcode" name="branchcode" placeholder="Branch code" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('branchcode') ? old('branchcode') : $selfbankinglinkdetails->selfBankingDetails->BranchCode }}" required="required" />
-
-                                            <span class="error-messg"></span>
-                                            @error('branchcode')
-                                            <span class="text-danger" role="alert">
-                                                <small>{{ $message }}</small>
-                                            </span>
-                                            @enderror
+                                            <div style="display: flex; align-items: center;">
+                                                <label for="branchcode"><span style="color:red;" class="required">*</span></label>
+                                                <input id="branchcode" name="branchcode" placeholder="Branch code" type="text" style="border-radius: 15px;margin-left:5px;" class="form-control" value="{{ old('branchcode') ? old('branchcode') : $selfbankinglinkdetails->selfBankingDetails->BranchCode }}" />
+                                            </div>
 
                                         </div>
 
@@ -241,27 +232,28 @@
                                         <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
                                         <div class="row justify-content-center mt-3">
-                                            <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:15px;">
+                                            <div id="dropZone" class="col-auto" style="border:3px dotted rgb(202, 187, 187); height:300px;width:300px; border-radius:15px;margin-left:5px;">
 
-                                                <h5 class="mt-5">Drag Files Here</h5>
+                                                <h5 style="color:#93186c;" class="mt-5">Drag Files Here</h5>
                                                 <button type="button" style="border:none; background: none;" onclick="document.getElementById('fileInput').click();">
                                                     <img src="{{ URL::asset('/assets/images/upload-big-arrow.png') }}" style="width: 80px; margin-right: 5px;" />
                                                 </button>
-                                                <p style="font-size:16px;" class="mt-3">or</p>
-                                                <h5 class="mt-1">Browse Image/PDF Files</h5>
+                                                <p style="color:#93186c;font-size:16px;" class="mt-3">or</p>
+                                                <h5 style="color:#93186c;" class="mt-1">Browse Image/PDF Files</h5>
                                             </div>
-                                            <div class="col-auto" style="height:300px;width:300px;">
-                                                <h5 class="mt-5">Take a Photo</h5>
+                                            {{--<div class="col-auto" style="height:300px;width:300px;">
+                                                <h5 style="color:#93186c;" class="mt-5">Take a Photo</h5>
                                                 <button type="button" style="border:none; background: none;">
-                                                    <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
+                                                    <img id="openCam" src="{{ URL::asset('/assets/images/cam.png') }}" style="width: 140px; margin-right: 5px;" />
                                                 </button>
                                                 <p style="font-size:16px;" class="mt-1">Click on the camera above to take a picture</p>
-                                            </div>
+                                            </div>--}}
                                         </div>
 
                                         <h6 id="fileNameDisplay" style="margin-top: 10px;"></h6>
 
                                         <!--  <div class="mb-3 mt-3">
+
                                         <button type="button" id="upload" style="background-color: #93186c; border-color: #93186c" class="btn btn-primary w-lg waves-effect waves-light">Upload</button>
                                     </div> -->
 
@@ -277,7 +269,11 @@
 
 
                                         <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Clear</button>
-                                        <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Next</button>
+
+                                        <button type="submit" name="submit" id="submit-facial"
+                                        class="btn w-md text-white"
+                                        style="float: right;background-color: #91C60F; border-color: #91C60F;">Next
+                                    </button>
 
                                     </div>
 

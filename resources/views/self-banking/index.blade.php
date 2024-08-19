@@ -26,8 +26,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h3 class="text-white">Welcome to Self Service Banking</h3>
-                                        <p class="font-size-15">Please agree to the terms and conditions to continue the flow</p>
+                                        <h3 class="text-white">Welcome to Self Service Banking Detail Update</h3>
+
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
                                         <li>Non resident individuals and all non-individuals should contact us on 0861100933 for further assistance.</li>
-                                        <li>If you do not bank with one of these banks, Contact us on 0861100933 or <a href="">click here</a> to obtain the manual form Update your details(computershare.com)
+                                        <li>If you do not bank with one of these banks, Contact us on 0861100933 or <a style="color:#91C60F;" href="">click here</a> to obtain the manual form Update your details(computershare.com)
                                             Absa Bank, African Bank, Bank of Athens, Bidvest Bank, Capitec, Discovery Bank, First National Bank,
                                       Investec Bank, Mercantile Bank, Nedbank, Sasfin Bank, Standard Bank, Tyme Bank.</li>
 
@@ -125,7 +125,7 @@
                                             <input class="form-check-input big-checkbox" type="hidden" value="{{ $sbid }}" name="sbid" style="width: 20px; height:20px;">
 
                                             <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-left:15px;padding-right:15px;padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
-                                                <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px;">By ticking this box, you authorize Computershare to verify your banking details against any third party database. <a data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
+                                                <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px;">By ticking this box, you authorize Computershare to verify your banking details against any third party database. <a style="color: #91C60F;" data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
                                             </label>
 
 
@@ -133,8 +133,8 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-12" style="text-align: right;">
-                                        <button type="submit" class="btn btn-primary">Continue</button>
+                                        <div class="col-12" style="text-align: center;">
+                                        <button style="background-color:#91C60F;border:solid 1px #91C60F;" type="submit" class="btn btn-primary">Get Started</button>
                                         </div>
                                     </div>
                                 </form>
@@ -167,12 +167,12 @@
                                                            </p>
 
 
-                        <div class="text-center mb-3">
+                        <div class="text-center mb-1 mt-4">
 
                             <div class="row">
 
                                         <div class="col-12" style="text-align:center;">
-                                        <button type="button" id="selfie-cancel" class="btn btn-primary"
+                                        <button style="background-color: #91C60F; border:solid 1px #91C60F;" type="button" id="selfie-cancel" class="btn btn-primary"
                                 data-bs-dismiss="modal">
                                 OK
                             </button>
@@ -184,7 +184,7 @@
 
                     </div>
 
-                <br><br><br>
+
             </div>
             {{-- </form> --}}
         </div>

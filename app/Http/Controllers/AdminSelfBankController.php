@@ -499,7 +499,7 @@ class AdminSelfBankController extends Controller
                 $request,
                 [
                     'initial' => 'required|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|max:3',
-                    'accnumber' => 'required|numeric|min:7|max_digits:11',
+                    'accnumber' => 'required|numeric|min_digits:7|max_digits:11',
                     'BankName' => ['required'],
                     'AccountType' => ['required'],
                     'branchcode' => ['required'],
@@ -507,7 +507,8 @@ class AdminSelfBankController extends Controller
                 ],
                 [
                     'sb-tnc.required' => 'You have to agree to the terms and conditions of banking service to continue the flow',
-                    'accnumber.max_digits' => 'The account number cannot be more than 13 digits.',
+                    'accnumber.max_digits' => 'The account number cannot be more than 11 digits.',
+                    'accnumber.min_digits' => 'The account number cannot be less than 7 digits.',
                     'file.required' => 'Bank document is required when bank name is other.',
                     'file.mimes' => 'Invalid document format. Please upload a PDF or Image with jpg, jpeg or png format',
                 ]
@@ -573,7 +574,7 @@ class AdminSelfBankController extends Controller
                 //return redirect()->route('sb-preview-details')->withInput($request->input())->with('Success', 'AVS has been executed succesfully');
                 //return redirect()->route('banking')->withInput($request->input())->with('Success', 'Bank document is received succesfully');
             }else{
-                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>2,'BankDocumentUpload'=>0]);
+                SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>0,'BankDocumentUpload'=>0]);
                 SelfBankingExceptions::where(['SelfBankingLinkId'=>$sbid, 'API'=>3])->delete();
 
                 /*
@@ -603,7 +604,6 @@ class AdminSelfBankController extends Controller
                 $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
 
                 // app('debugbar')->info($returnValue);
-
 
                 $jsonres = $sb_api->parseSoapXml($returnValue);
 
@@ -1358,10 +1358,10 @@ class AdminSelfBankController extends Controller
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
 
-        $routename = SelfBankingLink::checkStep($sbid);
+      /*  $routename = SelfBankingLink::checkStep($sbid);
         if (Route::currentRouteName() != $routename) {
             return redirect()->route($routename);
-        }
+        }*/
 
         if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")

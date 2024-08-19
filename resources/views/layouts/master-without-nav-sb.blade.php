@@ -18,10 +18,13 @@
     margin-right: 20px;
 }
 .big-checkbox:checked {
-        background-color: green;
-        border: green;
+        background-color: #91C60F;
+        border: #91C60F;
     }
-
+h3 ,h4
+{
+    font-weight: bold;
+}
 .step img {
     margin-bottom: 5px;
 }
