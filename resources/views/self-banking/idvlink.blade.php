@@ -30,24 +30,24 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: green;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                     <div class="step text-center">
@@ -58,7 +58,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -89,7 +89,7 @@
 
                             <div class="p-2">
                             <div id="form-errors" ></div>
-                            
+
                             @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -116,70 +116,50 @@
 
 
 
-                                        <div id="" class="mt-4 text-center">
 
 
 
 
-                                                <p class="font-size-16">Please Confirm your Cellphone to recieve a selfie link to your device.</p>
 
 
-                                        <div class="form-group row">
 
-                                            <div class="col-lg-12">
-                                                <div class="row justify-content-center align-items-center">
+
+
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
                                                     <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
                                                         @csrf
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3 justify-content-center align-items-center;">
-                                                           {{-- <div class="form-check form-check-inline font-size-16">
-                                                                <input class="form-check-input" checked type="radio" id="emailOption" name="option" value="Email">
-                                                                <label class="form-check-label" for="emailOption">Email</label>
-                                                            </div>--}}
-                                                            <div class="form-check form-check-inline font-size-16">
+                                                        <div class="form-group row justify-content-center align-items-center text-center">
+                                                        <div class="col-sm-3">
+                                                            <div style="display: flex; align-items: center;">
                                                                 <input style="background-color:green;border: 1px solid green;" class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
-                                                                <label class="form-check-label" for="smsOption">SMS</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3 font-size-16">
-
-
-                                                                   {{-- <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="emailInput" name="email" placeholder="Enter Email Address" value="">--}}
-                                                                    <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
-
-                                                                <span class="error-messg"></span>
-                                                                @error('email')
-                                                                    <span class="text-danger" role="alert">
-                                                                        <small>{{ $message }}</small>
-                                                                    </span>
-                                                                @enderror
-                                                                @error('phone')
-                                                                    <span class="text-danger" role="alert">
-                                                                        <small>{{ $message }}</small>
-                                                                    </span>
-                                                                @enderror
+                                                                <label class="form-check-label" style="font-size:16px;margin-left:3px;" for="smsOption">SMS</label>
+                                                               </div>
 
 
                                                         </div>
+                                                        <div class="col-sm-3">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
+                                                                 </div>
+
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    <div class="form-group row justify-content-center align-items-center text-center mt-2">
+
+                                                        <div class="col-sm-6">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <p class="font-size-16">Confirm your cellphone number to recieve a selfie link to your device.</p>
+                                                                 </div>
+
+                                                        </div>
+                                                    </div>
 
 
                                                 <div class="text-center d-flex justify-content-center align-items-center mt-2">
                                                     {{--<button id="sendLinkButton" type="submit" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Send Link</button>--}}
 
-                                                    <button type="submit" name="submit" id="submit-facial"
-                                                    class="btn btn-primary"
-                                                    style="font-size: 16px;width: 150px; padding:.28rem; height:fit-content;">Selfie
-                                                    Link
-                                                </button>
+
                                                     <button style="display:none;" type="button" class="btn btn-primary" id="btn-hidden-selfie"
                                                     data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
                                                     Send Link
@@ -187,12 +167,11 @@
                                                 </div>
 
 
-                                            </div>
 
 
 
-                                        </form>
-                                        
+
+
 
                                         <div class="text-center d-flex justify-content-center align-items-center mt-2">
                                             {{-- <a style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white" href="{{ url('banking') }}">Proceed</a>--}}
@@ -209,13 +188,17 @@
 
 
 
-                                          <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c"
+                                          <button type="reset" id="clearall" onclick="window.location='{{ url("digital-verification") }}'" style="background-color: #93186c; border-color: #93186c"
                                               class="btn w-md text-white">Back</button>
+                                              <button type="submit" name="submit" id="submit-facial"
+                                              class="btn w-md text-white"
+                                              style="float: right;background-color: #91C60F; border-color: #91C60F;">Next
 
-
+                                          </button>
                                       </div>
 
                             </div>
+                        </form>
 
                         </div>
                     </div>
@@ -241,7 +224,7 @@
                             <div id="facial-loading-dynamic">
                                 <img src="{{ URL::asset('/assets/images/selfie2.gif') }}" width="120px" />
                             </div>
-                            
+
                             <br><br>
                             <div class="row justify-content-center">
                                 <br>
@@ -252,15 +235,20 @@
                                         Please ensure that your browser cookies are enabled.
                                                            </p>
                                 </div>
-                                <div id="alertSuccess" class="alert alert-success" role="alert">
+                                <div id="green-check" style="display: none;" class="text-center">
+                                    <img src="{{ URL::asset('/assets/images/greencheck.png') }}" style="width:45px;">
+
+                                </div>
+                                <div id="alertSuccess" class="alert" role="alert">
                                     <br>
-                                    <p id="seflie-text" style="color: rgb(0, 116, 0); font-size: 15px;"></p>
+                                    <h4 id="seflie-text" style=""></h4>
                                 </div>
 
                                 <div id="alertError" class="alert alert-danger" role="alert">
                                     <br>
                                     <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;"></p>
                                 </div>
+                                <hr id="line" style="display:none;color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                             </div>
                             <br>
                            <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank You, Your ID has been verified, please click on Continue
@@ -277,8 +265,8 @@
 
                             <div class="row">
                                         <div class="col-12" style="text-align:center;">
-                                        <button id="continue-btn" type="button" style="display:none;" class="btn btn-primary"  route="{{ route('banking') }}"
-                                         data-bs-dismiss="modal">Continue</button>
+                                        <button id="continue-btn" type="button" style="display:none;background-color: #91C60F; border-color: #91C60F;" class="btn btn-primary" onclick="window.location='{{ route("banking") }}'"
+                                         >Continue</button>
                                         </div>
                                         <div class="col-12" style="text-align:center;">
                                         <button type="button" id="selfie-cancel" class="btn btn-primary"
@@ -287,8 +275,8 @@
                             </button>
                             </div>
                                     </div>
-                            
-                           
+
+
 
                             <button type="button" class="btn text-center w-md text-white" id="btn-Okay"
                                 style="width: 10%;margin-bottom: 3%;"
@@ -310,7 +298,7 @@
     @endsection
 
     @section('script')
-    
+
 {{-- take selfie --}}
 <script type="text/javascript">
     $(document).ready(function() {
@@ -400,29 +388,30 @@
                             clearInterval(x);
                             console.log('Photos does not match, IDV verification failed');
                             $('#thankyou').hide();
+                            $('#line').show();
                             $('#seflie-text-error').text(
                                     'Photos does not match, IDV verification failed'
                             );
                             $("#selfie-continue").hide();
                             $("#alertError").show();
-                            $("#seflie-text-error").show();  
+                            $("#seflie-text-error").show();
                             /* $('#selfie-link-title').hide();
                             $('#thankyou').html('Photos does not match, IDV verification failed');
-                            $('#thankyou').show();                    
+                            $('#thankyou').show();
                             $('#facial-loading-dynamic').hide();
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
                                 'We received your image');
-                                $("#selfie-cancel").hide(); 
-                                $("#continue-btn").show(); 
-                                 
+                                $("#selfie-cancel").hide();
+                                $("#continue-btn").show();
+
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
                             $("#selfie-continue").prop("disabled", false);
                             $("#alertSuccess").show();
                             $("#selfie-cancel").prop("disabled", true);
                             $('#seflie-text').text(
-                                'We received your image'); 
+                                'We received your image');
                             // $("#submitBtn").prop("disabled", false);
                             clearInterval(x); */
                         }
@@ -431,21 +420,23 @@
                             clearInterval(x);
                             console.log('Selfie has been taken successfully!');
                             $('#selfie-link-title').hide();
-                            $('#thankyou').show();                    
+                            $('#line').show();
+                            $('#green-check').show();
+                            $('#thankyou').show();
                             $('#facial-loading-dynamic').hide();
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
                                 'We received your image');
-                                $("#selfie-cancel").hide(); 
-                                $("#continue-btn").show(); 
-                                 
+                                $("#selfie-cancel").hide();
+                                $("#continue-btn").show();
+
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
                             $("#selfie-continue").prop("disabled", false);
                             $("#alertSuccess").show();
                             $("#selfie-cancel").prop("disabled", true);
                             $('#seflie-text').text(
-                                'We received your image'); 
+                                'We received your image');
                             // $("#submitBtn").prop("disabled", false);
                             clearInterval(x);
                         }

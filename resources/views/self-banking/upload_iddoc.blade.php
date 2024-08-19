@@ -22,24 +22,24 @@
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: green;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                                                   <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                                                   <div class="step text-center">
@@ -50,7 +50,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -104,37 +104,35 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <h5 class="mb-4" style="color: red;" id="info">We could not find/verify your picture.</h5>
+                                            <h4 class="mb-4" style="color:#93186c;" id="info">We could not validate your self portrait, please upload your ID document here.</h4>
                                             <p class="mb-4">We have not been able to verify your selfie. To finalize the verification
                                                 , upload or take a photo of your South African ID Document or Smart ID Card. If using an ID Card, we require both sides.
                                                 We will not accept blurry images, photocopies, or illegal information. Details of your ID document must
-                                                be fully visible, clear, and east-to-read.
+                                                be fully visible, clear, and east-to-read. <img title="If the shareholder is uploading an ID card, Take a clear photo of ID document" src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" />
                                             </p>
-                                            <div class="col-lg-3 mt-3">
 
-<p title="If the shareholder is uploading an ID card, Take a clear photo of ID document" 
-style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
-</div>
+<hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
 
                                             <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
 
-                                            <div class="row justify-content-center mt-3">
-                                                <div id="dropZone" class="col-auto" style="border:3px dotted black; height:300px;width:300px; border-radius:15px;">
+                                            <div class="row justify-content-center mt-4">
+                                                <h4 style="color:#93186c;" class="mb-3">Upload your ID Document: </h4>
+                                                <div id="dropZone" class="col-auto" style="border:3px dotted rgb(202, 187, 187); height:300px;width:300px; border-radius:15px;">
 
-                                                    <h5 class="mt-5">Drag Files Here</h5>
+                                                    <h5 style="color:#93186c;" class="mt-5">Drag Files Here</h5>
                                                     <button type="button" style="border:none; background: none;" onclick="document.getElementById('fileInput').click();">
                                                         <img src="{{ URL::asset('/assets/images/upload-big-arrow.png') }}" style="width: 80px; margin-right: 5px;" />
                                                     </button>
-                                                    <p style="font-size:16px;" class="mt-3">or</p>
-                                                    <h5 class="mt-1">Browse Image/PDF Files</h5>
+                                                    <p style="font-size:16px;color:#93186c;" class="mt-3">or</p>
+                                                    <h5 style="color:#93186c;" class="mt-1">Browse Image/PDF Files</h5>
                                                 </div>
-                                                <div class="col-auto" style="height:300px;width:300px;">
+                                                {{--<div class="col-auto" style="height:300px;width:300px;">
                                                     <h5 class="mt-5">Take a Photo of your ID</h5>
                                                     <button type="button" style="border:none; background: none;" >
                                                         <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
                                                     </button>
                                                     <p style="font-size:16px;" class="mt-1">Click on the camera above to take a picture</p>
-                                                </div>
+                                                </div>--}}
                                             </div>
 
                                             <h6 id="fileNameDisplay" style="margin-top: 10px;"></h6>
@@ -155,15 +153,7 @@ style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png'
                                       {{-- store Recaptcha token --}}
                                       <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
-                                      <div class="mt-3">
 
-
-
-                                          <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c"
-                                              class="btn w-md text-white">Back</button>
-
-
-                                      </div>
                                 </form>
                             </div>
 

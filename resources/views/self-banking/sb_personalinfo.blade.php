@@ -28,31 +28,31 @@
         <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
     </div>
 
-   
+
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
                 <div class="text-center mt-3 d-flex justify-content-between align-items-center">
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-       
+
     </div>
     <div class="step text-center">
-        
+
     </div>
     <div class="step text-center">
-       
+
     </div>
     <div class="step text-center">
-       
+
     </div>
 </div>
                 <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;background-color: green;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;background-color: #91C60F" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                     <div class="step text-center">
@@ -63,7 +63,7 @@
         <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
         <h5>Personal Details</h5>
     </div>
-   
+
     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
         <h5>Digital ID Verification</h5>
@@ -81,9 +81,9 @@
 
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
                             <div class="row">
-                           
+
                                 <div class="col-12">
-                                
+
                                     <div class="text-white p-4">
                                         <h4 class="text-white">Self Service Banking Process</h4>
                                     </div>
@@ -180,7 +180,7 @@
 
 
 
-                                <hr style="color: rgb(238, 226, 226) ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid rgb(238, 226, 226); background-color: rgb(238, 226, 226); opacity: 100%;">
+                                <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
 
                                 <div class="col-lg-3 mt-3">
 
@@ -199,9 +199,10 @@
 
                                 <div class="form-group row mb-2">
                                     <div class="col-sm-6">
-                                        <label for="IDNUMBER">ID number <span style="color:red;" class="required">*</span></label>
-                                        <input id="IDNUMBER" name="IDNUMBER" placeholder="Enter 13 digit ID number" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('IDNUMBER') }}" required="required" />
-
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color:red;">*</span>
+                                            <input id="IDNUMBER" name="IDNUMBER" placeholder="Enter 13 digit ID number" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('IDNUMBER') }}" required="required" />
+                                        </div>
                                         <span class="error-messg"></span>
                                         @error('IDNUMBER')
                                         <span class="text-danger" role="alert">
@@ -212,9 +213,10 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="FirstName">First name <span style="color:red;" class="required">*</span></label>
-                                        <input id="FirstName" name="FirstName" placeholder="Enter first name" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('FirstName') }}" required="required" />
-
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color:red;">*</span>
+                                            <input id="FirstName" name="FirstName" placeholder="Enter first name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('FirstName') }}" required="required" />
+                                        </div>
                                         <span class="error-messg"></span>
                                         @error('FirstName')
                                         <span class="text-danger" role="alert">
@@ -227,9 +229,10 @@
 
                                 <div class="form-group row mb-2">
                                     <div class="col-sm-6">
-                                        <label for="Surname">Surname <span style="color:red;" class="required">*</span></label>
-                                        <input id="Surname" name="Surname" placeholder="Enter surname" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('Surname') }}" required="required" />
-
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color:red;">*</span>
+                                            <input id="Surname" name="Surname" placeholder="Enter surname" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('Surname') }}" required="required" />
+                                        </div>
                                         <span class="error-messg"></span>
                                         @error('Surname')
                                         <span class="text-danger" role="alert">
@@ -240,8 +243,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="SecondName">Second name </label>
-                                        <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('SecondName') }}" />
+                                        <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('SecondName') }}" />
 
                                         <span class="error-messg"></span>
                                         @error('SecondName')
@@ -255,9 +257,10 @@
 
                                 <div class="form-group row mb-2">
                                     <div class="col-sm-6">
-                                        <label for="PhoneNumber">Phone number <span style="color:red;" class="required">*</span></label>
-                                        <input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
-
+                                        <div style="display: flex; align-items: center;">
+                                        <span style="color:red;">*</span>
+                                                                                <input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
+                                                                            </div>
                                         <span class="error-messg"></span>
                                         @error('PhoneNumber')
                                         <span class="text-danger" role="alert">
@@ -267,9 +270,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="ThirdName">Third name </label>
-                                        <input id="ThirdName" name="ThirdName" placeholder="Enter third name" type="text" style="border-radius: 15px;" class="form-control" value="{{ old('ThirdName') }}" />
-
+                                        <input id="ThirdName" name="ThirdName" placeholder="Enter third name" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('ThirdName') }}" />
                                         <span class="error-messg"></span>
                                         @error('ThirdName')
                                         <span class="text-danger" role="alert">
@@ -282,9 +283,10 @@
 
                                 <div class="form-group row mb-2">
                                     <div class="col-sm-6">
-                                        <label for="Email">Email <span style="color:red;">*</span></label>
-                                        <input id="Email" name="Email" placeholder="Enter email" type="Email" style="border-radius: 15px;" class="form-control" value="{{ old('Email') }}" required />
-
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="color:red;">*</span>
+                                            <input id="Email" name="Email" placeholder="Enter email" type="Email" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('Email') }}" required />
+                                        </div>
                                         <span class="error-messg"></span>
                                         @error('Email')
                                         <span class="text-danger" role="alert">
@@ -302,7 +304,7 @@
 
 
                                     <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Clear</button>
-                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Next</button>
+                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Next</button>
 
                                 </div>
 
@@ -335,7 +337,7 @@
 
         });
 
-       
+
     </script>
 
 
