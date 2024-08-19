@@ -243,7 +243,10 @@ class AdminSelfBankController extends Controller
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
                 'PhoneNumber' => ['required', 'digits:10', 'max:50'],
                 'Email' => ['required', 'string', 'email', 'max:50'],
-                'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/',],
+                'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/', Rule::unique('SelfBankingCompanySRN')->where(function ($query) use($ip,$hostname) {
+                    return $query->where('ip', $ip)
+                    ->where('hostname', $hostname);
+                }),],
                 //'reflist.*.company' => ['required_if:reflist.*.refnum,C1234567890']
             ], [
                 'IDNUMBER.required' => 'ID Number should be of 13 digits',
