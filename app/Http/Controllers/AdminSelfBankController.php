@@ -312,14 +312,14 @@ class AdminSelfBankController extends Controller
             $request['SelfBankingLinkId'] = $sbid;
             SelfBankingDetails::create($request->all());
 
-            foreach ($request['reflist'] as $srndet) {
+            /* foreach ($request['reflist'] as $srndet) {
                 $compnanysrn = new SelfBankingCompanySRN;
                 $compnanysrn->ID = Str::upper(Str::uuid());
                 $compnanysrn->SelfBankingDetailsId = $selfbankingdetailsid;
                 $compnanysrn->SRN = $srndet['refnum'];
                 $compnanysrn->companies = $srndet['company'];
                 $compnanysrn->save();
-            }
+            } */
 
             $fica_id = Str::upper(Str::uuid());
 
@@ -1277,21 +1277,21 @@ class AdminSelfBankController extends Controller
 
                         $process = 'Success';
                         /* Process passed due to no home affairs photo we have to redirect todocument upload screen */
-                        if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null)
+                        if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null || $ConsumerIDPhotoMatch == 'BadPose' || $ConsumerIDPhotoMatch == 'BadSharpness')
                         {
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
                                 'SelfBankingLinkId' => $sbid,
                                 'API' => 4,
                                 'Status' => 'Validation Pending',
-                                'Comment' => 'No home affairs photo'
+                                'Comment' => $ConsumerIDPhotoMatch
                             ]);
                             $sbe->save();
 
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
 
                             $process = 'NoPhoto';
-                        }else if($ConsumerIDPhotoMatch != 'Matched'){ 
+                        }else if($ConsumerIDPhotoMatch == 'Not Matched'){ 
                             /* Process failed flow, terminate the execution */
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
