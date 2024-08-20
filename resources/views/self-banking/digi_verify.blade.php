@@ -38,7 +38,7 @@
 
     </div>
 </div>
-                <div class="progress mb-4 mt-3" style="height: 20px;">
+<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
                                     <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
@@ -103,11 +103,25 @@
                                                 </h4>
                                             </div>
                                         </div>
+                                       {{-- <div class="container">
+                                            <div class="row">
+                                              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
+                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                              </div>
+                                              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
+                                                <img id="openCam2" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                              </div>
+                                              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+                                                <img id="openCam3" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        --}}
+                                        <div id="" class="mt-2 text-center">
 
-                                        <div id="" class="mt-4 text-center">
-
-                                            <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 140px; margin-right: 5px;" />
+                                            <button class="btn w-md text-white" type="submit" style="">
+                                                {{--Proceed--}}
+                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 240px; margin-right: 5px;" />
                                             </button>
                                                 <p id="info">Click on the camera icon above to start with your ID Verification process</p>
                                             </div>

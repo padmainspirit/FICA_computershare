@@ -123,10 +123,13 @@
                                     <div class="row mt-5 mb-3">
                                         <div class="col-12">
                                             <input class="form-check-input big-checkbox" type="hidden" value="{{ $sbid }}" name="sbid" style="width: 20px; height:20px;">
-
                                             <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-left:15px;padding-right:15px;padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
-                                                <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px;">By ticking this box, you authorize Computershare to verify your banking details against any third party database. <a style="color: #91C60F;" data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
+                                                <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px; position: relative; top: -4px;">
+                                                By ticking this box, you authorize Computershare to verify your banking details against any third party database.
+                                                <a style="color: #91C60F;" data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
                                             </label>
+
+
 
 
                                         </div>
@@ -162,7 +165,7 @@
                             <hr>
 
                        </div>
-                        <p style="color: #000000">
+                        <p style="color: #000000;text-align: center; padding: 0 20px;">
                                     By ticking this box, you authorize Computershare to verify your banking details against any third party database. You acknowledge that Computershare might be unable to verify the authenticity of electronic instructions and therefore you hereby indemnify Computershare against any loss or damage incurred as a result of acting upon such instructions. you further acknowledge that it is your responsibility as the account holder to inform Computershare immediately and not later than a period of 1 month of any change made to the registered email address
                                                            </p>
 

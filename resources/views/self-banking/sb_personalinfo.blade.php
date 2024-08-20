@@ -51,9 +51,10 @@
 
     </div>
 </div>
-                <div class="progress mb-4 mt-3" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;background-color: #91C60F" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
+    <div class="progress-bar" role="progressbar" style="width: 25%; background-color: #91C60F" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
                                     <div class="step text-center">
         <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
@@ -110,17 +111,16 @@
                                 @endif
 
 
-                                <div class="col-lg-3 mt-3">
 
-<p title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
- 	If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
-</div>
 
-                                <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
+                                <div class="heading-fica-id mb-1 mt-2">
+                                    <div style="display: flex; align-items: center; ">
+                                        <h4 class="font-size-18" style="color:#93186c; margin-right:5px; ">
                                             Account Details
                                         </h4>
+                                        <p  title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
+                                            If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -143,7 +143,7 @@
 
 
 
-                                                    <div class="mb-3 col-md-3 search-box">
+                                                    <div class="mb-3 col-md-4 search-box">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" selected style="font-size: 12px;">
                                                                 --Select company--
@@ -161,11 +161,11 @@
 
                                                         </select>
                                                     </div>
-                                                    
 
 
-                                                    <div class="mb-3 col-md-3">
-                                                        <p data-repeater-delete style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+
+                                                    <div class="mb-3 col-md-1">
+                                                        <p data-repeater-delete  class="{{ $i == 0 ? 'disabled' : '' }}" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" /></p>
 
                                                     </div>
                                                 </div>
@@ -183,15 +183,12 @@
 
                                 <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
 
-                                <div class="col-lg-3 mt-3">
-
-<p title="Mobile number example : 0723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
-</div>
-                                <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
+                                <div class="heading-fica-id mb-1 mt-2">
+                                    <div style="display: flex; align-items: center; ">
+                                        <h4 class="font-size-18" style="color:#93186c;margin-right:5px; ">
                                             Personal Details
                                         </h4>
+                                        <p title="Mobile number example : 0723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
                                     </div>
                                 </div>
 
@@ -337,17 +334,18 @@
 
             $("#createclick").click(function(e){
                     $(".form-select").select2();
-                
+
             });
 
-            
+
 
         });
 
-        
+
 
 
     </script>
+
 
 
     <!-- jQuery -->
