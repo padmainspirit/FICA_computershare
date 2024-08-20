@@ -126,7 +126,7 @@
                                 <div class="form-group row">
                                     <form class="repeater" data-limit="5" method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
                                         @csrf
-                                        <div data-repeater-list="reflist" >
+                                        <div data-repeater-list="reflist" class="duplicable">
                                             <?php $reflist = Request::old('reflist') != null ? count(Request::old('reflist')) : 1;
                                             for ($i = 0; $i < $reflist; $i++) {
                                                 $value = 'reflist.' . $i . '.refnum';
@@ -143,8 +143,8 @@
 
 
 
-                                                    <div class="mb-3 col-md-3">
-                                                        <select class="form-select" autocomplete="off" style="border-radius: 15px; " id="company" name="company">
+                                                    <div class="mb-3 col-md-3 search-box">
+                                                        <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" selected style="font-size: 12px;">
                                                                 --Select company--
                                                             </option>
@@ -161,6 +161,7 @@
 
                                                         </select>
                                                     </div>
+                                                    
 
 
                                                     <div class="mb-3 col-md-3">
@@ -331,11 +332,19 @@
     <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
     <script>
         $(document).ready(function() {
-
             // Initialize select2
-            $("#company").select2();
+            $(".form-select").select2();
+
+            $("#createclick").click(function(e){
+                    $(".form-select").select2();
+                
+            });
+
+            
 
         });
+
+        
 
 
     </script>

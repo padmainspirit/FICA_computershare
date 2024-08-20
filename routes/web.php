@@ -170,7 +170,7 @@ Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
 Route::any('/uploadid', [AdminSelfBankController::class, 'uploadid'])->name('uploadid');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
-Route::post('/getselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');
+Route::post('/sbgetselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');
 Route::any('/bank-verification', [AdminSelfBankController::class, 'BankVerification'])->name('bank-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
 Route::any('/idvlink', [AdminSelfBankController::class, 'idvlink'])->name('idvlink');
