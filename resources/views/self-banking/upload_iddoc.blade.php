@@ -38,7 +38,7 @@
 
     </div>
 </div>
-                <div class="progress mb-4 mt-3" style="height: 20px;">
+<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
                                     <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                                                   <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">

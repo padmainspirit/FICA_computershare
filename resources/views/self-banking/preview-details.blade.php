@@ -55,7 +55,7 @@ use Illuminate\Support\Facades\Session;
     <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
     </div>
 </div>
-                <div class="progress mb-4 mt-3" style="height: 20px;">
+<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
                                     <div class="progress-bar" role="progressbar" style="width: 100%;background-color: #91C60F;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
@@ -285,7 +285,7 @@ use Illuminate\Support\Facades\Session;
 
 
                                     <button type="button" id="clearall" onclick="window.location='{{ route("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
-                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #93186c; border-color: #93186c;">Confirm</button>
+                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Confirm</button>
                                     <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup"
                                                     data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
                                                     Popup

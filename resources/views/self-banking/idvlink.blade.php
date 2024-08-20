@@ -46,7 +46,7 @@
 
     </div>
 </div>
-                <div class="progress mb-4 mt-3" style="height: 20px;">
+<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
                                     <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
@@ -149,7 +149,7 @@
 
                                                         <div class="col-sm-6">
                                                             <div style="display: flex; align-items: center;">
-                                                                <p class="font-size-16">Confirm your cellphone number to recieve a selfie link to your device.</p>
+                                                                <p class="font-size-14">Confirm your cellphone number to recieve a selfie link to your device.</p>
                                                                  </div>
 
                                                         </div>
@@ -222,7 +222,7 @@
                         <br><br>
                         <div class="text-center mb-4">
                             <div id="facial-loading-dynamic">
-                                <img src="{{ URL::asset('/assets/images/selfie2.gif') }}" width="120px" />
+                                <img src="{{ URL::asset('/assets/images/selfie.gif') }}" width="120px" />
                             </div>
 
                             <br><br>
@@ -251,7 +251,7 @@
                                 <hr id="line" style="display:none;color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                             </div>
                             <br>
-                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank You, Your ID has been verified, please click on Continue
+                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank you, your ID has been verified, please click on Continue
                             </p>
                         </div>
 
