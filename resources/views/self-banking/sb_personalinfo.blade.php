@@ -161,8 +161,8 @@
 
 
 
-                                                    <div class="mb-3 col-md-3">
-                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+                                                    <div class="mb-3 col-md-2">
+                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-top:5px;" /></p>
 
                                                     </div>
                                                 </div>
