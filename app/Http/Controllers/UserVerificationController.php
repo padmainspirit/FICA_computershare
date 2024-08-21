@@ -2345,7 +2345,7 @@ class UserVerificationController extends Controller
             "SOAPAction: http://www.web.xds.co.za/XDSConnectWS/ConnectGetAccountVerificationResult",
         ); //SOAPAction: your op URL
 
-        sleep(5);
+        sleep(8);
 
         $curl = curl_init();
 

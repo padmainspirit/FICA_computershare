@@ -152,10 +152,7 @@
                                                             <option value="" selected style="font-size: 12px;">
                                                                 --Select company--
                                                             </option>
-                                                            <option value="testcompany" selected style="font-size: 12px;">
-                                                                Test COMPANY
-                                                            </option>
-
+                                                            
                                                             @foreach($companies as $company)
                                                             <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
                                                                 {{ $company->Company_Name }}
@@ -168,8 +165,8 @@
 
 
 
-                                                    <div class="mb-3 col-md-1">
-                                                        <p data-repeater-delete  class="{{ $i == 0 ? 'disabled' : '' }}" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" /></p>
+                                                    <div class="mb-3 col-md-2">
+                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-top:5px;" /></p>
 
                                                     </div>
                                                 </div>
@@ -334,6 +331,7 @@
     <script>
         $(document).ready(function() {
             // Initialize select2
+            $("#remove").hide();
             $(".form-select").select2();
 
             $("#createclick").click(function(e){

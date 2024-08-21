@@ -198,7 +198,7 @@ class AdminSelfBankController extends Controller
                 'sb-tnc' => ['required'],
             ],
             [
-                'sb-tnc.required' => 'You have to agree to the terms and conditions of banking service to continue the flow',
+                'sb-tnc.required' => 'You must agree to the terms and conditions to continue',
             ]);
 
             SelfBankingLink::where(['Id'=>$sbid])->update(['tnc_flag'=>1]);
@@ -246,17 +246,25 @@ class AdminSelfBankController extends Controller
                 'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/',],
                 //'reflist.*.company' => ['required_if:reflist.*.refnum,C1234567890']
             ], [
-                'IDNUMBER.required' => 'ID Number should be of 13 digits',
+                'IDNUMBER.required' => 'ID number should be of 13 digits',
+                'IDNUMBER.digits' => 'ID number should be of 13 digits',
                 'reflist.*.refnum.required' => 'The SRN Number is required at row number :position of Account details',
                 'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
                 //'reflist.*.company.required' => 'The company selection is required at :position row of Account details',
             ]);
 
             $validator->after(function ($validator) {
+                $srns = [];
                 foreach ($validator->getData()['reflist'] as $key => $value) {
-                    $position = $key + 1;
+                    $position = $key + 1;                    
                     if ((preg_match('/[C|c]{1}[0-9]{10}/', $value['refnum'])) && $value['company'] == null && $value['company'] == '') {
                         $validator->errors()->add('reflist.' . $key . '.company', 'The company selection is required at row number ' . $position . ' of Account details');
+                    }
+
+                    if(in_array($value['refnum'], $srns)) {
+                        $validator->errors()->add('reflist.' . $key . '.refnum', 'Duplicate SRN has been entered');
+                    }else{
+                        $srns[] = $value['refnum'];
                     }
                 }
             })->validate();
@@ -312,14 +320,14 @@ class AdminSelfBankController extends Controller
             $request['SelfBankingLinkId'] = $sbid;
             SelfBankingDetails::create($request->all());
 
-            foreach ($request['reflist'] as $srndet) {
+            /* foreach ($request['reflist'] as $srndet) {
                 $compnanysrn = new SelfBankingCompanySRN;
                 $compnanysrn->ID = Str::upper(Str::uuid());
                 $compnanysrn->SelfBankingDetailsId = $selfbankingdetailsid;
                 $compnanysrn->SRN = $srndet['refnum'];
                 $compnanysrn->companies = $srndet['company'];
                 $compnanysrn->save();
-            }
+            } */
 
             $fica_id = Str::upper(Str::uuid());
 
@@ -409,8 +417,8 @@ class AdminSelfBankController extends Controller
             $filePath = 'SelfBanking/' . $sbid . '/IdDocs/'. $fileName;
 
             //Storing the file in s3 bucket            
-            //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
-            Storage::disk('public')->put($filePath, file_get_contents($request->file));
+            Storage::disk('s3')->put($filePath, file_get_contents($request->file));
+            //Storage::disk('public')->put($filePath, file_get_contents($request->file));
             $urlFile = $this->s3url.$filePath;
 
             ConsumerIdentity::where('FICA_id', $fica_id)->update([
@@ -550,8 +558,8 @@ class AdminSelfBankController extends Controller
                 $filePath = 'SelfBanking/' . $sbid . '/BankDocs/'. $fileName;
 
                 //Storing the file in s3 bucket            
-                //Storage::disk('s3')->put($filePath, file_get_contents($request->file));
-                Storage::disk('public')->put($filePath, file_get_contents($request->file));
+                Storage::disk('s3')->put($filePath, file_get_contents($request->file));
+                //Storage::disk('public')->put($filePath, file_get_contents($request->file));
                 $urlFile = $this->s3url.$filePath;
 
                 $sbe = SelfBankingExceptions::create([
@@ -1277,21 +1285,21 @@ class AdminSelfBankController extends Controller
 
                         $process = 'Success';
                         /* Process passed due to no home affairs photo we have to redirect todocument upload screen */
-                        if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null)
+                        if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null || $ConsumerIDPhotoMatch == 'BadPose' || $ConsumerIDPhotoMatch == 'BadSharpness')
                         {
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
                                 'SelfBankingLinkId' => $sbid,
                                 'API' => 4,
                                 'Status' => 'Validation Pending',
-                                'Comment' => 'No home affairs photo'
+                                'Comment' => $ConsumerIDPhotoMatch
                             ]);
                             $sbe->save();
 
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
 
                             $process = 'NoPhoto';
-                        }else if($ConsumerIDPhotoMatch != 'Matched'){ 
+                        }else if($ConsumerIDPhotoMatch == 'Not Matched'){ 
                             /* Process failed flow, terminate the execution */
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),

@@ -147,7 +147,7 @@
                             <hr>
 
                        </div>
-                        <p style="color: #000000;text-align: center; padding: 0 20px;">
+                        <p style="color: #000000;text-align: justify; padding: 0 20px;">
                                     By ticking this box, you authorize Computershare to verify your banking details against any third party database. You acknowledge that Computershare might be unable to verify the authenticity of electronic instructions and therefore you hereby indemnify Computershare against any loss or damage incurred as a result of acting upon such instructions. you further acknowledge that it is your responsibility as the account holder to inform Computershare immediately and not later than a period of 1 month of any change made to the registered email address
                                                            </p>
 
