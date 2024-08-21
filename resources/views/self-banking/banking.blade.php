@@ -32,50 +32,53 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
-                    <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-                        <div class="step text-center">
+                    <div class="container">
+                        <div class="row justify-content-between align-items-center">
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
 
-                        </div>
-                        <div class="step text-center">
+    </div>
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
 
 
-                        </div>
-                        <div class="step text-center">
+    </div>
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
 
-                        </div>
-                        <div class="step text-center">
-                            <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-                        </div>
-                        <div class="step text-center">
+    </div>
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
+        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
+    </div>
+    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
 
-                        </div>
-                    </div>
+    </div>
+</div>
+</div>
                     <div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
                         <div class="progress-bar" role="progressbar" style="width: 75%;background-color: #91C60F;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="text-center mb-4 mt-2 d-flex justify-content- align-items-center">
-                        <div class="step text-center">between
-                            <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
-                            <h5>Welcome</h5>
+                    <div class="container">
+                        <div class="row justify-content-between align-items-center">
+                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+                            <img id="openCam" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
+                            <h5 class="mt-2 text-center">Welcome</h5>
+                          </div>
+                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+                            <img id="openCam2" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
+                            <h5 class="mt-2 text-center">Personal Details</h5>
+                          </div>
+                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                            <img id="openCam3" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
+                            <h5 class="mt-2 text-center">Digital ID Verification</h5>
+                          </div>
+                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                            <img id="openCam3" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
+                            <h5 class="mt-2 text-center">Banking Details</h5>
+                          </div>
+                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                            <img id="openCam3" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
+                            <h5 class="mt-2 text-center">Finish</h5>
+                          </div>
                         </div>
-                        <div class="step text-center">
-                            <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
-                            <h5>Personal Details</h5>
-                        </div>
-
-                        <div class="step text-center">
-                            <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
-                            <h5>Digital ID Verification</h5>
-                        </div>
-                        <div class="step text-center">
-                            <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
-                            <h5>Banking Details</h5>
-                        </div>
-                        <div class="step text-center">
-                            <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
-                            <h5>Finish</h5>
-                        </div>
-                    </div>
+                      </div>
                     <div class="card overflow-hidden" style="border-radius: 10px;">
 
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
