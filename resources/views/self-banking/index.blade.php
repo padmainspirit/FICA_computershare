@@ -12,10 +12,11 @@
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
-
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
@@ -61,9 +62,6 @@
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
                                         <li>Non resident individuals and all non-individuals should contact us on 0861100933 for further assistance.</li>
-                                        <li>If you do not bank with one of these banks, Contact us on 0861100933 or <a style="color:#91C60F;" href="">click here</a> to obtain the manual form Update your details(computershare.com)
-                                            Absa Bank, African Bank, Bank of Athens, Bidvest Bank, Capitec, Discovery Bank, First National Bank,
-                                      Investec Bank, Mercantile Bank, Nedbank, Sasfin Bank, Standard Bank, Tyme Bank.</li>
 
                                     </ul>
                                 </div>

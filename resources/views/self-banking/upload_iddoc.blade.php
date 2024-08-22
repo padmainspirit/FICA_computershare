@@ -12,37 +12,23 @@
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
-
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-</div>
-</div>
-<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                <div class="col-md-10 mt-4">
+                    <div class="container mt-4">
+                        <div class="container mt-4" style="position: relative; width:85%; margin: auto;">
+                            <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
+                                 style="height:45px;width:45px; position: absolute; left: 50%; transform: translateX(-50%); top: -55px;">
+                            <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" style="width: 50%; background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
                                     <div class="container">
                                         <div class="row justify-content-between align-items-center">
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">

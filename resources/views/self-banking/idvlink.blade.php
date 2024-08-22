@@ -19,38 +19,23 @@
     @endsection
 
     @section('content')
-
+    <div class="container">
     <div class="row d-flex justify-content-center mb-2 mt-4">
         <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
     </div>
+</div>
 
     <div class="account-pages">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-</div>
-</div>
-<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 mt-4">
+                    <div class="container mt-4" style="position: relative; width:85%; margin: auto;">
+                        <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
+                             style="height:45px;width:45px; position: absolute; left: 50%; transform: translateX(-50%); top: -55px;">
+                        <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
+                            <div class="progress-bar" role="progressbar" style="width: 50%; background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
                                     <div class="container">
                                         <div class="row justify-content-between align-items-center">
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
@@ -82,7 +67,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h4 class="text-white">Self Service Banking Process</h4>
+                                        <h4 class="text-white">Digital ID Verification</h4>
                                     </div>
                                 </div>
                             </div>
@@ -108,31 +93,12 @@
 
 
                                     <div class="row">
-                                        <div class="heading-fica-id mb-1">
-                                            <div class="">
-                                                <h4 class="font-size-18"
-                                                    style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
-                                                    Digital ID Verification
-                                                </h4>
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
                                                     <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
                                                         @csrf
-                                                        <div class="form-group row justify-content-center align-items-center text-center">
+                                                        <div class="form-group row justify-content-center align-items-center text-center mt-4">
                                                         <div class="col-sm-3">
                                                             <div style="display: flex; align-items: center;">
                                                                 <input style="background-color:green;border: 1px solid green;" class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
@@ -232,10 +198,10 @@
                             <div class="row justify-content-center">
                                 <br>
                                 <div class="col-xl-10" id="selfie-link-title">
-                                    <h4 style="color: #000000">Selfie Link SMS has been sent.
+                                    <h4 style="color: #000000">Identity verification link sent via SMS.
                                     </h4>
                                     <p style="color: #000000">
-                                        Please ensure that your browser cookies are enabled.
+                                        Please select "Allow" option.
                                                            </p>
                                 </div>
                                 <div id="green-check" style="display: none;" class="text-center">
@@ -272,10 +238,13 @@
                                          >Continue</button>
                                         </div>
                                         <div class="col-12" style="text-align:center;">
-                                        <button type="button" id="selfie-cancel" class="btn btn-primary"
+                                            <p id="instruction" style="">
+                                                Please follow the instructions on the "Link" recieved.
+                                                                   </p>
+                                        {{--<button type="button" id="selfie-cancel" class="btn btn-primary"
                                 data-bs-dismiss="modal">
                                 Cancel
-                            </button>
+                            </button>--}}
                             </div>
                                     </div>
 
@@ -430,7 +399,7 @@
                             $('#facial-loading-static').show();
                             $('#seflie-text').text(
                                 'We received your image');
-                                $("#selfie-cancel").hide();
+                                $("#instruction").hide();
                                 $("#continue-btn").show();
 
                             $("#seflie-text").show();

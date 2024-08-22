@@ -12,37 +12,24 @@
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
 
     <div class="account-pages">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-    <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-
-    </div>
-</div>
-</div>
-<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #91C60F;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 mt-4">
+                    <div class="container mt-4">
+                        <div class="container mt-4" style="position: relative; width:85%; margin: auto;">
+                            <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
+                                 style="height:45px;width:45px; position: absolute; left: 50%; transform: translateX(-50%); top: -55px;">
+                            <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" style="width: 50%; background-color: #91C60F" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
                                     <div class="container">
                                         <div class="row justify-content-between align-items-center">
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
@@ -74,7 +61,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h4 class="text-white">Self Service Banking Process</h4>
+                                        <h4 class="text-white">Digital ID Verification</h4>
                                     </div>
                                 </div>
                             </div>
@@ -98,35 +85,28 @@
 
                                 @csrf
                                     <div class="row">
-                                        <div class="heading-fica-id mb-1">
-                                            <div class="">
-                                                <h4 class="font-size-18"
-                                                    style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
-                                                    Digital ID Verification
-                                                </h4>
-                                            </div>
-                                        </div>
-                                       {{-- <div class="container">
+
+                                       <div class="container mt-4">
                                             <div class="row">
                                               <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                                <img id="openCam" src="{{ URL::asset('/assets/images/1.jpg') }}" style="width: 300px;height:460px;" />
                                               </div>
                                               <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-                                                <img id="openCam2" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                                <img id="openCam2" src="{{ URL::asset('/assets/images/2.jpg') }}" style="width: 300px;height:460px;" />
                                               </div>
-                                              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                                                <img id="openCam3" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 300px;height:460px;" />
+                                              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
+                                                <img id="openCam3" src="{{ URL::asset('/assets/images/3.jpg') }}" style="width: 300px;height:460px;" />
                                               </div>
                                             </div>
                                           </div>
-                                        --}}
+
                                         <div id="" class="mt-2 text-center">
 
-                                            <button class="btn w-md text-white" type="submit" style="">
-                                                {{--Proceed--}}
-                                                <img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 240px; margin-right: 5px;" />
+                                            <button class="btn w-md text-white" style="background-color: #91C60F; border-color: #91C60F;" type="submit" style="">
+                                                Proceed
+                                                {{--<img id="openCam" src="{{ URL::asset('/assets/images/camera.png') }}" style="width: 240px; margin-right: 5px;" />--}}
                                             </button>
-                                                <p id="info">Click on the camera icon above to start with your ID Verification process</p>
+                                                {{--<p id="info">Click on the camera icon above to start with your ID Verification process</p>--}}
                                             </div>
 
                                     </div>
