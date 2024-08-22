@@ -130,6 +130,7 @@
                                             <?php $reflist = Request::old('reflist') != null ? count(Request::old('reflist')) : 1;
                                             for ($i = 0; $i < $reflist; $i++) {
                                                 $value = 'reflist.' . $i . '.refnum';
+                                                $company_old = 'reflist.' . $i . '.company';
                                             ?>
                                                 <div data-repeater-item class="row">
                                                     <div class="mb-3 col-md-3">
@@ -138,23 +139,23 @@
                                                     </div>
                                                     <div class="mb-3 col-md-3">
 
-                                                        <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control" value="<?php echo Request::old($value); ?>" placeholder="Enter your ref number" required />
+                                                        <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control refnum" value="<?php echo Request::old($value); ?>" onkeyup="checkSrn(e)" placeholder="Enter your ref number" required />
                                                     </div>
 
 
 
-                                                    <div class="mb-3 col-md-4 search-box">
+                                                    <div class="mb-3 col-md-4 search-box" style="display: none;">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
-                                                            <option value="" selected style="font-size: 12px;">
+                                                            <option value=""  style="font-size: 12px;">
                                                                 --Select company--
                                                             </option>
-                                                            
-                                                            @foreach($companies as $company)
-                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
+                                                            <?php 
+                                                            foreach($companies as $company){  ?>
+                                                            <option value="{{ $company->Company_Name }}" {{ Request::old($company_old) == $company->Company_Name ? "selected" : '' }} style="font-size: 12px;">
                                                                 {{ $company->Company_Name }}
                                                             </option>
 
-                                                            @endforeach
+                                                            <?php } ?>
 
                                                         </select>
                                                     </div>
@@ -198,12 +199,6 @@
                                             <span style="color:red;">*</span>
                                             <input id="IDNUMBER" name="IDNUMBER" placeholder="Enter 13 digit ID number" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('IDNUMBER') }}" required="required" />
                                         </div>
-                                        <span class="error-messg"></span>
-                                        @error('IDNUMBER')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
 
                                     </div>
 
@@ -212,13 +207,6 @@
                                             <span style="color:red;">*</span>
                                             <input id="FirstName" name="FirstName" placeholder="Enter first name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('FirstName') }}" required="required" />
                                         </div>
-                                        <span class="error-messg"></span>
-                                        @error('FirstName')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
-
                                     </div>
                                 </div>
 
@@ -228,24 +216,12 @@
                                             <span style="color:red;">*</span>
                                             <input id="Surname" name="Surname" placeholder="Enter surname" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('Surname') }}" required="required" />
                                         </div>
-                                        <span class="error-messg"></span>
-                                        @error('Surname')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
 
                                     </div>
 
                                     <div class="col-sm-6">
                                         <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('SecondName') }}" />
 
-                                        <span class="error-messg"></span>
-                                        @error('SecondName')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
 
                                     </div>
                                 </div>
@@ -256,23 +232,12 @@
                                         <span style="color:red;">*</span>
                                                                                 <input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
                                                                             </div>
-                                        <span class="error-messg"></span>
-                                        @error('PhoneNumber')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
+                                        
                                     </div>
 
                                     <div class="col-sm-6">
                                         <input id="ThirdName" name="ThirdName" placeholder="Enter third name" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('ThirdName') }}" />
-                                        <span class="error-messg"></span>
-                                        @error('ThirdName')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
-
+                                        
                                     </div>
                                 </div>
 
@@ -282,12 +247,7 @@
                                             <span style="color:red;">*</span>
                                             <input id="Email" name="Email" placeholder="Enter email" type="Email" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('Email') }}" required />
                                         </div>
-                                        <span class="error-messg"></span>
-                                        @error('Email')
-                                        <span class="text-danger" role="alert">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                        @enderror
+                                        
                                     </div>
                                 </div>
 
@@ -339,8 +299,31 @@
 
         });
 
+        $(document).on('keyup', '.refnum', function() {
+            let value = $(this).val();
+            let name = $(this).attr('name');
+            console.log(value);
+            console.log(name);
+            let match = name.match(/\[(\d+)\]/); //matches number iside the squere bracket
+            console.log(match);
+            if (match) {
+                let index = parseInt(match[1]);
+                $('[name="reflist['+index+'][company]"]').parent().hide();
+                var srn = $('[name="reflist['+index+'][refnum]"]').val();
+                var cu_regex = /^[c|u|C|U]{1}[0-9]{10}$/;
+                var d_regex = /^[d|D]{1}[0-9]{10}$/;
+                if(srn.match(cu_regex)){
+                    $('[name="reflist['+index+'][company]"]').parent().show();
+                }
+                if(srn.match(d_regex)){
+                    $('[name="reflist['+index+'][company]"]').parent().hide();
+                }
 
+            }
 
+            
+            
+        });
 
     </script>
 
