@@ -241,10 +241,11 @@
                                             <p id="instruction" style="">
                                                 Please follow the instructions on the "Link" recieved.
                                                                    </p>
-                                        {{--<button type="button" id="selfie-cancel" class="btn btn-primary"
+                                                                   <h4 style="remaining">Time remaining : <span id="time">5:00</span></h4>
+                                        <button style="display:none;" type="button" id="selfie-cancel" class="btn btn-primary mt-4"
                                 data-bs-dismiss="modal">
-                                Cancel
-                            </button>--}}
+                                OK
+                            </button>
                             </div>
                                     </div>
 
@@ -343,10 +344,12 @@
                                 $('#seflie-text-error').text(
                                     'Selfie has not been taken successfully. Please click the selfie link button again to resend the link!'
                                 );
+                                $("#instruction").hide();
                                 $("#selfie-continue").hide();
                                // $("#selfie-cancel").hide();
                                 $("#alertError").show();
                                 $("#seflie-text-error").show();
+                                $("#selfie-cancel").show();
                                // $("#btn-Okay").show();
                                 console.log(
                                     'Selfie has not been taken Successfully. Please click the selfie link button again to resend the link!'
@@ -361,6 +364,8 @@
                             console.log('Photos does not match, IDV verification failed');
                             $('#thankyou').hide();
                             $('#line').show();
+                            $("#time").hide();
+                            $("#remaining").hide();
                             $('#seflie-text-error').text(
                                     'Photos does not match, IDV verification failed'
                             );
@@ -393,6 +398,8 @@
                             console.log('Selfie has been taken successfully!');
                             $('#selfie-link-title').hide();
                             $('#line').show();
+                            $("#time").hide();
+                            $("#remaining").hide();
                             $('#green-check').show();
                             $('#thankyou').show();
                             $('#facial-loading-dynamic').hide();
@@ -488,6 +495,36 @@
 
 </script>
 
+<script>
+    // Set the starting time for the countdown (5 minutes)
+let timeLeft = 5 * 60;
+
+function startCountdown() {
+    // Update the countdown every second
+    const countdown = setInterval(() => {
+        // Calculate minutes and seconds
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        // Display the result in the element with id="timer"
+        document.getElementById('time').innerHTML =
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        // If the countdown reaches zero, stop the timer
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            document.getElementById('time').innerHTML = "Time's up!";
+        }
+
+        // Decrease time left by one second
+        timeLeft--;
+    }, 1000);
+}
+
+// Start the countdown when the page loads
+startCountdown();
+
+</script>
 
 
     @endsection

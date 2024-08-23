@@ -111,7 +111,7 @@
                                             Account Details
                                         </h4>
                                         <p class="tango-help-acc"aria-hidden="true" title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
-                                            If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+                                            If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative; top:3px;width:22px; margin-right:5px;" /></p>
 
                                     </div>
                                 </div>
@@ -130,7 +130,7 @@
                                                     </div>
                                                     <div class="mb-3 col-md-5 otp-input-container">
 
-                                                            <input type="text" maxlength="1" class="otp-input" id="otp1" oninput="moveToNext(this, 'otp2')" required>
+                                                           {{-- <input type="text" maxlength="1" class="otp-input" id="otp1" oninput="moveToNext(this, 'otp2')" required>
                                                             <input type="text" maxlength="1" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" required>
                                                             <input type="text" maxlength="1" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" required>
                                                             <input type="text" maxlength="1" class="otp-input" id="otp4" oninput="moveToNext(this, 'otp5')" required>
@@ -140,9 +140,9 @@
                                                             <input type="text" maxlength="1" class="otp-input" id="otp8" oninput="moveToNext(this, 'otp9')" required>
                                                             <input type="text" maxlength="1" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" required>
                                                             <input type="text" maxlength="1" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" required>
-                                                            <input type="text" maxlength="1" class="otp-input" id="otp11" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp11" required>--}}
 
-                                                       {{-- <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control" value="<?php echo Request::old($value); ?>" placeholder="Enter your ref number" required />--}}
+                                                        <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control" value="<?php echo Request::old($value); ?>" placeholder="Enter your ref number" required />
                                                     </div>
 
 
@@ -154,7 +154,7 @@
                                                             </option>
 
                                                             @foreach($companies as $company)
-                                                            <option value="{{ $company->Id }}" style="font-size: 12px;">
+                                                            <option value="{{ $company->Company_Name }}" style="font-size: 12px;">
                                                                 {{ $company->Company_Name }}
                                                             </option>
 
@@ -190,7 +190,7 @@
                                             Personal Details
                                         </h4>
 
-                                              <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : 0723456789"  style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+                                              <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : 0723456789"  style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative; top:3px;width:22px; margin-right:5px;" /></p>
 
                                 </div>
 
@@ -348,21 +348,31 @@
 <script>
     $(function () {
   $('.tango-help-tip').popover({
-    trigger: 'hover',
+    trigger: 'click hover',
     container: '#person',
     placement: 'bottom'
   })
 })
-
+$(document).on('click', function (e) {
+    if (!$(e.target).closest('.tango-help-tip').length) {
+      $('.tango-help-tip').popover('hide');
+    }
+  })
 </script>
 <script>
     $(function () {
   $('.tango-help-acc').popover({
-    trigger: 'hover',
+    trigger: 'click hover',
     container: '#acc',
     placement: 'bottom'
   })
 })
+
+$(document).on('click', function (e) {
+    if (!$(e.target).closest('.tango-help-acc').length) {
+      $('.tango-help-acc').popover('hide');
+    }
+  })
 
 </script>
 <script>

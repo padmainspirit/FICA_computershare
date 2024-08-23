@@ -44,7 +44,7 @@
         const modaltime = <?php //echo config("app.POPUPDISPLAY_AFTER_IDLE_TIME");?>;
         let timeRemaining = (modaltime/1000);
         let countdownInterval;
-            
+
         function updateCountdown()
         {
             const minutes = Math.floor(timeRemaining / 60);
@@ -61,7 +61,7 @@
             'mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick'
             , function() {
                 clearTimeout(idleTimer);
-                
+
                 idleState = false;
                 idleTimer = setTimeout(function() {
                     document.getElementById('modalbtn').click();
@@ -77,7 +77,7 @@
 
             });
         $("body").trigger("mousemove");
-        
+
     });
 */
     </script>

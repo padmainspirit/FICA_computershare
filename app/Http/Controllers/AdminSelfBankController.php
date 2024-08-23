@@ -1672,6 +1672,7 @@ class AdminSelfBankController extends Controller
 
         }
 
+       // print_r($selfbankinglinkdetails->selfBankingDetails);exit;
         return view('self-banking.preview-details')
             ->with('customer', $customer)
             ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
