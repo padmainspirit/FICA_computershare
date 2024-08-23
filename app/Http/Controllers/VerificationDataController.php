@@ -228,73 +228,13 @@ class VerificationDataController extends Controller
         }
     }
 
-    public function verifyClientDataSb($IDNum, Request $request, $fica_id=null)
+    public function verifyClientDataSb($IDNum, Request $request, $fica_id=null, $apiresult)
     {
         
         try {
-            $idas_data = array();
-            $idas_api_data = array();
-
-            $username = config("app.VERIFICATION_USER_NAME");
-            $pass = config("app.VERIFICATION_USER_PASSWORD");
-            $url = config("app.VERIFICATION_USER_URL");
-            $apiSearch = config("app.VERIFICATION_USER_API_URL");
-            $data = array(
-                'username' => $username,
-                'password' => $pass,
-                'grant_type' => 'password',
-            );
-
-            $arrContextOptions = array(
-                'http' => array(
-                    'header'  => 'Content-Type: application/x-www-form-urlencoded\r\n',
-                    'method'  => 'POST',
-                    'content' => http_build_query($data),
-                )
-            );
-            $id_no = $IDNum;
-
-            app('debugbar')->info($id_no);
-            $context  = stream_context_create($arrContextOptions);
-
-            $result = file_get_contents($url, false, $context);
-
-            $resultJsonFormat = json_decode($result);
-            $apiUrl = $apiSearch . $id_no . '&username=' . $username . '&password=' . $pass;
-            $ch = curl_init($apiUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_HEADER, TRUE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
-            curl_setopt($ch, CURLOPT_URL,  $apiUrl);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $headers = [];
-            $headers[] = 'Content-Type:application/json';
-            $token = $resultJsonFormat->access_token;
-            $headers[] = "Authorization: Bearer " . $token;
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            $response = curl_exec($ch);;
-            curl_close($ch);
-            $rawData = strtok($response, '[');
-            $jsonData = strtok('');
-            $jsonDataMod = str_replace('\\', '', $jsonData);
-            $jsonDataMod2 = str_replace('{', '', $jsonDataMod);
-            $jsonDataMod3 = str_replace('"', '', $jsonDataMod2);
-            $result =   substr(rtrim($jsonDataMod3, ']'), 0, -3);
-            //here we removing the last 2 character
-            $idas_data = explode(",", $result);
-          
-
-
-            for ($i = 0; $i < count($idas_data); $i++) {
-                $idas_api_data[$i] = $this->removeEverythingBefore($idas_data[$i], ':');
-            }
-            $consumer = ConsumerIdentity::where('FICA_id', '=',  $fica_id)->first();
             
+            $consumer = ConsumerIdentity::where('FICA_id', '=',  $fica_id)->first();
+            $idas_api_data = $apiresult;
 
             if ($consumer != null) {
                 ConsumerIdentity::where('FICA_id', $fica_id)->update(

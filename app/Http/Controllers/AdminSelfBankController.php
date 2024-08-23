@@ -242,14 +242,25 @@ class AdminSelfBankController extends Controller
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
                 'PhoneNumber' => ['required', 'digits:10', 'max:50'],
-                'Email' => ['required', 'string', 'email', 'max:50'],
-                'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/',],
+                'Email' => ['required', 'string', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'max:50'],
+                'reflist.*.srn1' => ['required', 'regex:/^[a-zA-Z]{1}$/'],
+                'reflist.*.srn2' => ['required', 'digits:1'],
+                'reflist.*.srn3' => ['required', 'digits:1'],
+                'reflist.*.srn4' => ['required', 'digits:1'],
+                'reflist.*.srn5' => ['required', 'digits:1'],
+                'reflist.*.srn6' => ['required', 'digits:1'],
+                'reflist.*.srn7' => ['required', 'digits:1'],
+                'reflist.*.srn8' => ['required', 'digits:1'],
+                'reflist.*.srn9' => ['required', 'digits:1'],
+                'reflist.*.srn10' => ['required', 'digits:1'],
+                'reflist.*.srn11' => ['required', 'digits:1'],
+                //'reflist.*.refnum' => ['required', 'string', 'regex:/^[c|u|d|C|U|D]{1}[0-9]{10}$/',],
                 //'reflist.*.company' => ['required_if:reflist.*.refnum,C1234567890']
             ], [
                 'IDNUMBER.required' => 'ID number should be of 13 digits',
                 'IDNUMBER.digits' => 'ID number should be of 13 digits',
-                'reflist.*.refnum.required' => 'The SRN Number is required at row number :position of Account details',
-                'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
+                //'reflist.*.refnum.required' => 'The SRN Number is required at row number :position of Account details',
+                //'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
                 //'reflist.*.company.required' => 'The company selection is required at :position row of Account details',
             ]);
 
@@ -257,14 +268,19 @@ class AdminSelfBankController extends Controller
                 $srns = [];
                 foreach ($validator->getData()['reflist'] as $key => $value) {
                     $position = $key + 1;
-                    if ((preg_match('/[C|c]{1}[0-9]{10}/', $value['refnum'])) && $value['company'] == null && $value['company'] == '') {
-                        $validator->errors()->add('reflist.' . $key . '.company', 'The company selection is required at row number ' . $position . ' of Account details');
+                    $res_srn = $value['srn1'].$value['srn2'].$value['srn3'].$value['srn4'].$value['srn5'].$value['srn6'].$value['srn7'].$value['srn8'].$value['srn9'].$value['srn10'].$value['srn11'];
+                    if (!preg_match('/[c|u|d|C|U|D]{1}[0-9]{10}/', $res_srn)) {
+                        $validator->errors()->add('reflist.' . $key . '.srn1', 'Invalid SRN format at row ' . $position . ' of account details');
+                    }
+                    
+                    if ((preg_match('/[C|c]{1}[0-9]{10}/', $res_srn)) && $value['company'] == null && $value['company'] == '') {
+                        $validator->errors()->add('reflist.' . $key . '.company', 'The company selection is required at row number ' . $position . ' of account details');
                     }
 
-                    if(in_array($value['refnum'], $srns)) {
+                    if(in_array($res_srn, $srns)) {
                         $validator->errors()->add('reflist.' . $key . '.refnum', 'Duplicate SRN has been entered');
                     }else{
-                        $srns[] = $value['refnum'];
+                        $srns[] = $res_srn;
                     }
                 }
             })->validate();
@@ -353,15 +369,16 @@ class AdminSelfBankController extends Controller
                 ]);
                 $consumeriden->save();
             }
-            $clientdata->verifyClientDataSb($request->IDNUMBER, $request, $fica_id);
+            $clientdata->verifyClientDataSb($request->IDNUMBER, $request, $fica_id, $apiresult);
 
 
 
             foreach ($request['reflist'] as $srndet) {
+                $res_srn = $srndet['srn1'].$srndet['srn2'].$srndet['srn3'].$srndet['srn4'].$srndet['srn5'].$srndet['srn6'].$srndet['srn7'].$value['srn8'].$srndet['srn9'].$srndet['srn10'].$srndet['srn11'];
                 $compnanysrn = new SelfBankingCompanySRN;
                 $compnanysrn->ID = Str::upper(Str::uuid());
                 $compnanysrn->SelfBankingDetailsId = $selfbankingdetailsid;
-                $compnanysrn->SRN = $srndet['refnum'];
+                $compnanysrn->SRN = $res_srn;
                 $compnanysrn->companies = $srndet['company'];
                 $compnanysrn->save();
             }
