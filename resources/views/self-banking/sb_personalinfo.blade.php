@@ -24,60 +24,52 @@
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
-
 
     <div class="account-pages">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-    <div class="step text-center">
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 mt-4">
 
-    </div>
-    <div class="step text-center">
-    <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
 
-    </div>
-    <div class="step text-center">
 
+<div class="container mt-4">
+    <div class="mt-4" style="position: relative;width:85%; margin: auto;">
+        <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
+             style="height:45px;width:45px; position: absolute; left: 25%; transform: translateX(-50%); top: -55px;">
+        <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
+            <div class="progress-bar" role="progressbar" style="width: 25%; background-color: #91C60F" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
     </div>
-    <div class="step text-center">
+    <div class="row justify-content-between ">
+      <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+        <img id="openCam" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
+        <h5 class="mt-2 text-center">Welcome</h5>
+      </div>
+      <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+        <img id="openCam2" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
+        <h5 class="mt-2 text-center">Personal Details</h5>
+      </div>
+      <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+        <img id="openCam3" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
+        <h5 class="mt-2 text-center">Digital ID Verification</h5>
+      </div>
+      <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+        <img id="openCam3" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
+        <h5 class="mt-2 text-center">Banking Details</h5>
+      </div>
+      <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+        <img id="openCam3" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
+        <h5 class="mt-2 text-center">Finish</h5>
+      </div>
+    </div>
+  </div>
 
-    </div>
-    <div class="step text-center">
 
-    </div>
-</div>
-<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
-    <div class="progress-bar" role="progressbar" style="width: 25%; background-color: #91C60F" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-
-                                    <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
-                                    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
-        <h5>Welcome</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
-        <h5>Personal Details</h5>
-    </div>
-
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
-        <h5>Digital ID Verification</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
-        <h5>Banking Details</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
-        <h5>Finish</h5>
-    </div>
-</div>
                     <div class="card overflow-hidden" style="border-radius: 10px;">
 
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
@@ -114,11 +106,11 @@
 
 
                                 <div class="heading-fica-id mb-1 mt-2">
-                                    <div style="display: flex; align-items: center; ">
+                                    <div id="acc" style="display: flex; align-items: center; ">
                                         <h4 class="font-size-18" style="color:#93186c; margin-right:5px; ">
                                             Account Details
                                         </h4>
-                                        <p  title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
+                                        <p class="tango-help-acc"aria-hidden="true" title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
                                             If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
 
                                     </div>
@@ -133,13 +125,25 @@
                                                 $company_old = 'reflist.' . $i . '.company';
                                             ?>
                                                 <div data-repeater-item class="row">
-                                                    <div class="mb-3 col-md-3">
+                                                    <div class="mb-3 col-md-2">
                                                         <label for="subject">Shareholder reference number<span style="color:red;">*</span></label>
 
                                                     </div>
-                                                    <div class="mb-3 col-md-3">
+                                                    <div class="mb-3 col-md-5 otp-input-container">
 
-                                                        <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control refnum" value="<?php echo Request::old($value); ?>" onkeyup="checkSrn(e)" placeholder="Enter your ref number" required />
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp1" oninput="moveToNext(this, 'otp2')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp4" oninput="moveToNext(this, 'otp5')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp5" oninput="moveToNext(this, 'otp6')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp6" oninput="moveToNext(this, 'otp7')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp7" oninput="moveToNext(this, 'otp8')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp8" oninput="moveToNext(this, 'otp9')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" required>
+                                                            <input type="text" maxlength="1" class="otp-input" id="otp11" required>
+
+                                                       {{-- <input style="border-radius: 15px; " id="subject" name="refnum" type="text" class="form-control" value="<?php echo Request::old($value); ?>" placeholder="Enter your ref number" required />--}}
                                                     </div>
 
 
@@ -149,9 +153,9 @@
                                                             <option value=""  style="font-size: 12px;">
                                                                 --Select company--
                                                             </option>
-                                                            <?php 
-                                                            foreach($companies as $company){  ?>
-                                                            <option value="{{ $company->Company_Name }}" {{ Request::old($company_old) == $company->Company_Name ? "selected" : '' }} style="font-size: 12px;">
+
+                                                            @foreach($companies as $company)
+                                                            <option value="{{ $company->Id }}" style="font-size: 12px;">
                                                                 {{ $company->Company_Name }}
                                                             </option>
 
@@ -162,7 +166,7 @@
 
 
 
-                                                    <div class="mb-3 col-md-2">
+                                                    <div class="mb-3 col-md-1">
                                                         <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-top:5px;" /></p>
 
                                                     </div>
@@ -182,16 +186,14 @@
                                 <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
 
                                 <div class="heading-fica-id mb-1 mt-2">
-                                    <div style="display: flex; align-items: center; ">
+                                    <div id="person" style="display: flex; align-items: center; ">
                                         <h4 class="font-size-18" style="color:#93186c;margin-right:5px; ">
                                             Personal Details
                                         </h4>
-                                        <p title="Mobile number example : 0723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
-                                    </div>
+
+                                              <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : 0723456789"  style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+
                                 </div>
-
-
-
 
                                 <div class="form-group row mb-2">
                                     <div class="col-sm-6">
@@ -202,7 +204,7 @@
 
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 mt-1">
                                         <div style="display: flex; align-items: center;">
                                             <span style="color:red;">*</span>
                                             <input id="FirstName" name="FirstName" placeholder="Enter first name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('FirstName') }}" required="required" />
@@ -219,7 +221,7 @@
 
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 mt-1">
                                         <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('SecondName') }}" />
 
 
@@ -235,7 +237,7 @@
                                         
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 mt-1">
                                         <input id="ThirdName" name="ThirdName" placeholder="Enter third name" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('ThirdName') }}" />
                                         
                                     </div>
@@ -326,8 +328,33 @@
         });
 
     </script>
+<script>
+    $(function () {
+  $('.tango-help-tip').popover({
+    trigger: 'hover',
+    container: '#person',
+    placement: 'bottom'
+  })
+})
 
+</script>
+<script>
+    $(function () {
+  $('.tango-help-acc').popover({
+    trigger: 'hover',
+    container: '#acc',
+    placement: 'bottom'
+  })
+})
 
+</script>
+<script>
+    function moveToNext(current, nextFieldId) {
+        if (current.value.length === 1) {
+            document.getElementById(nextFieldId).focus();
+        }
+    }
+</script>
 
     <!-- jQuery -->
 

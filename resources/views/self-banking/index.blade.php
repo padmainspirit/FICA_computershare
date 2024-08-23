@@ -12,10 +12,11 @@
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
-
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
@@ -61,9 +62,6 @@
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
                                         <li>Non resident individuals and all non-individuals should contact us on 0861100933 for further assistance.</li>
-                                        <li>If you do not bank with one of these banks, Contact us on 0861100933 or <a style="color:#91C60F;" href="">click here</a> to obtain the manual form Update your details(computershare.com)
-                                            Absa Bank, African Bank, Bank of Athens, Bidvest Bank, Capitec, Discovery Bank, First National Bank,
-                                      Investec Bank, Mercantile Bank, Nedbank, Sasfin Bank, Standard Bank, Tyme Bank.</li>
 
                                     </ul>
                                 </div>
@@ -71,50 +69,32 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
 
-    </div>
-    <div class="step text-center">
 
-    </div>
-    <div class="step text-center">
-
-    </div>
-    <div class="step text-center">
-
-    </div>
-    <div class="step text-center">
-
-    </div>
-</div>
-                                    <div class="progress mt-2" style="height: 20px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
-        <h5>Welcome</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
-        <h5>Personal Details</h5>
-    </div>
-
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
-        <h5>Digital ID Verification</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
-        <h5>Banking Details</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
-        <h5>Finish</h5>
-    </div>
-</div>
+                                    <div class="container mt-4">
+                                        <div class="row justify-content-between align-items-center">
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
+                                            <img id="openCam" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Welcome</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
+                                            <img id="openCam2" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Personal Details</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Digital ID Verification</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Banking Details</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Finish</h5>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
 

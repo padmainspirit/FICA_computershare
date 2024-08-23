@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
-    protected $connection = 'sqlsrv';
+    protected $connection = 'sqlsrv2';
     protected $table = 'Companies';
     public $timestamps = true;
-    
+
     const CREATED_AT = 'Created_At';
     const UPDATED_AT = 'Updated_At';
     protected $primaryKey = 'Id';
@@ -20,7 +20,7 @@ class Company extends Model
         'Id' => 'string'
     ];
 
-    
+
     /**
      * The attributes that are mass assignable.
      *

@@ -32,6 +32,43 @@ h3 ,h4
 .text-center {
     width: 100%;
 }
+.otp-input-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .otp-input {
+            width: 8%;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .otp-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        @media (max-width: 400px) {
+            .otp-input {
+                width: 9%;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .otp-input {
+                width: 10%;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
 
 
 </style>

@@ -29,58 +29,48 @@ use Illuminate\Support\Facades\Session;
 
     @section('content')
 
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset("assets\images\logo\computershare.png") }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+    <div class="container">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        </div>
     </div>
-
     <div class="account-pages">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-    <div class="step text-center">
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10 mt-4">
+                    <div class="container mt-4">
+                        <div class="mt-4" style="position: relative; width:85%; margin: auto;">
+                            <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
+                                 style="height:45px;width:45px; position: absolute; left: 100%;transform: translateX(-50%); top: -55px;">
+                            <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" style="width: 100%; background-color: #91C60F" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
 
-    </div>
-    <div class="step text-center">
-
-    </div>
-    <div class="step text-center">
-
-
-    </div>
-    <div class="step text-center">
-
-    </div>
-    <div class="step text-center">
-    <img src="{{ URL::asset('/assets/images/location-pin.png') }}" style="height:45px;width:45px;">
-    </div>
-</div>
-<div class="progress mx-auto mb-4 mt-3" style="height: 20px; width:85%;">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%;background-color: #91C60F;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="text-center mb-4 mt-2 d-flex justify-content-between align-items-center">
-                                    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="height:45px;width:45px;">
-        <h5>Welcome</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;">
-        <h5>Personal Details</h5>
-    </div>
-
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;">
-        <h5>Digital ID Verification</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;">
-        <h5>Banking Details</h5>
-    </div>
-    <div class="step text-center">
-        <img src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;">
-        <h5>Finish</h5>
-    </div>
-</div>
+                                    <div class="container">
+                                        <div class="row justify-content-between align-items-center">
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+                                            <img id="openCam" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Welcome</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center mb-3">
+                                            <img id="openCam2" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Personal Details</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Digital ID Verification</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Banking Details</h5>
+                                          </div>
+                                          <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <img id="openCam3" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
+                                            <h5 class="mt-2 text-center">Finish</h5>
+                                          </div>
+                                        </div>
+                                      </div>
 
 
                     <div class="card overflow-hidden" style="border-radius: 15px;">
@@ -89,7 +79,7 @@ use Illuminate\Support\Facades\Session;
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h4 class="text-white">Self Service Banking Process</h4>
+                                        <h4 class="text-white">Review details</h4>
                                     </div>
                                 </div>
                             </div>
@@ -119,163 +109,151 @@ use Illuminate\Support\Facades\Session;
                                 <form method="post" action="" id="sb-tnc-form">
                                 @csrf
 
-                                <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
-                                            Review details
+                                <div class="form-group row" style="border: 1px solid grey; border-radius: 10px; padding: 25px 20px; margin: 50px auto; max-width: 100%;">
+
+                                    <div class="heading-fica-id mb-1">
+                                        <h4 class="font-size-18" style="color: #93186c; padding-top: 10px; padding-bottom: 5px;">
+                                            Account details
                                         </h4>
                                     </div>
-                                </div>
-
-
-
-                                <div class="form-group row" style="border: 1px solid grey;border-radius:10px;width: 70%;padding: 25px 50px;margin: 50px 125px;">
-
-                                <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
-                                        Account details
-                                        </h4>
-                                    </div>
-                                </div>
 
                                     @foreach($selfbankinglinkdetails->selfBankingDetails->SBCompanySRN as $key => $srn)
-                                    <div data-repeater-item class="row">
-                                       <div class="col-sm-6">
+                                    <div data-repeater-item class="row mb-3">
+                                        <div class="col-sm-6">
                                             <label>SRN</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $srn->SRN }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                         <div class="col-sm-6">
                                             <label>Company</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
-                                        <span>{{ $srn->companies }}</span>
+                                            <span>{{ $srn->companies }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
                                     @endforeach
+
                                     <br/><br/>
 
-
                                     <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
-                                        Personal details
+                                        <h4 class="font-size-18" style="color: #93186c; padding-top: 10px; padding-bottom: 5px;">
+                                            Personal details
                                         </h4>
                                     </div>
-                                </div>
-                                    <div data-repeater-item class="row">
+
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>First Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->FirstName }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Second Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->SecondName }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Surname</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Surname }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>ID Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->IDNUMBER }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Phone Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->PhoneNumber }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Email</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Email }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
+
                                     <br/><br/>
 
                                     <div class="heading-fica-id mb-1">
-                                    <div class="">
-                                        <h4 class="font-size-18" style="color:#93186c; padding-top:10px;padding-bottom: 5px;">
-                                        Bank details
+                                        <h4 class="font-size-18" style="color: #93186c; padding-top: 10px; padding-bottom: 5px;">
+                                            Bank details
                                         </h4>
                                     </div>
-                                </div>
-                                    <div data-repeater-item class="row">
+
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Account Holder Initial</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Bank Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BankName }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Account Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Account Type</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->bankAccountType->Account_description }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
-                                    <div data-repeater-item class="row">
+                                    <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
                                             <label>Branch code</label>
                                         </div>
-                                        <div class="col-sm-6 text-end" >
+                                        <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BranchCode }}</span>
                                         </div>
-                                        <hr>
+                                        <hr class="w-100">
                                     </div>
                                 </div>
+
 
 
                                 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
