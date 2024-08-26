@@ -374,7 +374,7 @@ class AdminSelfBankController extends Controller
 
 
             foreach ($request['reflist'] as $srndet) {
-                $res_srn = $srndet['srn1'].$srndet['srn2'].$srndet['srn3'].$srndet['srn4'].$srndet['srn5'].$srndet['srn6'].$srndet['srn7'].$value['srn8'].$srndet['srn9'].$srndet['srn10'].$srndet['srn11'];
+                $res_srn = $srndet['srn1'].$srndet['srn2'].$srndet['srn3'].$srndet['srn4'].$srndet['srn5'].$srndet['srn6'].$srndet['srn7'].$srndet['srn8'].$srndet['srn9'].$srndet['srn10'].$srndet['srn11'];
                 $compnanysrn = new SelfBankingCompanySRN;
                 $compnanysrn->ID = Str::upper(Str::uuid());
                 $compnanysrn->SelfBankingDetailsId = $selfbankingdetailsid;

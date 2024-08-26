@@ -89,7 +89,7 @@
                                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                                     <div class="mt-5">
-                                        <button onclick="window.location='{{ url("/") }}'" type="button"
+                                        <button onclick="redirecttocs()" type="button"
                                                 class="btn w-md text-white"
                                                 style="background-color: #91C60F; border-color: #91C60F;">Finish
                                         </button>
@@ -102,5 +102,16 @@
         </div>
     </div>
     <!-- end account-pages -->
+    @endsection
+
+    @section('script')
+    <script type="text/javascript">
+        function redirecttocs() {
+            window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+        }
+        
+    </script>
+
+
     @endsection
 

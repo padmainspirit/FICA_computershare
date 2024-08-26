@@ -2322,7 +2322,7 @@ class UserVerificationController extends Controller
         //$referenceNo = $referenceNo;
 
         $xml_post_string_data = '<?xml version="1.0" encoding="utf-8"?>
-                                <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                                 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
                                   <soap12:Body>
                                     <ConnectGetAccountVerificationResult xmlns="http://www.web.xds.co.za/XDSConnectWS">
                                       <ConnectTicket>' . $ticketNo . '</ConnectTicket>

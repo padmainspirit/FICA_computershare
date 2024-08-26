@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-
+                        
                         <div class="card-body pt-0">
 
                             <div class="p-2">
@@ -175,7 +175,4 @@
     <!-- end account-pages -->
     @endsection
 
-    @section('script')
-
-
-    @endsection
+    
