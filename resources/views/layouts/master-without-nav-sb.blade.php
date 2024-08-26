@@ -9,6 +9,8 @@
     <link rel="icon" href="{{ URL::asset('assets/images/logo.ico') }}">
     @include('layouts.head-css')
 </head>
+
+
 <style>
 
    .step {
