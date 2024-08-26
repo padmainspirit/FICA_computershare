@@ -71,7 +71,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h4 class="text-white">Self Service Banking Process</h4>
+                                        <h4 class="text-white">Self service banking process</h4>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                             <div class="p-2">
                                 <div class="form-group row justify-content-center" style="border: 1px solid black; border-radius: 10px; width: 100%; padding: 25px; margin: 50px auto; max-width: 70%; text-align: center; font-size: 20px;">
                                     @if ($Success)
-                                        <div class="alert alert-success">
+                                        <div style="background-color: rgb(233, 233, 233);" class="alert">
                                             <p>Thank you</p>
                                             <p>{{ $Success }}</p>
                                         </div>
@@ -109,7 +109,7 @@
         function redirecttocs() {
             window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
         }
-        
+
     </script>
 
 

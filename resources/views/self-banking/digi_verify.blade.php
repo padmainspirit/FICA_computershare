@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h4 class="text-white">Digital ID Verification</h4>
+                                        <h4 class="text-white">Digital ID verification</h4>
                                     </div>
                                 </div>
                             </div>
