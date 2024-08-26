@@ -252,7 +252,7 @@
 
 
                             <button type="button" class="btn text-center w-md text-white" id="btn-Okay"
-                                style="width: 10%;margin-bottom: 3%;"
+                                style="width: 10%;margin-bottom: 3%;display:none;"
                                 data-bs-dismiss="modal">
                                 OK
                             </button>
@@ -367,7 +367,9 @@
                             $('#thankyou').hide();
                             $('#line').show();
                             $("#time").hide();
+                            $("#instruction").hide();
                             $("#remaining").hide();
+                            $("#selfie-cancel").show();
                             $('#seflie-text-error').text(
                                     'Photos does not match, IDV verification failed'
                             );
@@ -383,6 +385,44 @@
                                 'We received your image');
                                 $("#selfie-cancel").hide();
                                 $("#continue-btn").show();
+
+                            $("#seflie-text").show();
+                            // $("#submitBtn").show();
+                            $("#selfie-continue").prop("disabled", false);
+                            $("#alertSuccess").show();
+                            $("#selfie-cancel").prop("disabled", true);
+                            $('#seflie-text').text(
+                                'We received your image');
+                            // $("#submitBtn").prop("disabled", false);
+                            clearInterval(x); */
+                        }
+
+
+                        if (text === 'NoPhoto') {
+                            clearInterval(x);
+                            console.log('No photo was found at the department of home affairs, please click continue to upload your ID Document');
+                            $('#thankyou').hide();
+                            $('#line').show();
+                            $("#time").hide();
+                            $("#selfie-cancel").hide();
+                            $("#instruction").hide();
+                            $("#remaining").hide();
+                            $('#seflie-text-error').text(
+                                    'No photo was found at the department of home affairs, please click continue to upload your ID Document'
+                            );
+                            $("#selfie-continue").hide();
+                            $("#alertError").show();
+                            $("#seflie-text-error").show();
+                            $("#continue-btn").show();
+                            /* $('#selfie-link-title').hide();
+                            $('#thankyou').html('Photos does not match, IDV verification failed');
+                            $('#thankyou').show();
+                            $('#facial-loading-dynamic').hide();
+                            $('#facial-loading-static').show();
+                            $('#seflie-text').text(
+                                'We received your image');
+                                $("#selfie-cancel").hide();
+
 
                             $("#seflie-text").show();
                             // $("#submitBtn").show();
@@ -485,7 +525,13 @@
                     if(output_data.process_status == 'Failed')
                     {
                         $('#seflie-text').text('Failed');
-                    }else{
+                    }
+                    if(output_data.process_status == 'NoPhoto')
+                    {
+                        $('#seflie-text').text('NoPhoto');
+                    }
+
+                    else{
                         $('#seflie-text').text(output_data.data);
                     }
                 }
