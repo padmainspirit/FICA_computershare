@@ -522,7 +522,7 @@ class AdminSelfBankController extends Controller
                 $request,
                 [
                     'initial' => 'required|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|max:3',
-                    'accnumber' => 'required|numeric|min_digits:7|max_digits:11',
+                    'accnumber' => 'required|numeric|min_digits:7|max_digits:13',
                     'BankName' => ['required'],
                     'AccountType' => ['required'],
                     'branchcode' => ['required'],
@@ -530,7 +530,7 @@ class AdminSelfBankController extends Controller
                 ],
                 [
                     'sb-tnc.required' => 'You have to agree to the terms and conditions of banking service to continue the flow',
-                    'accnumber.max_digits' => 'The account number cannot be more than 11 digits.',
+                    'accnumber.max_digits' => 'The account number cannot be more than 13 digits.',
                     'accnumber.min_digits' => 'The account number cannot be less than 7 digits.',
                     'file.required' => 'Bank document is required when bank name is other.',
                     'file.mimes' => 'Invalid document format. Please upload a PDF or Image with jpg, jpeg or png format',
