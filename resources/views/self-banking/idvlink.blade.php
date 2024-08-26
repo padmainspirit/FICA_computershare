@@ -241,7 +241,7 @@
                                             <p id="instruction" style="">
                                                 Please follow the instructions on the "Link" recieved.
                                                                    </p>
-                                                                   <h4 style="remaining">Time remaining : <span id="time">5:00</span></h4>
+                                                                   <h4 id="remaining">Time remaining : <span id="time">05:00</span></h4>
                                         <button style="display:none;" type="button" id="selfie-cancel" class="btn btn-primary mt-4"
                                 data-bs-dismiss="modal">
                                 OK
@@ -318,6 +318,7 @@
                     // document.querySelector("#loader-selfie").style.display = "none";
                 }
                 , success: function(response) {
+                    startCountdown();
                     console.log(response);
                     $("#btn-hidden-selfie").click();
                     // $("#composemodal-selfie").modal({
@@ -327,6 +328,7 @@
                     // });
                     var i = 1;
                     var x = setInterval(function() {
+
                         var text = $('#seflie-text').html();
                         console.log(text);
                         console.log(i);
@@ -342,7 +344,7 @@
                                 //$('#facial-loading-dynamic').hide();
                                // $('#facial-loading-static').show();
                                 $('#seflie-text-error').text(
-                                    'Selfie has not been taken successfully. Please click the selfie link button again to resend the link!'
+                                    'ID verification was not successful. Please click the Next button again to resend the link!'
                                 );
                                 $("#instruction").hide();
                                 $("#selfie-continue").hide();
@@ -352,7 +354,7 @@
                                 $("#selfie-cancel").show();
                                // $("#btn-Okay").show();
                                 console.log(
-                                    'Selfie has not been taken Successfully. Please click the selfie link button again to resend the link!'
+                                    'ID verification was not successful. Please click the Next button again to resend the link!'
                                 );
                                 clearInterval(x);
                             }
@@ -521,8 +523,8 @@ function startCountdown() {
     }, 1000);
 }
 
-// Start the countdown when the page loads
-startCountdown();
+
+
 
 </script>
 
