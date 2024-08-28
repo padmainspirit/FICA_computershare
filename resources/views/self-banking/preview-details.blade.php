@@ -311,7 +311,7 @@ use Illuminate\Support\Facades\Session;
                         </div>
 
                         <div class="text-center mb-3">
-                            <button type="button" class="btn w-md text-white" onclick="window.location='{{ url("/") }}'" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
+                            <button type="button" class="btn w-md text-white" onclick="redirecttocs()" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
 
                         </div>
 
@@ -326,6 +326,13 @@ use Illuminate\Support\Facades\Session;
     @endsection
 
     @section('script')
+
+    <script type="text/javascript">
+        function redirecttocs() {
+            window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+        }
+    </script>
+
 
     <script>
 

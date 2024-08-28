@@ -9,6 +9,10 @@
     .required {
         color: "#ff0000" !important;
     }
+
+    .otp-input::placeholder {
+        color: #E5E4E2 !important;
+    }
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -116,15 +120,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <form class="repeater" data-limit="5" method="post" action="{{ route('sb-personalinfo') }}" id="sb-tnc-form">
+                                    <form class="repeater" data-limit="5" method="post" action="{{ route('sb-personalinfo') }}" id="sb-pd-form">
                                         @csrf
-                                        <div data-repeater-list="reflist" class="duplicable">
+                                        <div data-repeater-list="reflist" class="duplicable" id="reflist">
                                             <?php $reflist = Request::old('reflist') != null ? count(Request::old('reflist')) : 1;
                                             for ($i = 0; $i < $reflist; $i++) {
                                                 $value = 'reflist.' . $i . '.refnum';
                                                 $company_old = 'reflist.' . $i . '.company';
                                             ?>
-                                                <div data-repeater-item class="row">
+                                                <div data-repeater-item class="row srn-row">
                                                     <div class="mb-3 col-md-2">
                                                         <label for="subject">Shareholder reference number<span style="color:red;">*</span></label>
 
@@ -141,14 +145,14 @@
                                                         <input type="text" maxlength="1" placeholder="7" name="srn8" class="otp-input" id="otp8" oninput="moveToNext(this, 'otp9')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn8'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="8" name="srn9" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn9'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="9" name="srn10" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn10'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
 
                                                     </div>
 
 
 
                                                     <div class="mb-3 col-md-4 search-box">
-                                                        <div >
+                                                        <div class="inner-search-box">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" style="font-size: 12px;">
                                                                 --Select company--
@@ -276,6 +280,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- end account-pages -->
         @endsection
 
@@ -319,47 +324,121 @@
             $(document).ready(function() {
                 // Initialize select2
                 $("#remove").hide();
+                $("#createclick").hide();
                 $(".form-select").select2();
+                $(".inner-search-box").hide();
+
+                var highestIndex = getHighestIndex();
+                var errors = [];
+                for (let index = 0; index < highestIndex; index++) {
+                    let srn1regex = /^reflist\[(\d+)\]\[srn1]$/;
+                    var srn1 = $('[name="reflist\['+index+']\[srn1]"]').val();
+                        //console.log(srn1);
+                        var c_regex = /^[c|C]{1}$/; 
+                        if (srn1.match(c_regex)) {
+                            $('[name="reflist[' + index + '][company]"]').parent().show();
+                        }else{
+                            $('[name="reflist[' + index + '][company]"]').parent().hide();
+                        }
+                }
+                completesrn();
 
                 $("#createclick").click(function(e) {
+                    var highestIndex = getHighestIndex();
+                    var index = highestIndex - 1;
+                    console.log("Highest Index:", index);                    
                     $(".form-select").select2();
-
+                    $('[name="reflist[' + index + '][company]"]').parent().hide();
                 });
 
 
 
             });
 
+
+            function getHighestIndex() {
+                const repeaterItems = $('#reflist .srn-row');
+                // Get the highest index
+                const highestIndex = repeaterItems.length ;
+                // Output the highest index
+                
+                return highestIndex;
+            }
+
             function moveToNext(current, nextFieldId) {
-                console.log(current.name);
+                $("#createclick").hide();
+                //console.log(current.name);
                 var name = current.name;
                 let srn1regex = /^reflist\[(\d+)\]\[srn1]$/;
+                let srn11regex = /^reflist\[(\d+)\]\[srn11]$/;
 
-                let match = name.match(srn1regex); //matches number inside the squere bracket
-                if (match) {
-                    let index = parseInt(match[1]);
-                    //$('[name="reflist['+index+'][company]"]').parent().hide();
-                    var srn1 = $('[name="' + name + '"]').val();
-                    console.log(srn1);
-                    var cu_regex = /^[c|u|C|U]{1}$/;
-                    var d_regex = /^[d|D]{1}$/;
-                    if (srn1.match(cu_regex)) {
-                        $('[name="reflist[' + index + '][company]"]').parent().show();
-                    }
-                    if (srn1.match(d_regex)) {
-                      $('[name="reflist[' + index + '][company]"]').val('');
-                     $('[name="reflist[' + index + '][company]"]').parent().hide();
+                
+                    let match = name.match(srn1regex); //matches number inside the squere bracket
+                    var index = 0;
+                    if (match) {
+                        let index = parseInt(match[1]);
+                        $('[name="reflist['+index+'][company]"]').parent().hide();
+                        var srn1 = $('[name="' + name + '"]').val();
+                        //console.log(srn1);
+                        var cu_regex = /^[c|C]{1}$/; ///^[c|u|C|U]{1}$/;
+                        var d_regex = /^[d|D]{1}$/;
+                        if (srn1.match(cu_regex)) {
+                            $('[name="reflist[' + index + '][company]"]').parent().show();
+                        }
+                        /* if (srn1.match(d_regex)) {
+                        $('[name="reflist[' + index + '][company]"]').val('');
+                        $('[name="reflist[' + index + '][company]"]').parent().hide();
+                        } */
+
                     }
 
+                    let srnmatch = name.match(/\d(?!.*\d)/);
+                    if (srnmatch && $('[name="' + name + '"]').val()) {
+                        var newindex = parseInt(srnmatch[0]);
+                        var nextindex = Number(newindex) + Number(1);
+                        var newname = name.replace(/\d(?=\D*$)/, nextindex);
+                        $('[name="' + newname + '"]').focus();
+                    }
+                    completesrn();
+
+                
+            }
+
+            function completesrn()
+            {
+                var highestIndex = getHighestIndex();
+                var errors = [];
+                for (let index = 0; index < highestIndex; index++) {
+                    var s1 = $('[name="reflist[' + index + '][srn1]"]').val();
+                    var s2 = $('[name="reflist[' + index + '][srn2]"]').val();
+                    var s3 = $('[name="reflist[' + index + '][srn3]"]').val();
+                    var s4 = $('[name="reflist[' + index + '][srn4]"]').val();
+                    var s5 = $('[name="reflist[' + index + '][srn5]"]').val();
+                    var s6 = $('[name="reflist[' + index + '][srn6]"]').val();
+                    var s7 = $('[name="reflist[' + index + '][srn7]"]').val();
+                    var s8 = $('[name="reflist[' + index + '][srn8]"]').val();
+                    var s9 = $('[name="reflist[' + index + '][srn9]"]').val();
+                    var s10 = $('[name="reflist[' + index + '][srn10]"]').val();
+                    var s11 = $('[name="reflist[' + index + '][srn11]"]').val();
+                    var company = $('[name="reflist[' + index + '][company]"]').val();
+
+                    var srn = s1+s2+s3+s4+s5+s6+s7+s8+s9+s10+s11;
+                    if(srn.length != 11 && (company == '' || company == null ))
+                    {
+                        errors.push(true);
+                    }else{
+                        errors.push(false);
+                    }
                 }
 
-                let srnmatch = name.match(/\d(?!.*\d)/);
-                if (srnmatch && $('[name="' + name + '"]').val()) {
-                    var newindex = parseInt(srnmatch[0]);
-                    var nextindex = Number(newindex) + Number(1);
-                    var newname = name.replace(/\d(?=\D*$)/, nextindex);
-                    $('[name="' + newname + '"]').focus();
+                if(errors.indexOf(true) != -1)
+                {  
+                    $("#createclick").hide();
+                }else{
+                    $("#createclick").show();
                 }
+                
+
             }
         </script>
 
