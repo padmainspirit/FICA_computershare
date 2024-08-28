@@ -26,7 +26,7 @@
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
     <div class="account-pages">
@@ -78,25 +78,28 @@
                         </div>
                         <div class="card-body pt-0">
                             <div class="p-2">
-                                <div class="form-group row justify-content-center" style="border: 1px solid black; border-radius: 10px; width: 100%; padding: 25px; margin: 50px auto; max-width: 70%; text-align: center; font-size: 20px;">
-                                    @if ($Success)
-                                        <div style="background-color: rgb(233, 233, 233);" class="alert">
-                                            <p>Thank you</p>
-                                            <p>{{ $Success }}</p>
+                                <div class="form-group row justify-content-center">
+                                    <div class="col-12 col-md-10" style="border: 1px solid black; border-radius: 10px; padding: 25px; text-align: center; font-size: 20px;">
+                                        @if ($Success)
+                                            <div class="alert" style="background-color: rgb(233, 233, 233);">
+                                                <p>Thank you</p>
+                                                <p>{{ $Success }}</p>
+                                            </div>
+                                        @endif
+
+                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
+                                        <div class="mt-5">
+                                            <button onclick="redirecttocs()" type="button"
+                                                    class="btn w-md text-white"
+                                                    style="background-color: #91C60F; border-color: #91C60F;">Finish
+                                            </button>
                                         </div>
-                                    @endif
-
-                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-
-                                    <div class="mt-5">
-                                        <button onclick="redirecttocs()" type="button"
-                                                class="btn w-md text-white"
-                                                style="background-color: #91C60F; border-color: #91C60F;">Finish
-                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
             </div>
         </div>

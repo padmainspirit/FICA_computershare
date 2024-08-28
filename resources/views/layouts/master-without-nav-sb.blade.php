@@ -12,6 +12,32 @@
 
 
 <style>
+/* Default for small screens */
+.responsive-logo {
+    max-width: 50%;
+    height: auto;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .responsive-logo {
+        max-width: 50%;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .responsive-logo {
+        max-width: 33%;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .responsive-logo {
+        max-width: 25%;
+    }
+}
 
    .step {
     display: flex;
@@ -35,42 +61,50 @@ h3 ,h4
     width: 100%;
 }
 .otp-input-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; /* Space between the inputs */
+    justify-content: center; /* Center the inputs horizontally */
+}
 
-        .otp-input {
-            width: 8%;
-            height: 40px;
-            text-align: center;
-            font-size: 18px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+.otp-input {
+    flex: 1 1 30px; /* Flex-grow, flex-shrink, and minimum width */
+    max-width: 25px; /* Maximum width for larger screens */
+    height: 35px; /* Consistent height for inputs */
+    text-align: center; /* Center the text inside the input */
+    font-size: 12px; /* Make text larger */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+}
 
-        .otp-input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
+@media (max-width: 600px) {
+    .otp-input {
+        flex: 1 1 25px; /* Adjust the size for smaller screens */
+        max-width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+}
 
-        @media (max-width: 400px) {
-            .otp-input {
-                width: 9%;
-                height: 35px;
-                font-size: 16px;
-            }
-        }
+.otp-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #999999;
+}
 
-        @media (max-width: 320px) {
-            .otp-input {
-                width: 10%;
-                height: 30px;
-                font-size: 14px;
-            }
-        }
+.otp-input::-moz-placeholder { /* Firefox 19+ */
+    color: #999999;
+}
+
+.otp-input:-ms-input-placeholder { /* IE 10+ */
+    color: #999999;
+}
+
+.otp-input::-ms-input-placeholder { /* Edge */
+    color: #999999;
+}
+
+.otp-input::placeholder { /* Modern browsers */
+    color: #999999;
+}
 
 
 </style>

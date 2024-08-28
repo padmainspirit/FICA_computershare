@@ -23,10 +23,9 @@
     @endsection
 
     @section('content')
-
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
 
@@ -134,7 +133,7 @@
                                                 <span style="color:red;">*</span>
                                                 <select class="form-select" autocomplete="off" style="border-radius: 15px;margin-left:5px; " id="BankName" name="BankName">
                                                     <option value="" style="">
-                                                        --Select Bank--
+                                                        Select bank
                                                     </option>
                                                     @foreach ($bankNames as $bank)
                                                     <?php
@@ -167,7 +166,7 @@
                                             <span style="color:red;">*</span>
                                             <select class="form-select" autocomplete="off" style="border-radius: 15px; margin-left:5px;" id="AccountType" name="AccountType">
                                                 @if ($bankTpye->count())
-                                                <option value="">Select Bank Type</option>
+                                                <option value="">Select account type</option>
                                                 @foreach ($bankTpye as $type)
                                                 <?php
                                                 $selected = '';

@@ -14,10 +14,9 @@
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
-
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center mt-4">
@@ -86,19 +85,21 @@
                                 @csrf
                                     <div class="row">
 
-                                       <div class="container mt-4">
+                                        <div class="container mt-4">
                                             <div class="row">
                                               <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-                                                <img id="openCam" src="{{ URL::asset('/assets/images/1.jpg') }}" style="width: 300px;height:460px;" />
+                                                <img id="openCam" src="{{ URL::asset('/assets/images/1.jpg') }}" class="img-fluid" />
                                               </div>
                                               <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-                                                <img id="openCam2" src="{{ URL::asset('/assets/images/2.jpg') }}" style="width: 300px;height:460px;" />
+                                                <img id="openCam2" src="{{ URL::asset('/assets/images/2.jpg') }}" class="img-fluid" />
                                               </div>
                                               <div class="col-12 col-md-4 d-flex justify-content-center align-items-center mb-3">
-                                                <img id="openCam3" src="{{ URL::asset('/assets/images/3.jpg') }}" style="width: 300px;height:460px;" />
+                                                <img id="openCam3" src="{{ URL::asset('/assets/images/3.jpg') }}" class="img-fluid" />
                                               </div>
                                             </div>
                                           </div>
+
+
 
                                         <div id="" class="mt-2 text-center">
 

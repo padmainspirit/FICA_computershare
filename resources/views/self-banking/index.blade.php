@@ -14,7 +14,7 @@
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
     <div class="account-pages">
@@ -57,14 +57,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
+                                    <div class="container">
                                     <ul class="font-size-14">
                                         <li>You will need to have your bank account details on hand and a device with camera.</li>
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
-                                        <li>Non resident individuals and all non-individuals should contact us on 0861100933 for further assistance.</li>
+                                        <li>Non resident individuals and all non-individuals should contact us on <span style="color:#93186c;">086 110 0933</span> for further assistance.</li>
 
                                     </ul>
                                 </div>
+                            </div>
                             </div>
 
                             <div class="row">
@@ -102,19 +104,21 @@
                                 @csrf
                                     <div class="row mt-5 mb-3">
                                         <div class="col-12">
+                                            <div class="container" style="position: relative;display:flex;left: 15px;">
                                             <input class="form-check-input big-checkbox" type="hidden" value="{{ $sbid }}" name="sbid" style="width: 20px; height:20px;">
-                                            <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-left:15px;padding-right:15px;padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
+                                            <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
                                                 <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px; position: relative; top: -4px;">
                                                 By ticking this box, you authorize Computershare to verify your banking details against any third party database.
                                                 <a style="color: #91C60F;" data-bs-toggle="modal" data-bs-target="#composemodal-tc" href="">See More</a>
                                             </label>
 
 
-
+                                        </div>
 
                                         </div>
 
                                     </div>
+
                                     <div class="row">
                                         <div class="col-12" style="text-align: center;">
                                         <button style="background-color:#91C60F;border:solid 1px #91C60F;" type="submit" class="btn btn-primary">Get Started</button>
@@ -147,10 +151,9 @@
                        </div>
                         <p style="color: #000000;text-align: justify; padding: 0 20px;">
                                     By ticking this box, you authorize Computershare to verify your banking details against any third party database. You acknowledge that Computershare might be unable to verify the authenticity of electronic instructions and therefore you hereby indemnify Computershare against any loss or damage incurred as a result of acting upon such instructions. you further acknowledge that it is your responsibility as the account holder to inform Computershare immediately and not later than a period of 1 month of any change made to the registered email address.
-                                    For more detailed terms and conditions, please visit our website, https://www.computershare.com/za/privacy
+ <br> For more detailed terms and conditions, please visit our website, https://www.computershare.com/za/privacy
 
                                                            </p>
-
 
                         <div class="text-center mb-1 mt-4">
 

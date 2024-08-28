@@ -300,7 +300,7 @@ class AdminSelfBankController extends Controller
             /* code for validating ID number using idas API */
             $verifyData = new VerifyUserController();
             $apiresult = $verifyData->verifyUser($request->IDNUMBER, $request);
-         
+
             if ($apiresult[0] != $request->IDNUMBER) {
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Invalid ID number has been entered');
             }
@@ -894,7 +894,9 @@ class AdminSelfBankController extends Controller
             return redirect()->route('sb-preview-details');
         }
         $banks = Banks::all()->sortBy('bankname');
-        $bankTpye = BankAccountType::all();
+        //$bankTpye = BankAccountType::all();
+        $excludedTypes = ['TRANSMISSION', 'BOND','SUBSCRIPTIONSHARE'];
+        $bankTpye = BankAccountType::whereNotIn('Account_description', $excludedTypes)->get();
 
 
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);

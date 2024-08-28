@@ -19,11 +19,12 @@
     @endsection
 
     @section('content')
+
     <div class="container">
-    <div class="row d-flex justify-content-center mb-2 mt-4">
-        <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+        <div class="row d-flex justify-content-center mb-2 mt-4">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
+        </div>
     </div>
-</div>
 
     <div class="account-pages">
         <div class="container">
@@ -118,7 +119,7 @@
 
                                                         <div class="col-sm-6">
                                                             <div style="display: flex; align-items: center;">
-                                                                <p class="font-size-14">Confirm your cellphone number to recieve a selfie link to your device.</p>
+                                                                <p class="font-size-14">Confirm your cellphone number to receive an ID verification link to your device.</p>
                                                                  </div>
 
                                                         </div>
@@ -220,7 +221,7 @@
                                 <hr id="line" style="display:none;color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                             </div>
                             <br>
-                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank you, your ID has been verified, please click on continue
+                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank you, your ID has been verified, please click to continue
                             </p>
                         </div>
 
@@ -246,6 +247,11 @@
                                 data-bs-dismiss="modal">
                                 OK
                             </button>
+                            <button style="display:none;" onclick="redirecttocs()" type="button" id="selfie-cancel-url" class="btn btn-primary mt-4"
+                            data-bs-dismiss="modal">
+                            OK
+                        </button>
+
                             </div>
                                     </div>
 
@@ -369,7 +375,7 @@
                             $("#time").hide();
                             $("#instruction").hide();
                             $("#remaining").hide();
-                            $("#selfie-cancel").show();
+                            $("#selfie-cancel-url").show();
                             $('#seflie-text-error').text(
                                     'Photos does not match, IDV verification failed'
                             );
@@ -520,13 +526,14 @@
                     //  $('#loading-send-sms').hide();
                 }
                 , success: function(output_data) {
+                    console.log(output_data);
                     // if (output_data.data === 'Consumer') {
                     //$('#seflie-text').text(output_data.data);
-                    if(output_data.process_status == 'Failed')
+                    if(output_data.process_status === 'Failed')
                     {
                         $('#seflie-text').text('Failed');
                     }
-                    if(output_data.process_status == 'NoPhoto')
+                    else if(output_data.process_status === 'NoPhoto')
                     {
                         $('#seflie-text').text('NoPhoto');
                     }
@@ -574,6 +581,10 @@ function startCountdown() {
 
 
 </script>
-
+<script type="text/javascript">
+    function redirecttocs() {
+        window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+    }
+</script>
 
     @endsection
