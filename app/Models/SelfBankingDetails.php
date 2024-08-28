@@ -82,9 +82,9 @@ class SelfBankingDetails extends Model
                         $query->select('SelfBankingDetailsId','SRN', 'companies')
                         ->whereIn('SRN', $srnlist);
                     })
-                    //->with(['SBCompanySRN'])
-                    ->where("CreatedOnDate", "<", $minus_72_hours)
-                    ->where(['IDNUMBER'=>$idnumber])->orderBy('CreatedOnDate', 'DESC')->get();
+                    ->with(['SBCompanySRN'])
+                    ->where("CreatedOnDate", ">", $minus_72_hours)
+                    ->where(['IDNUMBER'=>$idnumber])->orderBy('CreatedOnDate', 'DESC')->first();
         if($checksrn){
             return true;
         }else{

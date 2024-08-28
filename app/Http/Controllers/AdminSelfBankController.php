@@ -285,19 +285,16 @@ class AdminSelfBankController extends Controller
                 }
             })->validate();
 
-            /* $srn_list = [];
+            $srn_list = [];
             foreach ($_POST['reflist'] as $key => $value) {
                 $res_srn = $value['srn1'].$value['srn2'].$value['srn3'].$value['srn4'].$value['srn5'].$value['srn6'].$value['srn7'].$value['srn8'].$value['srn9'].$value['srn10'].$value['srn11'];
                 $srn_list[] = $res_srn;
             }
 
-            $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
-            if($existinguser){
-                return view('self-banking.sb_personalinfo')
-                    ->with('customer', $customer)
-                    ->with('companies', $companies)
-                    ->with('sbid', $sbid)
-                    ->with('existinguser','Yes');
+            /* $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
+            if($existinguser){                
+                    return redirect()->route('sb-personalinfo')->withInput($request->input())->with('existinguser', 'Yes');
+                    
             } */
 
             /* code for validating ID number using idas API */
@@ -1449,6 +1446,13 @@ class AdminSelfBankController extends Controller
                 }
                 else if(array_key_exists('Fault',$jsonres['Body'])){
                     //return redirect()->route('process-status')->withInput($request->input())->with('message', 'There might be some sort of server or internet issue, please try again later.');
+                        AVS::where('FICA_id', $fica_id)->update(
+                            array(
+                                'AVS_Status' => 0,
+                                'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                'ErrorMessage' => 'action or xml error'
+                            )
+                        );
                     SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-1,'BankDocumentUpload'=>0]);
                     return redirect()->route('process-status');
                 } else {

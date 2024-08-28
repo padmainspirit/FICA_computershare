@@ -281,6 +281,50 @@
             </div>
         </div>
         
+
+
+        <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup" data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
+            Popup
+        </button>
+        {{-- Selfie Popup Modal --}}
+        <div class="modal fade" id="composemodal-selfie" tabindex="-1" role="dialog"
+            aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('sbgetselfieresult') }}" method="post" enctype="multipart/form-data"
+                        id="getselfieResult">
+                        @csrf
+                        <div class="modal-body">
+                            <br><br>
+                            <div class="text-center mb-4">
+                                <div class="row justify-content-center">
+                                    <br>
+                                    <div class="col-xl-10" id="selfie-link-title">
+                                        <h4 style="color: #000000">Observation
+                                        </h4>
+                                    </div>
+
+                                    <div id="alertError" class="alert alert-danger" role="alert">
+                                        <br>
+                                        <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;">There is an application in progress for these credentials, if you need any information regarding the application or did not submit an application, please contact us 0861 100 933.</p>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button id="staybtn" type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn w-md text-white" onclick="redirecttocs()" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
+
+                            </div>
+
+                        </div>
+                    </form>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+
         <!-- end account-pages -->
         @endsection
 
@@ -292,17 +336,23 @@
 
         <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
         <script>
-            $(function() {
-                $('.tango-help-tip').popover({
-                    trigger: 'click hover',
-                    container: '#person',
-                    placement: 'bottom'
-                })
+
+        function redirecttocs() 
+        {
+            window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+        }
+
+        $(function() {
+            $('.tango-help-tip').popover({
+                trigger: 'click hover',
+                container: '#person',
+                placement: 'bottom'
             })
-            $(document).on('click', function(e) {
-            if (!$(e.target).closest('.tango-help-tip').length) {
-                $('.tango-help-tip').popover('hide');
-            }
+        })
+        $(document).on('click', function(e) {
+        if (!$(e.target).closest('.tango-help-tip').length) {
+            $('.tango-help-tip').popover('hide');
+        }
         });
 
         </script>
@@ -322,6 +372,12 @@
 
 
             $(document).ready(function() {
+
+                var existinguser = "{{ Session::has('existinguser') }}" ;
+                console.log(existinguser);
+                if(existinguser){
+                    $("#btn-hidden-popup").click();
+                }
                 // Initialize select2
                 $("#remove").hide();
                 $("#createclick").hide();
