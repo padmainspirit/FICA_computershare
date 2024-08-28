@@ -27,7 +27,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-white p-4">
-                                        <h3 class="text-white">Welcome to Self Service Banking Detail Update</h3>
+                                        <h3 class="text-white">Welcome to self service banking detail update</h3>
 
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                         <li>You will need to have your bank account details on hand and a device with camera.</li>
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
-                                        <li>Non resident individuals and all non-individuals should contact us on <span style="color:#93186c;">086 110 0933</span> for further assistance.</li>
+                                        <li>Non resident individuals and all non-individuals should contact us on <span style="color:#93186c;">086 110 0933</span> for further assistance or <span style="color:#93186c;">+27 11 373 0017</span> then we can schedule a walk through.</li>
 
                                     </ul>
                                 </div>

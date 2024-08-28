@@ -350,7 +350,7 @@
                                 //$('#facial-loading-dynamic').hide();
                                // $('#facial-loading-static').show();
                                 $('#seflie-text-error').text(
-                                    'ID verification was not successful. Please click the Next button again to resend the link!'
+                                    'ID verification was not successful. Please click the "OK" button then click the "Next" button again to resend the link!'
                                 );
                                 $("#instruction").hide();
                                 $("#selfie-continue").hide();
