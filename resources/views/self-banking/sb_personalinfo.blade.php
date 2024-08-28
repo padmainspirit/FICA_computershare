@@ -151,11 +151,11 @@
 
 
 
-                                                    <div class="mb-3 col-md-4 search-box">
+                                                    <div class="mb-3 col-md-3 search-box">
                                                         <div class="inner-search-box">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" style="font-size: 12px;">
-                                                                --Select company--
+                                                                Select company
                                                             </option>
                                                             <?php
                                                             foreach ($companies as $company) {  ?>
@@ -170,16 +170,19 @@
                                                 </div>
 
 
-                                                    <div class="mb-3 col-md-1">
-                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-top:5px;" /></p>
+                                                    <div class="mb-3 col-md-3">
+                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
 
                                                     </div>
+                                                    <hr style="color: #91C60F ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #91C60F; background-color: #91C60F; opacity: 100%;">
                                                 </div>
                                             <?php } ?>
                                         </div>
-                                        <div class="col-lg-3 mt-3">
 
-                                            <p data-repeater-create id="createclick" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE</p>
+                                        <div class="col-lg-3 mt-3">
+                                            <p data-repeater-create id="createclick" style="cursor:pointer; display:inline-block;">
+                                                <img src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE
+                                            </p>
                                         </div>
 
 
@@ -187,7 +190,7 @@
 
 
 
-                                <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
+                                {{--<hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">--}}
 
                                 <div class="heading-fica-id mb-1 mt-2">
                                     <div id="person" style="display: flex; align-items: center; ">
@@ -284,7 +287,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- end account-pages -->
         @endsection
 
@@ -338,7 +341,7 @@
                     let srn1regex = /^reflist\[(\d+)\]\[srn1]$/;
                     var srn1 = $('[name="reflist\['+index+']\[srn1]"]').val();
                         //console.log(srn1);
-                        var c_regex = /^[c|C]{1}$/; 
+                        var c_regex = /^[c|C]{1}$/;
                         if (srn1.match(c_regex)) {
                             $('[name="reflist[' + index + '][company]"]').parent().show();
                         }else{
@@ -350,7 +353,7 @@
                 $("#createclick").click(function(e) {
                     var highestIndex = getHighestIndex();
                     var index = highestIndex - 1;
-                    console.log("Highest Index:", index);                    
+                    console.log("Highest Index:", index);
                     $(".form-select").select2();
                     $('[name="reflist[' + index + '][company]"]').parent().hide();
                 });
@@ -365,7 +368,7 @@
                 // Get the highest index
                 const highestIndex = repeaterItems.length ;
                 // Output the highest index
-                
+
                 return highestIndex;
             }
 
@@ -376,7 +379,7 @@
                 let srn1regex = /^reflist\[(\d+)\]\[srn1]$/;
                 let srn11regex = /^reflist\[(\d+)\]\[srn11]$/;
 
-                
+
                     let match = name.match(srn1regex); //matches number inside the squere bracket
                     var index = 0;
                     if (match) {
@@ -405,7 +408,7 @@
                     }
                     completesrn();
 
-                
+
             }
 
             function completesrn()
@@ -436,12 +439,12 @@
                 }
 
                 if(errors.indexOf(true) != -1)
-                {  
+                {
                     $("#createclick").hide();
                 }else{
                     $("#createclick").show();
                 }
-                
+
 
             }
         </script>

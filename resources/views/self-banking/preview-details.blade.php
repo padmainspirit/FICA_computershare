@@ -120,14 +120,14 @@ use Illuminate\Support\Facades\Session;
                                     @foreach($selfbankinglinkdetails->selfBankingDetails->SBCompanySRN as $key => $srn)
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>SRN</label>
+                                            <label style="font-weight:bold;">SRN</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
-                                            <span>{{ $srn->SRN }}</span>
+                                            <span style="text-transform: capitalize;">{{ $srn->SRN }}</span>
                                         </div>
                                         <hr class="w-100">
                                         <div class="col-sm-6">
-                                            <label>Company</label>
+                                            <label style="font-weight:bold;">Company</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $srn->companies }}</span>
@@ -146,7 +146,7 @@ use Illuminate\Support\Facades\Session;
 
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>First Name</label>
+                                            <label style="font-weight:bold;">First Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->FirstName }}</span>
@@ -155,7 +155,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Second Name</label>
+                                            <label style="font-weight:bold;">Second Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->SecondName }}</span>
@@ -164,7 +164,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Surname</label>
+                                            <label style="font-weight:bold;">Surname</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Surname }}</span>
@@ -173,7 +173,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>ID Number</label>
+                                            <label style="font-weight:bold;">ID Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->IDNUMBER }}</span>
@@ -182,7 +182,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Phone Number</label>
+                                            <label style="font-weight:bold;">Phone Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->PhoneNumber }}</span>
@@ -191,7 +191,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Email</label>
+                                            <label style="font-weight:bold;">Email</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->Email }}</span>
@@ -209,7 +209,7 @@ use Illuminate\Support\Facades\Session;
 
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Account Holder Initial</label>
+                                            <label style="font-weight:bold;">Account Holder Initial</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountHolderInitial }}</span>
@@ -218,7 +218,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Bank Name</label>
+                                            <label style="font-weight:bold;">Bank Name</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BankName }}</span>
@@ -227,7 +227,7 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Account Number</label>
+                                            <label style="font-weight:bold;">Account Number</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->AccountNumber }}</span>
@@ -236,16 +236,16 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Account Type</label>
+                                            <label style="font-weight:bold;">Account Type</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
-                                            <span>{{ $selfbankinglinkdetails->selfBankingDetails->bankAccountType->Account_description }}</span>
+                                            <span>{{ $selfbankinglinkdetails->selfBankingDetails->bankAccountType->AccountType}}</span>
                                         </div>
                                         <hr class="w-100">
                                     </div>
                                     <div data-repeater-item class="row mb-3">
                                         <div class="col-sm-6">
-                                            <label>Branch code</label>
+                                            <label style="font-weight:bold;">Branch code</label>
                                         </div>
                                         <div class="col-sm-6 text-end">
                                             <span>{{ $selfbankinglinkdetails->selfBankingDetails->BranchCode }}</span>
@@ -263,7 +263,7 @@ use Illuminate\Support\Facades\Session;
 
 
                                     <button type="button" id="clearall" onclick="window.location='{{ route("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
-                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Confirm</button>
+                                    <button type="submit" data-bs-toggle="modal" data-bs-target="#loading" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Confirm</button>
                                     <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup"
                                                     data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
                                                     Popup
@@ -318,6 +318,41 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </form>
                 <br><br><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loading" tabindex="-1" role="dialog"
+        aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                    <div class="modal-body">
+                        <br><br>
+
+                        <div class="text-center mb-4">
+                            <div id="facial-loading-dynamic">
+                                <img src="{{ URL::asset('/assets/images/credit-card.gif') }}" width="120px" />
+                            </div>
+
+                            <br><br>
+                            <div class="row justify-content-center">
+                                <br>
+                                <div class="col-xl-10" id="selfie-link-title">
+                                    <h4 style="color: #000000">Please wait while we are verifying your banking details.
+                                    </h4>
+
+                                </div>
+
+                            </div>
+                            <br>
+                           <p id="thankyou" class="text-muted font-size-14 mb-4" style="display:none;color:#000000;margin-bottom: 3%;">Thank you, your ID has been verified, please click to continue
+                            </p>
+                        </div>
+
+
+                    </div>
+
             </div>
         </div>
     </div>

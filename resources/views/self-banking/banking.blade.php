@@ -133,7 +133,7 @@
                                                 <span style="color:red;">*</span>
                                                 <select class="form-select" autocomplete="off" style="border-radius: 15px;margin-left:5px; " id="BankName" name="BankName">
                                                     <option value="" style="">
-                                                        --Select Bank--
+                                                        Select bank
                                                     </option>
                                                     @foreach ($bankNames as $bank)
                                                     <?php
@@ -166,7 +166,7 @@
                                             <span style="color:red;">*</span>
                                             <select class="form-select" autocomplete="off" style="border-radius: 15px; margin-left:5px;" id="AccountType" name="AccountType">
                                                 @if ($bankTpye->count())
-                                                <option value="">Select Bank Type</option>
+                                                <option value="">Select account type</option>
                                                 @foreach ($bankTpye as $type)
                                                 <?php
                                                 $selected = '';
