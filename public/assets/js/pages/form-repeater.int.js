@@ -66,6 +66,7 @@ var __webpack_exports__ = {};
         if (itemcount >= limitcount) {
           $(".repeater p[data-repeater-create]").hide("slow");
         }
+        $(".repeater p[data-repeater-create]").hide("slow");
       },
       hide: function hide(e) {
         var limitcount = $(this).parents(".repeater").data("limit");

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class SelfBankingDetails extends Model
 {
@@ -71,5 +72,24 @@ class SelfBankingDetails extends Model
     {
         return $this->hasOne(BankAccountType::class,'BankTypeid','AccountType');
     }
+
+
+    /* public static function checkifExistIdSRN($srnlist, $idnumber)
+    {
+        $current_date_time = Carbon::now();
+        $minus_72_hours = $current_date_time->subHour(72);
+        $checksrn = SelfBankingDetails::whereHas('SBCompanySRN', function ($query) use($srnlist) {
+                        $query->select('SelfBankingDetailsId','SRN', 'companies')
+                        ->whereIn('SRN', $srnlist);
+                    })
+                    //->with(['SBCompanySRN'])
+                    ->where("CreatedOnDate", "<", $minus_72_hours)
+                    ->where(['IDNUMBER'=>$idnumber])->orderBy('CreatedOnDate', 'DESC')->get();
+        if($checksrn){
+            return true;
+        }else{
+            return false;
+        }
+    } */
 
 }

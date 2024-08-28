@@ -327,6 +327,13 @@ use Illuminate\Support\Facades\Session;
 
     @section('script')
 
+    <script type="text/javascript">
+        function redirecttocs() {
+            window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+        }
+    </script>
+
+
     <script>
 
         $('#BankName').on('change', function() {

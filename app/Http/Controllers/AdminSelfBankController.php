@@ -285,10 +285,25 @@ class AdminSelfBankController extends Controller
                 }
             })->validate();
 
+            /* $srn_list = [];
+            foreach ($_POST['reflist'] as $key => $value) {
+                $res_srn = $value['srn1'].$value['srn2'].$value['srn3'].$value['srn4'].$value['srn5'].$value['srn6'].$value['srn7'].$value['srn8'].$value['srn9'].$value['srn10'].$value['srn11'];
+                $srn_list[] = $res_srn;
+            }
+
+            $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
+            if($existinguser){
+                return view('self-banking.sb_personalinfo')
+                    ->with('customer', $customer)
+                    ->with('companies', $companies)
+                    ->with('sbid', $sbid)
+                    ->with('existinguser','Yes');
+            } */
+
             /* code for validating ID number using idas API */
             $verifyData = new VerifyUserController();
             $apiresult = $verifyData->verifyUser($request->IDNUMBER, $request);
-
+         
             if ($apiresult[0] != $request->IDNUMBER) {
                 return redirect()->route('sb-personalinfo')->withInput($request->input())->with('message', 'Invalid ID number has been entered');
             }
