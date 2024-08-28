@@ -104,7 +104,7 @@
                                 @csrf
                                     <div class="row mt-5 mb-3">
                                         <div class="col-12">
-                                            <div class="container">
+                                            <div class="container" style="position: relative;display:flex;left: 15px;">
                                             <input class="form-check-input big-checkbox" type="hidden" value="{{ $sbid }}" name="sbid" style="width: 20px; height:20px;">
                                             <label class="form-check-label font-size-14" for="tnc-checkbox" style="padding-top:5px; font-size: 12px; color: rgb(0, 0, 0);">
                                                 <input class="form-check-input big-checkbox" type="checkbox" id="sb-tnc-checkbox" name="sb-tnc" style="margin-right:5px;width: 20px; height:20px; position: relative; top: -4px;">
