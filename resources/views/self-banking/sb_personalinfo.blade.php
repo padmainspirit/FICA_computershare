@@ -114,8 +114,15 @@
                                         <h4 class="font-size-18" style="color:#93186c; margin-right:5px; ">
                                             Account Details
                                         </h4>
-                                        <p class="tango-help-acc" aria-hidden="true" title="Please fill in your shareholder reference number (SRN) this is your Computershare account of reference number.  Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567. Your reference number can be found on any Computershare correspondence.
-                                            If your SRN starts with a C you need to tell us in company, you are holding shares. Only one company can be selected." style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" /></p>
+                            <p class="tango-help-acc" aria-hidden="true" title="Please fill in your shareholder reference number (SRN).
+                            This is your Computershare account of reference number.
+                            Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567.
+                            Your reference number can be found on any Computershare correspondence.
+                            If your SRN starts with a C you need to tell us in which company you are holding shares. Only one company can be selected."
+                            style="cursor:pointer;">
+                                <img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" />
+                            </p>
+
 
                                     </div>
                                 </div>
@@ -174,7 +181,7 @@
                                                         <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
 
                                                     </div>
-                                                    <hr style="color: #91C60F ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #91C60F; background-color: #91C60F; opacity: 100%;">
+                                                    <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                                                 </div>
                                             <?php } ?>
                                         </div>
