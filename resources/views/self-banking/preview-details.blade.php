@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Session;
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
     <div class="account-pages">
@@ -311,7 +311,7 @@ use Illuminate\Support\Facades\Session;
                         </div>
 
                         <div class="text-center mb-3">
-                            <button type="button" class="btn w-md text-white" onclick="window.location='{{ url("/") }}'" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
+                            <button type="button" class="btn w-md text-white" onclick="redirecttocs()" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
 
                         </div>
 
@@ -414,6 +414,11 @@ use Illuminate\Support\Facades\Session;
         });
     </script>
 
+<script type="text/javascript">
+    function redirecttocs() {
+        window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+    }
+</script>
 
 
     @endsection

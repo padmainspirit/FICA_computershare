@@ -23,12 +23,12 @@
     @endsection
 
     @section('content')
-
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
+
 
     <div class="account-pages">
         <div class="container">
@@ -196,7 +196,7 @@
                                     </div>
 
                                     <div class="form-group row mb-2">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="IDNUMBER" name="IDNUMBER" placeholder="Enter 13 digit ID number" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('IDNUMBER') }}" required="required" />
@@ -204,7 +204,7 @@
 
                                         </div>
 
-                                        <div class="col-sm-6 mt-1">
+                                        <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="FirstName" name="FirstName" placeholder="Enter first name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('FirstName') }}" required="required" />
@@ -213,7 +213,7 @@
                                     </div>
 
                                     <div class="form-group row mb-2">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="Surname" name="Surname" placeholder="Enter surname" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('Surname') }}" required="required" />
@@ -221,15 +221,17 @@
 
                                         </div>
 
-                                        <div class="col-sm-6 mt-1">
+                                        <div class="col-sm-6">
+                                            <div style="display: flex; align-items: center;">
+                                                <span style="">&nbsp;</span>
                                             <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('SecondName') }}" />
-
+                                        </div>
 
                                         </div>
                                     </div>
 
                                     <div class="form-group row mb-2">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
@@ -237,9 +239,11 @@
 
                                         </div>
 
-                                        <div class="col-sm-6 mt-1">
+                                        <div class="col-sm-6">
+                                            <div style="display: flex; align-items: center;">
+                                                <span style="">&nbsp;</span>
                                             <input id="ThirdName" name="ThirdName" placeholder="Enter third name" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('ThirdName') }}" />
-
+                                        </div>
                                         </div>
                                     </div>
 

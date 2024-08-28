@@ -14,7 +14,7 @@
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
     <div class="account-pages">
@@ -87,17 +87,17 @@
                                             <div class="">
                                                 <h4 class="font-size-18"
                                                     style="color:#93186c; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
-                                                    Digital ID Verification
+                                                    Digital ID verification
                                                 </h4>
                                             </div>
                                         </div>
 
-                                        <div class="mt-4 text-center">
+                                        <div class="mt-4 text-center acc">
                                             <h4 class="mb-4" style="color:#93186c;" id="info">We could not validate your self portrait, please upload your ID document here.</h4>
                                             <p class="mb-4">We have not been able to verify your selfie. To finalize the verification
                                                 , upload or take a photo of your South African ID Document or Smart ID Card. If using an ID Card, we require both sides.
                                                 We will not accept blurry images, photocopies, or illegal information. Details of your ID document must
-                                                be fully visible, clear, and east-to-read. <img title="If the shareholder is uploading an ID card, Take a clear photo of ID document" src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" />
+                                                be fully visible, clear, and east-to-read. <img class="info" aria-hidden="true" title="If the shareholder is uploading an ID card, Take a clear photo of ID document" src="{{ URL::asset('/assets/images/information.png') }}" style="cursor:pointer;width:22px; margin-right:5px;" />
                                             </p>
 
 <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
@@ -209,5 +209,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+    </script>
+    <script>
+         $(function() {
+                $('.info').popover({
+                    trigger: 'click hover',
+                    container: '.acc',
+                    placement: 'bottom'
+                })
+            })
+            $(document).on('click', function(e) {
+            if (!$(e.target).closest('.info').length) {
+                $('.info').popover('hide');
+            }
+        });
     </script>
     @endsection

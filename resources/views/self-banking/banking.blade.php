@@ -23,10 +23,9 @@
     @endsection
 
     @section('content')
-
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
-            <img src="{{ URL::asset('assets\images\logo\computershare.png') }}" style="max-width: 200px; max-height: 200px;" alt="" class="img-fluid">
+            <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
 
