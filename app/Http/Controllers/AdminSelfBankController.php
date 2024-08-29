@@ -242,7 +242,8 @@ class AdminSelfBankController extends Controller
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
                // 'PhoneNumber' => ['required', 'digits:11', 'max:50'],
-                'PhoneNumber' => ['required','regex:/^\+27[6-8][0-9]{8}$/'],
+               // 'PhoneNumber' => ['required','regex:/^\0[6-8][0-9]{8}$/'],
+                'PhoneNumber' => ['required', 'regex:/^0[6-8][0-9]{8}$/'],
                 'Email' => ['required', 'string', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'max:50'],
                 'reflist.*.srn1' => ['required', 'regex:/^[a-zA-Z]{1}$/'],
                 'reflist.*.srn2' => ['required', 'digits:1'],
@@ -260,7 +261,6 @@ class AdminSelfBankController extends Controller
             ], [
                 'IDNUMBER.required' => 'ID number should be of 13 digits',
                 'IDNUMBER.digits' => 'ID number should be of 13 digits',
-                'PhoneNumber.regex' => 'Phone number should be of 11 digits e.g +27712345678',
                 //'reflist.*.refnum.required' => 'The SRN Number is required at row number :position of Account details',
                 //'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
                 //'reflist.*.company.required' => 'The company selection is required at :position row of Account details',
@@ -933,7 +933,7 @@ class AdminSelfBankController extends Controller
 
         $this->validate($request, [
             //'phone' => ['nullable', 'digits:10'],
-            'phone' => ['required','regex:/^\+27[6-8][0-9]{8}$/'],
+            'phone' => ['required', 'regex:/^0[6-8][0-9]{8}$/'],
         ]);
 
         $selfbanking = SelfBankingLink::find($sbid);
@@ -1736,9 +1736,9 @@ class AdminSelfBankController extends Controller
 
         if($selfbankinglinkdetails->PersonalDetails == 1 && $selfbankinglinkdetails->DOVS == 1 && $selfbankinglinkdetails->BankingDetails == 1)
         {
-            $success = "Your details have been verified and your account will be updated within 24 hours, followed by communication confirming that your account has been updated. Your reference for your application is your shareholder reference number(SRN) and today's date";
+            $success = "Your details have been verified and your account will be updated within 24 hours, followed by communication confirming that your account has been updated.";
         }else{
-            $success = "Your details have been partially verified and one of our agent will contact you within two working days. Your reference for your application is your shareholder reference number(SRN) and today's date";
+            $success = "Your details have been partially verified and one of our agents will contact you within two working days.";
         }
 
         return view('self-banking.process-status')
