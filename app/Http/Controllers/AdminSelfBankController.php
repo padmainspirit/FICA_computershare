@@ -241,7 +241,8 @@ class AdminSelfBankController extends Controller
                 'IDNUMBER' => ['required', 'digits:13'],
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
-                'PhoneNumber' => ['required', 'digits:10', 'max:50'],
+               // 'PhoneNumber' => ['required', 'digits:11', 'max:50'],
+                'PhoneNumber' => ['required','regex:/^\+27[6-8][0-9]{8}$/'],
                 'Email' => ['required', 'string', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'max:50'],
                 'reflist.*.srn1' => ['required', 'regex:/^[a-zA-Z]{1}$/'],
                 'reflist.*.srn2' => ['required', 'digits:1'],
@@ -259,6 +260,7 @@ class AdminSelfBankController extends Controller
             ], [
                 'IDNUMBER.required' => 'ID number should be of 13 digits',
                 'IDNUMBER.digits' => 'ID number should be of 13 digits',
+                'PhoneNumber.regex' => 'Phone number should be of 11 digits e.g +27712345678',
                 //'reflist.*.refnum.required' => 'The SRN Number is required at row number :position of Account details',
                 //'reflist.*.refnum.regex' => 'Please provide a valid SRN Number :position row of Account details',
                 //'reflist.*.company.required' => 'The company selection is required at :position row of Account details',
@@ -930,7 +932,8 @@ class AdminSelfBankController extends Controller
         } */
 
         $this->validate($request, [
-            'phone' => ['nullable', 'digits:10'],
+            //'phone' => ['nullable', 'digits:10'],
+            'phone' => ['required','regex:/^\+27[6-8][0-9]{8}$/'],
         ]);
 
         $selfbanking = SelfBankingLink::find($sbid);
@@ -999,7 +1002,10 @@ class AdminSelfBankController extends Controller
 
                         //here we want to use the consumer match DOVS methods
 
-                        $returnMatchDOVS = $UserVerificationController->connectConsumerMatchDOVS($soapUrlLive, $username, $password, $ticketNo, 194, $IDNumber, $passport_no = null, $PhoneNumber);
+                        //here we are replacing the +27 with a 0 so we can send the link
+                        $formatphone = preg_replace('/^\+27/', '0', $PhoneNumber);
+
+                        $returnMatchDOVS = $UserVerificationController->connectConsumerMatchDOVS($soapUrlLive, $username, $password, $ticketNo, 194, $IDNumber, $passport_no = null, $formatphone);
                         // print_r($returnMatchDOVS);
                         $tempData = explode('>', $returnMatchDOVS);
                         $tempData2 = explode('<', $tempData[5]);

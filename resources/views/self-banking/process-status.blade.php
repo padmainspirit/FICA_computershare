@@ -82,7 +82,7 @@
                                     <div class="col-12 col-md-10" style="border: 1px solid black; border-radius: 10px; padding: 25px; text-align: center; font-size: 20px;">
                                         @if ($Success)
                                             <div class="alert" style="background-color: rgb(233, 233, 233);">
-                                                <p>Thank you</p>
+                                                <p class="mb-1">Thank you</p>
                                                 <p>{{ $Success }}</p>
                                             </div>
                                         @endif

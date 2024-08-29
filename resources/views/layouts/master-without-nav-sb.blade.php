@@ -106,6 +106,16 @@ h3 ,h4
     color: #999999;
 }
 
+@media (max-width: 576px) {
+    .form-group .col-12.col-md-10 {
+        font-size: 16px; /* Smaller font for mobile */
+        padding: 15px; /* Reduce padding for mobile */
+    }
+    .form-group .alert p {
+        font-size: 14px; /* Reduce font size inside the alert */
+    }
+
+}
 
 </style>
 

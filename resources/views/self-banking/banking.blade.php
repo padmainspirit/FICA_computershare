@@ -207,7 +207,7 @@
                                         </p>
                                         <div class="col-lg-3 mt-3">
 
-                                            <p title="Please upload a 3-month bank statement" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
+                                            <p class="tango-help-tip" aria-hidden="true" title="Please upload a 3-month bank statement" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="width:22px; margin-right:5px;" /></p>
                                         </div>
 
                                         <input type="file" id="fileInput" name="file" accept="image/*,.pdf" style="display: none;" onchange="handleFileSelect(event)">
@@ -362,6 +362,20 @@
         });
     </script>
 
+<script>
+    $(function() {
+        $('.tango-help-tip').popover({
+            trigger: 'click hover',
+            container: '#otherBank',
+            placement: 'bottom'
+        })
+    })
+    $(document).on('click', function(e) {
+    if (!$(e.target).closest('.tango-help-tip').length) {
+        $('.tango-help-tip').popover('hide');
+    }
+});
 
+</script>
 
     @endsection
