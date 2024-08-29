@@ -110,7 +110,7 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <div style="display: flex; align-items: center;">
-                                                                <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
+                                                                <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" oninput="restrictInput(this)" maxlength="12" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
                                                                  </div>
 
                                                         </div>
@@ -586,5 +586,29 @@ function startCountdown() {
         window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
     }
 </script>
+
+<script>
+    function restrictInput(input) {
+        const prefix = "+27"; // The fixed prefix
+        const currentValue = input.value;
+
+
+        if (currentValue.slice(0, 3) !== prefix) {
+            input.value = prefix + currentValue.slice(3);
+        }
+
+        // Only allow numeric input for the rest of the value
+        const remaining = input.value.slice(3).replace(/[^0-9]/g, '');
+        input.value = prefix + remaining;
+
+        // Calculate the correct cursor position
+        const cursorPosition = input.selectionStart;
+        if (cursorPosition < 3) {
+            input.setSelectionRange(3, 3);
+        } else if (cursorPosition !== input.value.length) {
+            input.setSelectionRange(cursorPosition, cursorPosition);
+        }
+    }
+    </script>
 
     @endsection

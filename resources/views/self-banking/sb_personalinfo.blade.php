@@ -136,13 +136,13 @@
                                                 $company_old = 'reflist.' . $i . '.company';
                                             ?>
                                                 <div data-repeater-item class="row srn-row">
-                                                    <div class="mb-3 col-md-2">
+                                                    <div class="mb-3 col-md-6">
                                                         <label for="subject">Shareholder reference number<span style="color:red;">*</span></label>
 
                                                     </div>
-                                                    <div class="mb-3 col-md-5 otp-input-container">
+                                                    <div class="mb-3 col-md-6 otp-input-container">
 
-                                                        <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
+                                                        <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" title="Please fill in C, D or U" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="2" name="srn3" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn3'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="3" name="srn4" class="otp-input" id="otp4" oninput="moveToNext(this, 'otp5')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn4'); ?>" required>
@@ -158,8 +158,8 @@
 
 
 
-                                                    <div class="mb-3 col-md-3 search-box">
-                                                        <div class="inner-search-box">
+                                                    <div class="mb-3 col-md-6 search-box">
+                                                        <div class="inner-search-box" style="">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" style="font-size: 12px;">
                                                                 Select company
@@ -177,7 +177,7 @@
                                                 </div>
 
 
-                                                    <div class="mb-3 col-md-3">
+                                                    <div class="mb-3 col-md-6 mt-2 d-flex justify-content-center">
                                                         <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
 
                                                     </div>
@@ -205,7 +205,7 @@
                                             Personal Details
                                         </h4>
 
-                                        <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : 0723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" /></p>
+                                        <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : +27723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" /></p>
 
                                     </div>
 
@@ -248,8 +248,12 @@
                                         <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
-                                                <input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
+                                                {{--<input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
+                                                <input type='text' id='PhoneNumber' name="PhoneNumber" data-initial='+27' maxlength='12' style="border-radius: 15px; margin-left: 5px;" class="form-control" value="+27{{ old('PhoneNumber') }}" required="required"/>--}}
+                                                <input type='text' id='PhoneNumber' placeholder="Enter phone number" name="PhoneNumber" value="+27" maxlength="12" style="border-radius: 15px; margin-left: 5px;"
+                                                class="form-control" value="{{ old('PhoneNumber') }}" required="required"/>
                                             </div>
+
 
                                         </div>
 
@@ -265,7 +269,7 @@
                                         <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
-                                                <input id="Email" name="Email" placeholder="Enter email" type="Email" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('Email') }}" required />
+                                                <input id="Email" name="Email" placeholder="Enter email" type="email" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('Email') }}" required />
                                             </div>
 
                                         </div>
@@ -511,6 +515,33 @@
 
             }
         </script>
+        <script>
+            const phoneInput = document.getElementById('PhoneNumber');
+
+            // Set cursor position after +27 when the input is focused
+            phoneInput.addEventListener('focus', function() {
+                if (phoneInput.value === '+27') {
+                    phoneInput.setSelectionRange(3, 3);
+                }
+            });
+
+            // Prevent the deletion of +27 and ensure it remains at the start
+            phoneInput.addEventListener('input', function(e) {
+                if (!e.target.value.startsWith('+27')) {
+                    e.target.value = '+27';
+                }
+            });
+
+            // Prevent backspace from deleting +27
+            phoneInput.addEventListener('keydown', function(e) {
+                const cursorPos = phoneInput.selectionStart;
+                if ((cursorPos <= 3 && e.key === 'Backspace') || (cursorPos === 3 && e.key === 'ArrowLeft')) {
+                    e.preventDefault();
+                }
+            });
+        </script>
+
+
 
 
         @endsection

@@ -62,7 +62,7 @@
                                         <li>You will need to have your bank account details on hand and a device with camera.</li>
                                         <li>No third-party banking details can be accepted - the account must be in your own name.</li>
                                         <li>This application is for individuals who have a South African ID Number.</li>
-                                        <li>Non resident individuals and all non-individuals should contact us on <span style="color:#93186c;">086 110 0933</span> for further assistance or <span style="color:#93186c;">+27 11 373 0017</span> then we can schedule a walk through.</li>
+                                        <li>Non resident individuals and all non-individuals should contact us on <span style="color:#93186c;">086&nbsp;110&nbsp;0933</span> for further assistance or <span style="color:#93186c;">+27&nbsp;11&nbsp;373&nbsp;0017</span> then we can schedule a walk through.</li>
 
                                     </ul>
                                 </div>
@@ -76,23 +76,23 @@
                                     <div class="container mt-4">
                                         <div class="row justify-content-between align-items-center">
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-                                            <img id="openCam" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
+                                            <img id="" src="{{ URL::asset('/assets/images/octicon--info-16.png') }}" style="width:45px;" />
                                             <h5 class="mt-2 text-center">Welcome</h5>
                                           </div>
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center ">
-                                            <img id="openCam2" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
+                                            <img id="" src="{{ URL::asset('/assets/images/PersonalDetails.png') }}" style="width:45px;" />
                                             <h5 class="mt-2 text-center">Personal Details</h5>
                                           </div>
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-                                            <img id="openCam3" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
+                                            <img id="" src="{{ URL::asset('/assets/images/IDVerification.png') }}" style="width:45px;" />
                                             <h5 class="mt-2 text-center">Digital ID Verification</h5>
                                           </div>
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-                                            <img id="openCam3" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
+                                            <img id="" src="{{ URL::asset('/assets/images/BankingDetails.png') }}" style="width:45px;" />
                                             <h5 class="mt-2 text-center">Banking Details</h5>
                                           </div>
                                           <div class="col-12 col-md-2 d-flex flex-column justify-content-center align-items-center">
-                                            <img id="openCam3" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
+                                            <img id="" src="{{ URL::asset('/assets/images/mdi--tick-circle-outline.png') }}" style="width:45px;" />
                                             <h5 class="mt-2 text-center">Finish</h5>
                                           </div>
                                         </div>
