@@ -136,11 +136,13 @@
                                                 $company_old = 'reflist.' . $i . '.company';
                                             ?>
                                                 <div data-repeater-item class="row srn-row">
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="subject">Shareholder reference number<span style="color:red;">*</span></label>
-
+                                                    <div class="mb-3 col-md-4 mt-2">
+                                                        <label for="subject" class="text-center">
+                                                            Shareholder reference number<span style="color:red;">*</span>
+                                                        </label>
                                                     </div>
-                                                    <div class="mb-3 col-md-6 otp-input-container">
+
+                                                    <div class="mb-3 col-md-5 otp-input-container d-flex justify-content-center">
 
                                                         <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" title="Please fill in C, D or U" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
@@ -155,10 +157,16 @@
                                                         <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
 
                                                     </div>
+                                                    <div class="col-md-3 mt-2 d-flex justify-content-center">
+                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+
+                                                    </div>
 
 
+                                                    <div class="mb-3 col-md-4">
 
-                                                    <div class="mb-3 col-md-6 search-box">
+                                                </div>
+                                                    <div class="mb-3 col-md-5 search-box d-flex justify-content-center">
                                                         <div class="inner-search-box" style="">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" style="font-size: 12px;">
@@ -177,8 +185,7 @@
                                                 </div>
 
 
-                                                    <div class="mb-3 col-md-6 mt-2 d-flex justify-content-center">
-                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+                                                    <div class="mb-3 col-md-3">
 
                                                     </div>
                                                     <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
@@ -249,9 +256,16 @@
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 {{--<input id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" type="text" style="border-radius: 15px; margin-left: 5px;" class="form-control" pattern="^([0-9]{10} ?)+$" value="{{ old('PhoneNumber') }}" required="required" />
-                                                <input type='text' id='PhoneNumber' name="PhoneNumber" data-initial='+27' maxlength='12' style="border-radius: 15px; margin-left: 5px;" class="form-control" value="+27{{ old('PhoneNumber') }}" required="required"/>--}}
+                                                <input type='text' id='PhoneNumber' name="PhoneNumber" data-initial='+27' maxlength='12' style="border-radius: 15px; margin-left: 5px;" class="form-control" value="+27{{ old('PhoneNumber') }}" required="required"/>
                                                 <input type='text' id='PhoneNumber' placeholder="Enter phone number" name="PhoneNumber" value="+27" maxlength="12" style="border-radius: 15px; margin-left: 5px;"
-                                                class="form-control" value="{{ old('PhoneNumber') }}" required="required"/>
+                                                class="form-control" value="{{ old('PhoneNumber') }}" required="required"/>--}}
+                                                <div class="input-group" style="border-radius: 15px;">
+                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 25%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
+                                                        <option value="+27">+27 (RSA)</option>
+                                                    </select>
+                                                    <input type="text" value="{{ old('PhoneNumber') }}" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" maxlength="10" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+                                                </div>
+
                                             </div>
 
 
@@ -515,33 +529,5 @@
 
             }
         </script>
-        <script>
-            const phoneInput = document.getElementById('PhoneNumber');
-
-            // Set cursor position after +27 when the input is focused
-            phoneInput.addEventListener('focus', function() {
-                if (phoneInput.value === '+27') {
-                    phoneInput.setSelectionRange(3, 3);
-                }
-            });
-
-            // Prevent the deletion of +27 and ensure it remains at the start
-            phoneInput.addEventListener('input', function(e) {
-                if (!e.target.value.startsWith('+27')) {
-                    e.target.value = '+27';
-                }
-            });
-
-            // Prevent backspace from deleting +27
-            phoneInput.addEventListener('keydown', function(e) {
-                const cursorPos = phoneInput.selectionStart;
-                if ((cursorPos <= 3 && e.key === 'Backspace') || (cursorPos === 3 && e.key === 'ArrowLeft')) {
-                    e.preventDefault();
-                }
-            });
-        </script>
-
-
-
 
         @endsection

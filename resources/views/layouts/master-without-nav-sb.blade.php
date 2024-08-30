@@ -69,7 +69,7 @@ h3 ,h4
 
 .otp-input {
     flex: 1 1 30px; /* Flex-grow, flex-shrink, and minimum width */
-    max-width: 25px; /* Maximum width for larger screens */
+    max-width: 30px; /* Maximum width for larger screens */
     height: 35px; /* Consistent height for inputs */
     text-align: center; /* Center the text inside the input */
     font-size: 12px; /* Make text larger */
@@ -81,7 +81,7 @@ h3 ,h4
     .otp-input {
         flex: 1 1 25px; /* Adjust the size for smaller screens */
         max-width: 25px;
-        height: 25px;
+        height: 30px;
         font-size: 12px;
     }
 }

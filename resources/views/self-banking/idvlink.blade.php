@@ -100,7 +100,7 @@
                                                     <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
                                                         @csrf
                                                         <div class="form-group row justify-content-center align-items-center text-center mt-4">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-3 mb-2">
                                                             <div style="display: flex; align-items: center;">
                                                                 <input style="background-color:green;border: 1px solid green;" class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
                                                                 <label class="form-check-label" style="font-size:16px;margin-left:3px;" for="smsOption">SMS</label>
@@ -108,10 +108,16 @@
 
 
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div style="display: flex; align-items: center;">
-                                                                <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" oninput="restrictInput(this)" maxlength="12" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
-                                                                 </div>
+                                                        <div class="col-sm-4">
+                                                             {{--<div style="display: flex; align-items: center;">
+                                                               <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" oninput="restrictInput(this)" maxlength="12" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
+                                                                 </div>--}}
+                                                                 <div class="input-group" style="border-radius: 15px;">
+                                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 35%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
+                                                                        <option value="+27">+27 (RSA)</option>
+                                                                    </select>
+                                                                    <input type="text" value="{{$phoneNumber}}" class="form-control" id="phone" name="phone" placeholder="Enter phone number" maxlength="10" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+                                                                </div>
 
                                                         </div>
                                                     </div>
