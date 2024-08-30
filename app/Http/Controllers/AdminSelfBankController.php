@@ -1672,7 +1672,19 @@ class AdminSelfBankController extends Controller
                                 'API_ID' => $avsLookup->Value,
                             ]);
 
-                            if($ACCOUNTFOUND == 'No'){
+                            if($ACCOUNTFOUND == 'No' || $IDNUMBERMATCH == 'No' || $ACCOUNT_OPEN == 'No'){
+                                $account_found = $ACCOUNTFOUND == 'No' ? 'Account no. not found':'';
+                                $idnumber_match = $IDNUMBERMATCH == 'No' ? 'ID no. does not match':'';
+                                $account_open = $ACCOUNT_OPEN == 'No' ? 'Account not open':'';
+
+                                $sbe = SelfBankingExceptions::create([
+                                    'Id' => Str::upper(Str::uuid()),
+                                    'SelfBankingLinkId' => $sbid,
+                                    'API' => 3,
+                                    'Status' => 'Failure',
+                                    'Comment' => $account_found.' '.$idnumber_match.' '.$account_open,
+                                ]);
+                                $sbe->save();
 
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');

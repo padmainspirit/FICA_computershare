@@ -116,6 +116,46 @@ h3 ,h4
     }
 
 }
+.popover-container {
+    position: relative;
+    display: inline-block;
+}
+
+#popupDiv {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    color: #3b3939;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    white-space: normal;
+    max-width: 100%;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5px;
+    overflow-y: auto;
+}
+
+#hoverText:hover + #popupDiv,
+#hoverText:focus + #popupDiv {
+    display: block;
+}
+
+#popupDiv ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#popupDiv li {
+    margin-bottom: 10px;
+}
+
 
 </style>
 

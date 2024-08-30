@@ -298,13 +298,13 @@ use Illuminate\Support\Facades\Session;
                             <div class="row justify-content-center">
                                 <br>
                                 <div class="col-xl-10" id="selfie-link-title">
-                                    <h4 style="color: #000000">Bank execution Status.
+                                    <h4 style="color: #000000">Bank account verification status
                                     </h4>
                                 </div>
 
                                 <div id="alertError" class="alert alert-danger" role="alert">
                                     <br>
-                                    <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;">Your verification has not been successful. Please contact our call center for further assistance</p>
+                                    <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;">Your verification has not been successful. Please contact us for further assistance. 086 110 0933 or +27 11 3730 017 (if calling from outside South Africa)</p>
                                 </div>
                             </div>
                             <br>

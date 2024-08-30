@@ -1,46 +1,46 @@
 @extends('layouts.master-without-nav-sb')
-
+ 
 @section('title')
 @lang('translation.sb_personaldetails')
 @endsection
-
+ 
 @section('css')
 <style>
     .required {
         color: "#ff0000" !important;
     }
-
+ 
     .otp-input::placeholder {
         color: #E5E4E2 !important;
     }
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-
-
-
+ 
+ 
+ 
 @endsection
-
-
+ 
+ 
 @section('body')
-
+ 
 <body style="background-color: rgb(230, 230, 230)">
     @endsection
-
+ 
     @section('content')
     <div class="container">
         <div class="row d-flex justify-content-center mb-2 mt-4">
             <img src="{{ URL::asset('assets/images/logo/computershare.png') }}" class="img-fluid responsive-logo" alt="Computershare Logo">
         </div>
     </div>
-
-
+ 
+ 
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center mt-4">
                 <div class="col-md-10 mt-4">
-
-
-
+ 
+ 
+ 
                     <div class="container mt-4">
                         <div class="mt-4" style="position: relative;width:85%; margin: auto;">
                             <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
@@ -72,24 +72,24 @@
                             </div>
                         </div>
                     </div>
-
-
+ 
+ 
                     <div class="card overflow-hidden" style="border-radius: 10px;">
-
+ 
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
                             <div class="row">
-
+ 
                                 <div class="col-12">
-
+ 
                                     <div class="text-white p-4">
                                         <h4 class="text-white">Self service banking process</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+ 
                         <div class="card-body pt-0">
-
+ 
                             <div class="p-2">
                                 @if (Session::has('message'))
                                 <div class="alert alert-danger">
@@ -105,25 +105,31 @@
                                     </ul>
                                 </div>
                                 @endif
-
-
-
-
+ 
+ 
+ 
+ 
                                 <div class="heading-fica-id mb-1 mt-2">
                                     <div id="acc" style="display: flex; align-items: center; ">
                                         <h4 class="font-size-18" style="color:#93186c; margin-right:5px; ">
                                             Account Details
                                         </h4>
-                            <p class="tango-help-acc" aria-hidden="true" title="Please fill in your shareholder reference number (SRN).
-                            This is your Computershare account of reference number.
-                            Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567.
-                            Your reference number can be found on any Computershare correspondence.
-                            If your SRN starts with a C you need to tell us in which company you are holding shares. Only one company can be selected."
-                            style="cursor:pointer;">
-                                <img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" />
-                            </p>
-
-
+ 
+                            <div class="popover-container col-6">
+                                <p ><img src="{{ URL::asset('/assets/images/information.png') }}" id="hoverText" style="cursor:pointer;position: relative;width:22px; margin-right:5px;top:3px;" /></p>
+                                <div id="popupDiv" style="width:100%;" >
+                                    <ul>
+                                        <li>Please fill in your shareholder reference number (SRN).</li>
+                                        <li>This is your Computershare account of reference number.</li>
+                                        <li>Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567.</li>
+                                        <li>Your reference number can be found on any Computershare correspondence.</li>
+                                        <li> If your SRN starts with a C you need to tell us in which company you are holding shares. Only one company can be selected.</li>
+ 
+                                    </ul>
+                                </div>
+                              </div>
+ 
+ 
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -141,9 +147,9 @@
                                                             Shareholder reference number<span style="color:red;">*</span>
                                                         </label>
                                                     </div>
-
+ 
                                                     <div class="mb-3 col-md-5 otp-input-container d-flex justify-content-center">
-
+ 
                                                         <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" title="Please fill in C, D or U" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="2" name="srn3" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn3'); ?>" required>
@@ -155,16 +161,16 @@
                                                         <input type="text" maxlength="1" placeholder="8" name="srn9" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn9'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="9" name="srn10" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn10'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
-
+ 
                                                     </div>
                                                     <div class="col-md-3 mt-2 d-flex justify-content-center">
                                                         <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
-
+ 
                                                     </div>
-
-
+ 
+ 
                                                     <div class="mb-3 col-md-4">
-
+ 
                                                 </div>
                                                     <div class="mb-3 col-md-5 search-box d-flex justify-content-center">
                                                         <div class="inner-search-box" style="">
@@ -177,54 +183,54 @@
                                                                 <option value="{{ $company->Company_Name }}" {{ Request::old($company_old) == $company->Company_Name ? "selected" : '' }} style="font-size: 12px;">
                                                                     {{ $company->Company_Name }}
                                                                 </option>
-
+ 
                                                             <?php } ?>
-
+ 
                                                         </select>
                                                     </div>
                                                 </div>
-
-
+ 
+ 
                                                     <div class="mb-3 col-md-3">
-
+ 
                                                     </div>
                                                     <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                                                 </div>
                                             <?php } ?>
                                         </div>
-
+ 
                                         <div class="col-lg-3 mt-3">
                                             <p data-repeater-create id="createclick" style="cursor:pointer; display:inline-block;">
                                                 <img src="{{ URL::asset('/assets/images/plus.png') }}" style="width:22px; margin-right:5px;" />ADD MORE
                                             </p>
                                         </div>
-
-
+ 
+ 
                                 </div>
-
-
-
+ 
+ 
+ 
                                 {{--<hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">--}}
-
+ 
                                 <div class="heading-fica-id mb-1 mt-2">
                                     <div id="person" style="display: flex; align-items: center; ">
                                         <h4 class="font-size-18" style="color:#93186c;margin-right:5px; ">
                                             Personal Details
                                         </h4>
-
+ 
                                         <p class="tango-help-tip" aria-hidden="true" title="Mobile number example : +27723456789" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" /></p>
-
+ 
                                     </div>
-
+ 
                                     <div class="form-group row mb-2">
                                         <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="IDNUMBER" name="IDNUMBER" placeholder="Enter 13 digit ID number" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('IDNUMBER') }}" required="required" />
                                             </div>
-
+ 
                                         </div>
-
+ 
                                         <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
@@ -232,25 +238,25 @@
                                             </div>
                                         </div>
                                     </div>
-
+ 
                                     <div class="form-group row mb-2">
                                         <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="Surname" name="Surname" placeholder="Enter surname" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('Surname') }}" required="required" />
                                             </div>
-
+ 
                                         </div>
-
+ 
                                         <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="">&nbsp;</span>
                                             <input id="SecondName" name="SecondName" placeholder="Enter second name" type="text" style="border-radius: 15px;margin-left: 5px;" class="form-control" value="{{ old('SecondName') }}" />
                                         </div>
-
+ 
                                         </div>
                                     </div>
-
+ 
                                     <div class="form-group row mb-2">
                                         <div class="col-sm-6 mb-2">
                                             <div style="display: flex; align-items: center;">
@@ -260,17 +266,17 @@
                                                 <input type='text' id='PhoneNumber' placeholder="Enter phone number" name="PhoneNumber" value="+27" maxlength="12" style="border-radius: 15px; margin-left: 5px;"
                                                 class="form-control" value="{{ old('PhoneNumber') }}" required="required"/>--}}
                                                 <div class="input-group" style="border-radius: 15px;">
-                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 25%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
-                                                        <option value="+27">+27 (RSA)</option>
+                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 35%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
+                                                        <option value="+27">+27(RSA)</option>
                                                     </select>
                                                     <input type="text" value="{{ old('PhoneNumber') }}" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" maxlength="10" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
                                                 </div>
-
+ 
                                             </div>
-
-
+ 
+ 
                                         </div>
-
+ 
                                         <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="">&nbsp;</span>
@@ -278,115 +284,81 @@
                                         </div>
                                         </div>
                                     </div>
-
+ 
                                     <div class="form-group row mb-2">
                                         <div class="col-sm-6">
                                             <div style="display: flex; align-items: center;">
                                                 <span style="color:red;">*</span>
                                                 <input id="Email" name="Email" placeholder="Enter email" type="email" style="border-radius: 15px; margin-left: 5px;" class="form-control" value="{{ old('Email') }}" required />
                                             </div>
-
+ 
                                         </div>
                                     </div>
-
+ 
                                     {{-- store Recaptcha token --}}
                                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-
+ 
                                     <div class="mt-3">
-
-
-
+ 
+ 
+ 
                                         <button type="reset" id="clearall" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Clear</button>
                                         <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Next</button>
-
+ 
                                     </div>
-
+ 
                                     </form>
                                 </div>
-
+ 
+ 
                             </div>
                         </div>
-
-
+ 
+ 
                     </div>
                 </div>
             </div>
         </div>
-        
-
-
-        <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup" data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
-            Popup
-        </button>
-        {{-- Selfie Popup Modal --}}
-        <div class="modal fade" id="composemodal-selfie" tabindex="-1" role="dialog"
-            aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form action="{{ route('sbgetselfieresult') }}" method="post" enctype="multipart/form-data"
-                        id="getselfieResult">
-                        @csrf
-                        <div class="modal-body">
-                            <br><br>
-                            <div class="text-center mb-4">
-                                <div class="row justify-content-center">
-                                    <br>
-                                    <div class="col-xl-10" id="selfie-link-title">
-                                        <h4 style="color: #000000">Observation
-                                        </h4>
-                                    </div>
-
-                                    <div id="alertError" class="alert alert-danger" role="alert">
-                                        <br>
-                                        <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;">There is an application in progress for these credentials, if you need any information regarding the application or did not submit an application, please contact us 0861 100 933.</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button id="staybtn" type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn w-md text-white" onclick="redirecttocs()" style="float: right;background-color: #93186c; border-color: #93186c;">Ok</button>
-
-                            </div>
-
-                        </div>
-                    </form>
-                    <br><br><br>
-                </div>
-            </div>
-        </div>
-
+ 
         <!-- end account-pages -->
         @endsection
-
+ 
         @section('script')
-
+ 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
+ 
         <script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
-
+ 
         <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
         <script>
-
-        function redirecttocs() 
-        {
-            window.location = '<?= config("app.CS_Investor_Center_SA"); ?>';
+        $(document).ready(function() {
+    $('#hoverText').on('click', function() {
+        $('#popupDiv').toggle();
+    });
+ 
+    // Close the popup when clicking outside of it
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.popover-container').length) {
+            $('#popupDiv').hide();
         }
-
-        $(function() {
-            $('.tango-help-tip').popover({
-                trigger: 'click hover',
-                container: '#person',
-                placement: 'bottom'
+    });
+});
+ 
+        </script>
+        <script>
+            $(function() {
+                $('.tango-help-tip').popover({
+                    trigger: 'click hover',
+                    container: '#person',
+                    placement: 'bottom'
+                })
             })
-        })
-        $(document).on('click', function(e) {
-        if (!$(e.target).closest('.tango-help-tip').length) {
-            $('.tango-help-tip').popover('hide');
-        }
+            $(document).on('click', function(e) {
+            if (!$(e.target).closest('.tango-help-tip').length) {
+                $('.tango-help-tip').popover('hide');
+            }
         });
-
+ 
         </script>
         <script>
             $(function() {
@@ -401,21 +373,15 @@
                 $('.tango-help-acc').popover('hide');
             }
         });
-
-
+ 
+ 
             $(document).ready(function() {
-
-                var existinguser = "{{ Session::has('existinguser') }}" ;
-                console.log(existinguser);
-                if(existinguser){
-                    $("#btn-hidden-popup").click();
-                }
                 // Initialize select2
                 $("#remove").hide();
                 $("#createclick").hide();
                 $(".form-select").select2();
                 $(".inner-search-box").hide();
-
+ 
                 var highestIndex = getHighestIndex();
                 var errors = [];
                 for (let index = 0; index < highestIndex; index++) {
@@ -430,7 +396,7 @@
                         }
                 }
                 completesrn();
-
+ 
                 $("#createclick").click(function(e) {
                     var highestIndex = getHighestIndex();
                     var index = highestIndex - 1;
@@ -438,29 +404,29 @@
                     $(".form-select").select2();
                     $('[name="reflist[' + index + '][company]"]').parent().hide();
                 });
-
-
-
+ 
+ 
+ 
             });
-
-
+ 
+ 
             function getHighestIndex() {
                 const repeaterItems = $('#reflist .srn-row');
                 // Get the highest index
                 const highestIndex = repeaterItems.length ;
                 // Output the highest index
-
+ 
                 return highestIndex;
             }
-
+ 
             function moveToNext(current, nextFieldId) {
                 $("#createclick").hide();
                 //console.log(current.name);
                 var name = current.name;
                 let srn1regex = /^reflist\[(\d+)\]\[srn1]$/;
                 let srn11regex = /^reflist\[(\d+)\]\[srn11]$/;
-
-
+ 
+ 
                     let match = name.match(srn1regex); //matches number inside the squere bracket
                     var index = 0;
                     if (match) {
@@ -477,9 +443,9 @@
                         $('[name="reflist[' + index + '][company]"]').val('');
                         $('[name="reflist[' + index + '][company]"]').parent().hide();
                         } */
-
+ 
                     }
-
+ 
                     let srnmatch = name.match(/\d(?!.*\d)/);
                     if (srnmatch && $('[name="' + name + '"]').val()) {
                         var newindex = parseInt(srnmatch[0]);
@@ -488,10 +454,10 @@
                         $('[name="' + newname + '"]').focus();
                     }
                     completesrn();
-
-
+ 
+ 
             }
-
+ 
             function completesrn()
             {
                 var highestIndex = getHighestIndex();
@@ -509,7 +475,7 @@
                     var s10 = $('[name="reflist[' + index + '][srn10]"]').val();
                     var s11 = $('[name="reflist[' + index + '][srn11]"]').val();
                     var company = $('[name="reflist[' + index + '][company]"]').val();
-
+ 
                     var srn = s1+s2+s3+s4+s5+s6+s7+s8+s9+s10+s11;
                     if(srn.length != 11 && (company == '' || company == null ))
                     {
@@ -518,16 +484,16 @@
                         errors.push(false);
                     }
                 }
-
+ 
                 if(errors.indexOf(true) != -1)
                 {
                     $("#createclick").hide();
                 }else{
                     $("#createclick").show();
                 }
-
-
+ 
+ 
             }
         </script>
-
+ 
         @endsection
