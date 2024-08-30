@@ -108,7 +108,7 @@
 
 
                                                         </div>
-                                                        <div class="col-sm-5">
+                                                        <div class="col-sm-4">
                                                              {{--<div style="display: flex; align-items: center;">
                                                                <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" oninput="restrictInput(this)" maxlength="12" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
                                                                  </div>--}}
