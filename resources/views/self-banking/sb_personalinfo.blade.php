@@ -114,14 +114,20 @@
                                         <h4 class="font-size-18" style="color:#93186c; margin-right:5px; ">
                                             Account Details
                                         </h4>
-                            <p class="tango-help-acc" aria-hidden="true" title="Please fill in your shareholder reference number (SRN).
-                            This is your Computershare account of reference number.
-                            Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567.
-                            Your reference number can be found on any Computershare correspondence.
-                            If your SRN starts with a C you need to tell us in which company you are holding shares. Only one company can be selected."
-                            style="cursor:pointer;">
-                                <img src="{{ URL::asset('/assets/images/information.png') }}" style="position: relative;width:22px; margin-right:5px;top:3px;" />
-                            </p>
+
+                            <div class="popover-container col-6">
+                                <p ><img src="{{ URL::asset('/assets/images/information.png') }}" id="hoverText" style="cursor:pointer;position: relative;width:22px; margin-right:5px;top:3px;" /></p>
+                                <div id="popupDiv" style="width:100%;" >
+                                    <ul>
+                                        <li>Please fill in your shareholder reference number (SRN).</li>
+                                        <li>This is your Computershare account of reference number.</li>
+                                        <li>Starting with a C, D or U followed by 10 numeric characters e.g., C0001234567.</li>
+                                        <li>Your reference number can be found on any Computershare correspondence.</li>
+                                        <li> If your SRN starts with a C you need to tell us in which company you are holding shares. Only one company can be selected.</li>
+
+                                    </ul>
+                                </div>
+                              </div>
 
 
                                     </div>
@@ -260,8 +266,8 @@
                                                 <input type='text' id='PhoneNumber' placeholder="Enter phone number" name="PhoneNumber" value="+27" maxlength="12" style="border-radius: 15px; margin-left: 5px;"
                                                 class="form-control" value="{{ old('PhoneNumber') }}" required="required"/>--}}
                                                 <div class="input-group" style="border-radius: 15px;">
-                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 25%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
-                                                        <option value="+27">+27 (RSA)</option>
+                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 35%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
+                                                        <option value="+27">+27(RSA)</option>
                                                     </select>
                                                     <input type="text" value="{{ old('PhoneNumber') }}" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Enter phone number" maxlength="10" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
                                                 </div>
@@ -304,6 +310,7 @@
                                     </form>
                                 </div>
 
+
                             </div>
                         </div>
 
@@ -323,6 +330,21 @@
         <script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 
         <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
+        <script>
+        $(document).ready(function() {
+    $('#hoverText').on('click', function() {
+        $('#popupDiv').toggle();
+    });
+
+    // Close the popup when clicking outside of it
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.popover-container').length) {
+            $('#popupDiv').hide();
+        }
+    });
+});
+
+        </script>
         <script>
             $(function() {
                 $('.tango-help-tip').popover({
