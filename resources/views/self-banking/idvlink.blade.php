@@ -116,7 +116,7 @@
                                                                     <select class="form-control" id="countryCode" name="countryCode" style="max-width: 35%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
                                                                         <option value="+27">+27 (RSA)</option>
                                                                     </select>
-                                                                    <input type="text" value="{{$phoneNumber}}" class="form-control" id="phone" name="phone" placeholder="Enter phone number" maxlength="10" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+                                                                    <input type="text" value="{{$phoneNumber}}" class="form-control" id="phone" name="phone" placeholder="Enter phone number" maxlength="11" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
                                                                 </div>
 
                                                         </div>
