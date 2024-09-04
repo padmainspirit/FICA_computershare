@@ -160,54 +160,40 @@
     @section('script')
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
 
-            // Prevent default behaviors for drag events
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = 'blue';
-            });
-
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = '#ccc';
-            });
-
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = '#ccc';
-
-                // Handle the dropped files
-                const files = e.dataTransfer.files;
-                handleFiles(files);
-            });
-
-            function handleFiles(files) {
-                if (files.length > 0) {
-                    // Show the name of the first file
-                    fileNameDisplay.textContent = files[0].name;
-                } else {
-                    fileNameDisplay.textContent = '';
-                }
-            }
-
-            // Trigger file input when drop zone is clicked
-            dropZone.addEventListener('click', function() {
-                fileInput.click();
-            });
-
-            // Handle file input change event
-            fileInput.addEventListener('change', function() {
-                const files = fileInput.files;
-                handleFiles(files);
-            });
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#f0f0f0'; // Change background color on drag over
         });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.backgroundColor = ''; // Reset background color when dragging leaves
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = ''; // Reset background color on drop
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        });
+
+        function handleFiles(files) {
+            const file = files[0];
+            fileNameDisplay.textContent = `Selected file: ${file.name}`;
+            // Here you can add further processing, like uploading the file to the server
+        }
     </script>
     <script>
          $(function() {

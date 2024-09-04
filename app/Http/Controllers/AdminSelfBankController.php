@@ -241,11 +241,9 @@ class AdminSelfBankController extends Controller
                 'IDNUMBER' => ['required', 'digits:13'],
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
-                //'PhoneNumber' => 'required|numeric|min_digits:9|max_digits:10',
-                'PhoneNumber' => ['required','regex:/^((0[6-8][0-9]{8})|([6-8][0-9]{8}))$/'],
-               // 'PhoneNumber' => ['required', 'digits:11', 'max:50'],
-                //'PhoneNumber' => ['required','regex:/^\0[6-8][0-9]{8}$/'],
-                //'PhoneNumber' => ['required', 'regex:/^0[6-8][0-9]{8}$/'],
+                'PhoneNumber' => 'required|numeric|min_digits:9|max_digits:10',
+                //'PhoneNumber' => ['required','regex:/^((0[6-8][0-9]{8})|([6-8][0-9]{8}))$/'],
+
                 'Email' => ['required', 'string', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'max:50'],
                 'reflist.*.srn1' => ['required', 'regex:/^[a-zA-Z]{1}$/'],
                 'reflist.*.srn2' => ['required', 'digits:1'],
@@ -299,9 +297,9 @@ class AdminSelfBankController extends Controller
             }
 
             /* $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
-            if($existinguser){                
+            if($existinguser){
                     return redirect()->route('sb-personalinfo')->withInput($request->input())->with('existinguser', 'Yes');
-                    
+
             } */
 
             /* code for validating ID number using idas API */
@@ -349,7 +347,7 @@ class AdminSelfBankController extends Controller
                 SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 2]);
             }
 
-            $getphone = $request->PhoneNumber;
+            /*$getphone = $request->PhoneNumber;
             $updatedphone ='';
             if (strpos($getphone, '0') === 0) {
                 // Condition when the phone num starts with "0"
@@ -357,12 +355,13 @@ class AdminSelfBankController extends Controller
             } else {
                 $updatedphone = '27' . $getphone;
             }
-
+*/
             $request['SelfBankingDetailsId'] = $selfbankingdetailsid;
             $request['Customerid'] = $selfbanking->CustomerId;
             $request['SelfBankingLinkId'] = $sbid;
             SelfBankingDetails::create($request->all());
-            SelfBankingDetails::where(['SelfBankingLinkId' => $sbid])->update(['PhoneNumber' => $updatedphone]);
+           // SelfBankingDetails::where(['SelfBankingLinkId' => $sbid])->update(['PhoneNumber' => $updatedphone]);
+           SelfBankingDetails::where(['SelfBankingLinkId' => $sbid])->update(['PhoneNumber' => $request->PhoneNumber]);
 
             /* foreach ($request['reflist'] as $srndet) {
                 $compnanysrn = new SelfBankingCompanySRN;
@@ -944,8 +943,8 @@ class AdminSelfBankController extends Controller
 
         $this->validate($request, [
             //'phone' => ['nullable', 'digits:10'],
-            //'phone' => ['required', 'regex:/^0[6-8][0-9]{8}$/'],
-            'phone' => ['regex:/^(0[6-8][0-9]{8}|[6-8][0-9]{8}|27[0-9]{9})$/'],
+            'phone' => ['required', 'regex:/^0[6-8][0-9]{8}$/'],
+            //'phone' => ['regex:/^(0[6-8][0-9]{8}|[6-8][0-9]{8}|27[0-9]{9})$/'],
         ]);
 
         $selfbanking = SelfBankingLink::find($sbid);
@@ -1015,9 +1014,9 @@ class AdminSelfBankController extends Controller
                         //here we want to use the consumer match DOVS methods
 
                         //here we are replacing the 27 with a 0 so we can send the link
-                        $formatphone = preg_replace('/^27/', '0', $PhoneNumber);
+                       // $formatphone = preg_replace('/^27/', '0', $PhoneNumber);
 
-                        $returnMatchDOVS = $UserVerificationController->connectConsumerMatchDOVS($soapUrlLive, $username, $password, $ticketNo, 194, $IDNumber, $passport_no = null, $formatphone);
+                        $returnMatchDOVS = $UserVerificationController->connectConsumerMatchDOVS($soapUrlLive, $username, $password, $ticketNo, 194, $IDNumber, $passport_no = null, $PhoneNumber);
 
                         $tempData = explode('>', $returnMatchDOVS);
                         $tempData2 = explode('<', $tempData[5]);
@@ -1404,9 +1403,12 @@ class AdminSelfBankController extends Controller
 
     public function previewDetails(Request $request)
     {
+        $YearNow = Carbon::now()->year;
         $sbid = $request->session()->get('sbid');
 
         $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first();
+
+        $selfbanking = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
 
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
@@ -1415,10 +1417,21 @@ class AdminSelfBankController extends Controller
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
 
-
+        $email = $selfbanking->Email;
+       // print_r($email);exit;
         if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")
             {
+                Mail::send(
+                    'self-banking.emailpartial',
+                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                    function ($message) use ($request, $email) {
+
+                        $message->from(config('app.cssb_adminemail'));
+                        $message->to($email);
+                        $message->subject('Banking details update status');
+                    }
+                );
                 return redirect()->route('process-status');
             }
 
@@ -1440,8 +1453,8 @@ class AdminSelfBankController extends Controller
                 $accType = $selfbankinglinkdetails->selfBankingDetails->bankAccountType->Account_description;
                 $bankName =  $selfbankinglinkdetails->selfBankingDetails->BankName;
                 $id_no =  $selfbankinglinkdetails->selfBankingDetails->IDNUMBER;
-                $contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
-
+                //$contactNo =  $selfbankinglinkdetails->selfBankingDetails->PhoneNumber;
+                $contactNo = '0723865361';
                 $userVerification = new UserVerificationController();
 
                 $returnValue = $userVerification->soapBankVerificationAPICall($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $verifyType, $entity, $initials, $surname, $id_no, $id_type, null, null, null, null, null, $accNo, $branchCode, $accType, $bankName, $contactNo, $email, null);
@@ -1716,9 +1729,31 @@ class AdminSelfBankController extends Controller
                                 $sbe->save();
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
                                 //return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
+
+                                Mail::send(
+                                    'self-banking.emailverified',
+                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                                    function ($message) use ($request, $email) {
+
+                                        $message->from(config('app.cssb_adminemail'));
+                                        $message->to($email);
+                                        $message->subject('Banking details update status');
+                                    }
+                                );
                                 return redirect()->route('process-status');
                             }else{
                                 SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>1,'BankDocumentUpload'=>0]);
+
+                                Mail::send(
+                                    'self-banking.emailpartial',
+                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                                    function ($message) use ($request, $email) {
+
+                                        $message->from(config('app.cssb_adminemail'));
+                                        $message->to($email);
+                                        $message->subject('Banking details update status');
+                                    }
+                                );
                                 return redirect()->route('process-status')->withInput($request->input())->with('Success', 'Internal checks been executed succesfully');
 
                             }

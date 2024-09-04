@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 @section('title')
 @lang('translation.selfbankingservice')
 @endsection
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 @section('css')
 <style>
     .required {
@@ -263,7 +263,7 @@ use Illuminate\Support\Facades\Session;
 
 
                                     <button type="button" id="clearall" onclick="window.location='{{ route("banking") }}'" style="background-color: #93186c; border-color: #93186c" class="btn w-md text-white">Back</button>
-                                    <button type="submit" data-bs-toggle="modal" data-bs-target="#loading" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Confirm</button>
+                                    <button type="submit" class="btn w-md text-white" id="personaldetails" style="float: right;background-color: #91C60F; border-color: #91C60F;">Confirm</button>
                                     <button type="button" style="display:none" class="btn btn-primary" id="btn-hidden-popup"
                                                     data-bs-toggle="modal" data-bs-target="#composemodal-selfie">
                                                     Popup
@@ -361,6 +361,32 @@ use Illuminate\Support\Facades\Session;
     @endsection
 
     @section('script')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to show the modal and submit the form
+            function handleInteraction(event) {
+                event.preventDefault(); // Prevent the default behavior for touch events
+                $('#loading').modal('show'); // Show the modal
+
+                // Use a timeout to delay form submission until the modal has been shown
+                setTimeout(function() {
+                    document.getElementById('sb-tnc-form').submit();
+                }, 3000);
+            }
+
+            // Attach event listeners for both click and touchstart
+            const personalDetailsButton = document.getElementById('personaldetails');
+
+            personalDetailsButton.addEventListener('click', function(event) {
+                handleInteraction(event);
+            });
+
+            personalDetailsButton.addEventListener('touchstart', function(event) {
+                handleInteraction(event);
+            }, { passive: true });
+        });
+    </script>
 
     <script type="text/javascript">
         function redirecttocs() {
