@@ -100,7 +100,7 @@ class AdminCreateController extends Controller
         $customerTabs = DB::table("customer_has_tabs")->where("customer_has_tabs.CustomerId", $getCustomerId)
         ->pluck('customer_has_tabs.TabId', 'customer_has_tabs.TabId')
         ->all();
-        
+
         app('debugbar')->info($GetAllConglomerateDetails);
         return view('admin-conglomerate', compact('tabs','customerTabs'))
 
@@ -139,7 +139,7 @@ class AdminCreateController extends Controller
         $customerName = $GetAllConglomerateDetails['RegistrationName'];
         $Icon = $GetAllConglomerateDetails['Client_Icon'];
 
-                
+
         if($request->file('Client_logo') || $request->file('Client_icon')){
 
             $logoIconPath = 'assets/logo';
@@ -168,7 +168,7 @@ class AdminCreateController extends Controller
             }
         }
 
-        
+
         Customer::where('Id', '=', $Customerid)->update([
 
             'TradingName' => $request->input('TradingName'),
@@ -184,8 +184,8 @@ class AdminCreateController extends Controller
         ]);
 
         $newtabs = [];
-        
-        if(!empty($request->input('tab'))){ 
+
+        if(!empty($request->input('tab'))){
             DB::table('customer_has_tabs')->where('CustomerId',$Customerid)->delete();
             $tab = [];
             foreach ($request->input('tab') as $key => $value) {
@@ -354,7 +354,7 @@ class AdminCreateController extends Controller
         // $customerName = $customer->RegistrationName;
         // $Icon = $customer->Client_Icon;
         $tabs =  CustomerTabs::all('Id','Name');
-         
+
         return view('admin-customer', compact('tabs'))
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
@@ -369,7 +369,7 @@ class AdminCreateController extends Controller
         $this->validate(
             $request,
             [
-                'TradingName' => ['required', 'string', 'unique:Customers', 'max:255'], 
+                'TradingName' => ['required', 'string', 'unique:Customers', 'max:255'],
                 'RegistrationName' => ['required', 'string', 'unique:Customers', 'max:255'],
                 'RegistrationNumber' => ['required', 'unique:Customers', 'max:255'],
                 'PhysicalAddress' => ['required'],
@@ -402,7 +402,7 @@ class AdminCreateController extends Controller
                 'Client_logo.required' => 'The Client logo is required.',
                 'Client_icon.required' => 'The Client icon is required.',
 
-                
+
             ]
         );
 
@@ -450,10 +450,10 @@ class AdminCreateController extends Controller
             'IsRestricted' => 0,
             'Client_Logo' => $request->Client_logo,
             'Client_Font_Code' => $request->fontcode,
-            'Client_Icon' => $request->Client_icon, 
+            'Client_Icon' => $request->Client_icon,
             // 'Api_AVS'  => $avschecked,
             // 'Api_KYC'  => $kycchecked,
-            // 'Api_Comp' => $compchecked,  
+            // 'Api_Comp' => $compchecked,
         ]);
         $newclient->save();
 
@@ -480,7 +480,7 @@ class AdminCreateController extends Controller
             DB::table('Customers')->where('Id', $newCustomerId)->update(['Client_Logo' => $Logo, 'Client_Icon' => $Icon]);
         }
 
-        
+
         $newCustomerId = Str::upper(Str::uuid());
         $newclient = Customer::create([
             'Id' =>  $newCustomerId,
@@ -501,10 +501,10 @@ class AdminCreateController extends Controller
             'IsRestricted' => 0,
             'Client_Logo' => $request->Client_logo,
             'Client_Font_Code' => $request->fontcode,
-            'Client_Icon' => $request->Client_icon, 
+            'Client_Icon' => $request->Client_icon,
             // 'Api_AVS'  => $avschecked,
             // 'Api_KYC'  => $kycchecked,
-            // 'Api_Comp' => $compchecked,  
+            // 'Api_Comp' => $compchecked,
         ]);
         $newclient->save();
         if(!empty($_POST['tab'])){
@@ -555,6 +555,6 @@ class AdminCreateController extends Controller
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);
-        
+
     }
 }

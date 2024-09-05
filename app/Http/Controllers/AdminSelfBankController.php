@@ -22,6 +22,7 @@ use App\Models\SelfBankingLink;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -1812,4 +1813,111 @@ class AdminSelfBankController extends Controller
             ->with('Success', $success)
             ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
     }
+    public function showselfsb(Request $request)
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        // $Consumerid = $request->session()->get('LoggedUser');
+        //$Consumerid =$client -> Id;
+        // $client = CustomerUser::where('Id', '=', $Consumerid)->first();
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        // $Logo = $customer['Client_Logo'];
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
+
+        // $GetAllUsers = CustomerUser::all();
+        $GetAllCustomers = Customer::all();
+
+        app('debugbar')->info($GetAllCustomers);
+
+        return view('users.self-sb', [])
+
+             ->with('customer', $customer)
+            ->with('GetAllCustomers', $GetAllCustomers)
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
+    }
+
+
+    public function searchsb(Request $request)
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $idno = $request->IDNumber;
+        $first = $request->FirstName;
+        $last = $request->LastName;
+        $cel = $request->PhoneNumber;
+        $status = $request->FICAStatus;
+        $riskStatus = $request->FICARiskStatus;
+        $total = 0;
+
+
+        // $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
+        $results = Customer::getCustomerDetails($client->CustomerId);
+
+
+        if (request()->ajax()) {
+            return view('users.search-sb', ['users' => $results]);
+        }
+        $GetAllCustomers = Customer::all();
+
+        app('debugbar')->info($GetAllCustomers);
+
+        return view('users.search-sb', ['users' => $results])
+        ->with('customer', $customer)
+        ->with('GetAllCustomers', $GetAllCustomers)
+        ->with('UserFullName', $UserFullName)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('Logo', $customer->Client_Logo);
+    }
+    public function sbresults(Request $request)
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $idno = $request->IDNumber;
+        $first = $request->FirstName;
+        $last = $request->LastName;
+        $cel = $request->PhoneNumber;
+        $status = $request->FICAStatus;
+        $riskStatus = $request->FICARiskStatus;
+        $total = 0;
+
+
+        // $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
+        $results = Customer::getCustomerDetails($client->CustomerId);
+
+
+        if (request()->ajax()) {
+            return view('users.sb-results', ['users' => $results]);
+        }
+        $GetAllCustomers = Customer::all();
+
+        app('debugbar')->info($GetAllCustomers);
+
+        return view('users.sb-results', ['users' => $results])
+        ->with('customer', $customer)
+        ->with('GetAllCustomers', $GetAllCustomers)
+        ->with('UserFullName', $UserFullName)
+        ->with('customerName', $customer->RegistrationName)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('Logo', $customer->Client_Logo);
+    }
+
+
+
+
 }

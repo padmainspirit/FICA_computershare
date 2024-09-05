@@ -47,6 +47,8 @@ Route::fallback(function(){ return response()->view('errors.404', [], 404); });
 Auth::routes();
 Route::get('/search', [AdminController::class, 'search'])->name('search');
 Route::post('/ajax-search', [AdminController::class, 'ajaxSearch'])->name('ajax-search');
+Route::post('/search-sb', [AdminSelfBankController::class, 'searchsb'])->name('search-sb');
+Route::any('/sb-results', [AdminSelfBankController::class, 'sbresults'])->name('sb-results');
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);
@@ -121,6 +123,7 @@ Route::post('/admin-client', [App\Http\Controllers\AdminCreateController::class,
 Route::get('/admin-client', [App\Http\Controllers\AdminCreateController::class, 'EditCustomer'])->name('client-show');
 
 Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index'])->name('admin-display');
+Route::get('/selfsb', [App\Http\Controllers\AdminSelfBankController::class, 'showselfsb'])->name('self-sb');
 Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
 Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 
