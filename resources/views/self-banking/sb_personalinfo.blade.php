@@ -37,7 +37,7 @@
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center mt-4">
-                <div class="col-md-10 mt-4">
+                <div class="col-md-12 mt-4">
 
 
 
@@ -142,13 +142,13 @@
                                                 $company_old = 'reflist.' . $i . '.company';
                                             ?>
                                                 <div data-repeater-item class="row srn-row">
-                                                    <div class="mb-3 col-md-4 mt-2">
+                                                    <div class="mb-3 col-md-3">
                                                         <label for="subject" class="text-center">
                                                             Shareholder reference number<span style="color:red;">*</span>
                                                         </label>
                                                     </div>
 
-                                                    <div class="mb-3 col-md-5 otp-input-container d-flex justify-content-center">
+                                                    <div class="mb-3 mt-1 col-md-6 otp-input-container d-flex justify-content-center">
 
                                                         <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" title="Please fill in C, D or U" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
                                                         <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
@@ -163,16 +163,15 @@
                                                         <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
 
                                                     </div>
-                                                    <div class="col-md-3 mt-2 d-flex justify-content-center">
-                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
+                                                    <div class="col-md-3 d-flex justify-content-center">
 
                                                     </div>
 
 
-                                                    <div class="mb-3 col-md-4">
+                                                    <div class="mb-3 col-md-3">
 
                                                 </div>
-                                                    <div class="mb-3 col-md-5 search-box d-flex justify-content-center">
+                                                    <div class="mb-3 col-md-6 search-box d-flex justify-content-center">
                                                         <div class="inner-search-box" style="">
                                                         <select class="form-select" autocomplete="off" style="border-radius: 15px; " name="company">
                                                             <option value="" style="font-size: 12px;">
@@ -191,7 +190,8 @@
                                                 </div>
 
 
-                                                    <div class="mb-3 col-md-3">
+                                                    <div class="mb-3 col-md-3 d-flex justify-content-center">
+                                                        <p data-repeater-delete id="remove" style="cursor:pointer;"><img src="{{ URL::asset('/assets/images/fail-cross.png') }}" style="width:22px; margin-right:5px;" />REMOVE</p>
 
                                                     </div>
                                                     <hr style="color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">

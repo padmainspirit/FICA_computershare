@@ -20,7 +20,7 @@
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="card overflow-hidden">
 
                         <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">

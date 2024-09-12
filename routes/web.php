@@ -48,7 +48,7 @@ Auth::routes();
 Route::get('/search', [AdminController::class, 'search'])->name('search');
 Route::post('/ajax-search', [AdminController::class, 'ajaxSearch'])->name('ajax-search');
 Route::post('/search-sb', [AdminSelfBankController::class, 'searchsb'])->name('search-sb');
-Route::any('/sb-results', [AdminSelfBankController::class, 'sbresults'])->name('sb-results');
+Route::any('/sb-results/{id}', [AdminSelfBankController::class, 'sbresults'])->name('sb-results');
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);

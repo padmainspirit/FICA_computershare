@@ -242,7 +242,8 @@ class AdminSelfBankController extends Controller
                 'IDNUMBER' => ['required', 'digits:13'],
                 'FirstName' => ['required', 'string', 'min:2', 'max:50'],
                 'Surname' => ['required', 'string', 'min:2', 'max:50'],
-                'PhoneNumber' => 'required|numeric|min_digits:9|max_digits:10',
+                //'PhoneNumber' => 'required|numeric|min_digits:9|max_digits:10',
+                'PhoneNumber' => ['required', 'digits:10'],
                 //'PhoneNumber' => ['required','regex:/^((0[6-8][0-9]{8})|([6-8][0-9]{8}))$/'],
 
                 'Email' => ['required', 'string', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'max:50'],
@@ -1305,6 +1306,7 @@ class AdminSelfBankController extends Controller
                             'ResidentialPostalCode' => $ResidentialPostalCode,
                             'Latitude' => $Latitude,
                             'Longitude' => $Longitude
+
                         ]);
 
                         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
@@ -1350,7 +1352,9 @@ class AdminSelfBankController extends Controller
                                 'AgeEstimationOfLiveness' => $AgeEstimationOfLiveness,
                                 'PostalCode' => $ResidentialPostalCode,
                                 'Latitude' => $Latitude,
-                                'Longitude' => $Longitude
+                                'Longitude' => $Longitude,
+                                'EnquiryID' => $enquiryId,
+                                'DOVSResponse' => $returnConnectGetDOVResult,
                             )
                         );
 
@@ -1440,7 +1444,7 @@ class AdminSelfBankController extends Controller
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
         $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first();
 
-        $selfbanking = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
+        //$selfbanking = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
 
         $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
         $customer = Customer::getCustomerDetails($selfbankinglinkdetails->CustomerId);
@@ -1449,14 +1453,14 @@ class AdminSelfBankController extends Controller
             return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
         }
 
-        $email = $selfbanking->Email;
+        $email = $selfbankingdetails->Email;
        // print_r($email);exit;
         if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")
             {
                 Mail::send(
                     'self-banking.emailpartial',
-                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbankingdetails->FirstName, 'Surname'=>$selfbankingdetails->Surname],
                     function ($message) use ($request, $email) {
 
                         $message->from(config('app.cssb_adminemail'));
@@ -1796,7 +1800,7 @@ class AdminSelfBankController extends Controller
 
                                 Mail::send(
                                     'self-banking.emailverified',
-                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbankingdetails->FirstName, 'Surname'=>$selfbankingdetails->Surname],
                                     function ($message) use ($request, $email) {
 
                                         $message->from(config('app.cssb_adminemail'));
@@ -1810,7 +1814,7 @@ class AdminSelfBankController extends Controller
 
                                 Mail::send(
                                     'self-banking.emailpartial',
-                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbanking->FirstName, 'Surname'=>$selfbanking->Surname],
+                                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbankingdetails->FirstName, 'Surname'=>$selfbankingdetails->Surname],
                                     function ($message) use ($request, $email) {
 
                                         $message->from(config('app.cssb_adminemail'));
@@ -1919,24 +1923,21 @@ class AdminSelfBankController extends Controller
         $idno = $request->IDNumber;
         $first = $request->FirstName;
         $last = $request->LastName;
-        $cel = $request->PhoneNumber;
-        $status = $request->FICAStatus;
-        $riskStatus = $request->FICARiskStatus;
-        $total = 0;
+        $cel = $request->phone;
+        $status = $request->avsStatus;
 
 
-        //$results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
-        $results = Customer::getCustomerDetails($client->CustomerId);
+        $results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?,?', [$idno, $first, $last, $cel, $status]);
 
-
+       // print_r($results);exit;
         if (request()->ajax()) {
-            return view('users.search-sb', ['users' => $results]);
+            return view('users.search-sb', ['results' => $results]);
         }
         $GetAllCustomers = Customer::all();
 
         app('debugbar')->info($GetAllCustomers);
 
-        return view('users.search-sb', ['users' => $results])
+        return view('users.search-sb', ['results' => $results])
         ->with('customer', $customer)
         ->with('GetAllCustomers', $GetAllCustomers)
         ->with('UserFullName', $UserFullName)
@@ -1944,36 +1945,37 @@ class AdminSelfBankController extends Controller
         ->with('Icon', $customer->Client_Icon)
         ->with('Logo', $customer->Client_Logo);
     }
-    public function sbresults(Request $request)
+    public function sbresults(Request $request,$id)
     {
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
 
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $idno = $request->IDNumber;
-        $first = $request->FirstName;
-        $last = $request->LastName;
-        $cel = $request->PhoneNumber;
-        $status = $request->FICAStatus;
-        $riskStatus = $request->FICARiskStatus;
-        $total = 0;
 
 
         // $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
-        $results = Customer::getCustomerDetails($client->CustomerId);
+        $getCustomerId = $id;//$request->input('SelectClient');
+        $results = Customer::where('Id', '=', $getCustomerId)->first();
+        $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
+        //$selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$getCustomerId)->first();
+        //print_r($selfbankingdetails->IDNUMBER);exit;
+        $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
+        ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
+        ->first();
 
+         $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         //print_r($dovs);exit;
 
         if (request()->ajax()) {
-            return view('users.sb-results', ['users' => $results]);
+            return view('users.sb-results', ['selfbankingdetails' => $selfbankingdetails]);
         }
-        $GetAllCustomers = Customer::all();
 
-        app('debugbar')->info($GetAllCustomers);
-
-        return view('users.sb-results', ['users' => $results])
+        return view('users.sb-results', ['selfbankingdetails' => $selfbankingdetails])
         ->with('customer', $customer)
-        ->with('GetAllCustomers', $GetAllCustomers)
+        ->with('avs', $avs)
+        ->with('dovs', $dovs)
         ->with('UserFullName', $UserFullName)
         ->with('customerName', $customer->RegistrationName)
         ->with('Icon', $customer->Client_Icon)

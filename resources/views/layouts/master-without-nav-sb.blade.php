@@ -15,13 +15,13 @@
 /* Default for small screens */
 .responsive-logo {
     max-width: 50%;
-    height: auto;
+    height:60px;
 }
-
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     .responsive-logo {
         max-width: 50%;
+        height:60px;
     }
 }
 
@@ -29,6 +29,7 @@
 @media (min-width: 992px) {
     .responsive-logo {
         max-width: 33%;
+        height:70px;
     }
 }
 
@@ -36,6 +37,7 @@
 @media (min-width: 1200px) {
     .responsive-logo {
         max-width: 25%;
+        height:80px;
     }
 }
 
@@ -62,15 +64,22 @@ h3 ,h4
 }
 .otp-input-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1px; /* Space between the inputs */
+    flex-wrap: nowrap;
+    gap: 5px; /* Space between the inputs */
     justify-content: center; /* Center the inputs horizontally */
 }
-
+@media (max-width: 600px) {
+.otp-input-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2px; /* Space between the inputs */
+    justify-content: center; /* Center the inputs horizontally */
+}
+}
 .otp-input {
-    flex: 1 1 30px; /* Flex-grow, flex-shrink, and minimum width */
-    max-width: 30px; /* Maximum width for larger screens */
-    height: 35px; /* Consistent height for inputs */
+    flex: 1 1 20px; /* Flex-grow, flex-shrink, and minimum width */
+    max-width: 25px; /* Maximum width for larger screens */
+    height: 30px; /* Consistent height for inputs */
     text-align: center; /* Center the text inside the input */
     font-size: 12px; /* Make text larger */
     border: 1px solid #ccc; /* Light border */
@@ -79,9 +88,9 @@ h3 ,h4
 
 @media (max-width: 600px) {
     .otp-input {
-        flex: 1 1 25px; /* Adjust the size for smaller screens */
-        max-width: 25px;
-        height: 30px;
+        flex: 1 1 15px; /* Adjust the size for smaller screens */
+        max-width: 20px;
+        height: 25px;
         font-size: 12px;
     }
 }

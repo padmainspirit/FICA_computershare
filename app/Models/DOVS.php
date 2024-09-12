@@ -41,7 +41,9 @@ class DOVS extends Model
         'PostalCode',
         'Latitude',
         'Longitude',
-        'ERRORCONDITIONNUMBER'
+        'ERRORCONDITIONNUMBER',
+        'EnquiryID',
+        'DOVSResponse'
     ];
 
     public function fica()

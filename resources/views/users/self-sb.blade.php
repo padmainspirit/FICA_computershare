@@ -81,7 +81,7 @@
 
                 <div class="col-lg-6">
                     <div class="mb-3">
-                        <label for="basicpill-firstname-input">AVS Status </label>
+                        <label for="basicpill-firstname-input">Flow Status </label>
                         <select class="form-select" autocomplete="off"
                         class="form-control" id="avsStatus" name="avsStatus">
                         <option selected style="font-size: 12px;" disabled>
@@ -156,6 +156,9 @@
             document.getElementById("IDNumber").value = '';
             document.getElementById("FirstName").value = '';
             document.getElementById("LastName").value = '';
+            document.getElementById("avsStatus").value = '';
+            document.getElementById("phone").value = '';
+
         }
 
         var btn = document.getElementById("clearall");
@@ -186,8 +189,10 @@
             var fname = document.getElementById("FirstName").value;
             var lname = document.getElementById("LastName").value;
             var phone = document.getElementById("phone").value;
+            var status = document.getElementById("avsStatus").value;
 
-            if ((idVal === null || idVal === '') && (fname === null || fname === '') && (lname === null || lname === '') && (phone === null || phone === '')) {
+
+            if ((idVal === null || idVal === '') && (fname === null || fname === '') && (lname === null || lname === '') && (phone === null || phone === '')&& (status === null || status=== '')) {
                 document.getElementById("error_msg").innerHTML = 'Please enter any of the search criteria';
                 document.getElementById("error_msg").style.display = 'block';
                 return false;
