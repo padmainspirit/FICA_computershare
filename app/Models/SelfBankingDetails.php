@@ -74,22 +74,33 @@ class SelfBankingDetails extends Model
     }
 
 
-    /* public static function checkifExistIdSRN($srnlist, $idnumber)
+    public static function checkifExistIdSRN($srnlist, $idnumber)
     {
         $current_date_time = Carbon::now();
         $minus_72_hours = $current_date_time->subHour(72);
-        $checksrn = SelfBankingDetails::whereHas('SBCompanySRN', function ($query) use($srnlist) {
+        $getlinkids = SelfBankingLink::where("CreatedAt", ">", $minus_72_hours)
+                                        ->where(function($query) {
+                                            $query->where('BankingDetails', 1)
+                                                ->orWhere(function($query) {
+                                                    $query->where('BankingDetails', 2)
+                                                            ->where('BankDocumentUpload', 1);
+                                                });
+                                        })
+                                    ->pluck('Id')->toArray();
+
+        $checksrn = SelfBankingDetails::select('SelfBankingDetailsId','SelfBankingLinkId')
+                    ->whereHas('SBCompanySRN', function ($query) use($srnlist) {
                         $query->select('SelfBankingDetailsId','SRN', 'companies')
                         ->whereIn('SRN', $srnlist);
                     })
                     ->with(['SBCompanySRN'])
-                    ->where("CreatedOnDate", ">", $minus_72_hours)
-                    ->where(['IDNUMBER'=>$idnumber])->orderBy('CreatedOnDate', 'DESC')->first();
-        if($checksrn){
+                    ->whereIn("SelfBankingLinkId", $getlinkids)
+                    ->where(['IDNUMBER'=>$idnumber])->pluck('SelfBankingDetailsId')->toArray();
+        if(!empty($checksrn)){
             return true;
         }else{
             return false;
         }
-    } */
+    }
 
 }

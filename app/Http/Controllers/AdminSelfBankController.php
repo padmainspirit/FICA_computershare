@@ -297,11 +297,11 @@ class AdminSelfBankController extends Controller
                 $srn_list[] = $res_srn;
             }
 
-            /* $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
+            $existinguser = SelfBankingDetails::checkifExistIdSRN($srn_list, $_POST['IDNUMBER']);
             if($existinguser){
                     return redirect()->route('sb-personalinfo')->withInput($request->input())->with('existinguser', 'Yes');
 
-            } */
+            }
 
             /* code for validating ID number using idas API */
             $verifyData = new VerifyUserController();
@@ -381,7 +381,7 @@ class AdminSelfBankController extends Controller
                 'CreatedOnDate' => date("Y-m-d H:i:s"),
                 'LastUpdatedDate' => date("Y-m-d H:i:s"),
                 'FICAStatus' => 'In progress',
-                'FICAProgress' => '25',
+                'FICAProgress' => '2.5',
                 'FICA_Active' => 1,
                 'ConsumerReferance' => 4,
             ]);
@@ -474,7 +474,7 @@ class AdminSelfBankController extends Controller
             FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
                 array(
                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
-                    'FICAProgress' =>  '50',
+                    'FICAProgress' =>  '5.0',
                 )
             );
 
@@ -588,7 +588,7 @@ class AdminSelfBankController extends Controller
                 FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
                     array(
                         'LastUpdatedDate' => date("Y-m-d H:i:s"),
-                        'FICAProgress' =>  '75',
+                        'FICAProgress' =>  '7.5',
                     )
                 );
                 $avsuser->save();
@@ -604,7 +604,7 @@ class AdminSelfBankController extends Controller
                 FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
                     array(
                         'LastUpdatedDate' => date("Y-m-d H:i:s"),
-                        'FICAProgress' =>  '75',
+                        'FICAProgress' =>  '7.5',
                     )
                 );
             }
@@ -1389,7 +1389,7 @@ class AdminSelfBankController extends Controller
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'FICAStatus' =>  'Failed',
                                     'FailedDate' => date("Y-m-d H:i:s"),
-                                    'FICAProgress' =>  '50',
+                                    'FICAProgress' =>  '5.0',
                                 )
                             );
 
@@ -1400,7 +1400,7 @@ class AdminSelfBankController extends Controller
                                 array(
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'FailedDate' => date("Y-m-d H:i:s"),
-                                    'FICAProgress' =>  '50',
+                                    'FICAProgress' =>  '5.0',
                                 )
                             );
                             $process = 'Success';
@@ -1527,7 +1527,7 @@ class AdminSelfBankController extends Controller
                             'LastUpdatedDate' => date("Y-m-d H:i:s"),
                             'FICAStatus' =>  'Failed',
                             'FailedDate' => date("Y-m-d H:i:s"),
-                            'FICAProgress' =>  '100',
+                            'FICAProgress' =>  '10.0',
                         )
                     );
                     return redirect()->route('process-status');
@@ -1733,7 +1733,7 @@ class AdminSelfBankController extends Controller
                                 array(
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'FICAStatus' =>  'Completed',
-                                    'FICAProgress' =>  '100',
+                                    'FICAProgress' =>  '10.0',
 
                                 )
                             );
@@ -1768,7 +1768,7 @@ class AdminSelfBankController extends Controller
                                         'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                         'FICAStatus' =>  'Failed',
                                         'FailedDate' => date("Y-m-d H:i:s"),
-                                        'FICAProgress' =>  '100',
+                                        'FICAProgress' =>  '10.0',
                                     )
                                 );
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
@@ -1788,7 +1788,7 @@ class AdminSelfBankController extends Controller
                                     array(
                                         'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                         'FICAStatus' =>  'Completed',
-                                        'FICAProgress' =>  '100',
+                                        'FICAProgress' =>  '10.0',
 
                                     )
                                 );

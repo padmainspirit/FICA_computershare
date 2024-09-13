@@ -136,7 +136,11 @@
                                     <form class="repeater" data-limit="5" method="post" action="{{ route('sb-personalinfo') }}" id="sb-pd-form">
                                         @csrf
                                         <div data-repeater-list="reflist" class="duplicable" id="reflist">
-                                            <?php $reflist = Request::old('reflist') != null ? count(Request::old('reflist')) : 1;
+                                            <?php
+
+use Illuminate\Support\Facades\Session;
+
+ $reflist = Request::old('reflist') != null ? count(Request::old('reflist')) : 1;
                                             for ($i = 0; $i < $reflist; $i++) {
                                                 $value = 'reflist.' . $i . '.refnum';
                                                 $company_old = 'reflist.' . $i . '.company';
@@ -320,6 +324,42 @@
             </div>
         </div>
 
+
+
+            <div class="modal fade" id="loading" tabindex="-1" role="dialog"
+            aria-labelledby="composemodalTitle" aria-hidden="true" class="close">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                        <div class="modal-body">
+                            <br><br>
+
+                            <div class="text-center mb-4">
+                                <div id="facial-loading-dynamic">
+                                    <img src="{{ URL::asset('/assets/images/information.png') }}" width="50px" />
+                                </div>
+
+                                <br><br>
+                                <div class="row justify-content-center">
+                                    <br>
+                                    <div class="col-xl-10" id="selfie-link-title">
+                                        <p style="color: #000000;font-size: 15px;text-align: justify;">There is an application in progress for these credentials, if you need any information regarding the application or did not submit an application, please contact us 0861 100 933.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            
+                            </div>
+
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- end account-pages -->
         @endsection
 
@@ -332,24 +372,29 @@
         <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
         <script>
         $(document).ready(function() {
-    $('#hoverText').on('click', function() {
-        $('#popupDiv').toggle();
-    });
-
-    // Close the popup when clicking outside of it
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('.popover-container').length) {
-            $('#popupDiv').hide();
+        var userExist = "<?= Session::get('existinguser'); ?>";  
+        if(userExist == 'Yes'){
+            $('#loading').modal('show');
         }
-    });
-});
 
-  // Ensure the popup is shown when hovering
-  $('#hoverText').on('mouseenter', function() {
-        $('#popupDiv').show();
-    }).on('click', function() {
-        $('#popupDiv').hide();
-    });
+        $('#hoverText').on('click', function() {
+            $('#popupDiv').toggle();
+        });
+
+        // Close the popup when clicking outside of it
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.popover-container').length) {
+                $('#popupDiv').hide();
+            }
+            });
+        });
+
+        // Ensure the popup is shown when hovering
+        $('#hoverText').on('mouseenter', function() {
+                $('#popupDiv').show();
+            }).on('click', function() {
+                $('#popupDiv').hide();
+        });
 
 
         </script>
