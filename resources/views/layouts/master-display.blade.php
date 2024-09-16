@@ -41,6 +41,7 @@
 
     <!-- JAVASCRIPT -->
     @include('layouts.findusers-scripts')
+
 </body>
 
 </html>

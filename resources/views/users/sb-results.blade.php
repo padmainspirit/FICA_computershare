@@ -122,11 +122,11 @@ ini_set('memory_limit', '1024M');
                                     Personal info
                                 </h5>
 
-                                @if (-1 != NULL) <!-- ($Identity_status == 1) -->
+                                @if ($dovs->DOVS_Status =="1") <!-- ($Identity_status == 1) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif (-1 == NULL) <!-- ($Identity_status == 0) -->
+                                @elseif ($dovs->DOVS_Status == NULL) <!-- ($Identity_status == 0) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                 </h6>
@@ -150,17 +150,16 @@ ini_set('memory_limit', '1024M');
                     </div>
 
 
-                    <?php if (1 == 1) { ?>
                         <div class="col-sm-2">
                             <div class="card" style="width: 100%;">
                                 <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                     <h5 class="card-title" style="text-align: center;">Banking Details</h5>
 
-                                    @if (1 == 1)
+                                    @if ($avs->AVS_Status == '1')
                                     <h6 class="card-title" style="text-align: center;">
                                         <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                     </h6>
-                                    @elseif (1 == 0)
+                                    @elseif ($avs->AVS_Status == '0')
                                     <h6 class="card-title" style="text-align: center;">
                                         <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                     </h6>
@@ -182,41 +181,7 @@ ini_set('memory_limit', '1024M');
                             <!-- end card -->
                         </div>
                         <!-- end col -->
-                    <?php } ?>
 
-                    <?php if (-1 == 1) { ?>
-                        <div class="col-sm-2">
-                            <div class="card" style="width: 100%;">
-                                <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                    <h5 class="card-title" style="text-align: center;">Banking Details</h5>
-
-                                    @if (-1 == 1)
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
-                                    </h6>
-                                    @elseif (-1 == 0)
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
-                                    </h6>
-                                    @else
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
-                                    </h6>
-                                    @endif
-
-                                    <div class="form-floating mb-3">
-                                        <img src="/images/results/AVS.png" alt="" height="100" width="100" class="auth-logo-light" style="display: block; margin: auto">
-                                    </div>
-
-                                    <div class="mb-2"></div>
-
-                                </div>
-                                <!-- end card body -->
-                            </div>
-                            <!-- end card -->
-                        </div>
-                        <!-- end col -->
-                    <?php } ?>
 
 
                         <div class="col-sm-2">
@@ -224,11 +189,8 @@ ini_set('memory_limit', '1024M');
                                 <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                     <h5 class="card-title" style="text-align: center;">
                                         Face view</h5>
-                                    @if(-1 == -1)
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
-                                    </h6>
-                                    @elseif (-1 == 'Matched')
+
+                                    @if ($dovs->DOVS_Status == '1')
                                     <h6 class="card-title" style="text-align: center;">
                                         <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                     </h6>
@@ -867,28 +829,34 @@ ini_set('memory_limit', '1024M');
 <script>
 
     function generate() {
+
         var doc = new jsPDF('p', 'pt', 'letter');
 
         var avsStatus = "<?= $avs->AVS_Status; ?>";
         var dovsStatus = "<?= $dovs->DOVS_Status; ?>";
-        console.log(dovsStatus);
-        var avs='';
-        if (avsStatus == 1) {
-        avs = 'Passed';
-        } else if (avsStatus == -1) {
-        avs = 'Server Error';
-        } else {
-        avs = 'Failed';
-        }
 
-        var UserFullName = ("<?= $UserFullName; ?>" != null) ? "<?= UserFullName; ?>" : '';
+        var avs = '';
+        if (avsStatus == '1') {
+        avs = 'Passed';
+        } else if (avsStatus == '-1') {
+        avs = 'Server Error';
+        }
+        var UserFullName = ("<?= $UserFullName; ?>" != null) ? "<?= $UserFullName; ?>" : '';
         var FirstName = ("<?= $selfbankingdetails->FirstName ?>" != null) ? "<?= $selfbankingdetails->FirstName; ?>" : '';
         var surname = ("<?= $selfbankingdetails->Surname; ?>" != null) ? "<?= $selfbankingdetails->Surname; ?>" : '';
         var phone = ("<?= $selfbankingdetails->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails->PhoneNumber; ?>" : '';
         var idnum = ("<?= $selfbankingdetails->IDNUMBER; ?>" != null) ? "<?= $selfbankingdetails->IDNUMBER; ?>" : '';
         var idnummatch = ("<?= $avs->IDNUMBERMATCH ?>" != null) ? "<?= $avs->IDNUMBERMATCH; ?>" : '';
-        var Email = ("<?= $selfbankingdetails->Email; ?>" != null) ? "<?= $selfbankingdetails->Email; ?>" : '';
+        if(idnummatch =='Yes')
+        {
+            idnummatch = "Matched";
+        }
+        else
+        {
+            idnummatch = "Unmatched";
 
+        }
+        var Email = ("<?= $selfbankingdetails->Email; ?>" != null) ? "<?= $selfbankingdetails->Email; ?>" : '';
         var Bank_name = ("<?= $avs->Bank_name; ?>" != null) ? "<?= $avs->Bank_name; ?>" : '';
         var Branch_code = ("<?= $avs->Branch_code; ?>" != null) ? "<?= $avs->Branch_code; ?>" : '';
         var Account_name = ("<?= $avs->Account_name; ?>" != null) ? "<?= $avs->Account_name; ?>" : '';
@@ -903,41 +871,45 @@ ini_set('memory_limit', '1024M');
         var ConsumerIDPhotoMatch = ("<?= $dovs->ConsumerIDPhotoMatch; ?>" != null) ? "<?= $dovs->ConsumerIDPhotoMatch; ?>" : '';
         var DeceasedStatus = ("<?= $dovs->DeceasedStatus; ?>" != null) ? "<?= $dovs->DeceasedStatus; ?>" : '';
         var initialsmatch = ("<?= $avs->INITIALSMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var initials = ("<?= $avs->INITIALS ?>" == 'Yes') ? 'Matched' : 'Unmatched';
         var EMAILMATCHstatus = ("<?= $avs->EMAILMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
         var surnamematch = ("<?= $avs->SURNAMEMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
 
-        if (AVS_Status == '1') {
+        var AVSStatusmatch = 'Unmatched';
+        if (avsStatus == '1') {
             AVSStatusmatch = 'Matched';
         }
-        var EnquiryDate = ("<?= $selfbankingdetailsEnquiryDate; ?>" != null) ? "<?= $selfbankingdetailsEnquiryDate; ?>" : '';
+        var EnquiryDate = ("<?= $selfbankingdetails->EnquiryDate; ?>" != null) ? "<?= $selfbankingdetails->EnquiryDate; ?>" : '';
         var EnquiryInput = ("<?= $selfbankingdetails->EnquiryInput; ?>" != null) ? "<?= $selfbankingdetails->EnquiryInput; ?>" : '';
 
-       // var validation_datetime = ("<?= $fica->Validation_Status; ?>" != null) ? "<?= date('d M Y H:i A', strtotime($fica->Validation_Status)); ?>" : '';
-
         // Variables End
-        var htmlstring = '';
+         var htmlstring = '';
         var tempVarToCheckPageHeight = 0;
         var pageHeight = 0;
 
-        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents($Logo)); ?>';
+
         var HomeAffPhoto = 'data:image/png;base64,<?php echo $dovs->ConsumerIDPhoto; ?>';
         var CapturedPhoto = 'data:image/png;base64,<?php echo $dovs->ConsumerCapturedPhoto; ?>';
 
-        var tick = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/tick.png'); ?>';
-        var cross = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/cross.png'); ?>';
-        var questionmark = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/not-completed.png'));; ?>';
-        var question = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/question.png'));; ?>';
+        var tick = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/tick.png')); ?>';
+        var cross = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/cross.png')); ?>';
+        var questionmark = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/not-completed.png')); ?>';
+        var question = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/question.png')); ?>';
         var inspiritlogo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('assets/images/PoweredBy.png')); ?>';
-        var custID = ("<?= $customer->CustomerID; ?>" != null) ? "<?= $customer->CustomerID; ?>" : '';
-        var bgColour = ("<?= $customer->Client_Font_Code; ?>" != null) ? "<?= $customer->Client_Font_Code ?>" : '';
+        var VerificationStaticPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/client1.png')); ?>';
+        var PaymentPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/AVS.png')); ?>';
+        var FacialPhoto ='data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/facephone4.png')); ?>';
+        var bgColour = "#93186c";
+        var ConsumerIDPhotoAlt = 'data:image/png;base64,'+ '<?php echo base64_encode(file_get_contents('assets/images/ImageNotFound.jpg')); ?>';
 
-        /*
-         btn-styles {
-            background-color: <?= $customer->Client_Font_Code == null ? "#1a4f6e" : $customer->Client_Font_Code ?>;*/
+        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('assets/images/PoweredBy.png')); ?>';
+
+        var custID = ("<?= $customer->CustomerID; ?>" != null) ? "<?= $customer->CustomerID; ?>" : '';
+
 
         if (custID != '47B97C4A-E9F6-4283-BDB5-D500CA8851C1')
             doc.addImage(logo, 'png', 45, 25, 110, 40, undefined, 'FAST');
-        //doc.addImage(xds, 'png', 510, 25, 60, 40); //xds1
+
         doc.addImage(inspiritlogo, 'png', 470, 25, 100, 40, undefined, 'FAST'); //inspirit logo
         doc.setFont("Avenir");
         doc.setFontSize(6);
@@ -987,9 +959,9 @@ ini_set('memory_limit', '1024M');
 
         doc.autoTable({
             body: [
-                ['Extracted By:', `${LogUserName} ${LogUserSurname}`, 'Extracted For:', `${UserFullName}`],
+                ['Extracted By:', `${UserFullName}`, 'Extracted For:', `${FirstName} ${surname}`],
                 ['Date of Report:', `${new Date().toLocaleDateString()}`, 'Identity Number:', `${idnum}`],
-                ['Ref. Number:', ``, 'Validated On:', `${validation_datetime}`],
+
             ],
             startY: 100,
             styles: {
@@ -1087,12 +1059,33 @@ ini_set('memory_limit', '1024M');
             doc.setFontSize(10);
             var firstImageTextX = firstImageX + firstImageWidth / 2;
             var firstImageTextY = firstImageY - 10;
-            doc.text('DHA Captured Photo', firstImageTextX, firstImageTextY, {
+            doc.text('DHA Captured Photo', firstImageTextX-200, firstImageTextY-20, {
                 align: 'center'
             });
-            doc.addImage(HomeAffPhoto, 'png', firstImageX, firstImageY, firstImageWidth, firstImageHeight, undefined, 'FAST');
+            if(HomeAffPhoto!="")
+			doc.addImage(HomeAffPhoto, 'png', firstImageX-120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+		else
+			doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX-120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+
+
+        pageWidth = pageWidth*3;
+            if(ConsumerIDPhotoMatch=="Matched" && LivenessDetectionResult=="Passed"){
+            doc.addImage(tick, 'png', firstImageX, firstImageY-20, firstImageWidth, firstImageHeight-30, undefined, 'FAST');
+        }
+		else{
+            doc.addImage(cross, 'png', firstImageX, firstImageY-20, firstImageWidth, firstImageHeight-30, undefined, 'FAST');
+    }
+            doc.text('Consumer Captured Photo', firstImageTextX+120, firstImageTextY-20, {
+                align: 'center'
+            });
+            if(CapturedPhoto!="")
+			doc.addImage(CapturedPhoto, 'png', firstImageX+120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+		else
+			doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX+120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
 
         }
+
+
 
 
         var startofscreening = dovsStatus == 1 ? 140 : 20;
@@ -1157,7 +1150,7 @@ ini_set('memory_limit', '1024M');
          }
 
         if (dovsStatus == '1') {
-            if (HA_IDNOMatchStatus == 'Matched') {
+            if (idnummatch == 'Matched') {
                 doc.addImage(tick, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
             } else {
                 doc.addImage(cross, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
@@ -1188,7 +1181,7 @@ ini_set('memory_limit', '1024M');
         // Calculate the position to place the text in the center
         var xPos = (pageWidth - textWidth) / 2;
         doc.setFont("helvetica", "normal");
-        doc.setFontSize(8)
+        doc.setFontSize(8);
 
         doc.addImage(tick, 'png', xPos - 175, doc.lastAutoTable.finalY + 104, 10, 10, undefined, 'FAST');
         doc.text(text, xPos - 162, doc.lastAutoTable.finalY + 112);
@@ -1284,7 +1277,7 @@ ini_set('memory_limit', '1024M');
             },
         });
 
-         if (avsStatus == 1) {
+         if (avsStatus == '1') {
 
             // doc.addPage();
             doc.autoTable({
@@ -1299,7 +1292,7 @@ ini_set('memory_limit', '1024M');
                     ['Bank Name:', `${Bank_name}`],
                     ['Account Exists:', `${accopen}`],
                     ['Initials Match:', `${initials}`, `${initialsmatch}`],
-                    ['Surname Match:', `${surname}`, `${banksurnamematch}`],
+                    ['Surname Match:', `${surname}`, `${surnamematch}`],
                     ['ID Number Match:', `${idnum}`, `${idnummatch}`],
                     ['Email Address Match:', `${Email}`, `${EMAILMATCHstatus}`],
                     ['Account Type Match:', `${accopen}`],
@@ -1421,14 +1414,15 @@ ini_set('memory_limit', '1024M');
             doc.text('Inspirit Data Analytics Services(Pty) Ltd, an authorized agent of XDS.\nCopyright 2024 Inspirit Data Analytics Services(Pty) Ltd (Reg No: 2017653373)\nPowered by Xpert Decision Systems(XDS).\nXDS is registered with the National Credit Regulator - Reg# NCR-CB5', 295, 758, 'center');
         }
 
-        doc.save(`{{ $FirstName }} {{ $SURNAME }} - Due Diligence Report.pdf`);
+        doc.save(FirstName +' '+ surname +` - Self banking Report.pdf`);
 
     }
 </script>
 
 
 
-<script src="assets/libs/jspdf/jspdf.min.js"></script>
-<script src="assets/libs/jspdf/jspdf.plugin.autotable.min.js"></script>
+<script src="/assets/libs/jspdf/jspdf.min.js"></script>
+<script src="/assets/libs/jspdf/jspdf.plugin.autotable.min.js"></script>
+
 
 @endsection

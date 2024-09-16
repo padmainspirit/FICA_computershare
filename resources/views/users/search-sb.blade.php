@@ -54,6 +54,7 @@
             /* "bPaginate": false,
             "bFilter": false,
             "bInfo": false */
+            "order": [4, 'asc'],
             buttons: [
             'copyHtml5',
             'excelHtml5',

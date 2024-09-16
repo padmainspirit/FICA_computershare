@@ -1956,7 +1956,6 @@ class AdminSelfBankController extends Controller
 
         // $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
         $getCustomerId = $id;//$request->input('SelectClient');
-        $results = Customer::where('Id', '=', $getCustomerId)->first();
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
         //$selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$getCustomerId)->first();
         //print_r($selfbankingdetails->IDNUMBER);exit;
