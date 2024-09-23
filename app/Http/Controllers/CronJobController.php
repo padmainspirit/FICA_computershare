@@ -32,4 +32,10 @@ class CronJobController extends Controller
 
         return "updated all the records";
     }
+
+    /* Function to get the DIA OTL response */
+    public function getOtlResponse()
+    {
+        
+    }
 }

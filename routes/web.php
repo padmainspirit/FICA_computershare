@@ -22,6 +22,7 @@ use App\Http\Controllers\AdminCreateController;
 use App\Http\Controllers\AdminSelfBankController;
 use App\Http\Controllers\ClientCaptureController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CronJobController;
 use App\Http\Controllers\tomerVerification;
 use App\Http\Controllers\FAQ;
 use App\Http\Controllers\VerificationDataController;
@@ -181,6 +182,10 @@ Route::any('/banking', [AdminSelfBankController::class, 'bankingAvs'])->name('ba
 Route::any('/sb-preview-details', [AdminSelfBankController::class, 'previewDetails'])->name('sb-preview-details');
 Route::get('/sb-status', [AdminSelfBankController::class, 'processStatus'])->name('process-status');
 
+
+
+/* Cron crontroller routes */
+Route::get('/get-otl-Response', [CronJobController::class, 'getDiaResponse'])->name('get-otl-Response');
 
 
 

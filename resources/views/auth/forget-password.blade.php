@@ -11,8 +11,7 @@
     </style>
 @endsection
 
-{{-- Recaptcha --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 {!! RecaptchaV3::initJs() !!}
 <script src="https://www.google.com/recaptcha/api.js?render=6LcLL_gkAAAAAHNZImBWzj1zbnN3iu3eQRI2AZ5e"></script>
 
@@ -135,6 +134,7 @@
 </body>
 @endsection
 @section('script')
+
 <script>
     document.getElementById("forget-btn").addEventListener('click', () => {
         grecaptcha.ready(function() {
@@ -147,12 +147,12 @@
                 document.getElementById("forget-form").submit();
             });
         });
-    }).click();
+    });
 </script>
 
 <script>
     //to validate email
-    document.querySelector('#Email').addEventListener('blur', (event) => {
+    /* document.querySelector('#Email').addEventListener('blur', (event) => {
         validateEmail(event);
     });
 
@@ -177,7 +177,7 @@
             error.innerText = messg;
         }
 
-    }
+    } */
 </script>
 @endsection
 
