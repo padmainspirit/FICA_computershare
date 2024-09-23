@@ -32,7 +32,7 @@
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center mt-4">
-                <div class="col-md-10 mt-4">
+                <div class="col-md-12 mt-4">
                     <div class="container mt-4">
                         <div class="mt-4" style="position: relative; width:85%; margin: auto;">
                             <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"

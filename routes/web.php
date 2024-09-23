@@ -49,7 +49,7 @@ Auth::routes();
 Route::get('/search', [AdminController::class, 'search'])->name('search');
 Route::post('/ajax-search', [AdminController::class, 'ajaxSearch'])->name('ajax-search');
 Route::post('/search-sb', [AdminSelfBankController::class, 'searchsb'])->name('search-sb');
-Route::any('/sb-results', [AdminSelfBankController::class, 'sbresults'])->name('sb-results');
+Route::any('/sb-results/{id}', [AdminSelfBankController::class, 'sbresults'])->name('sb-results');
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/home?customer=={customerName}', [HomeController::class, 'index']);
@@ -172,6 +172,7 @@ Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->n
 Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+//Route::any('/sb-results/{id}', [AdminSelfBankController::class, 'sbChangeStatus'])->name('update-status');
 Route::any('/uploadid', [AdminSelfBankController::class, 'uploadid'])->name('uploadid');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbgetselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');

@@ -37,13 +37,13 @@ use Illuminate\Support\Facades\Session;
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center mt-4">
-                <div class="col-md-10 mt-4">
+                <div class="col-md-12 mt-4">
                     <div class="container mt-4">
                         <div class="mt-4" style="position: relative; width:85%; margin: auto;">
                             <img class="mb-2" src="{{ URL::asset('/assets/images/location-pin.png') }}"
-                                 style="height:45px;width:45px; position: absolute; left: 100%;transform: translateX(-50%); top: -55px;">
+                                 style="height:45px;width:45px; position: absolute; left: 75%;transform: translateX(-50%); top: -55px;">
                             <div class="progress mx-auto mb-4 mt-4" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar" style="width: 100%; background-color: #91C60F" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #91C60F" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
 
