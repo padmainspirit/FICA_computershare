@@ -91,6 +91,9 @@
                         <option value="Completed" style="font-size: 12px;">
                             Completed
                         </option>
+                        <option value="Partially Completed" style="font-size: 12px;">
+                            Partially Completed
+                        </option>
 
                         <option value="Failed" style="font-size: 12px;">
                             Failed
@@ -99,6 +102,10 @@
                         <option value="In Progress" style="font-size: 12px;">
                             In Progress
                         </option>
+                        <option value="Rejected" style="font-size: 12px;">
+                            Rejected
+                        </option>
+
 
                     </select>
                     </div>

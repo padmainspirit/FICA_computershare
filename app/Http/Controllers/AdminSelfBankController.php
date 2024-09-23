@@ -11,7 +11,7 @@ use App\Models\AVS;
 use App\Models\BankAccountType;
 use App\Models\Banks;
 use App\Models\ConsumerIdentity;
-
+use App\Models\SbActions;
 use App\Models\DOVS;
 use App\Models\FICA;
 use App\Models\LookupDatas;
@@ -1458,6 +1458,14 @@ class AdminSelfBankController extends Controller
         if($_POST){
             if($selfbankinglinkdetails->selfBankingDetails->BankName == "other")
             {
+                FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
+                    array(
+                        'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                        'FICAStatus' =>  'Partially Completed',
+                        'FICAProgress' =>  '10.0',
+
+                    )
+                );
                 Mail::send(
                     'self-banking.emailpartial',
                     ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbankingdetails->FirstName, 'Surname'=>$selfbankingdetails->Surname],
@@ -1837,8 +1845,16 @@ class AdminSelfBankController extends Controller
                                     'ErrorMessage' => $message
                                 )
                             );
+                           /* FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
+                                array(
+                                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                                    'FICAStatus' =>  'Failed',
+                                    'FailedDate' => date("Y-m-d H:i:s"),
+                                    'FICAProgress' =>  '10.0',
+                                )
+                            );*/
                             //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
-                            SelfBankingLink::where('Id', '=',  $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
+                            SelfBankingLink::where('Id', '=',   $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
                         }
                     }
@@ -1855,6 +1871,7 @@ class AdminSelfBankController extends Controller
     public function processStatus(Request $request)
     {
         $sbid = $request->session()->get('sbid');
+        $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
         $routename = SelfBankingLink::checkStep($sbid);
         if (Route::currentRouteName() != $routename) {
             return redirect()->route($routename);
@@ -1872,6 +1889,14 @@ class AdminSelfBankController extends Controller
         {
             $success = "Your details have been verified and your account will be updated within 24 hours, followed by communication confirming that your account has been updated.";
         }else{
+            FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
+                array(
+                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                    'FICAStatus' =>  'Partially Completed',
+                    'FICAProgress' =>  '10.0',
+
+                )
+            );
             $success = "Your details have been partially verified and one of our agents will contact you within two working days.";
         }
 
@@ -1950,23 +1975,50 @@ class AdminSelfBankController extends Controller
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
 
+        $message ='';
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
+        $reason = $request->reason;
+        $status = $request->avsStatus;
+        $actionType = '';
+        $actionComment = '';
 
-
-        // $results = DB::connection("sqlsrv2")->select('EXEC sp_ConsumerSearch ?,?,?,?,?,?,?', [Auth::user()->CustomerId, $idno, $last, $first, $cel, $status, $riskStatus]);
-        $getCustomerId = $id;//$request->input('SelectClient');
+        $getCustomerId = $id;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
-        //$selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$getCustomerId)->first();
-        //print_r($selfbankingdetails->IDNUMBER);exit;
+
         $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
 
+         $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $getCustomerId)->first();
          $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
-         //print_r($dovs);exit;
+         $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
 
+         if(!empty($_POST))
+         {
+            FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
+                array(
+                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                    'FICAStatus' =>  $status,
+                )
+            );
+
+
+                SbActions::create([
+                    'ActionId' => Str::upper(Str::uuid()),
+                    'AdminID' => $client->Id,
+                    'SelfBankingdetailsId' =>  $selfbankingdetails->SelfBankingDetailsId,
+                    'CreatedAt' => date("Y-m-d H:i:s"),
+                    'ActionFrom' => $fica->FICAStatus,
+                    'ActionTo' => $status,
+                    'Comment' => $reason,
+                    'Admin_User' => $UserFullName
+                ]);
+
+            $message = 'Flow tatus has been succesfully updated';
+
+         }
         if (request()->ajax()) {
             return view('users.sb-results', ['selfbankingdetails' => $selfbankingdetails]);
         }
@@ -1978,10 +2030,12 @@ class AdminSelfBankController extends Controller
         ->with('UserFullName', $UserFullName)
         ->with('customerName', $customer->RegistrationName)
         ->with('Icon', $customer->Client_Icon)
+        ->with('message', $message)
+        ->with('exceptions', $exceptions)
         ->with('Logo', $customer->Client_Logo);
+
+
+
     }
-
-
-
 
 }

@@ -171,6 +171,7 @@ Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->n
 Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
+//Route::any('/sb-results/{id}', [AdminSelfBankController::class, 'sbChangeStatus'])->name('update-status');
 Route::any('/uploadid', [AdminSelfBankController::class, 'uploadid'])->name('uploadid');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbgetselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');

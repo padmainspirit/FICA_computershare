@@ -23,11 +23,9 @@
                         @forelse ($results as $key => $value)
                         <tr>
                             <td>
-                                @if($value->FICAStatus!="Completed")
-                                {{ $value->IDNUMBER }}
-                                    @else
-                                    <a style="background: none!important;border: none;padding: 0!important;font-family: arial, sans-serif;color: #0000FF;font-weight: 600;text-decoration: underline;cursor: pointer;" href="{{ url('/sb-results') }}/{{ $value->SelfBankingDetailsId }}">{{ $value->IDNUMBER }}</a>
-                                @endif
+
+                                   <a style="background: none!important;border: none;padding: 0!important;font-family: arial, sans-serif;color: #0000FF;font-weight: 600;text-decoration: underline;cursor: pointer;" href="{{ url('/sb-results') }}/{{ $value->SelfBankingDetailsId }}">{{ $value->IDNUMBER }}</a>
+
                                 </td>
                             <td>{{ $value->FirstName }}</td>
                             <td>{{ $value->Surname }}</td>
@@ -54,7 +52,7 @@
             /* "bPaginate": false,
             "bFilter": false,
             "bInfo": false */
-            "order": [4, 'asc'],
+            "order": [4, 'desc'],
             buttons: [
             'copyHtml5',
             'excelHtml5',

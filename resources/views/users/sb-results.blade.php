@@ -69,6 +69,7 @@
         background-image: linear-gradient(#93186c, #93186c);
         color: white;
     }
+
 </style>
 @endsection
 
@@ -87,6 +88,14 @@ ini_set('memory_limit', '1024M');
         <div class="row">
 
             <div class="col-md-9"></div>
+
+            @if($message!=NULL)
+            <div class="alert alert-success" role="alert">
+                {{-- {{ Session::get('success') }} --}}
+                {{$message}}
+            </div>
+            @endif
+
 
             <div class="col-md-3">
 
@@ -122,11 +131,13 @@ ini_set('memory_limit', '1024M');
                                     Personal info
                                 </h5>
 
-                                @if ($dovs->DOVS_Status =="1") <!-- ($Identity_status == 1) -->
+                                @if ($dovs?->DOVS_Status =="1")
+                                <!-- ($Identity_status == 1) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif ($dovs->DOVS_Status == NULL) <!-- ($Identity_status == 0) -->
+                                @elseif ($dovs?->DOVS_Status == NULL)
+                                <!-- ($Identity_status == 0) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                 </h6>
@@ -150,68 +161,68 @@ ini_set('memory_limit', '1024M');
                     </div>
 
 
-                        <div class="col-sm-2">
-                            <div class="card" style="width: 100%;">
-                                <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                    <h5 class="card-title" style="text-align: center;">Banking Details</h5>
+                    <div class="col-sm-2">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+                                <h5 class="card-title" style="text-align: center;">Banking Details</h5>
 
-                                    @if ($avs->AVS_Status == '1')
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
-                                    </h6>
-                                    @elseif ($avs->AVS_Status == '0')
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
-                                    </h6>
-                                    @else
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
-                                    </h6>
-                                    @endif
+                                @if ($avs?->AVS_Status == '1')
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
+                                </h6>
+                                @elseif ($avs?->AVS_Status == '0')
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
+                                </h6>
+                                @else
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
+                                </h6>
+                                @endif
 
-                                    <div class="form-floating mb-3">
-                                        <img src="/images/results/AVS.png" alt="" height="100" width="100" class="auth-logo-light" style="display: block; margin: auto">
-                                    </div>
-
-                                    <div class="mb-2"></div>
-
+                                <div class="form-floating mb-3">
+                                    <img src="/images/results/AVS.png" alt="" height="100" width="100" class="auth-logo-light" style="display: block; margin: auto">
                                 </div>
-                                <!-- end card body -->
+
+                                <div class="mb-2"></div>
+
                             </div>
-                            <!-- end card -->
+                            <!-- end card body -->
                         </div>
-                        <!-- end col -->
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
 
 
 
-                        <div class="col-sm-2">
-                            <div class="card" style="width: 100%;">
-                                <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                    <h5 class="card-title" style="text-align: center;">
-                                        Face view</h5>
+                    <div class="col-sm-2">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+                                <h5 class="card-title" style="text-align: center;">
+                                    Face view</h5>
 
-                                    @if ($dovs->DOVS_Status == '1')
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
-                                    </h6>
-                                    @else
-                                    <h6 class="card-title" style="text-align: center;">
-                                        <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
-                                    </h6>
-                                    @endif
+                                @if ($dovs?->DOVS_Status == '1')
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
+                                </h6>
+                                @else
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
+                                </h6>
+                                @endif
 
-                                    <div class="form-floating mb-3">
-                                        <img src="/images/results/facephone4.png" alt="" height="100" width="100" class="auth-logo-light" style="display: block; margin: auto">
-                                    </div>
-
-                                    <div class="mb-2"></div>
-
+                                <div class="form-floating mb-3">
+                                    <img src="/images/results/facephone4.png" alt="" height="100" width="100" class="auth-logo-light" style="display: block; margin: auto">
                                 </div>
-                                <!-- end card body -->
+
+                                <div class="mb-2"></div>
+
                             </div>
-                            <!-- end card -->
+                            <!-- end card body -->
                         </div>
-                        <!-- end col -->
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
 
 
 
@@ -233,12 +244,14 @@ ini_set('memory_limit', '1024M');
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                             <a class="nav-link mb-2 active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Personal Info</a>
 
-                                                <a class="nav-link mb-2" id="v-pills-banking-tab" data-bs-toggle="pill" href="#v-pills-banking" role="tab" aria-controls="v-pills-banking" aria-selected="false">Bank
-                                                    Account Verification</a>
+                                            <a class="nav-link mb-2" id="v-pills-banking-tab" data-bs-toggle="pill" href="#v-pills-banking" role="tab" aria-controls="v-pills-banking" aria-selected="false">Bank
+                                                Account Verification</a>
 
 
 
-                                                <a class="nav-link mb-2" id="v-pills-faceview-tab" data-bs-toggle="pill" href="#v-pills-faceview" role="tab" aria-controls="v-pills-faceview" aria-selected="false">Face View</a>
+                                            <a class="nav-link mb-2" id="v-pills-faceview-tab" data-bs-toggle="pill" href="#v-pills-faceview" role="tab" aria-controls="v-pills-faceview" aria-selected="false">Face View</a>
+                                            <a class="nav-link mb-2" id="v-pills-docs-tab" data-bs-toggle="pill" href="#v-pills-docs" role="tab" aria-controls="v-pills-docs" aria-selected="false">Documents</a>
+                                            <a class="nav-link mb-2" id="v-pills-actions-tab" data-bs-toggle="pill" href="#v-pills-actions" role="tab" aria-controls="v-pills-actions" aria-selected="false">Actions</a>
 
 
                                         </div>
@@ -293,17 +306,13 @@ ini_set('memory_limit', '1024M');
                                                                                 First Name
                                                                             </td>
                                                                             <td>
-                                                                                {{$selfbankingdetails->FirstName}}
+                                                                                {{$selfbankingdetails?->FirstName}}
 
 
                                                                             </td>
 
                                                                             <td>
-                                                                                <?php
 
-                                                                                    echo '<img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">';
-
-                                                                                ?>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -311,13 +320,16 @@ ini_set('memory_limit', '1024M');
                                                                                 Surname
                                                                             </td>
                                                                             <td>
-                                                                                {{$selfbankingdetails->Surname}}
+                                                                                {{$selfbankingdetails?->Surname}}
 
                                                                             </td>
 
                                                                             <td>
-
+                                                                                @if ($avs?->SURNAMEMATCH == 'Yes')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
 
                                                                             </td>
                                                                         </tr>
@@ -326,12 +338,12 @@ ini_set('memory_limit', '1024M');
                                                                                 ID Number
                                                                             </td>
                                                                             <td>
-                                                                                {{$selfbankingdetails->IDNUMBER}}
+                                                                                {{$selfbankingdetails?->IDNUMBER}}
 
                                                                             </td>
 
                                                                             <td>
-                                                                                @if ($avs->IDNUMBERMATCH == 'Yes')
+                                                                                @if ($avs?->IDNUMBERMATCH == 'Yes')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -344,7 +356,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Email
                                                                             </td>
                                                                             <td>
-                                                                                {{$selfbankingdetails->Email}}
+                                                                                {{$selfbankingdetails?->Email}}
 
                                                                             </td>
 
@@ -361,7 +373,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Cellphone number
                                                                             </td>
                                                                             <td>
-                                                                                {{$selfbankingdetails->PhoneNumber}}
+                                                                                {{$selfbankingdetails?->PhoneNumber}}
 
                                                                             </td>
 
@@ -376,6 +388,63 @@ ini_set('memory_limit', '1024M');
 
                                                                 </table>
                                                             </div>
+
+
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover mb-0" id="downloadProfile">
+
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="col-md-5 heading-fica-id" style="color:#ffffff;"></th>
+                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Highlights</th>
+                                                                            <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Status
+                                                                            </td>
+                                                                            <td>
+                                                                                @if ($exceptions?->Status==null)
+                                                                                N/A
+                                                                                @else
+                                                                                {{$exceptions?->Status}}
+                                                                                @endif
+
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Comments
+                                                                            </td>
+                                                                            <td>
+                                                                                @if ($exceptions?->Comment==null)
+                                                                                N/A
+                                                                                @else
+                                                                                {{$exceptions?->Comment}}
+                                                                                @endif
+
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+
+
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+
 
                                                         </div>
 
@@ -411,14 +480,14 @@ ini_set('memory_limit', '1024M');
                                                                                 Liveliness Detection
                                                                             </td>
                                                                             <td>
-                                                                                @if ($dovs->LivenessDetectionResult == 'Passed')
+                                                                                @if ($dovs?->LivenessDetectionResult == 'Passed')
                                                                                 Passed
                                                                                 @else
                                                                                 Failed
                                                                                 @endif
                                                                             </td>
                                                                             <td>
-                                                                                @if ($dovs->LivenessDetectionResult != null)
+                                                                                @if ($dovs?->LivenessDetectionResult != null)
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -426,15 +495,16 @@ ini_set('memory_limit', '1024M');
 
                                                                             </td>
                                                                         </tr>
+                                                                        @if ($dovs?->ConsumerIDPhotoMatch == 'Matched' || $dovs?->ConsumerIDPhotoMatch == 'Not Matched')
                                                                         <tr>
                                                                             <td style="font-weight: bold;">
                                                                                 ID Photo Match
                                                                             </td>
                                                                             <td>
-                                                                                {{$dovs->ConsumerIDPhotoMatch}}
+                                                                                {{$dovs?->ConsumerIDPhotoMatch}}
                                                                             </td>
                                                                             <td>
-                                                                                @if ($dovs->ConsumerIDPhotoMatch =='Matched')
+                                                                                @if ($dovs?->ConsumerIDPhotoMatch =='Matched')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -442,13 +512,30 @@ ini_set('memory_limit', '1024M');
 
                                                                             </td>
                                                                         </tr>
+                                                                        @else
+
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Error Description
+                                                                            </td>
+                                                                            <td>
+                                                                                {{$dovs?->ConsumerIDPhotoMatch}}
+                                                                            </td>
+                                                                            <td>
+
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        @endif
                                                                         <tr>
                                                                             <td style="font-weight: bold;">
                                                                                 Deceased Status
                                                                             </td>
                                                                             <td>
 
-                                                                                {{ $dovs->DeceasedStatus}}
+                                                                                {{ $dovs?->DeceasedStatus}}
 
                                                                             </td>
                                                                             <td>
@@ -474,7 +561,7 @@ ini_set('memory_limit', '1024M');
 
                                                                 <table class="table table-hover mb-0">
                                                                     <tbody>
-                                                                        <tr >
+                                                                        <tr>
 
                                                                             <th style="width:50%;" class="text-center">
                                                                                 Home Affairs ID Photo
@@ -485,13 +572,22 @@ ini_set('memory_limit', '1024M');
                                                                         </tr>
                                                                         <tr>
                                                                             <td style="width:50%;" class="text-center">
-                                                                                <img src="data:image/png;base64,{{ $dovs->ConsumerIDPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light" >
-                                                                            </img>
-                                                                        </td>
-                                                                            <td style="width:50%;" class="text-center">
-                                                                            <img src="data:image/png;base64,{{ $dovs->ConsumerCapturedPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                @if ($dovs?->ConsumerIDPhoto==NULL)
+                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
                                                                                 </img>
-
+                                                                                @else
+                                                                                <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                </img>
+                                                                                @endif
+                                                                            </td>
+                                                                            <td style="width:50%;" class="text-center">
+                                                                                @if ($dovs?->ConsumerCapturedPhoto==NULL)
+                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                </img>
+                                                                                @else
+                                                                                <img src="data:image/png;base64,{{ $dovs?->ConsumerCapturedPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                </img>
+                                                                                @endif
 
                                                                             </td>
                                                                         </tr>
@@ -505,6 +601,162 @@ ini_set('memory_limit', '1024M');
                                                 </section>
                                             </div>
 
+                                            <div class="tab-pane fade" id="v-pills-docs" role="tabpanel" aria-labelledby="v-pills-docs-tab">
+
+                                                <section>
+
+
+                                                    <div class="col-md-12">
+                                                        <div class="heading-fica-id">
+                                                            <div class="text-center">
+                                                                <h5 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
+                                                                    Uploaded Documents
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row d-flex justify-content-center">
+
+
+                                                            <div class="col-sm-6">
+                                                                <div class="card" id="card" style="border-top-width: 1px;border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px">
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex align-items-center mb-3">
+                                                                            <div class="avatar-xs me-3">
+                                                                                <span class="avatar-title rounded-circle bg-primary bg-soft text-primary" style="background-color: #52bdee; background-image: linear-gradient(315deg, #52bdee 0%, #52bdee 74%);">
+                                                                                    <i class="mdi mdi-account-details font-size-24" style="color: rgb(0, 0, 0);"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">
+                                                                                Identity Document
+                                                                            </h3>
+                                                                        </div>
+                                                                        @if ($dovs?->DOVS_File_Path ==NULL)
+                                                                        <div class="mt-4">
+                                                                            <h5 class="text-center font-size-16 mb-0" style="font-size: 18px; color: black">
+                                                                                No file was uploaded
+                                                                            </h5>
+                                                                        </div>
+
+                                                                        @elseif ($dovs?->DOVS_File_Path !=NULL)
+                                                                        <div class="mt-4">
+                                                                            <a href="#" class="button">
+                                                                                <button type="submit" class="btn btn-primary w-md" onclick=" window.open('{{ $dovs?->DOVS_File_Path }}')" style="background-color: rgb(0, 0, 0); border-color: #93186c; background-color: #93186c">View</button>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="col-sm-6">
+                                                                <div class="card" id="card" style="border-top-width: 1px;border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px">
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex align-items-center mb-3">
+                                                                            <div class="avatar-xs me-3">
+                                                                                <span class="avatar-title rounded-circle bg-primary bg-soft text-primary" style="background-color: #52bdee; background-image: linear-gradient(315deg, #52bdee 0%, #52bdee 74%);">
+                                                                                    <i class="mdi mdi-bank font-size-24" style="color: rgb(0, 0, 0);"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">
+                                                                                Proof of Banking Document
+                                                                            </h3>
+                                                                        </div>
+                                                                        @if ($avs?->Bank_File_Path ==NULL)
+                                                                        <div class="mt-4">
+                                                                            <h5 class="text-center font-size-16 mb-0" style="font-size: 18px; color: black">
+                                                                                No file was uploaded
+                                                                            </h5>
+                                                                        </div>
+
+                                                                        @elseif ($avs?->Bank_File_Path !=NULL)
+                                                                        <div class="mt-4">
+                                                                            <a href="#" class="button">
+                                                                                <button type="submit" class="btn btn-primary w-md" onclick=" window.open('{{ $avs?->Bank_File_Path }}')" style="background-color: rgb(0, 0, 0); border-color: #93186c; background-color: #93186c">View</button>
+
+                                                                            </a>
+                                                                        </div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </section>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="v-pills-actions" role="tabpanel" aria-labelledby="v-pills-actions-tab">
+                                                <form method="POST" action="{{ route('sb-results',['id'=>$selfbankingdetails?->SelfBankingDetailsId]) }}">
+
+                                                    @csrf
+                                                    <section>
+
+
+                                                        <div class="col-md-12">
+                                                            <div class="heading-fica-id">
+                                                                <div class="text-center">
+                                                                    <h5 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
+                                                                        Actions
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row d-flex justify-content-center">
+                                                                <div class="col-sm-12">
+                                                                    <div class="mt-2 mb-2 text-center">
+                                                                        <h5>Accept or Reject Service banking user info.</h5>
+                                                                    </div>
+
+
+                                                                    <div class="row mt-3">
+
+                                                                        <div class="col-lg-12">
+                                                                            <div class="mb-3">
+                                                                                <label for="basicpill-firstname-input">Flow Status </label>
+                                                                                <select class="form-select" autocomplete="off" class="form-control" id="avsStatus" name="avsStatus">
+
+                                                                                    <option value="Completed" style="font-size: 12px;">
+                                                                                        Completed
+                                                                                    </option>
+                                                                                    <option value="Rejected" style="font-size: 12px;">
+                                                                                        Rejected
+                                                                                    </option>
+
+
+                                                                                </select>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <div class="mb-3">
+                                                                                <label for="basicpill-firstname-input">Reason for update (optional)</label>
+                                                                                <textarea id="reason" name="reason" class="form-control" id="" cols="30" rows="4" placeholder="Provide a reason for updating"></textarea>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="mt-3 text-center">
+
+                                                                        <button type="submit" class="btn w-md text-white" id="" style="background-color: #91C60F; border-color: #91C60F;">Submit</button>
+
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </section>
+                                                </form>
+                                            </div>
 
 
                                             <div class="tab-pane fade" id="v-pills-banking" role="tabpanel" aria-labelledby="v-pills-banking-tab">
@@ -533,7 +785,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account Holder
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->Account_name}}
+                                                                                {{$avs?->Account_name}}
                                                                             </td>
                                                                             <td>
 
@@ -544,7 +796,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Bank Name
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->Bank_name}}
+                                                                                {{$avs?->Bank_name}}
                                                                             </td>
                                                                             <td>
 
@@ -555,7 +807,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account Number
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->Account_no}}
+                                                                                {{$avs?->Account_no}}
                                                                             </td>
                                                                             <td>
 
@@ -567,7 +819,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Branch Code
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->Branch_code}}
+                                                                                {{$avs?->Branch_code}}
                                                                             </td>
                                                                             <td>
 
@@ -598,7 +850,7 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
                                                                             <td>
 
-                                                                                @if ($avs->AVS_Status == '1')
+                                                                                @if ($avs?->AVS_Status == '1')
                                                                                 AVS Completed
                                                                                 @else
                                                                                 AVS Incomplete
@@ -606,7 +858,7 @@ ini_set('memory_limit', '1024M');
 
                                                                             </td>
                                                                             <td>
-                                                                                @if ($avs->AVS_Status == '1')
+                                                                                @if ($avs?->AVS_Status == '1')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -620,10 +872,10 @@ ini_set('memory_limit', '1024M');
                                                                                 Initials Match
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->INITIALSMATCH}}
+                                                                                {{$avs?->INITIALSMATCH}}
                                                                             </td>
                                                                             <td>
-                                                                                @if ($avs->INITIALSMATCH == 'Yes')
+                                                                                @if ($avs?->INITIALSMATCH == 'Yes')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -637,10 +889,10 @@ ini_set('memory_limit', '1024M');
                                                                                 Surname Match
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->SURNAMEMATCH}}
+                                                                                {{$avs?->SURNAMEMATCH}}
                                                                             </td>
                                                                             <td>
-                                                                                @if ($avs->SURNAMEMATCH == 'Yes')
+                                                                                @if ($avs?->SURNAMEMATCH == 'Yes')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -654,10 +906,10 @@ ini_set('memory_limit', '1024M');
                                                                                 ID Number Match
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->IDNUMBERMATCH}}
+                                                                                {{$avs?->IDNUMBERMATCH}}
                                                                             </td>
                                                                             <td>
-                                                                                @if ($avs->IDNUMBERMATCH == 'Yes')
+                                                                                @if ($avs?->IDNUMBERMATCH == 'Yes')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -670,11 +922,11 @@ ini_set('memory_limit', '1024M');
                                                                                 Email Address Match
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->EMAILMATCH}}
+                                                                                {{$avs?->EMAILMATCH}}
                                                                             </td>
                                                                             <td>
 
-                                                                                @if ($avs->EMAILMATCH == 'Yes')
+                                                                                @if ($avs?->EMAILMATCH == 'Yes')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
@@ -688,7 +940,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account Active
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->ACCOUNT_OPEN}}
+                                                                                {{$avs?->ACCOUNT_OPEN}}
                                                                             </td>
                                                                             <td>
                                                                                 {{-- @if ($ACCOUNT_OPEN != null)
@@ -705,7 +957,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account Dormant
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->ACCOUNTDORMANT}}
+                                                                                {{$avs?->ACCOUNTDORMANT}}
                                                                             </td>
                                                                             <td>
                                                                                 {{-- @if ($ACCOUNTDORMANT == 'Not Available')
@@ -722,7 +974,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account open for at least three months
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->ACCOUNTOPENFORATLEASTTHREEMONTHS}}
+                                                                                {{$avs?->ACCOUNTOPENFORATLEASTTHREEMONTHS}}
                                                                             </td>
                                                                             <td>
                                                                                 {{-- @if ($ACCOUNTOPENFORATLEASTTHREEMONTHS != 'No' and $ACCOUNTOPENFORATLEASTTHREEMONTHS != null)
@@ -739,7 +991,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account accepts debits
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->ACCOUNTACCEPTSDEBITS}}
+                                                                                {{$avs?->ACCOUNTACCEPTSDEBITS}}
                                                                             </td>
                                                                             <td>
                                                                                 {{-- @if ($ACCOUNTACCEPTSDEBITS == 'Yes')
@@ -757,7 +1009,7 @@ ini_set('memory_limit', '1024M');
                                                                                 Account Issuer
                                                                             </td>
                                                                             <td>
-                                                                                {{$avs->Bank_name}}
+                                                                                {{$avs?->Bank_name}}
                                                                             </td>
                                                                             <td>
                                                                                 {{-- @if ($Bank_name != null)
@@ -775,7 +1027,7 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
                                                                             <td>
 
-                                                                                @if ($avs->BankTypeid != null)
+                                                                                @if ($avs?->BankTypeid != null)
                                                                                 Yes
                                                                                 @else
                                                                                 No
@@ -827,84 +1079,80 @@ ini_set('memory_limit', '1024M');
 @section('script')
 
 <script>
-
     function generate() {
 
         var doc = new jsPDF('p', 'pt', 'letter');
 
-        var avsStatus = "<?= $avs->AVS_Status; ?>";
-        var dovsStatus = "<?= $dovs->DOVS_Status; ?>";
+        var avsStatus = "<?= $avs?->AVS_Status; ?>";
+        var dovsStatus = "<?= $dovs?->DOVS_Status; ?>";
 
         var avs = '';
         if (avsStatus == '1') {
-        avs = 'Passed';
+            avs = 'Passed';
         } else if (avsStatus == '-1') {
-        avs = 'Server Error';
+            avs = 'Server Error';
         }
         var UserFullName = ("<?= $UserFullName; ?>" != null) ? "<?= $UserFullName; ?>" : '';
-        var FirstName = ("<?= $selfbankingdetails->FirstName ?>" != null) ? "<?= $selfbankingdetails->FirstName; ?>" : '';
-        var surname = ("<?= $selfbankingdetails->Surname; ?>" != null) ? "<?= $selfbankingdetails->Surname; ?>" : '';
-        var phone = ("<?= $selfbankingdetails->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails->PhoneNumber; ?>" : '';
-        var idnum = ("<?= $selfbankingdetails->IDNUMBER; ?>" != null) ? "<?= $selfbankingdetails->IDNUMBER; ?>" : '';
-        var idnummatch = ("<?= $avs->IDNUMBERMATCH ?>" != null) ? "<?= $avs->IDNUMBERMATCH; ?>" : '';
-        if(idnummatch =='Yes')
-        {
+        var FirstName = ("<?= $selfbankingdetails?->FirstName ?>" != null) ? "<?= $selfbankingdetails?->FirstName; ?>" : '';
+        var surname = ("<?= $selfbankingdetails?->Surname; ?>" != null) ? "<?= $selfbankingdetails?->Surname; ?>" : '';
+        var phone = ("<?= $selfbankingdetails?->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails?->PhoneNumber; ?>" : '';
+        var idnum = ("<?= $selfbankingdetails?->IDNUMBER; ?>" != null) ? "<?= $selfbankingdetails?->IDNUMBER; ?>" : '';
+        var idnummatch = ("<?= $avs?->IDNUMBERMATCH ?>" != null) ? "<?= $avs?->IDNUMBERMATCH; ?>" : '';
+        if (idnummatch == 'Yes') {
             idnummatch = "Matched";
-        }
-        else
-        {
+        } else {
             idnummatch = "Unmatched";
 
         }
-        var Email = ("<?= $selfbankingdetails->Email; ?>" != null) ? "<?= $selfbankingdetails->Email; ?>" : '';
-        var Bank_name = ("<?= $avs->Bank_name; ?>" != null) ? "<?= $avs->Bank_name; ?>" : '';
-        var Branch_code = ("<?= $avs->Branch_code; ?>" != null) ? "<?= $avs->Branch_code; ?>" : '';
-        var Account_name = ("<?= $avs->Account_name; ?>" != null) ? "<?= $avs->Account_name; ?>" : '';
-        var Account_no = ("<?= $avs->Account_no; ?>" != null) ? "<?= $avs->Account_no; ?>" : '';
-        var accopen = ("<?= $avs->ACCOUNT_OPEN; ?>" != null) ? "<?= $avs->ACCOUNT_OPEN; ?>" : '';
-        var accdormant = ("<?= $avs->ACCOUNTDORMANT; ?>" != null) ? "<?= $avs->ACCOUNTDORMANT; ?>" : '';
-        var accthreemonths = ("<?= $avs->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" != null) ? "<?= $avs->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" : '';
-        var accdebit = ("<?= $avs->ACCOUNTACCEPTSDEBITS; ?>" != null) ? "<?= $avs->ACCOUNTACCEPTSDEBITS; ?>" : '';
-        var acc = ("<?= $avs->BankTypeid; ?>" != null) ? 'Passed' : 'Failed';
+        var Email = ("<?= $selfbankingdetails?->Email; ?>" != null) ? "<?= $selfbankingdetails?->Email; ?>" : '';
+        var Bank_name = ("<?= $avs?->Bank_name; ?>" != null) ? "<?= $avs?->Bank_name; ?>" : '';
+        var Branch_code = ("<?= $avs?->Branch_code; ?>" != null) ? "<?= $avs?->Branch_code; ?>" : '';
+        var Account_name = ("<?= $avs?->Account_name; ?>" != null) ? "<?= $avs?->Account_name; ?>" : '';
+        var Account_no = ("<?= $avs?->Account_no; ?>" != null) ? "<?= $avs?->Account_no; ?>" : '';
+        var accopen = ("<?= $avs?->ACCOUNT_OPEN; ?>" != null) ? "<?= $avs?->ACCOUNT_OPEN; ?>" : '';
+        var accdormant = ("<?= $avs?->ACCOUNTDORMANT; ?>" != null) ? "<?= $avs?->ACCOUNTDORMANT; ?>" : '';
+        var accthreemonths = ("<?= $avs?->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" != null) ? "<?= $avs?->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" : '';
+        var accdebit = ("<?= $avs?->ACCOUNTACCEPTSDEBITS; ?>" != null) ? "<?= $avs?->ACCOUNTACCEPTSDEBITS; ?>" : '';
+        var acc = ("<?= $avs?->BankTypeid; ?>" != null) ? 'Passed' : 'Failed';
 
-        var LivenessDetectionResult = ("<?= $dovs->LivenessDetectionResult; ?>" != null) ? "<?= $dovs->LivenessDetectionResult; ?>" : '';
-        var ConsumerIDPhotoMatch = ("<?= $dovs->ConsumerIDPhotoMatch; ?>" != null) ? "<?= $dovs->ConsumerIDPhotoMatch; ?>" : '';
-        var DeceasedStatus = ("<?= $dovs->DeceasedStatus; ?>" != null) ? "<?= $dovs->DeceasedStatus; ?>" : '';
-        var initialsmatch = ("<?= $avs->INITIALSMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
-        var initials = ("<?= $avs->INITIALS ?>" == 'Yes') ? 'Matched' : 'Unmatched';
-        var EMAILMATCHstatus = ("<?= $avs->EMAILMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
-        var surnamematch = ("<?= $avs->SURNAMEMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var LivenessDetectionResult = ("<?= $dovs?->LivenessDetectionResult; ?>" != null) ? "<?= $dovs?->LivenessDetectionResult; ?>" : '';
+        var ConsumerIDPhotoMatch = ("<?= $dovs?->ConsumerIDPhotoMatch; ?>" != null) ? "<?= $dovs?->ConsumerIDPhotoMatch; ?>" : '';
+        var DeceasedStatus = ("<?= $dovs?->DeceasedStatus; ?>" != null) ? "<?= $dovs?->DeceasedStatus; ?>" : '';
+        var initialsmatch = ("<?= $avs?->INITIALSMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var initials = ("<?= $avs?->INITIALS ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var EMAILMATCHstatus = ("<?= $avs?->EMAILMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var surnamematch = ("<?= $avs?->SURNAMEMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
 
         var AVSStatusmatch = 'Unmatched';
         if (avsStatus == '1') {
             AVSStatusmatch = 'Matched';
         }
-        var EnquiryDate = ("<?= $selfbankingdetails->EnquiryDate; ?>" != null) ? "<?= $selfbankingdetails->EnquiryDate; ?>" : '';
-        var EnquiryInput = ("<?= $selfbankingdetails->EnquiryInput; ?>" != null) ? "<?= $selfbankingdetails->EnquiryInput; ?>" : '';
+        var EnquiryDate = ("<?= $selfbankingdetails?->EnquiryDate; ?>" != null) ? "<?= $selfbankingdetails?->EnquiryDate; ?>" : '';
+        var EnquiryInput = ("<?= $selfbankingdetails?->EnquiryInput; ?>" != null) ? "<?= $selfbankingdetails?->EnquiryInput; ?>" : '';
 
         // Variables End
-         var htmlstring = '';
+        var htmlstring = '';
         var tempVarToCheckPageHeight = 0;
         var pageHeight = 0;
 
 
-        var HomeAffPhoto = 'data:image/png;base64,<?php echo $dovs->ConsumerIDPhoto; ?>';
-        var CapturedPhoto = 'data:image/png;base64,<?php echo $dovs->ConsumerCapturedPhoto; ?>';
+        var HomeAffPhoto = 'data:image/png;base64,<?php echo $dovs?->ConsumerIDPhoto; ?>';
+        var CapturedPhoto = 'data:image/png;base64,<?php echo $dovs?->ConsumerCapturedPhoto; ?>';
 
-        var tick = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/tick.png')); ?>';
-        var cross = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/small/cross.png')); ?>';
-        var questionmark = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/not-completed.png')); ?>';
-        var question = 'data:image/png;base64,<?php echo base64_encode(file_get_contents('assets/images/question.png')); ?>';
-        var inspiritlogo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('assets/images/PoweredBy.png')); ?>';
-        var VerificationStaticPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/client1.png')); ?>';
-        var PaymentPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/AVS.png')); ?>';
-        var FacialPhoto ='data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('images/results/facephone4.png')); ?>';
+        var tick = 'data:image/png;base64,<?php echo base64_encode(file_get_contents("assets/images/small/tick.png")); ?>';
+        var cross = 'data:image/png;base64,<?php echo base64_encode(file_get_contents("assets/images/small/cross.png")); ?>';
+        var questionmark = 'data:image/png;base64,<?php echo base64_encode(file_get_contents("assets/images/not-completed.png")); ?>';
+        var question = 'data:image/png;base64,<?php echo base64_encode(file_get_contents("assets/images/question.png")); ?>';
+        var inspiritlogo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/PoweredBy.png")); ?>';
+        var VerificationStaticPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/client1.png")); ?>';
+        var PaymentPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/AVS.png")); ?>';
+        var FacialPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/facephone4.png")); ?>';
         var bgColour = "#93186c";
-        var ConsumerIDPhotoAlt = 'data:image/png;base64,'+ '<?php echo base64_encode(file_get_contents('assets/images/ImageNotFound.jpg')); ?>';
+        var ConsumerIDPhotoAlt = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/ImageNotFound.jpg")); ?>';
 
-        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents('assets/images/PoweredBy.png')); ?>';
+        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/PoweredBy.png")); ?>';
 
-        var custID = ("<?= $customer->CustomerID; ?>" != null) ? "<?= $customer->CustomerID; ?>" : '';
+        var custID = ("<?= $customer?->CustomerID; ?>" != null) ? "<?= $customer?->CustomerID; ?>" : '';
 
 
         if (custID != '47B97C4A-E9F6-4283-BDB5-D500CA8851C1')
@@ -918,26 +1166,26 @@ ini_set('memory_limit', '1024M');
         doc.autoTable({
             head: [
                 ['Service Banking Report']
-            ],
-            body: [],
-            startY: 70,
-            styles: {
-                fontSize: 14,
-                font: 'Avenir',
-                textColor: [0, 0, 0]
-            },
-            columnStyles: {
+            ]
+            , body: []
+            , startY: 70
+            , styles: {
+                fontSize: 14
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+            }
+            , columnStyles: {
                 0: {
-                    cellWidth: 100,
-                },
-                halign: 'center'
-            },
-            headStyles: {
-                fillColor: bgColour,
-                textColor: [255, 255, 255],
-                halign: 'center'
-            },
-        });
+                    cellWidth: 100
+                , }
+                , halign: 'center'
+            }
+            , headStyles: {
+                fillColor: bgColour
+                , textColor: [255, 255, 255]
+                , halign: 'center'
+            }
+        , });
 
         pageHeight = doc.internal.pageSize.height;
         specialElementHandlers = {
@@ -947,49 +1195,49 @@ ini_set('memory_limit', '1024M');
         };
 
         margins = {
-            top: 100,
-            bottom: 60, // Adjust the bottom margin value as needed
-            left: 20,
-            right: 20,
-            width: 700,
-            height: 700,
-        };
+            top: 100
+            , bottom: 60, // Adjust the bottom margin value as needed
+            left: 20
+            , right: 20
+            , width: 700
+            , height: 700
+        , };
 
         doc.setFontSize(8);
 
         doc.autoTable({
             body: [
-                ['Extracted By:', `${UserFullName}`, 'Extracted For:', `${FirstName} ${surname}`],
-                ['Date of Report:', `${new Date().toLocaleDateString()}`, 'Identity Number:', `${idnum}`],
+                ['Extracted By:', `${UserFullName}`, 'Extracted For:', `${FirstName} ${surname}`]
+                , ['Date of Report:', `${new Date().toLocaleDateString()}`, 'Identity Number:', `${idnum}`],
 
-            ],
-            startY: 100,
-            styles: {
-                fontSize: 8,
-                font: 'Avenir',
-                textColor: [0, 0, 0]
-            },
-            columnStyles: {
+            ]
+            , startY: 100
+            , styles: {
+                fontSize: 8
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+            }
+            , columnStyles: {
                 0: {
-                    cellWidth: 150,
-                    fontStyle: 'bold'
-                },
-                1: {
-                    cellWidth: 120
-                },
-                2: {
-                    cellWidth: 140,
-                    fontStyle: 'bold'
-                },
-                3: {
+                    cellWidth: 150
+                    , fontStyle: 'bold'
+                }
+                , 1: {
                     cellWidth: 120
                 }
-            },
-            headStyles: {
-                fillColor: bgColour,
-                textColor: [255, 255, 255]
-            },
-        });
+                , 2: {
+                    cellWidth: 140
+                    , fontStyle: 'bold'
+                }
+                , 3: {
+                    cellWidth: 120
+                }
+            }
+            , headStyles: {
+                fillColor: bgColour
+                , textColor: [255, 255, 255]
+            }
+        , });
 
         /*  if(isFaceView == 'No' || isFacial == 'Yes')
          {
@@ -1024,28 +1272,28 @@ ini_set('memory_limit', '1024M');
             doc.autoTable({
                 head: [
                     ['Facial Recognition']
-                ],
-                body: [],
-                startY: doc.lastAutoTable.finalY + 20,
-                styles: {
-                    fontSize: 8,
-                    font: 'Avenir',
-                    textColor: [0, 0, 0]
-                },
-                columnStyles: {
+                ]
+                , body: []
+                , startY: doc.lastAutoTable.finalY + 20
+                , styles: {
+                    fontSize: 8
+                    , font: 'Avenir'
+                    , textColor: [0, 0, 0]
+                }
+                , columnStyles: {
                     0: {
-                        cellWidth: 100,
-                        fontStyle: 'bold',
-                        halign: 'left'
-                    },
-                },
-                headStyles: {
-                    fillColor: bgColour,
-                    textColor: [255, 255, 255],
-                    halign: 'left'
-                },
-            });
-         }
+                        cellWidth: 100
+                        , fontStyle: 'bold'
+                        , halign: 'left'
+                    }
+                , }
+                , headStyles: {
+                    fillColor: bgColour
+                    , textColor: [255, 255, 255]
+                    , halign: 'left'
+                }
+            , });
+        }
 
         if (dovsStatus == '1') {
 
@@ -1059,29 +1307,28 @@ ini_set('memory_limit', '1024M');
             doc.setFontSize(10);
             var firstImageTextX = firstImageX + firstImageWidth / 2;
             var firstImageTextY = firstImageY - 10;
-            doc.text('DHA Captured Photo', firstImageTextX-200, firstImageTextY-20, {
+            doc.text('DHA Captured Photo', firstImageTextX - 200, firstImageTextY - 20, {
                 align: 'center'
             });
-            if(HomeAffPhoto!="")
-			doc.addImage(HomeAffPhoto, 'png', firstImageX-120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
-		else
-			doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX-120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+            if (HomeAffPhoto != "")
+                doc.addImage(HomeAffPhoto, 'png', firstImageX - 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+            else
+                doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX - 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
 
 
-        pageWidth = pageWidth*3;
-            if(ConsumerIDPhotoMatch=="Matched" && LivenessDetectionResult=="Passed"){
-            doc.addImage(tick, 'png', firstImageX, firstImageY-20, firstImageWidth, firstImageHeight-30, undefined, 'FAST');
-        }
-		else{
-            doc.addImage(cross, 'png', firstImageX, firstImageY-20, firstImageWidth, firstImageHeight-30, undefined, 'FAST');
-    }
-            doc.text('Consumer Captured Photo', firstImageTextX+120, firstImageTextY-20, {
+            pageWidth = pageWidth * 3;
+            if (ConsumerIDPhotoMatch == "Matched" && LivenessDetectionResult == "Passed") {
+                doc.addImage(tick, 'png', firstImageX, firstImageY - 20, firstImageWidth, firstImageHeight - 30, undefined, 'FAST');
+            } else {
+                doc.addImage(cross, 'png', firstImageX, firstImageY - 20, firstImageWidth, firstImageHeight - 30, undefined, 'FAST');
+            }
+            doc.text('Consumer Captured Photo', firstImageTextX + 120, firstImageTextY - 20, {
                 align: 'center'
             });
-            if(CapturedPhoto!="")
-			doc.addImage(CapturedPhoto, 'png', firstImageX+120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
-		else
-			doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX+120, firstImageY-20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+            if (CapturedPhoto != "")
+                doc.addImage(CapturedPhoto, 'png', firstImageX + 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+            else
+                doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX + 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
 
         }
 
@@ -1092,40 +1339,40 @@ ini_set('memory_limit', '1024M');
         doc.autoTable({
             head: [
                 ['Screening Indicators']
-            ],
-            body: [],
-            startY: doc.lastAutoTable.finalY + startofscreening,
-            styles: {
-                fontSize: 8,
-                font: 'Avenir',
-                textColor: [0, 0, 0]
-            },
-            columnStyles: {
+            ]
+            , body: []
+            , startY: doc.lastAutoTable.finalY + startofscreening
+            , styles: {
+                fontSize: 8
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+            }
+            , columnStyles: {
                 0: {
-                    cellWidth: 100,
-                    fontStyle: 'bold',
-                    halign: 'left'
+                    cellWidth: 100
+                    , fontStyle: 'bold'
+                    , halign: 'left'
                 }
-            },
-            headStyles: {
-                fillColor: bgColour,
-                textColor: [255, 255, 255],
-                halign: 'left'
-            },
-        });
+            }
+            , headStyles: {
+                fillColor: bgColour
+                , textColor: [255, 255, 255]
+                , halign: 'left'
+            }
+        , });
 
         var tickfromheight = doc.lastAutoTable.finalY + 8;
         var iconfromheight = doc.lastAutoTable.finalY + 30;
         var icontextfromheight = doc.lastAutoTable.finalY + 90;
 
-         {
+        {
             doc.addImage(tick, 'png', 65, tickfromheight, 20, 20, undefined, 'FAST');
         }
 
         doc.addImage(VerificationStaticPhoto, 'png', 50, iconfromheight, 50, 50);
         doc.text('PersonalInfo', 74, icontextfromheight, {
-            align: 'center',
-            fontSize: 2
+            align: 'center'
+            , fontSize: 2
         });
 
         var i = 60;
@@ -1134,20 +1381,18 @@ ini_set('memory_limit', '1024M');
         if (avsStatus == '1') {
             if (avs == 'Passed') {
                 doc.addImage(tick, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
-            }
-            else if (avs == 'Server Error') {
+            } else if (avs == 'Server Error') {
                 doc.addImage(question, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
-            }
-             else {
+            } else {
                 doc.addImage(cross, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
             }
             doc.addImage(PaymentPhoto, 'png', i + 85, iconfromheight, 50, 50, undefined, 'FAST');
             doc.text('Bank', i + 109, icontextfromheight, {
-                align: 'center',
-                fontSize: 2
+                align: 'center'
+                , fontSize: 2
             });
             i = i + 90;
-         }
+        }
 
         if (dovsStatus == '1') {
             if (idnummatch == 'Matched') {
@@ -1157,11 +1402,11 @@ ini_set('memory_limit', '1024M');
             }
             doc.addImage(FacialPhoto, 'png', i + 85, iconfromheight, 50, 50, undefined, 'FAST');
             doc.text('Face View', i + 109, icontextfromheight, {
-                align: 'center',
-                fontSize: 2
+                align: 'center'
+                , fontSize: 2
             });
             i = i + 90;
-         }
+        }
 
 
 
@@ -1211,25 +1456,25 @@ ini_set('memory_limit', '1024M');
                 ['Facial Recognition:', `${ConsumerIDPhotoMatch}`],
                 ['Compliance Check:', `${comp}`],
             ], */
-            startY: doc.lastAutoTable.finalY + 110,
-            styles: {
-                fontSize: 8,
-                font: 'Avenir',
-                textColor: [0, 0, 0],
-                cellPadding: 5,
-            },
-            columnStyles: {
+            startY: doc.lastAutoTable.finalY + 110
+            , styles: {
+                fontSize: 8
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+                , cellPadding: 5
+            , }
+            , columnStyles: {
                 0: {
-                    cellWidth: 240,
-                    fontStyle: 'bold',
-                    halign: 'left'
-                },
-                1: {
-                    cellWidth: 290,
-                    halign: 'left'
-                },
-            },
-        });
+                    cellWidth: 240
+                    , fontStyle: 'bold'
+                    , halign: 'left'
+                }
+                , 1: {
+                    cellWidth: 290
+                    , halign: 'left'
+                }
+            , }
+        , });
 
 
 
@@ -1238,29 +1483,29 @@ ini_set('memory_limit', '1024M');
         doc.autoTable({
             head: [
                 ['Personal Info Details', 'Result', 'Verified']
-            ],
-            body: [
-                ['Full Name(s):', `${FirstName} ${surname}`, ``],
-                ['Email:', `${Email}`, `${EMAILMATCHstatus}`],
-                ['Phone (C):', `${phone }`],
+            ]
+            , body: [
+                ['Full Name(s):', `${FirstName} ${surname}`, ``]
+                , ['Email:', `${Email}`, `${EMAILMATCHstatus}`]
+                , ['Phone (C):', `${phone }`],
 
                 //['Telephone (C):', `${CellCode}${CellNo}`, 'Date of Birth:', `${BirthDate}`],
                 //['ID Date of Issue:', `${ID_DateofIssue}`, 'Country of Birth:', `${ID_CountryResidence}`],
                 //['Employment Industry:', `${Industryofoccupation}`,'Employment Status:', `${Employmentstatus}`],
                 //['Name Of Employer:', `${Nameofemployer}`],
-            ],
-            startY: doc.lastAutoTable.finalY + 20,
-            styles: {
-                fontSize: 8,
-                font: 'Avenir',
-                textColor: [0, 0, 0]
-            },
-            columnStyles: {
+            ]
+            , startY: doc.lastAutoTable.finalY + 20
+            , styles: {
+                fontSize: 8
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+            }
+            , columnStyles: {
                 0: {
-                    cellWidth: 220,
-                    fontStyle: 'bold'
-                },
-                1: {
+                    cellWidth: 220
+                    , fontStyle: 'bold'
+                }
+                , 1: {
                     cellWidth: 230
                 },
                 /* 2: {
@@ -1270,115 +1515,115 @@ ini_set('memory_limit', '1024M');
                 2: {
                     cellWidth: 80
                 }
-            },
-            headStyles: {
-                fillColor: bgColour,
-                textColor: [255, 255, 255]
-            },
-        });
+            }
+            , headStyles: {
+                fillColor: bgColour
+                , textColor: [255, 255, 255]
+            }
+        , });
 
-         if (avsStatus == '1') {
+        if (avsStatus == '1') {
 
             // doc.addPage();
             doc.autoTable({
                 head: [
                     ['Bank Account Verification (Realtime)', 'Result', 'Verified']
-                ],
-                body: [
-                    ['AVS Status:', `${avs}`],
-                    ['Branch Code:', `${Branch_code}`],
-                    ['Account Holder:', `${Account_name}`],
-                    ['Account Number:', `${Account_no}`],
-                    ['Bank Name:', `${Bank_name}`],
-                    ['Account Exists:', `${accopen}`],
-                    ['Initials Match:', `${initials}`, `${initialsmatch}`],
-                    ['Surname Match:', `${surname}`, `${surnamematch}`],
-                    ['ID Number Match:', `${idnum}`, `${idnummatch}`],
-                    ['Email Address Match:', `${Email}`, `${EMAILMATCHstatus}`],
-                    ['Account Type Match:', `${accopen}`],
-                    ['Account Dormant:', `${accdormant}`],
-                    ['Account Open Three Months:', `${accthreemonths}`],
-                    ['Account Accepts Debits:', `${accdebit}`],
-                    ['Account Type Match:', `${acc}`],
-                ],
-                startY: doc.lastAutoTable.finalY + 7,
-                styles: {
-                    fontSize: 8,
-                    font: 'Avenir',
-                    textColor: [0, 0, 0]
-                },
-                columnStyles: {
-                0: {
-                    cellWidth: 220,
-                    fontStyle: 'bold'
-                },
-                1: {
-                    cellWidth: 230,
-                },
-                /* 2: {
-                    cellWidth: 110,
-                    fontStyle: 'bold'
-                }, */
-                2: {
-                    cellWidth: 80
+                ]
+                , body: [
+                    ['AVS Status:', `${avs}`]
+                    , ['Branch Code:', `${Branch_code}`]
+                    , ['Account Holder:', `${Account_name}`]
+                    , ['Account Number:', `${Account_no}`]
+                    , ['Bank Name:', `${Bank_name}`]
+                    , ['Account Exists:', `${accopen}`]
+                    , ['Initials Match:', `${initials}`, `${initialsmatch}`]
+                    , ['Surname Match:', `${surname}`, `${surnamematch}`]
+                    , ['ID Number Match:', `${idnum}`, `${idnummatch}`]
+                    , ['Email Address Match:', `${Email}`, `${EMAILMATCHstatus}`]
+                    , ['Account Type Match:', `${accopen}`]
+                    , ['Account Dormant:', `${accdormant}`]
+                    , ['Account Open Three Months:', `${accthreemonths}`]
+                    , ['Account Accepts Debits:', `${accdebit}`]
+                    , ['Account Type Match:', `${acc}`]
+                , ]
+                , startY: doc.lastAutoTable.finalY + 7
+                , styles: {
+                    fontSize: 8
+                    , font: 'Avenir'
+                    , textColor: [0, 0, 0]
                 }
-            },
+                , columnStyles: {
+                    0: {
+                        cellWidth: 220
+                        , fontStyle: 'bold'
+                    }
+                    , 1: {
+                        cellWidth: 230
+                    , },
+                    /* 2: {
+                        cellWidth: 110,
+                        fontStyle: 'bold'
+                    }, */
+                    2: {
+                        cellWidth: 80
+                    }
+                },
 
                 headStyles: {
-                    fillColor: bgColour,
-                    textColor: [255, 255, 255]
-                },
-            });
+                    fillColor: bgColour
+                    , textColor: [255, 255, 255]
+                }
+            , });
         }
 
 
 
-        if (dovsStatus =='1') {
+        if (dovsStatus == '1') {
             // doc.addPage();
             doc.autoTable({
                 //head: [['Facial Recognition Biometric: Validated at Department of Home Affairs', '', '']],
                 head: [
                     [{
-                        content: 'Facial Recognition Biometric: Validated at Department of Home Affairs',
-                        colSpan: 5,
-                        styles: {
-                            halign: 'left',
-                            fillColor: bgColour,
-                            textColor: [255, 255, 255]
-                        },
-                    }, ],
-                ],
-                body: [
-                    ['Liveliness Detection:', `${LivenessDetectionResult}`, ''],
-                    ['ID No. Status:', `${idnummatch}`, ''],
-                    ['Deceased Status:', `${DeceasedStatus}`, ''],
-                    ['Latitude:', 'Device Location Disabled/Denied', ''],
-                    ['Longitude:', 'Device Location Disabled/Denied', '']
-                ],
-                startY: doc.lastAutoTable.finalY + 7,
-                styles: {
-                    fontSize: 8,
-                    font: 'Avenir',
-                    textColor: [0, 0, 0]
-                },
-                columnStyles: {
+                        content: 'Facial Recognition Biometric: Validated at Department of Home Affairs'
+                        , colSpan: 5
+                        , styles: {
+                            halign: 'left'
+                            , fillColor: bgColour
+                            , textColor: [255, 255, 255]
+                        }
+                    , }, ]
+                , ]
+                , body: [
+                    ['Liveliness Detection:', `${LivenessDetectionResult}`, '']
+                    , ['ID No. Status:', `${idnummatch}`, '']
+                    , ['Deceased Status:', `${DeceasedStatus}`, '']
+                    , ['Latitude:', 'Device Location Disabled/Denied', '']
+                    , ['Longitude:', 'Device Location Disabled/Denied', '']
+                ]
+                , startY: doc.lastAutoTable.finalY + 7
+                , styles: {
+                    fontSize: 8
+                    , font: 'Avenir'
+                    , textColor: [0, 0, 0]
+                }
+                , columnStyles: {
                     0: {
-                        cellWidth: 150,
-                        fontStyle: 'bold'
-                    },
-                    1: {
+                        cellWidth: 150
+                        , fontStyle: 'bold'
+                    }
+                    , 1: {
                         cellWidth: 270
-                    },
-                    2: {
+                    }
+                    , 2: {
                         cellWidth: 0
                     }
-                },
-                headStyles: {
-                    fillColor: bgColour,
-                    textColor: [255, 255, 255]
-                },
-            });
-         }
+                }
+                , headStyles: {
+                    fillColor: bgColour
+                    , textColor: [255, 255, 255]
+                }
+            , });
+        }
 
 
 
@@ -1414,9 +1659,10 @@ ini_set('memory_limit', '1024M');
             doc.text('Inspirit Data Analytics Services(Pty) Ltd, an authorized agent of XDS.\nCopyright 2024 Inspirit Data Analytics Services(Pty) Ltd (Reg No: 2017653373)\nPowered by Xpert Decision Systems(XDS).\nXDS is registered with the National Credit Regulator - Reg# NCR-CB5', 295, 758, 'center');
         }
 
-        doc.save(FirstName +' '+ surname +` - Self banking Report.pdf`);
+        doc.save(FirstName + ' ' + surname + ` - Self banking Report.pdf`);
 
     }
+
 </script>
 
 
@@ -1426,3 +1672,4 @@ ini_set('memory_limit', '1024M');
 
 
 @endsection
+
