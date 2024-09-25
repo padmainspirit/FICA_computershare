@@ -16,7 +16,7 @@
     @show
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @include('layouts.topbar-admin')
+        @include('layouts.topbar-display')
         @include('layouts.sidebarnav')
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -36,11 +36,12 @@
     <!-- END layout-wrapper -->
 
     <!-- Right Sidebar -->
-    <!-- @include('layouts.right-sidebar') -->
+    {{-- @include('layouts.right-sidebar') --}}
     <!-- /Right-bar -->
 
     <!-- JAVASCRIPT -->
-    @include('layouts.dashboard-scripts')
+    @include('layouts.findusers-scripts')
+
 </body>
 
 </html>

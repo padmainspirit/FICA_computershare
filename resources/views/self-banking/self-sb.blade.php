@@ -1,4 +1,4 @@
-@extends('layouts.master-display')
+@extends('layouts.master-dashboard')
 
 @section('title')
     @lang('translation.User_List')

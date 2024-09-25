@@ -1,4 +1,4 @@
-@extends('layouts.master-display')
+@extends('layouts.sbresults-layout')
 
 @section('css')
 <style>
