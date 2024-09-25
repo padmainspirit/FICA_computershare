@@ -110,9 +110,9 @@ ini_set('memory_limit', '1024M');
         <!-- Nav tabs -->
         <div class="heading-fica-id">
             <div class="text-center">
-                <h5 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
+                <h4 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
                     Self service banking results
-                </h5>
+                </h4>
             </div>
         </div>
 
