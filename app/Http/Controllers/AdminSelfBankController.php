@@ -1959,11 +1959,34 @@ class AdminSelfBankController extends Controller
 
         $dashboard = DB::connection("sqlsrv2")->select('EXEC SelfServiceDashBoardStatuses');
 
+        $DashboardInfo = DB::connection("sqlsrv2")->select(
+            DB::raw("SET NOCOUNT ON; exec SP_Dashboard :Customerid"),
+            [
+                ':Customerid' => $client->Customerid
+            ]
+        );
+
+        $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
+
+        $NumClients = $DashboardInfo != '' ? $DashboardInfo[0]->NumClients : null;
+
+        $HighRisk = $DashboardInfo != '' ? $DashboardInfo[0]->HighRisk : null;
+        $MediumRisk = $DashboardInfo != '' ? $DashboardInfo[0]->MediumRisk : null;
+        $LowRisk = $DashboardInfo != '' ? $DashboardInfo[0]->LowRisk : null;
+
+        $HighPerc = $NumClients != 0 ? (($HighRisk / $NumClients) * 100) : 0;
+        $MediumPerc = $NumClients != 0 ? (($MediumRisk / $NumClients) * 100) : 0;
+        $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
+
         app('debugbar')->info($GetAllCustomers);
 
         return view('users.sb-dashboard', [])
 
              ->with('customer', $customer)
+             ->with('DashboardData', $DashboardData)
+             ->with('LowPerc', $LowPerc)
+             ->with('MediumPerc', $MediumPerc)
+             ->with('HighPerc', $HighPerc)
             ->with('GetAllCustomers', $GetAllCustomers)
             ->with('UserFullName', $UserFullName)
             ->with('customerName', $customer->RegistrationName)
