@@ -468,11 +468,12 @@
                                 <div class="avatar-xs me-3">
                                     <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18"
                                     style="background-color: #f9fc50; background-image: linear-gradient(315deg, #f9fc50 0%, #f9fc50 74%);">
-                                        <i class="bx bxs-pencil me-3 font-size-24"
+                                        <i class="bx bxs-pie-chart me-3 font-size-24"
                                             style="margin-left: 16px; color: rgb(0, 0, 0);"></i>
                                     </span>
                                 </div>
                                 <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Applications in Partially Completed</h3>
+
                             </div>
                             <div class="text-muted mt-4">
                                 <h5 style="text-align:right;">{{$dashboard[0]->PartiallyCompleted}}</h5>
