@@ -124,6 +124,7 @@ Route::get('/admin-client', [App\Http\Controllers\AdminCreateController::class, 
 
 Route::get('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'index'])->name('admin-display');
 Route::get('/selfsb', [App\Http\Controllers\AdminSelfBankController::class, 'showselfsb'])->name('self-sb');
+Route::get('/sb-dashboard', [App\Http\Controllers\AdminSelfBankController::class, 'showsbdashboard'])->name('sb-dashboard');
 Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'CreateAdminUser'])->name('admin-display');
 Route::post('/admin-display', [App\Http\Controllers\AdminCreateController::class, 'ShowConglomerateEdit'])->name('conglomerate-edit');
 

@@ -97,39 +97,42 @@
 
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
-                                                    <form method="post" action="{{ route('sbEmailorPhone') }}" id="sb-tnc-form">
-                                                        @csrf
-                                                        <div class="form-group row justify-content-center align-items-center text-center mt-4">
-                                                        <div class="col-sm-3 mb-2">
-                                                            <div style="display: flex; align-items: center;">
-                                                                <input style="background-color:green;border: 1px solid green;" class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
-                                                                <label class="form-check-label" style="font-size:16px;margin-left:3px;" for="smsOption">SMS</label>
-                                                               </div>
-
-
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                             {{--<div style="display: flex; align-items: center;">
-                                                               <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" oninput="restrictInput(this)" maxlength="12" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
-                                                                 </div>--}}
-                                                                 <div class="input-group" style="border-radius: 15px;">
-                                                                    <select class="form-control" id="countryCode" name="countryCode" style="max-width: 35%; margin-left: 5px; border-top-left-radius: 15px;border-bottom-left-radius: 15px;">
-                                                                        <option value="+27">+27 (RSA)</option>
-                                                                    </select>
-                                                                    <input type="text" value="{{$phoneNumber}}" class="form-control" id="phone" name="phone" placeholder="Enter phone number" maxlength="11" required style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+                                                    <form method="post" action="{{ route('sbEmailorPhone') }}" id="">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3 justify-content-center align-items-center;">
+                                                               <div class="form-check form-check-inline font-size-16">
+                                                                    <input class="form-check-input" checked type="radio" id="emailOption" name="option" value="Email">
+                                                                    <label class="form-check-label" for="emailOption">Email</label>
                                                                 </div>
-
+                                                                <div class="form-check form-check-inline font-size-16">
+                                                                    <input class="form-check-input" checked type="radio" id="smsOption" name="option" value="SMS">
+                                                                    <label class="form-check-label" for="smsOption">SMS</label>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group row justify-content-center align-items-center text-center mt-2">
 
-                                                        <div class="col-sm-6">
-                                                            <div style="display: flex; align-items: center;">
-                                                                <p class="font-size-14">Confirm your cellphone number to receive an ID verification link to your device.</p>
-                                                                 </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3 font-size-16">
 
+
+                                                                        <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;display:none;" id="emailInput" name="email" placeholder="Enter Email Address" value="">
+                                                                        <input autocomplete="off" type="text" class="form-control input-sm" style="border-radius: 15px;" id="smsInput" name="phone" placeholder="Enter Cellphone Number" value="{{$phoneNumber}}">
+
+                                                                    <span class="error-messg"></span>
+                                                                    @error('email')
+                                                                        <span class="text-danger" role="alert">
+                                                                            <small>{{ $message }}</small>
+                                                                        </span>
+                                                                    @enderror
+                                                                    @error('phone')
+                                                                        <span class="text-danger" role="alert">
+                                                                            <small>{{ $message }}</small>
+                                                                        </span>
+                                                                    @enderror
+
+
+                                                            </div>
                                                         </div>
-                                                    </div>
 
 
                                                 <div class="text-center d-flex justify-content-center align-items-center mt-2">
@@ -616,5 +619,24 @@ function startCountdown() {
         }
     }
     </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailOption = document.getElementById('emailOption');
+        const smsOption = document.getElementById('smsOption');
+        const emailInput = document.getElementById('emailInput');
+        const smsInput = document.getElementById('smsInput');
+        emailOption.addEventListener('change', function() {
+            if (emailOption.checked) {
+                emailInput.style.display = 'block';
+                smsInput.style.display = 'none';
+            }
+        });
+        smsOption.addEventListener('change', function() {
+            if (smsOption.checked) {
+                smsInput.style.display = 'block';
+                emailInput.style.display = 'none';
+            }
+        });
+    });
+</script>
     @endsection

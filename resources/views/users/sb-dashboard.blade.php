@@ -1,4 +1,4 @@
-@extends('layouts.master-dashboard')
+@extends('layouts.master-display')
 
 {{-- @section('title')
 @lang('translation.Form_Wizard')
@@ -50,7 +50,7 @@
                                 <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Total Number of Clients</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->NumClients }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                     Progress</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->InProgress }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                                     Completed</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->Completed }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                                     Failed</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->Failed }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                                     Rejected</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->Rejected }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                                 <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Applications in Correction</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;">{{ $DashboardData->Correction }}</h5>
+                                <h5 style="text-align:right;"></h5>
                             </div>
                         </div>
                     </div>
@@ -186,28 +186,28 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="py-2">
-                                        <h5 class="font-size-14">High Risk:<span class="float-end">{{ substr($HighPerc, 0, 5) }}%</span></h5>
-                                        <h5 class="font-size-14">{{ $DashboardData->HighRisk }}</h5>
+                                        <h5 class="font-size-14">High Risk:<span class="float-end">%</span></h5>
+                                        <h5 class="font-size-14"></h5>
                                         <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $HighPerc }}%" aria-valuenow="{{ $DashboardData->HighRisk }}" aria-valuemin="0" aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+                                            <div class="progress-bar bg-danger" role="progressbar" style="" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="py-2">
-                                        <h5 class="font-size-14">Medium Risk:<span class="float-end">{{ substr($MediumPerc, 0, 5) }}%</span></h5>
-                                        <h5 class="font-size-14">{{ $DashboardData->MediumRisk }}</h5>
+                                        <h5 class="font-size-14">Medium Risk:<span class="float-end">%</span></h5>
+                                        <h5 class="font-size-14"></h5>
                                         <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $MediumPerc }}%" aria-valuenow="{{ $DashboardData->MediumRisk }}" aria-valuemin="0" aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+                                            <div class="progress-bar bg-warning" role="progressbar" style="" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="py-2">
-                                        <h5 class="font-size-14">Low Risk:<span class="float-end">{{ substr($LowPerc, 0, 5)}}%</span></h5>
-                                        <h5 class="font-size-14">{{ $DashboardData->LowRisk }}</h5>
+                                        <h5 class="font-size-14">Low Risk:<span class="float-end"></span></h5>
+                                        <h5 class="font-size-14">{{--{{ $DashboardData->Tento15count }}--}}</h5>
                                         <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $LowPerc }}%" aria-valuenow="{{ $DashboardData->LowRisk }}" aria-valuemin="0" aria-valuemax="{{ $DashboardData->NumClients }}"></div>
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: %" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
                                         </div>
                                     </div>
                                 </li>
@@ -245,7 +245,7 @@
                                         </div>
                                         <div style="margin-top: 5px;" class="flex-grow-1 font-size-16">
                                             <div>
-                                                {{ $DashboardData->Oneto5Count }}
+                                                {{--{{ $DashboardData->Tento15count }}--}}
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +267,7 @@
                                         </div>
                                         <div style="margin-top: 5px;" class="flex-grow-1 font-size-16">
                                             <div>
-                                                {{ $DashboardData->Fiveto10Count }}
+                                                {{--{{ $DashboardData->Tento15count }}--}}
                                             </div>
                                         </div>
                                     </div>
@@ -289,7 +289,7 @@
                                         </div>
                                         <div style="margin-top: 5px;" class="flex-grow-1 font-size-16">
                                             <div>
-                                                {{ $DashboardData->Tento15count }}
+                                               {{--{{ $DashboardData->Tento15count }}--}}
                                             </div>
                                         </div>
                                     </div>
@@ -311,7 +311,7 @@
                                         </div>
                                         <div style="margin-top: 5px;" class="flex-grow-1 font-size-16">
                                             <div>
-                                                {{ $DashboardData->Fifteenpluscount }}
+                                                {{--{{ $DashboardData->Fifteenpluscount }} --}}
                                             </div>
                                         </div>
                                     </div>

@@ -12,13 +12,12 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="text-white p-4">
-                            <h4 class="text-white">Self service banking</h4>
-                        </div>
-                    </div>
+
+            <div class="heading-fica-id">
+                <div style="background-image: linear-gradient(#93186c, #93186c);" class="text-center">
+                    <h5 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
+                        Self service banking
+                    </h5>
                 </div>
             </div>
             {{-- <div class="pull-right">
@@ -125,7 +124,7 @@
 
             <div class="col-md-2">
                 <div class="mb-3">
-                    <button type="submit" id="submit" class="btn btn-primary w-lg waves-effect waves-light">Search</button>
+                    <button type="submit" id="submit" style="background-color: #91C60F; border-color: #91C60F;" class="btn w-md text-white">Search</button>
                 </div>
             </div>
 

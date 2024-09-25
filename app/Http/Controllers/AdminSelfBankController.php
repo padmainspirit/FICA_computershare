@@ -1936,6 +1936,38 @@ class AdminSelfBankController extends Controller
             ->with('customer', $customer)
             ->with('Logo', $customer->Client_Logo);
     }
+    public function showsbdashboard(Request $request)
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+        // $Consumerid = $request->session()->get('LoggedUser');
+        //$Consumerid =$client -> Id;
+        // $client = CustomerUser::where('Id', '=', $Consumerid)->first();
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        // $Customerid = $request->session()->get('Customerid');
+        // $customer = Customer::where('Id', '=',  $Customerid)->first();
+        // $Logo = $customer['Client_Logo'];
+        // $Logo = $customer->Client_Logo;
+        // $customerName = $customer->RegistrationName;
+        // $Icon = $customer->Client_Icon;
+
+        // $GetAllUsers = CustomerUser::all();
+        $GetAllCustomers = Customer::all();
+
+        app('debugbar')->info($GetAllCustomers);
+
+        return view('users.sb-dashboard', [])
+
+             ->with('customer', $customer)
+            ->with('GetAllCustomers', $GetAllCustomers)
+            ->with('UserFullName', $UserFullName)
+            ->with('customerName', $customer->RegistrationName)
+            ->with('Icon', $customer->Client_Icon)
+            ->with('customer', $customer)
+            ->with('Logo', $customer->Client_Logo);
+    }
+
 
 
     public function searchsb(Request $request)
