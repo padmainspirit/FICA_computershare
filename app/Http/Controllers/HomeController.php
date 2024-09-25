@@ -27,7 +27,6 @@ class HomeController extends Controller
     {
 
         // print_r($customerName);
-
         return view('home');
         // $customer = Customer::getCustomerDetailsByUrl(); 
         // $Client_Logo = $customer->Client_Logo;

@@ -357,7 +357,7 @@ class AdminSelfBankController extends Controller
             } else {
                 $updatedphone = '27' . $getphone;
             }
-*/
+            */
             $request['SelfBankingDetailsId'] = $selfbankingdetailsid;
             $request['Customerid'] = $selfbanking->CustomerId;
             $request['SelfBankingLinkId'] = $sbid;
@@ -1944,6 +1944,7 @@ class AdminSelfBankController extends Controller
     {
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
+        $customerId = $client->CustomerId;
 
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
@@ -1954,7 +1955,7 @@ class AdminSelfBankController extends Controller
         $status = $request->avsStatus;
 
 
-        $results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?,?', [$idno, $first, $last, $cel, $status]);
+        $results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?,?,?', [$idno, $first, $last, $cel, $status,$customerId]);
 
        // print_r($results);exit;
         if (request()->ajax()) {

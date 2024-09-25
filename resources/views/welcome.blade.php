@@ -1,3 +1,7 @@
+<?php
+
+use Illuminate\Support\Facades\Session;
+?>
 @extends('layouts.master-without-nav')
 
 @section('title')
@@ -5,6 +9,7 @@
 @endsection
 
 @section('content')
+    <?= Session::flush(); ?>
     <br><br><br><br><br><br><br><br><br>
     <div class="row d-flex justify-content-center mb-3 mt-5">
         <img src="{{ URL::asset('/assets/images/logo/computershare.png') }}" style="width: 300px;" alt="" class="img-fluid">
