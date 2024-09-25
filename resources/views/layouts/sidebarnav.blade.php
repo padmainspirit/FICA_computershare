@@ -21,6 +21,14 @@
                             Search Clients
                         </button>
                     </a>
+
+                    <a href="{{ url('selfsb') }}">
+                        <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
+                        style="background-color: #93186c; border-color: #93186c;  width: 100%">
+                        <i class="bx text-white bxs-bank label-icon"></i>
+                        Self Service Banking
+                    </button>
+                    </a>
                     
                 </div>
             </div>

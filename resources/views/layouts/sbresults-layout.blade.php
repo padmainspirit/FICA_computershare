@@ -17,7 +17,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         @include('layouts.topbar-display')
-        @include('layouts.sidebardisplay')
+        @include('layouts.sidebarnav')
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->

@@ -357,7 +357,7 @@ class AdminSelfBankController extends Controller
             } else {
                 $updatedphone = '27' . $getphone;
             }
-*/
+            */
             $request['SelfBankingDetailsId'] = $selfbankingdetailsid;
             $request['Customerid'] = $selfbanking->CustomerId;
             $request['SelfBankingLinkId'] = $sbid;
@@ -1926,7 +1926,7 @@ class AdminSelfBankController extends Controller
 
         app('debugbar')->info($GetAllCustomers);
 
-        return view('users.self-sb', [])
+        return view('self-banking.self-sb', [])
 
              ->with('customer', $customer)
             ->with('GetAllCustomers', $GetAllCustomers)
@@ -1934,7 +1934,9 @@ class AdminSelfBankController extends Controller
             ->with('customerName', $customer->RegistrationName)
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
-            ->with('Logo', $customer->Client_Logo);
+            ->with('Logo', $customer->Client_Logo)
+            ->with('LogUserName', $client->FirstName)
+            ->with('LogUserSurname', $client->LastName);
     }
     public function showsbdashboard(Request $request)
     {
@@ -1974,6 +1976,7 @@ class AdminSelfBankController extends Controller
     {
         $client = Auth::user();
         $customer = Customer::getCustomerDetails($client->CustomerId);
+        $customerId = $client->CustomerId;
 
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
@@ -1984,17 +1987,17 @@ class AdminSelfBankController extends Controller
         $status = $request->avsStatus;
 
 
-        $results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?,?', [$idno, $first, $last, $cel, $status]);
+        $results = DB::connection("sqlsrv2")->select('EXEC spSelfBankingSearch ?,?,?,?,?,?', [$idno, $first, $last, $cel, $status,$customerId]);
 
        // print_r($results);exit;
         if (request()->ajax()) {
-            return view('users.search-sb', ['results' => $results]);
+            return view('self-banking.search-sb', ['results' => $results]);
         }
         $GetAllCustomers = Customer::all();
 
         app('debugbar')->info($GetAllCustomers);
 
-        return view('users.search-sb', ['results' => $results])
+        return view('self-banking.search-sb', ['results' => $results])
         ->with('customer', $customer)
         ->with('GetAllCustomers', $GetAllCustomers)
         ->with('UserFullName', $UserFullName)
@@ -2052,10 +2055,10 @@ class AdminSelfBankController extends Controller
 
          }
         if (request()->ajax()) {
-            return view('users.sb-results', ['selfbankingdetails' => $selfbankingdetails]);
+            return view('self-banking.sb-results', ['selfbankingdetails' => $selfbankingdetails]);
         }
 
-        return view('users.sb-results', ['selfbankingdetails' => $selfbankingdetails])
+        return view('self-banking.sb-results', ['selfbankingdetails' => $selfbankingdetails])
         ->with('customer', $customer)
         ->with('avs', $avs)
         ->with('dovs', $dovs)
@@ -2064,7 +2067,9 @@ class AdminSelfBankController extends Controller
         ->with('Icon', $customer->Client_Icon)
         ->with('message', $message)
         ->with('exceptions', $exceptions)
-        ->with('Logo', $customer->Client_Logo);
+        ->with('Logo', $customer->Client_Logo)
+        ->with('LogUserName', $client->FirstName)
+        ->with('LogUserSurname', $client->LastName);
 
 
 
