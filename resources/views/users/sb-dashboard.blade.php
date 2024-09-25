@@ -1,4 +1,4 @@
-@extends('layouts.master-display')
+@extends('layouts.master-dashboard')
 
 {{-- @section('title')
 @lang('translation.Form_Wizard')
@@ -31,7 +31,7 @@
 
         <div class="page-content" style="padding-right: 0px;padding-left: 0px;padding-bottom: 0px;padding-top: 0px;">
 
-            <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">Application Status</h3>
+            <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">Self Banking Status</h3>
 
             <div class="row d-flex justify-content-center">
 
@@ -50,7 +50,7 @@
                                 <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Total Number of Clients</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->Total}}</h5>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                     Progress</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->InProgress}}</h5>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                                     Completed</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->Completed}}</h5>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                                     Failed</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->Failed}}</h5>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                                     Rejected</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->Rejected}}</h5>
                             </div>
                         </div>
                     </div>
@@ -160,10 +160,10 @@
                                             style="margin-left: 16px; color: rgb(0, 0, 0);"></i>
                                     </span>
                                 </div>
-                                <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Applications in Correction</h3>
+                                <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Applications in Partially Completed</h3>
                             </div>
                             <div class="text-muted mt-4">
-                                <h5 style="text-align:right;"></h5>
+                                <h5 style="text-align:right;">{{$dashboard[0]->PartiallyCompleted}}</h5>
                             </div>
                         </div>
                     </div>
@@ -173,53 +173,8 @@
 
             <div class="row">
 
-                <div class="col-xl-6">
 
-                    <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">Risk
-                        Status
-                    </h3>
-
-                    <div class="card" id="card"
-                        style="border-top-width: 1px;border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px">
-                        <div class="card-body">
-
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="py-2">
-                                        <h5 class="font-size-14">High Risk:<span class="float-end">%</span></h5>
-                                        <h5 class="font-size-14"></h5>
-                                        <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="py-2">
-                                        <h5 class="font-size-14">Medium Risk:<span class="float-end">%</span></h5>
-                                        <h5 class="font-size-14"></h5>
-                                        <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="py-2">
-                                        <h5 class="font-size-14">Low Risk:<span class="float-end"></span></h5>
-                                        <h5 class="font-size-14">{{--{{ $DashboardData->Tento15count }}--}}</h5>
-                                        <div class="progress animated-progess progress-sm">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: %" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-xl-6">
+                <div class="col-xl-12">
 
                     <h3 class="card-title mb-3 mt-3" style="text-align: center; color: rgb(0, 0, 0); font-size: 18px;">
                         Application Progress Timeline

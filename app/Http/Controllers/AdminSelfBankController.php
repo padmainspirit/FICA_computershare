@@ -1957,6 +1957,8 @@ class AdminSelfBankController extends Controller
         // $GetAllUsers = CustomerUser::all();
         $GetAllCustomers = Customer::all();
 
+        $dashboard = DB::connection("sqlsrv2")->select('EXEC SelfServiceDashBoardStatuses');
+
         app('debugbar')->info($GetAllCustomers);
 
         return view('users.sb-dashboard', [])
@@ -1967,6 +1969,9 @@ class AdminSelfBankController extends Controller
             ->with('customerName', $customer->RegistrationName)
             ->with('Icon', $customer->Client_Icon)
             ->with('customer', $customer)
+            ->with('LogUserName', $client->FirstName)
+            ->with('LogUserSurname', $client->LastName)
+            ->with('dashboard', $dashboard)
             ->with('Logo', $customer->Client_Logo);
     }
 
