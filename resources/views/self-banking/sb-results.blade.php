@@ -110,9 +110,9 @@ ini_set('memory_limit', '1024M');
         <!-- Nav tabs -->
         <div class="heading-fica-id">
             <div class="text-center">
-                <h4 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
+                <h5 style="color: #fff; padding-top:8px;padding-bottom: 8px;padding-left: 11px;">
                     Self service banking results
-                </h4>
+                </h5>
             </div>
         </div>
 
@@ -396,7 +396,7 @@ ini_set('memory_limit', '1024M');
                                                                     <thead>
                                                                         <tr>
                                                                             <th class="col-md-5 heading-fica-id" style="color:#ffffff;"></th>
-                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Summary</th>
+                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Highlights</th>
                                                                             <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">
                                                                             </th>
                                                                         </tr>
@@ -430,6 +430,8 @@ ini_set('memory_limit', '1024M');
                                                                                 @else
                                                                                 {{$exceptions?->Comment}}
                                                                                 @endif
+
+
                                                                             </td>
 
                                                                             <td>
@@ -571,7 +573,7 @@ ini_set('memory_limit', '1024M');
                                                                         <tr>
                                                                             <td style="width:50%;" class="text-center">
                                                                                 @if ($dovs?->ConsumerIDPhoto==NULL)
-                                                                                <img src="/assets/images/ImageNotFound.png" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
                                                                                 </img>
                                                                                 @else
                                                                                 <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
@@ -580,7 +582,7 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
                                                                             <td style="width:50%;" class="text-center">
                                                                                 @if ($dovs?->ConsumerCapturedPhoto==NULL)
-                                                                                <img src="/assets/images/ImageNotFound.png" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
                                                                                 </img>
                                                                                 @else
                                                                                 <img src="data:image/png;base64,{{ $dovs?->ConsumerCapturedPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
@@ -1146,7 +1148,7 @@ ini_set('memory_limit', '1024M');
         var PaymentPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/AVS.png")); ?>';
         var FacialPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/facephone4.png")); ?>';
         var bgColour = "#93186c";
-        var ConsumerIDPhotoAlt = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/ImageNotFound.png")); ?>';
+        var ConsumerIDPhotoAlt = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/ImageNotFound.jpg")); ?>';
 
         var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/PoweredBy.png")); ?>';
 

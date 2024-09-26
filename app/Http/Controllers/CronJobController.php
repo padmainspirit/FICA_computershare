@@ -34,7 +34,7 @@ class CronJobController extends Controller
     }
 
     /* Function to get the DIA OTL response */
-    public function getOtlResponse()
+    public function getDiaResponse()
     {
         
     }

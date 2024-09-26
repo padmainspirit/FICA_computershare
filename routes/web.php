@@ -187,7 +187,7 @@ Route::get('/sb-status', [AdminSelfBankController::class, 'processStatus'])->nam
 
 
 /* Cron crontroller routes */
-Route::get('/get-otl-Response', [CronJobController::class, 'getDiaResponse'])->name('get-otl-Response');
+Route::any('/getOtlSelfieResponse', [CronJobController::class, 'getDiaResponse'])->name('get-otl-Response');
 
 
 

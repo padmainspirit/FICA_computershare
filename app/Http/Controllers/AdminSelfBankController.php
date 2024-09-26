@@ -11,6 +11,7 @@ use App\Models\AVS;
 use App\Models\BankAccountType;
 use App\Models\Banks;
 use App\Models\ConsumerIdentity;
+use App\Models\CustomerUser;
 use App\Models\SbActions;
 use App\Models\DOVS;
 use App\Models\FICA;
@@ -1306,7 +1307,6 @@ class AdminSelfBankController extends Controller
                             'ResidentialPostalCode' => $ResidentialPostalCode,
                             'Latitude' => $Latitude,
                             'Longitude' => $Longitude
-
                         ]);
 
                         // $consumer = Consumer::where('CustomerUSERID', '=',  session()->get('LoggedUser'))->first();
@@ -1352,9 +1352,7 @@ class AdminSelfBankController extends Controller
                                 'AgeEstimationOfLiveness' => $AgeEstimationOfLiveness,
                                 'PostalCode' => $ResidentialPostalCode,
                                 'Latitude' => $Latitude,
-                                'Longitude' => $Longitude,
-                                'EnquiryID' => $enquiryId,
-                                'DOVSResponse' => $returnConnectGetDOVResult,
+                                'Longitude' => $Longitude
                             )
                         );
 
@@ -1979,6 +1977,7 @@ class AdminSelfBankController extends Controller
         $LowPerc = $NumClients != 0 ? (($LowRisk / $NumClients) * 100) : 0;
 
         app('debugbar')->info($GetAllCustomers);
+        $getRoleName = CustomerUser::getCustomerUserRoleName();
 
         return view('users.sb-dashboard', [])
 
@@ -1995,7 +1994,8 @@ class AdminSelfBankController extends Controller
             ->with('LogUserName', $client->FirstName)
             ->with('LogUserSurname', $client->LastName)
             ->with('dashboard', $dashboard)
-            ->with('Logo', $customer->Client_Logo);
+            ->with('Logo', $customer->Client_Logo)
+            ->with('getRoleName', $getRoleName);
     }
 
 

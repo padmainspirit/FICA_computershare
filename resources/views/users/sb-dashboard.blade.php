@@ -1,4 +1,10 @@
-@extends('layouts.master-dashboard')
+<?php if ($getRoleName == 'SuperAdmin') {
+    $layout = 'layouts.master-display';
+}else{
+    $layout = 'layouts.sbresults-layout';
+}
+?>
+@extends($layout)
 
 {{-- @section('title')
 @lang('translation.Form_Wizard')
