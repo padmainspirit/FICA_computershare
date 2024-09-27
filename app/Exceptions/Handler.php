@@ -63,12 +63,12 @@ class Handler extends ExceptionHandler
             $getRoleName = CustomerUser::getCustomerUserRoleName();
                 if($getRoleName == 'SuperAdmin')
                 {
-                    $url = '/admin-display'; 
+                    $url = '/admin-display';
                 }elseif ($getRoleName == 'CustomerAdmin') {
-                    $url = '/admin-dashboard';
+                    $url = '/sb-dashboard'; //$url = '/admin-dashboard';
                 } else {
                     $consumer = Consumer::where('Email', '=', Auth::user()->Email)->where('CustomerUSERID', '=', Auth::user()->Id)->first();
-                    $url = ($consumer != null) ? '/fica' : '/startfica';                    
+                    $url = ($consumer != null) ? '/fica' : '/startfica';
                 }
             }
 
@@ -81,7 +81,7 @@ class Handler extends ExceptionHandler
                     return response()->view('errors.401', ['message'=>$e->getMessage(),'url'=>$url], 401);
                 }else if($e->getStatusCode() == 403){
                     return response()->view('errors.403', ['message'=>$e->getMessage(),'url'=>$url], 403);
-                }    
+                }
             }
             if ($e instanceof NotFoundHttpException) {
                 return response()->view('errors.404', ['message'=>$e->getMessage(),'url'=>$url], 404);

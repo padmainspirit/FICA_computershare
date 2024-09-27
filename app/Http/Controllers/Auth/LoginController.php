@@ -68,7 +68,7 @@ class LoginController extends Controller
 
         // $Client_Logo = $customer->Client_Logo;
         $RegistrationName = $customer->RegistrationName;
-        
+
         $this->guard()->logout();
         return view('auth.login', ['customer' => $customer,'RegistrationName' =>$RegistrationName]);
     }
@@ -105,7 +105,7 @@ class LoginController extends Controller
                 return redirect('admin-display');
                 //return redirect('/home');
             } elseif ($getRoleName == 'CustomerAdmin') {
-                return redirect('/admin-dashboard');
+                return redirect('/sb-dashboard'); //return redirect('/admin-dashboard');
             } else {
                 $otp = new SmsOtpController();
                 $sendotp = $otp->sendOTP($client->PhoneNumber, $customer->RegistrationName);
@@ -215,6 +215,6 @@ class LoginController extends Controller
             :  redirect()->route('login', ['customer' => $customer->RegistrationName]);
             // : redirect('/');
 
-            
+
     }
 }

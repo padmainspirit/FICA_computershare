@@ -328,7 +328,7 @@ class AdminSelfBankController extends Controller
             if (strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) != strtoupper($request->SecondName)) {
                 $sbe = SelfBankingExceptions::create([
                     'Id' => Str::upper(Str::uuid()),
-                    'SelfBankingLinkId' => $selfbankingdetailsid,
+                    'SelfBankingLinkId' =>  $sbid, //$selfbankingdetailsid,
                     'API' => 1,
                     'Status' => 'Validation Pending',
                     'Comment' => 'Pending Surname'
@@ -341,7 +341,7 @@ class AdminSelfBankController extends Controller
             if (strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) == strtoupper($request->SecondName)) {
                 $sbe = SelfBankingExceptions::create([
                     'Id' => Str::upper(Str::uuid()),
-                    'SelfBankingLinkId' => $selfbankingdetailsid,
+                    'SelfBankingLinkId' => $sbid, //$selfbankingdetailsid,
                     'API' => 1,
                     'Status' => 'Validation Pending',
                     'Comment' => 'Pending Surname'
@@ -2049,12 +2049,13 @@ class AdminSelfBankController extends Controller
         $getCustomerId = $id;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
 
-
+        //print_r($selfbankingdetails->SelfBankingLinkId);exit;
         $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
 
-         $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $getCustomerId)->first();
+         $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $selfbankingdetails->SelfBankingLinkId)->get();
+
          $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
@@ -2104,7 +2105,7 @@ class AdminSelfBankController extends Controller
                     'Admin_User' => $UserFullName
                 ]);
 
-            $message = 'Flow tatus has been succesfully updated';
+            $message = 'Flow status has been succesfully updated';
 
          }
         if (request()->ajax()) {
@@ -2125,6 +2126,7 @@ class AdminSelfBankController extends Controller
         ->with('cellmatch', $cellmatch)
         ->with('emailmatch', $emailmatch)
         ->with('namematch', $namematch)
+        ->with('iddoc', $consumerIdentity->Identity_File_Path)
         ->with('LogUserSurname', $client->LastName);
 
     }

@@ -94,7 +94,7 @@
                                     <div class="text-center">
                                         <h4 class="font-size-18"
                                             style="color: #fff; padding-top:10px;margin-top: 12px;padding-bottom: 5px;">
-                                            Customer Onboarding
+                                            Client Search
                                         </h4>
                                     </div>
                                 </div>
@@ -116,9 +116,9 @@
 
                                     {{-- @error('exception')
                                     <div class="alert alert-danger">
-
+                                    
                                         {{ $exception }}
-
+                                        
                                     </div>
                                     @enderror --}}
 
@@ -353,7 +353,7 @@
                                         </div>
                                     </div>
 
-
+                                    
 
                                     <span class="text-danger" id="error_msg" styel="display:none"></span><br/>
                                     <div class="row">
@@ -378,18 +378,18 @@
 
                                 </form>
 
-
+                                
                                 <form method="POST" action='{{ route('testresult') }}' id="idForm">
                                     @csrf
                                     <input type="type" id="idnumberResult" name="idnumberResult">
                                     <button type="submit" id="testresult-btn"></button>
                                 </form>
 
-                                <br/><br/>
+                                <br/><br/>    
 
                                 <div id="search-container"></div>
                                 <div id="pagination-links"></div>
-
+                                
                             </div>
                             <!-- end card body -->
                         </div>
@@ -398,7 +398,7 @@
                     <!-- end col -->
 
                 </div>
-
+              
 
             </div>
 
@@ -415,7 +415,7 @@
     <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 
     <script>
-
+        
         function clearAll() {
             $('#search-container').html('');
             document.getElementById("error_msg").style.display = 'none';
@@ -423,21 +423,21 @@
             document.getElementById("FirstName").value = '';
             document.getElementById("LastName").value = '';
             document.getElementById("PhoneNumber").value = '';
-            document.getElementById("FICAStatus").value = '';
-            document.getElementById("FICARiskStatus").value = '';
+            document.getElementById("FICAStatus").value = ''; 
+            document.getElementById("FICARiskStatus").value = '';            
         }
 
         var btn = document.getElementById("clearall");
         btn.addEventListener("click", clearAll);
 
-
+        
     </script>
 
-
+  
 
 
 <script>
-
+    
 
     $(document).ready(function() {
     //loadEmployees(1);
@@ -448,14 +448,14 @@
     //     validateForm();
     // }
 
-    $(document).on('submit', '#searchclient', function(e) {
+    $(document).on('submit', '#searchclient', function(e) { 
         e.preventDefault();
         validateForm();
     });
 
     function validateForm()
-    {
-        $('#search-container').empty();
+    {      
+        $('#search-container').empty();  
         document.getElementById("error_msg").style.display = 'none';
         var idVal = document.getElementById("IDNumber").value;
         var fname = document.getElementById("FirstName").value;
@@ -465,7 +465,7 @@
         var FICARiskStatus = document.getElementById("FICARiskStatus").value;
 
         if((idVal === null || idVal === '') && (fname === null || fname === '') && (lname === null || lname === '') && (phonenum === '' || phonenum === null) && (ficaStatus === '' || ficaStatus === null) && (FICARiskStatus === '' || FICARiskStatus === null) )
-        {
+        { 
             document.getElementById("error_msg").innerHTML = 'Please enter any of the search criteria';
             document.getElementById("error_msg").style.display = 'block';
             return false;
@@ -477,9 +477,9 @@
         return false;
 
     }
+    
 
-
-    function loadEmployees(page) {
+    function loadEmployees(page) { 
         var form = $('#searchclient');
         var formData = form.serialize();
         $('#search-container').html('');
@@ -488,8 +488,8 @@
             method: 'POST',
             data: formData + '&page=' + page,
             success: function(response) {
-                $('#datatable').DataTable({
-                      "destroy": true,
+                $('#datatable').DataTable({ 
+                      "destroy": true, 
                    });
 
                 $('#search-container').html(response);
@@ -517,7 +517,7 @@
 
     });
 
-
+    
 </script>
 @endsection
 

@@ -250,7 +250,10 @@ ini_set('memory_limit', '1024M');
 
 
                                             <a class="nav-link mb-2" id="v-pills-faceview-tab" data-bs-toggle="pill" href="#v-pills-faceview" role="tab" aria-controls="v-pills-faceview" aria-selected="false">Face View</a>
+
                                             <a class="nav-link mb-2" id="v-pills-docs-tab" data-bs-toggle="pill" href="#v-pills-docs" role="tab" aria-controls="v-pills-docs" aria-selected="false">Documents</a>
+                                            <a class="nav-link mb-2" id="v-pills-summary-tab" data-bs-toggle="pill" href="#v-pills-summary" role="tab" aria-controls="v-pills-summary" aria-selected="false">Exceptions Summary</a>
+
                                             <a class="nav-link mb-2" id="v-pills-actions-tab" data-bs-toggle="pill" href="#v-pills-actions" role="tab" aria-controls="v-pills-actions" aria-selected="false">Actions</a>
 
 
@@ -401,60 +404,6 @@ ini_set('memory_limit', '1024M');
                                                             </div>
 
 
-                                                            <div class="table-responsive">
-                                                                <table class="table table-hover mb-0" id="downloadProfile">
-
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="col-md-5 heading-fica-id" style="color:#ffffff;"></th>
-                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Highlights</th>
-                                                                            <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td style="font-weight: bold;">
-                                                                                Status
-                                                                            </td>
-                                                                            <td>
-                                                                                @if ($exceptions?->Status==null)
-                                                                                N/A
-                                                                                @else
-                                                                                {{$exceptions?->Status}}
-                                                                                @endif
-
-
-                                                                            </td>
-
-                                                                            <td>
-
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="font-weight: bold;">
-                                                                                Comments
-                                                                            </td>
-                                                                            <td>
-                                                                                @if ($exceptions?->Comment==null)
-                                                                                N/A
-                                                                                @else
-                                                                                {{$exceptions?->Comment}}
-                                                                                @endif
-
-
-                                                                            </td>
-
-                                                                            <td>
-
-                                                                            </td>
-                                                                        </tr>
-
-
-                                                                    </tbody>
-
-                                                                </table>
-                                                            </div>
 
 
                                                         </div>
@@ -584,7 +533,7 @@ ini_set('memory_limit', '1024M');
                                                                         <tr>
                                                                             <td style="width:50%;" class="text-center">
                                                                                 @if ($dovs?->ConsumerIDPhoto==NULL)
-                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                <img src="/assets/images/ImageNotFound.png" alt="" style="height:260px;width:200px;" class="auth-logo-light">
                                                                                 </img>
                                                                                 @else
                                                                                 <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
@@ -593,7 +542,7 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
                                                                             <td style="width:50%;" class="text-center">
                                                                                 @if ($dovs?->ConsumerCapturedPhoto==NULL)
-                                                                                <img src="/assets/images/ImageNotFound.jpg" alt="" style="height:260px;width:200px;" class="auth-logo-light">
+                                                                                <img src="/assets/images/ImageNotFound.png" alt="" style="height:260px;width:200px;" class="auth-logo-light">
                                                                                 </img>
                                                                                 @else
                                                                                 <img src="data:image/png;base64,{{ $dovs?->ConsumerCapturedPhoto }}" alt="" style="height:260px;width:200px;" class="auth-logo-light">
@@ -612,6 +561,47 @@ ini_set('memory_limit', '1024M');
                                                 </section>
                                             </div>
 
+
+                                            <div class="tab-pane fade" id="v-pills-summary" role="tabpanel" aria-labelledby="v-pills-summary-tab">
+
+                                                <section>
+
+
+                                                    <div class="col-md-12">
+
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover mb-0" id="downloadProfile">
+
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="col-md-5 heading-fica-id" style="color:#ffffff;">Status</th>
+                                                                        <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Comments</th>
+                                                                        <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @forelse ($exceptions as $exception)
+                                                                    <tr>
+                                                                        <td>{{ $exception->Status }}</td>
+                                                                        <td>{{ $exception->Comment }}</td>
+
+                                                                    </tr>
+                                                                @empty
+                                                                    <tr>
+                                                                        <td colspan="4">No exceptions found.</td>
+                                                                    </tr>
+                                                                @endforelse
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </section>
+                                            </div>
                                             <div class="tab-pane fade" id="v-pills-docs" role="tabpanel" aria-labelledby="v-pills-docs-tab">
 
                                                 <section>
@@ -642,21 +632,19 @@ ini_set('memory_limit', '1024M');
                                                                                 Identity Document
                                                                             </h3>
                                                                         </div>
-                                                                        @if ($dovs?->DOVS_File_Path ==NULL)
+                                                                        @if ($iddoc == NULL)
                                                                         <div class="mt-4">
                                                                             <h5 class="text-center font-size-16 mb-0" style="font-size: 18px; color: black">
                                                                                 No file was uploaded
                                                                             </h5>
                                                                         </div>
-
-                                                                        @elseif ($dovs?->DOVS_File_Path !=NULL)
+                                                                    @elseif ($iddoc != NULL)
                                                                         <div class="mt-4">
-                                                                            <a href="#" class="button">
-                                                                                <button type="submit" class="btn btn-primary w-md" onclick=" window.open('{{ $dovs?->DOVS_File_Path }}')" style="background-color: rgb(0, 0, 0); border-color: #93186c; background-color: #93186c">View</button>
-                                                                            </a>
+                                                                            <button type="button" class="btn btn-primary w-md" onclick="window.open('{{ $iddoc }}')" style="background-color: #93186c; border-color: #93186c">
+                                                                                View
+                                                                            </button>
                                                                         </div>
-
-                                                                        @endif
+                                                                    @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
