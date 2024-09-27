@@ -40,7 +40,7 @@
                     <div class="flex-grow-1">
 
                         <h5 style="padding-left: 13px;" class="mb-2 text-left text-black">{{ $FirstName }} {{ $SURNAME }}</h5>
-                    
+
                         <hr style="margin-bottom: 8px;margin-top: 8px;">
 
                     </div>
@@ -49,17 +49,17 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
-        
+
                             <div class="row d-flex justify-content-evenly">
-        
+
                                 <div class="col-sm-6" style="padding-left: 9%;">
                                     <h5 class="font-size-14 text-left">Identity :</h5>
                                 </div>
-                                   
+
                                 <div class="col-sm-6" style="padding-right: 10%;">
                                     <span class="float-end text-black">{{ $IDNUMBER }}</span>
                                 </div>
-        
+
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="col-sm-6" style="padding-left: 10%;">
                             <h5 class="font-size-14">Risk Rating:</h5>
                         </div>
-                           
+
                         <div class="col-sm-6">
                             @if ($RiskStatusbyFICA == 'HIGH')
                             <span class="justify-content-md-center"
@@ -125,7 +125,7 @@
                                 <span class="justify-content-md-center" style="color: #f53a59">{{ $FICAStatusbyFICA }}</span>
                             @endif
 
-                            
+
                         </div>
 
                     </div>
@@ -150,7 +150,7 @@
                         <button type="button" class="btn text-white waves-effect btn-label waves-light mt-3"
                             style="background-color: #93186c; border-color: #93186c; width: 90%">
                             <i class="bx text-white bx-desktop label-icon"></i>
-                            Search Clients
+                            Customer Onboarding
                         </button>
                     </a>
 

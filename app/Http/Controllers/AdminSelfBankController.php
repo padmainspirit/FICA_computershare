@@ -2049,6 +2049,7 @@ class AdminSelfBankController extends Controller
         $getCustomerId = $id;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
 
+
         $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
@@ -2056,7 +2057,31 @@ class AdminSelfBankController extends Controller
          $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $getCustomerId)->first();
          $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
+
+         $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
+         $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
+         $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
+         $cell4 = $consumerIdentity->CELL_4_PHONE_NUMBER;
+         $cell5 = $consumerIdentity->CELL_5_PHONE_NUMBER;
+         $cellmatch = "Unmatched";
+         $emailmatch = 'Unmatched';
+         $namematch = 'Unmatched';
+
+         if($selfbankingdetails->PhoneNumber ==$cell1 || $selfbankingdetails->PhoneNumber ==$cell2 ||
+         $selfbankingdetails->PhoneNumber ==$cell3 || $selfbankingdetails->PhoneNumber ==$cell4|| $selfbankingdetails->PhoneNumber ==$cell5)
+         {
+            $cellmatch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->Email) == strtolower($consumerIdentity->X_EMAIL) )
+         {
+            $emailmatch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->FirstName) == strtolower($consumerIdentity->FIRSTNAME) )
+         {
+            $namematch = 'Matched';
+         }
 
          if(!empty($_POST))
          {
@@ -2097,9 +2122,10 @@ class AdminSelfBankController extends Controller
         ->with('exceptions', $exceptions)
         ->with('Logo', $customer->Client_Logo)
         ->with('LogUserName', $client->FirstName)
+        ->with('cellmatch', $cellmatch)
+        ->with('emailmatch', $emailmatch)
+        ->with('namematch', $namematch)
         ->with('LogUserSurname', $client->LastName);
-
-
 
     }
 

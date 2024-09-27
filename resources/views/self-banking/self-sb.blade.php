@@ -124,7 +124,7 @@
 
                                 <div class="col-md-2">
                                     <div class="mb-3">
-                                        <button type="button" id="clearall" name="clearall" style="background-color: #91C60F; border-color: #91C60F;" class="btn w-md text-white">Clear</button>
+                                        <button type="button" id="clearall" name="clearall" class="btn btn-secondary w-md">Clear</button>
                                     </div>
                                 </div>
 

@@ -312,7 +312,11 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
 
                                                                             <td>
-
+                                                                                @if ($namematch == 'Matched')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -361,8 +365,11 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
 
                                                                             <td>
-
-
+                                                                                @if ($emailmatch == 'Matched')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
 
                                                                             </td>
                                                                         </tr>
@@ -378,7 +385,11 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
 
                                                                             <td>
-
+                                                                                @if ($cellmatch == 'Matched')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
                                                                             </td>
                                                                         </tr>
 
@@ -1088,7 +1099,7 @@ ini_set('memory_limit', '1024M');
         if (avsStatus == '1') {
             avs = 'Passed';
         } else if (avsStatus == '-1') {
-            avs = 'Server Error';
+            avs = 'Failed';
         }
         var UserFullName = ("<?= $UserFullName; ?>" != null) ? "<?= $UserFullName; ?>" : '';
         var FirstName = ("<?= $selfbankingdetails?->FirstName ?>" != null) ? "<?= $selfbankingdetails?->FirstName; ?>" : '';
@@ -1117,7 +1128,7 @@ ini_set('memory_limit', '1024M');
         var ConsumerIDPhotoMatch = ("<?= $dovs?->ConsumerIDPhotoMatch; ?>" != null) ? "<?= $dovs?->ConsumerIDPhotoMatch; ?>" : '';
         var DeceasedStatus = ("<?= $dovs?->DeceasedStatus; ?>" != null) ? "<?= $dovs?->DeceasedStatus; ?>" : '';
         var initialsmatch = ("<?= $avs?->INITIALSMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
-        var initials = ("<?= $avs?->INITIALS ?>" == 'Yes') ? 'Matched' : 'Unmatched';
+        var initials = ("<?= $avs?->INITIALS; ?>" != null) ? "<?= $avs?->INITIALS; ?>" : '';
         var EMAILMATCHstatus = ("<?= $avs?->EMAILMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
         var surnamematch = ("<?= $avs?->SURNAMEMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
 
@@ -1146,11 +1157,29 @@ ini_set('memory_limit', '1024M');
         var PaymentPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/AVS.png")); ?>';
         var FacialPhoto = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("images/results/facephone4.png")); ?>';
         var bgColour = "#93186c";
-        var ConsumerIDPhotoAlt = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/ImageNotFound.png")); ?>';
 
-        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/PoweredBy.png")); ?>';
+        var ConsumerIDPhotoAlt = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents("assets/images/ImageNotFound.png")); ?>';
+        var logo = 'data:image/png;base64,' + '<?php echo base64_encode(file_get_contents($Logo)); ?>';
 
         var custID = ("<?= $customer?->CustomerID; ?>" != null) ? "<?= $customer?->CustomerID; ?>" : '';
+        const date = new Date();
+
+        // Format date
+        const formattedDate = date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        // Format time
+        const formattedTime = date.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false  // 24-hour format, set to true for 12-hour format
+        });
+
+        // Combine date and time
+        const dateTime = `${formattedDate} ${formattedTime}`;
 
 
         if (custID != '47B97C4A-E9F6-4283-BDB5-D500CA8851C1')
@@ -1163,7 +1192,7 @@ ini_set('memory_limit', '1024M');
 
         doc.autoTable({
             head: [
-                ['Service Banking Report']
+                ['Self Service Banking Report']
             ]
             , body: []
             , startY: 70
@@ -1206,7 +1235,7 @@ ini_set('memory_limit', '1024M');
         doc.autoTable({
             body: [
                 ['Extracted By:', `${UserFullName}`, 'Extracted For:', `${FirstName} ${surname}`]
-                , ['Date of Report:', `${new Date().toLocaleDateString()}`, 'Identity Number:', `${idnum}`],
+                , ['Date of Report:', `${dateTime}`, 'Identity Number:', `${idnum}`],
 
             ]
             , startY: 100
@@ -1301,17 +1330,24 @@ ini_set('memory_limit', '1024M');
             var firstImageWidth = 75;
             var firstImageHeight = 100;
 
+
             // Add text centered on top of the first image frame
             doc.setFontSize(10);
             var firstImageTextX = firstImageX + firstImageWidth / 2;
             var firstImageTextY = firstImageY - 10;
-            doc.text('DHA Captured Photo', firstImageTextX - 200, firstImageTextY - 20, {
+            doc.text('DHA Captured Photo', firstImageTextX - 120, firstImageTextY - 20, {
                 align: 'center'
             });
-            if (HomeAffPhoto != "")
+
+            if ('<?php echo $dovs?->ConsumerIDPhoto; ?>' !== "")
+            {
+
                 doc.addImage(HomeAffPhoto, 'png', firstImageX - 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
-            else
+            }
+                else
+                {
                 doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX - 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
+        }
 
 
             pageWidth = pageWidth * 3;
@@ -1323,7 +1359,7 @@ ini_set('memory_limit', '1024M');
             doc.text('Consumer Captured Photo', firstImageTextX + 120, firstImageTextY - 20, {
                 align: 'center'
             });
-            if (CapturedPhoto != "")
+            if ('<?php echo $dovs?->ConsumerCapturedPhoto; ?>' !== "")
                 doc.addImage(CapturedPhoto, 'png', firstImageX + 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
             else
                 doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX + 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
@@ -1363,29 +1399,33 @@ ini_set('memory_limit', '1024M');
         var iconfromheight = doc.lastAutoTable.finalY + 30;
         var icontextfromheight = doc.lastAutoTable.finalY + 90;
 
+        var i = 100;
+
         {
-            doc.addImage(tick, 'png', 65, tickfromheight, 20, 20, undefined, 'FAST');
+            doc.addImage(tick, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
         }
 
-        doc.addImage(VerificationStaticPhoto, 'png', 50, iconfromheight, 50, 50);
-        doc.text('PersonalInfo', 74, icontextfromheight, {
+
+
+        doc.addImage(VerificationStaticPhoto, 'png',i+ 70, iconfromheight, 50, 50);
+        doc.text('Personal Info', i+94, icontextfromheight, {
             align: 'center'
             , fontSize: 2
         });
 
-        var i = 60;
+
 
 
         if (avsStatus == '1') {
             if (avs == 'Passed') {
-                doc.addImage(tick, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
-            } else if (avs == 'Server Error') {
-                doc.addImage(question, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
+                doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
+            } else if (avs == 'Failed') {
+                doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             } else {
-                doc.addImage(cross, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
+                doc.addImage(question, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             }
-            doc.addImage(PaymentPhoto, 'png', i + 85, iconfromheight, 50, 50, undefined, 'FAST');
-            doc.text('Bank', i + 109, icontextfromheight, {
+            doc.addImage(PaymentPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
+            doc.text('Bank', i + 189, icontextfromheight, {
                 align: 'center'
                 , fontSize: 2
             });
@@ -1394,12 +1434,12 @@ ini_set('memory_limit', '1024M');
 
         if (dovsStatus == '1') {
             if (idnummatch == 'Matched') {
-                doc.addImage(tick, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
+                doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             } else {
-                doc.addImage(cross, 'png', i + 100, tickfromheight, 20, 20, undefined, 'FAST');
+                doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             }
-            doc.addImage(FacialPhoto, 'png', i + 85, iconfromheight, 50, 50, undefined, 'FAST');
-            doc.text('Face View', i + 109, icontextfromheight, {
+            doc.addImage(FacialPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
+            doc.text('Face View', i + 189, icontextfromheight, {
                 align: 'center'
                 , fontSize: 2
             });
@@ -1595,8 +1635,6 @@ ini_set('memory_limit', '1024M');
                     ['Liveliness Detection:', `${LivenessDetectionResult}`, '']
                     , ['ID No. Status:', `${idnummatch}`, '']
                     , ['Deceased Status:', `${DeceasedStatus}`, '']
-                    , ['Latitude:', 'Device Location Disabled/Denied', '']
-                    , ['Longitude:', 'Device Location Disabled/Denied', '']
                 ]
                 , startY: doc.lastAutoTable.finalY + 7
                 , styles: {
@@ -1606,14 +1644,14 @@ ini_set('memory_limit', '1024M');
                 }
                 , columnStyles: {
                     0: {
-                        cellWidth: 150
+                        cellWidth: 220
                         , fontStyle: 'bold'
                     }
                     , 1: {
-                        cellWidth: 270
+                        cellWidth: 230
                     }
                     , 2: {
-                        cellWidth: 0
+                        cellWidth: 80
                     }
                 }
                 , headStyles: {

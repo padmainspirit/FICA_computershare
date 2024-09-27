@@ -411,6 +411,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-3">
+                    <div class="card" id="card"
+                        style="border-top-width: 1px;border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-xs me-3">
+                                    <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18"
+                                    style="background-color: #93186c; background-image: linear-gradient(315deg, #93186c 0%, #93186c 74%);">
+                                        <i class="bx bxs-user-x me-3 font-size-24"
+                                            style="margin-left: 16px; color: rgb(0, 0, 0);"></i>
+                                    </span>
+                                </div>
+                                <h3 class="font-size-16 mb-0" style="font-size: 18px; color: black">Applications in Expired</h3>
+
+                            </div>
+                            <div class="text-muted mt-4">
+                                <h5 style="text-align:right;">{{$dashboard[0]->Expired}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -481,6 +502,7 @@
                         </div>
                     </div>
                 </div>
+
 
             </div>
 {{--
