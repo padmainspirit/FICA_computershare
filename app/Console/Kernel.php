@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sblink:autoexpiry')->everyMinute();
+        $schedule->command('sblink:autoexpiry')
+        ->appendOutputTo(storage_path('logs/scheduled_command.log'))->everyMinute();
     }
 
     /**
