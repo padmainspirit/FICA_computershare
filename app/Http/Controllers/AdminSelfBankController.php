@@ -2047,8 +2047,9 @@ class AdminSelfBankController extends Controller
 
         $getCustomerId = $id;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
+        $selfbankinglink = SelfBankingLink::where('Id', '=',  $selfbankingdetails->SelfBankingLinkId)->first();
 
-        //print_r($selfbankingdetails->SelfBankingLinkId);exit;
+       // print_r($selfbankinglink);exit;
         $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
@@ -2125,6 +2126,7 @@ class AdminSelfBankController extends Controller
         ->with('cellmatch', $cellmatch)
         ->with('emailmatch', $emailmatch)
         ->with('namematch', $namematch)
+        ->with('selfbankinglink', $selfbankinglink)
         ->with('iddoc', $consumerIdentity->Identity_File_Path)
         ->with('LogUserSurname', $client->LastName);
 
