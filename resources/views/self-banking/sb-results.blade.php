@@ -124,6 +124,98 @@ ini_set('memory_limit', '1024M');
 
                 <div class="row justify-content-center">
 
+                    <div class="col-sm-3">
+                        <div class="card" style="width: 100%;">
+                            <div id="box" class="row d-flex justify-content-evenly" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+                                <h5 class="card-title" style="text-align: center;">
+                                    Flow Status Summary
+                                </h5>
+                                <div class="col-sm-6 mt-2" style="padding-left: 9%;">
+                                    <h5 class="font-size-14 text-left">Identity :</h5>
+                                </div>
+
+                                <div class="col-sm-6 mt-2" style="padding-right: 10%;">
+                                    <span class="float-end text-black">{{ $selfbankingdetails?->IDNUMBER }}</span>
+                                </div>
+                                <div class="col-sm-6" style="padding-left: 9%;">
+                                    <h5 class="font-size-14 text-left">Personal info :</h5>
+                                </div>
+                                @if ($selfbankinglink->PersonalDetails == "1")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: #028E41 !important;" class="float-end text-black">Passed</span>
+                                </div>
+                            @elseif ($selfbankinglink->PersonalDetails == "-2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: red !important;" class="float-end text-black">Failed</span>
+                                </div>
+                            @elseif ($selfbankinglink->PersonalDetails == "2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                </div>
+                            @else
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: orange !important;" class="float-end text-black">In Progress</span>
+                                </div>
+                            @endif
+
+                                <div class="col-sm-6" style="padding-left: 9%;">
+                                    <h5 class="font-size-14 text-left">Banking Details :</h5>
+                                </div>
+                                @if ($selfbankinglink->BankingDetails == "1")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: #028E41 !important;" class="float-end text-black">Passed</span>
+                                </div>
+                            @elseif ($selfbankinglink->BankingDetails == "-2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: red !important;" class="float-end text-black">Failed</span>
+                                </div>
+                            @elseif ($selfbankinglink->BankingDetails == "2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                </div>
+                            @else
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: orange !important;" class="float-end text-black">In Progress</span>
+                                </div>
+                            @endif
+
+                                <div class="col-sm-6" style="padding-left: 9%;">
+                                    <h5 class="font-size-14 text-left">Face view :</h5>
+                                </div>
+
+                                @if ($selfbankinglink->DOVS == "1")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: #028E41 !important;" class="float-end text-black">Passed</span>
+                                </div>
+                            @elseif ($selfbankinglink->DOVS == "-2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: red !important;" class="float-end text-black">Failed</span>
+                                </div>
+                            @elseif ($selfbankinglink->DOVS == "2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                </div>
+                            @else
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: orange !important;" class="float-end text-black">In Progress</span>
+                                </div>
+                            @endif
+
+                            <div class="mb-2"></div>
+                            <div class="mb-2"></div>
+                            <div class="mb-2"></div>
+                            <div class="mb-2"></div>
+                            <div class="mb-2"></div>
+                            <div class="mb-2"></div>
+
+
+
+                            </div>
+                            <!-- end card body -->
+                        </div>
+                        <!-- end card -->
+                    </div>
+
                     <div class="col-sm-2">
                         <div class="card" style="width: 100%;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
