@@ -1368,7 +1368,6 @@ class AdminSelfBankController extends Controller
                                 'Status' => 'Validation Pending',
                                 'Comment' => $ConsumerIDPhotoMatch
                             ]);
-                            $sbe->save();
 
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
 
