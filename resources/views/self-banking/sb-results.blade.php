@@ -674,17 +674,140 @@ ini_set('memory_limit', '1024M');
 
                                                                             </td>
                                                                             <td>
-                                                                                {{-- @if ($DeceasedStatus == 'Alive')
-                                                                                        <i class="fa fa-circle"
-                                                                                            style="font-size: 24px; color: green;"></i>
-                                                                                            <p style="color: green; text-transform: uppercase; display: none">PASS</p>
-                                                                                    @elseif ($DeceasedStatus == "Deceased")
-                                                                                        <i class="fa fa-circle"
-                                                                                            style="font-size: 24px; color: red;"></i>
-                                                                                            <p style="color: red; text-transform: uppercase; display: none">FAIL</p>
-                                                                                    @endif  --}}
+
                                                                             </td>
                                                                         </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Birth Date
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->BirthDate}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Gender
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->Gender}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Title
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->TitleDesc}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Marital Status
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->MaritalStatusDesc}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Email Address
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->EmailAddress}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Home Cellphone No
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->CellularNo}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Home Telephone No
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->HomeTelephoneNo}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Work Telephone No
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->WorkTelephoneNo}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Postal Address
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->PostalAddress}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Residential Address
+                                                                            </td>
+                                                                            <td>
+
+                                                                                {{ $dovs?->ResidentialAddress}}
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                        </tr>
+
 
 
                                                                     </tbody>
@@ -1329,7 +1452,18 @@ ini_set('memory_limit', '1024M');
         var custID = ("<?= $customer?->CustomerID; ?>" != null) ? "<?= $customer?->CustomerID; ?>" : '';
         const date = new Date();
 
-        // Format date
+        var MaritalStatus = ("<?= $dovs?->MaritalStatusDesc; ?>" != null) ? "<?= $dovs?->MaritalStatusDesc; ?>" : '';
+        var BirthDate = ("<?= $dovs?->BirthDate; ?>" != null) ? "<?= $dovs?->BirthDate; ?>" : '';
+        var Gender = ("<?= $dovs?->Gender; ?>" != null) ? "<?= $dovs?->Gender; ?>" : '';
+        var Title = ("<?= $dovs?->TitleDesc; ?>" != null) ? "<?= $dovs?->TitleDesc; ?>" : '';
+        var EmailAddress = ("<?= $dovs?->EmailAddress; ?>" != null) ? "<?= $dovs?->EmailAddress; ?>" : '';
+        var CellularNo = ("<?= $dovs?->CellularNo; ?>" != null) ? "<?= $dovs?->CellularNo; ?>" : '';
+        var HomeTelephoneNo = ("<?= $dovs?->HomeTelephoneNo; ?>" != null) ? "<?= $dovs?->HomeTelephoneNo; ?>" : '';
+        var WorkTelephoneNo = ("<?= $dovs?->WorkTelephoneNo; ?>" != null) ? "<?= $dovs?->WorkTelephoneNo; ?>" : '';
+        var PostalAddress = ("<?= $dovs?->PostalAddress; ?>" != null) ? "<?= $dovs?->PostalAddress; ?>" : '';
+        var ResidentialAddress = ("<?= $dovs?->ResidentialAddress; ?>" != null) ? "<?= $dovs?->ResidentialAddress; ?>" : '';
+
+     // Format date
         const formattedDate = date.toLocaleDateString('en-GB', {
             day: 'numeric',
             month: 'long',
@@ -1800,6 +1934,16 @@ ini_set('memory_limit', '1024M');
                     ['Liveliness Detection:', `${LivenessDetectionResult}`, '']
                     , ['ID No. Status:', `${idnummatch}`, '']
                     , ['Deceased Status:', `${DeceasedStatus}`, '']
+                    , ['Birth Date:', `${BirthDate}`, '']
+                    , ['Gender:', `${Gender}`, '']
+                    , ['Title:', `${Title}`, '']
+                    , ['Marital Status:', `${MaritalStatus}`, '']
+                    , ['Home Cellphone No:', `${CellularNo}`, '']
+                    , ['Home Telephone No:', `${HomeTelephoneNo}`, '']
+                    , ['Work Telephone No:', `${WorkTelephoneNo}`, '']
+                    , ['Postal Address:', `${PostalAddress}`, '']
+                    , ['Residential Address:', `${ResidentialAddress}`, '']
+
                 ]
                 , startY: doc.lastAutoTable.finalY + 7
                 , styles: {
