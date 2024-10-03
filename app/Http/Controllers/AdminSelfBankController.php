@@ -1759,7 +1759,6 @@ class AdminSelfBankController extends Controller
                                 'Status' => 'Failed',
                                 'Comment' => 'Photo does not match'
                             ]);
-                            $sbe->save();
 
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>-2]);
 
