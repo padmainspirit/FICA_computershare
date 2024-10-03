@@ -1783,7 +1783,7 @@ class AdminSelfBankController extends Controller
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
                                 //return redirect()->route('process-status')->withInput($request->input())->with('message', 'Internal checks are failed');
 
-                            }else if($ACCOUNTOPENFORATLEASTTHREEMONTHS == 'Yes'){
+                            }else if($ACCOUNTOPENFORATLEASTTHREEMONTHS == 'No'){
                                 $sbe = SelfBankingExceptions::create([
                                     'Id' => Str::upper(Str::uuid()),
                                     'SelfBankingLinkId' => $sbid,
