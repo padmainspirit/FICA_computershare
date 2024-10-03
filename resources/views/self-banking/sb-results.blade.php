@@ -124,17 +124,49 @@ ini_set('memory_limit', '1024M');
 
                 <div class="row justify-content-center">
 
+                    <div class="col-sm-2">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+
+                                <div class="form-floating mb-3">
+                                    @if ($dovs?->ConsumerIDPhoto==NULL)
+                                    <img src="/assets/images/ImageNotFound.png" alt="" height="180" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    </img>
+                                    @else
+                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="170" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    </img>
+                                    @endif
+
+                                </div>
+
+                                <div class="mb-2"></div>
+
+
+                            </div>
+                            <!-- end card body -->
+                        </div>
+                        <!-- end card -->
+                    </div>
+
                     <div class="col-sm-3">
                         <div class="card" style="width: 100%;">
                             <div id="box" class="row d-flex justify-content-evenly" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Flow Status Summary
                                 </h5>
-                                <div class="col-sm-6 mt-2" style="padding-left: 9%;">
+
+                                <div class="col-sm-6 mt-1" style="padding-left: 9%;">
+                                    <h6 class="font-size-14 text-left">Full Names :</h6>
+                                </div>
+
+                                <div class="col-sm-6 mt-1" style="padding-right: 10%;">
+                                    <span class="float-end text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span>
+                                </div>
+                                <div class="col-sm-6" style="padding-left: 9%;">
                                     <h5 class="font-size-14 text-left">Identity :</h5>
                                 </div>
 
-                                <div class="col-sm-6 mt-2" style="padding-right: 10%;">
+                                <div class="col-sm-6" style="padding-right: 10%;">
                                     <span class="float-end text-black">{{ $selfbankingdetails?->IDNUMBER }}</span>
                                 </div>
                                 <div class="col-sm-6" style="padding-left: 9%;">
@@ -150,7 +182,7 @@ ini_set('memory_limit', '1024M');
                                 </div>
                             @elseif ($selfbankinglink->PersonalDetails == "2")
                                 <div class="col-sm-6" style="padding-right: 10%;">
-                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                    <span style="color: rgb(231, 103, 18) !important;" class="float-end text-black">Needs Review</span>
                                 </div>
                             @else
                                 <div class="col-sm-6" style="padding-right: 10%;">
@@ -159,7 +191,7 @@ ini_set('memory_limit', '1024M');
                             @endif
 
                                 <div class="col-sm-6" style="padding-left: 9%;">
-                                    <h5 class="font-size-14 text-left">Banking Details :</h5>
+                                    <h6 class="font-size-14 text-left">Banking Details :</h6>
                                 </div>
                                 @if ($selfbankinglink->BankingDetails == "1")
                                 <div class="col-sm-6" style="padding-right: 10%;">
@@ -171,7 +203,7 @@ ini_set('memory_limit', '1024M');
                                 </div>
                             @elseif ($selfbankinglink->BankingDetails == "2")
                                 <div class="col-sm-6" style="padding-right: 10%;">
-                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                    <span style="color: rgb(231, 103, 18) !important;" class="float-end text-black">Needs Review</span>
                                 </div>
                             @else
                                 <div class="col-sm-6" style="padding-right: 10%;">
@@ -180,7 +212,7 @@ ini_set('memory_limit', '1024M');
                             @endif
 
                                 <div class="col-sm-6" style="padding-left: 9%;">
-                                    <h5 class="font-size-14 text-left">Face view :</h5>
+                                    <h6 class="font-size-14 text-left">Face view :</h6>
                                 </div>
 
                                 @if ($selfbankinglink->DOVS == "1")
@@ -193,7 +225,7 @@ ini_set('memory_limit', '1024M');
                                 </div>
                             @elseif ($selfbankinglink->DOVS == "2")
                                 <div class="col-sm-6" style="padding-right: 10%;">
-                                    <span style="color: blue !important;" class="float-end text-black">Needs Review</span>
+                                    <span style="color: rgb(231, 103, 18) !important;" class="float-end text-black">Needs Review</span>
                                 </div>
                             @else
                                 <div class="col-sm-6" style="padding-right: 10%;">
@@ -201,14 +233,28 @@ ini_set('memory_limit', '1024M');
                                 </div>
                             @endif
 
-                            <div class="mb-2"></div>
-                            <div class="mb-2"></div>
-                            <div class="mb-2"></div>
-                            <div class="mb-2"></div>
-                            <div class="mb-2"></div>
-                            <div class="mb-2"></div>
+                            <div class="col-sm-6" style="padding-left: 9%;">
+                                <h6 class="font-size-14 text-left">Flow Overrall Status :</h6>
+                            </div>
 
-
+                            @if ($FICAStatus == "Completed")
+                            <div class="col-sm-6" style="padding-right: 10%;">
+                                <span style="color: #028E41 !important;" class="float-end text-black">{{$FICAStatus}}</span>
+                            </div>
+                        @elseif ($FICAStatus == "Failed" || $FICAStatus == "Expired" || $FICAStatus == "Rejected")
+                            <div class="col-sm-6" style="padding-right: 10%;">
+                                <span style="color: red !important;" class="float-end text-black">{{$FICAStatus}}</span>
+                            </div>
+                        @elseif ($FICAStatus == "Partially Completed")
+                            <div class="col-sm-6" style="padding-right: 10%;">
+                                <span style="color: rgb(231, 103, 18) !important;" class="float-end text-black">{{$FICAStatus}}</span>
+                            </div>
+                        @else
+                            <div class="col-sm-6" style="padding-right: 10%;">
+                                <span style="color: orange !important;" class="float-end text-black">{{$FICAStatus}}</span>
+                            </div>
+                        @endif
+                        <div class="mb-2"></div>
 
                             </div>
                             <!-- end card body -->
@@ -256,7 +302,7 @@ ini_set('memory_limit', '1024M');
                     <div class="col-sm-2">
                         <div class="card" style="width: 100%;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                <h5 class="card-title" style="text-align: center;">Banking Details</h5>
+                                <h6 class="card-title" style="text-align: center;">Banking Details</h6>
 
                                 @if ($avs?->AVS_Status == '1')
                                 <h6 class="card-title" style="text-align: center;">
@@ -416,6 +462,43 @@ ini_set('memory_limit', '1024M');
                                                                         </tr>
                                                                         <tr>
                                                                             <td style="font-weight: bold;">
+                                                                                Second Name
+                                                                            </td>
+                                                                            <td>
+                                                                                {{$selfbankingdetails?->SecondName}}
+
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @if ($secnamematch == 'Matched')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
+                                                                                Third Name
+                                                                            </td>
+                                                                            <td>
+                                                                                {{$selfbankingdetails?->ThirdName}}
+
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @if ($thirdnamematch == 'Matched')
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
+                                                                                @else
+                                                                                <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style="font-weight: bold;">
                                                                                 Surname
                                                                             </td>
                                                                             <td>
@@ -424,7 +507,7 @@ ini_set('memory_limit', '1024M');
                                                                             </td>
 
                                                                             <td>
-                                                                                @if ($avs?->SURNAMEMATCH == 'Yes')
+                                                                                @if ($smatch == 'Matched')
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt="">
                                                                                 @else
                                                                                 <img style="height:24px;width:24px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt="">

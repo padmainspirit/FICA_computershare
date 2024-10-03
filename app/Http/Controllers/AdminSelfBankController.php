@@ -2061,6 +2061,7 @@ class AdminSelfBankController extends Controller
          $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
 
+        // print_r($consumerIdentity->SURNAME);exit;
          $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
          $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
          $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
@@ -2069,7 +2070,9 @@ class AdminSelfBankController extends Controller
          $cellmatch = "Unmatched";
          $emailmatch = 'Unmatched';
          $namematch = 'Unmatched';
-
+         $smatch = 'Unmatched';
+         $secnamematch = 'Unmatched';
+         $thirdnamematch = 'Unmatched';
          if($selfbankingdetails->PhoneNumber ==$cell1 || $selfbankingdetails->PhoneNumber ==$cell2 ||
          $selfbankingdetails->PhoneNumber ==$cell3 || $selfbankingdetails->PhoneNumber ==$cell4|| $selfbankingdetails->PhoneNumber ==$cell5)
          {
@@ -2082,6 +2085,20 @@ class AdminSelfBankController extends Controller
          if(strtolower($selfbankingdetails->FirstName) == strtolower($consumerIdentity->FIRSTNAME) )
          {
             $namematch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->SecondName) == strtolower($consumerIdentity->SECONDNAME) )
+         {
+            $secnamematch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->ThirdName) == strtolower($consumerIdentity->OTHER_NAMES) )
+         {
+            $thirdnamematch = 'Matched';
+         }
+
+
+         if(strtolower($selfbankingdetails->Surname) == strtolower($consumerIdentity->SURNAME) )
+         {
+            $smatch = 'Matched';
          }
 
          if(!empty($_POST))
@@ -2125,7 +2142,14 @@ class AdminSelfBankController extends Controller
         ->with('LogUserName', $client->FirstName)
         ->with('cellmatch', $cellmatch)
         ->with('emailmatch', $emailmatch)
+        ->with('thirdnamematch', $thirdnamematch)
+        ->with('secnamematch', $secnamematch)
+        ->with('FICAStatus', $fica->FICAStatus)
         ->with('namematch', $namematch)
+        ->with('smatch', $smatch)
+        ->with('ha_name', $consumerIdentity->FIRSTNAME)
+        ->with('ha_secondname', $consumerIdentity->SECONDNAME)
+        ->with('ha_surname', $consumerIdentity->SURNAME)
         ->with('selfbankinglink', $selfbankinglink)
         ->with('iddoc', $consumerIdentity->Identity_File_Path)
         ->with('LogUserSurname', $client->LastName);
