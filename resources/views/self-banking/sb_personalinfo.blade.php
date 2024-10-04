@@ -155,21 +155,22 @@ use Illuminate\Support\Facades\Session;
                                                     <div class="mb-3 mt-1 col-md-6 otp-input-container d-flex justify-content-center">
 
                                                         <input type="text" maxlength="1" style="text-transform: capitalize;" placeholder="C" name="srn1" class="otp-input refnum" id="otp1" title="Please fill in C, D or U" oninput="moveToNext(this, 'otp2')" value="<?= Request::old('reflist.' . $i . '.srn1'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="2" name="srn3" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn3'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="3" name="srn4" class="otp-input" id="otp4" oninput="moveToNext(this, 'otp5')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn4'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="4" name="srn5" class="otp-input" id="otp5" oninput="moveToNext(this, 'otp6')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn5'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="5" name="srn6" class="otp-input" id="otp6" oninput="moveToNext(this, 'otp7')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn6'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="6" name="srn7" class="otp-input" id="otp7" oninput="moveToNext(this, 'otp8')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn7'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="7" name="srn8" class="otp-input" id="otp8" oninput="moveToNext(this, 'otp9')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn8'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="8" name="srn9" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn9'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="9" name="srn10" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn10'); ?>" required>
-                                                        <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="1" name="srn2" class="otp-input" id="otp2" oninput="moveToNext(this, 'otp3')" onkeydown="moveToPrevious(this, 'otp1')"  pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn2'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="2" name="srn3" class="otp-input" id="otp3" oninput="moveToNext(this, 'otp4')" onkeydown="moveToPrevious(this, 'otp2')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn3'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="3" name="srn4" class="otp-input" id="otp4" oninput="moveToNext(this, 'otp5')" onkeydown="moveToPrevious(this, 'otp3')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn4'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="4" name="srn5" class="otp-input" id="otp5" oninput="moveToNext(this, 'otp6')" onkeydown="moveToPrevious(this, 'otp4')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn5'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="5" name="srn6" class="otp-input" id="otp6" oninput="moveToNext(this, 'otp7')" onkeydown="moveToPrevious(this, 'otp5')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn6'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="6" name="srn7" class="otp-input" id="otp7" oninput="moveToNext(this, 'otp8')" onkeydown="moveToPrevious(this, 'otp6')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn7'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="7" name="srn8" class="otp-input" id="otp8" oninput="moveToNext(this, 'otp9')" onkeydown="moveToPrevious(this, 'otp7')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn8'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="8" name="srn9" class="otp-input" id="otp9" oninput="moveToNext(this, 'otp10')" onkeydown="moveToPrevious(this, 'otp8')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn9'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="9" name="srn10" class="otp-input" id="otp10" oninput="moveToNext(this, 'otp11')" onkeydown="moveToPrevious(this, 'otp9')" pattern="^([0-9]{1} ?)+$" title="Please enter a number" value="<?= Request::old('reflist.' . $i . '.srn10'); ?>" required>
+                                                        <input type="text" maxlength="1" placeholder="0" name="srn11" class="otp-input" id="otp11" pattern="^([0-9]{1} ?)+$" onkeydown="moveToPrevious(this, 'otp10')" title="Please enter a number" oninput="completesrn()" value="<?= Request::old('reflist.' . $i . '.srn11'); ?>" required>
 
                                                     </div>
                                                     <div class="col-md-3 d-flex justify-content-center">
 
                                                     </div>
+
 
 
                                                     <div class="mb-3 col-md-3">
@@ -350,7 +351,7 @@ use Illuminate\Support\Facades\Session;
 
                                 </div>
                                 <br>
-                            
+
                             </div>
 
 
@@ -372,7 +373,7 @@ use Illuminate\Support\Facades\Session;
         <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
         <script>
         $(document).ready(function() {
-        var userExist = "<?= Session::get('existinguser'); ?>";  
+        var userExist = "<?= Session::get('existinguser'); ?>";
         if(userExist == 'Yes'){
             $('#loading').modal('show');
         }
@@ -509,6 +510,11 @@ use Illuminate\Support\Facades\Session;
                     completesrn();
 
 
+            }
+            function moveToPrevious(current, previousFieldId) {
+            if (current.value.length === 0 && event.key === 'Backspace') {
+                document.getElementById(previousFieldId).focus();
+            }
             }
 
             function completesrn()
