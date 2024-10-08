@@ -29,7 +29,7 @@
 @media (min-width: 992px) {
     .responsive-logo {
         max-width: 33%;
-        height:70px;
+        height:60px;
     }
 }
 
@@ -37,7 +37,7 @@
 @media (min-width: 1200px) {
     .responsive-logo {
         max-width: 25%;
-        height:80px;
+        height:70px;
     }
 }
 
@@ -89,8 +89,8 @@ h3 ,h4
 @media (max-width: 600px) {
     .otp-input {
         flex: 1 1 15px; /* Adjust the size for smaller screens */
-        max-width: 20px;
-        height: 25px;
+        max-width: 25px;
+        height: 28px;
         font-size: 12px;
     }
 }

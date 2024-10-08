@@ -2336,9 +2336,10 @@ class AdminSelfBankController extends Controller
         $DashboardInfo = DB::connection("sqlsrv2")->select(
             DB::raw("SET NOCOUNT ON; exec SP_Dashboard :Customerid"),
             [
-                ':Customerid' => $client->Customerid
+                ':Customerid' => $client->CustomerId
             ]
         );
+       // print_r($client->CustomerId);exit;
 
         $DashboardData = $DashboardInfo[0] != '' ? $DashboardInfo[0] : null;
 
@@ -2426,7 +2427,7 @@ class AdminSelfBankController extends Controller
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
         $selfbankinglink = SelfBankingLink::where('Id', '=',  $selfbankingdetails->SelfBankingLinkId)->first();
 
-       // print_r($selfbankinglink);exit;
+       //print_r($selfbankingdetails);exit;
         $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
@@ -2437,8 +2438,10 @@ class AdminSelfBankController extends Controller
          $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
+         $SbActions =  SbActions::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
 
-         //print_r($dovs);exit;
+
+         //print_r($SbActions);exit;
          $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
          $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
          $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
@@ -2523,6 +2526,7 @@ class AdminSelfBankController extends Controller
         ->with('secnamematch', $secnamematch)
         ->with('FICAStatus', $fica->FICAStatus)
         ->with('namematch', $namematch)
+        ->with('SbActions', $SbActions)
         ->with('smatch', $smatch)
         ->with('ha_name', $consumerIdentity->FIRSTNAME)
         ->with('ha_secondname', $consumerIdentity->SECONDNAME)

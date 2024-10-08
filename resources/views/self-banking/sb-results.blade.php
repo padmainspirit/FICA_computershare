@@ -125,15 +125,15 @@ ini_set('memory_limit', '1024M');
                 <div class="row justify-content-center">
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%;height:220px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
 
                                 <div class="form-floating mb-3">
                                     @if ($dovs?->ConsumerIDPhoto==NULL)
-                                    <img src="/assets/images/ImageNotFound.png" alt="" height="180" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="/assets/images/ImageNotFound.png" alt="" height="200" width="160" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @else
-                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="170" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="200" width="160" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @endif
 
@@ -149,17 +149,24 @@ ini_set('memory_limit', '1024M');
                     </div>
 
                     <div class="col-sm-3">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%; height:220px;">
                             <div id="box" class="row d-flex justify-content-evenly" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Flow Status Summary
                                 </h5>
-
                                 <div class="col-sm-6 mt-1" style="padding-left: 9%;">
-                                    <h6 class="font-size-14 text-left">Full Names :</h6>
+                                    <h6 class="font-size-14 text-left">Date Started :</h6>
                                 </div>
 
                                 <div class="col-sm-6 mt-1" style="padding-right: 10%;">
+                                    <span class="float-end text-black">{{$selfbankingdetails->CreatedOnDate}}</span>
+                                </div>
+
+                                <div class="col-sm-6" style="padding-left: 9%;">
+                                    <h6 class="font-size-14 text-left">Full Names :</h6>
+                                </div>
+
+                                <div class="col-sm-6" style="padding-right: 10%;">
                                     <span class="float-end text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span>
                                 </div>
                                 <div class="col-sm-6" style="padding-left: 9%;">
@@ -234,7 +241,7 @@ ini_set('memory_limit', '1024M');
                             @endif
 
                             <div class="col-sm-6" style="padding-left: 9%;">
-                                <h6 class="font-size-14 text-left">Flow Overrall Status :</h6>
+                                <h6 class="font-size-14 text-left">Flow Overral Status :</h6>
                             </div>
 
                             @if ($FICAStatus == "Completed")
@@ -263,7 +270,7 @@ ini_set('memory_limit', '1024M');
                     </div>
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%;height:220px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Personal info
@@ -300,7 +307,7 @@ ini_set('memory_limit', '1024M');
 
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%;height:220px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h6 class="card-title" style="text-align: center;">Banking Details</h6>
 
@@ -334,7 +341,7 @@ ini_set('memory_limit', '1024M');
 
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;">
+                        <div class="card" style="width: 100%;height:220px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Face view</h5>
@@ -407,8 +414,8 @@ ini_set('memory_limit', '1024M');
                                         <div>
                                             <span> <img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt=""> - Verified - external sources.</span> <br><br>
                                             <span><img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/redcircle.png" alt=""> - Not verified - external sources.</span><br><br>
-                                            <span> <img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/small/tick.png" alt=""> - Verification successful.</span> <br><br>
-                                            <span><img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/small/cross.png" alt=""> - Verification unsuccessful.</span><br><br>
+                                            <span> <img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/small/tick.png" alt=""> - API execution successful.</span> <br><br>
+                                            <span><img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/small/cross.png" alt=""> - API execution unsuccessful.</span><br><br>
                                             <span><img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/question.png" alt=""> - No response from the source.</span><br><br>
 
                                         </div>
@@ -938,9 +945,10 @@ ini_set('memory_limit', '1024M');
                                                                         </div>
                                                                     @elseif ($iddoc != NULL)
                                                                         <div class="mt-4">
-                                                                            <button type="button" class="btn btn-primary w-md" onclick="window.open('{{ $iddoc }}')" style="background-color: #93186c; border-color: #93186c">
+                                                                            <a href="{{ $iddoc }}" class="btn btn-primary w-md" target="_blank" style="background-color: #93186c; border-color: #93186c">
                                                                                 View
-                                                                            </button>
+                                                                            </a>
+
                                                                         </div>
                                                                     @endif
                                                                     </div>
@@ -971,9 +979,9 @@ ini_set('memory_limit', '1024M');
 
                                                                         @elseif ($avs?->Bank_File_Path !=NULL)
                                                                         <div class="mt-4">
-                                                                            <a href="#" class="button">
-                                                                                <button type="submit" class="btn btn-primary w-md" onclick=" window.open('{{ $avs?->Bank_File_Path }}')" style="background-color: rgb(0, 0, 0); border-color: #93186c; background-color: #93186c">View</button>
 
+                                                                            <a href="{{ $avs?->Bank_File_Path }}" class="btn btn-primary w-md" target="_blank" style="background-color: #93186c; border-color: #93186c">
+                                                                                View
                                                                             </a>
                                                                         </div>
                                                                         @endif
@@ -1016,8 +1024,11 @@ ini_set('memory_limit', '1024M');
                                                                         <div class="col-lg-12">
                                                                             <div class="mb-3">
                                                                                 <label for="basicpill-firstname-input">Flow Status </label>
-                                                                                <select class="form-select" autocomplete="off" class="form-control" id="avsStatus" name="avsStatus">
+                                                                                <select required class="form-select" autocomplete="off" class="form-control" id="avsStatus" name="avsStatus">
 
+                                                                                    <option value="" selected disabled style="font-size: 12px;">
+                                                                                        Please select flow status
+                                                                                    </option>
                                                                                     <option value="Completed" style="font-size: 12px;">
                                                                                         Completed
                                                                                     </option>
@@ -1045,6 +1056,8 @@ ini_set('memory_limit', '1024M');
 
                                                                     </div>
 
+
+
                                                                 </div>
 
 
@@ -1053,6 +1066,45 @@ ini_set('memory_limit', '1024M');
 
                                                     </section>
                                                 </form>
+                                                <div class="col-md-12 mt-3">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover mb-0" id="downloadProfile">
+
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="col-md-5 heading-fica-id" style="color:#ffffff;">Action From</th>
+                                                                    <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Action To</th>
+                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Comment
+                                                                    </th>
+                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Date
+                                                                    </th>
+                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Admin
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @forelse ($SbActions as $SbAction)
+                                                                <tr>
+                                                                    <td>{{ $SbAction->ActionFrom }}</td>
+                                                                    <td>{{ $SbAction->ActionTo }}</td>
+                                                                    <td>{{ $SbAction->Comment }}</td>
+                                                                    <td>{{ $SbAction->CreatedAt }}</td>
+                                                                    <td>{{ $SbAction->Admin_User }}</td>
+
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="4">No previous actions have been done.</td>
+                                                                </tr>
+                                                            @endforelse
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
                                             </div>
 
 
@@ -1859,61 +1911,6 @@ ini_set('memory_limit', '1024M');
             }
         , });
 
-        if (avsStatus == '1') {
-
-            // doc.addPage();
-            doc.autoTable({
-                head: [
-                    ['Bank Account Verification (Realtime)', 'Result', 'Verified']
-                ]
-                , body: [
-                    ['AVS Status:', `${avs}`]
-                    , ['Branch Code:', `${Branch_code}`]
-                    , ['Account Holder:', `${Account_name}`]
-                    , ['Account Number:', `${Account_no}`]
-                    , ['Bank Name:', `${Bank_name}`]
-                    , ['Account Exists:', `${accopen}`]
-                    , ['Initials Match:', `${initials}`, `${initialsmatch}`]
-                    , ['Surname Match:', `${surname}`, `${surnamematch}`]
-                    , ['ID Number Match:', `${idnum}`, `${idnummatch}`]
-                    , ['Email Address Match:', `${Email}`, `${EMAILMATCHstatus}`]
-                    , ['Account Type Match:', `${accopen}`]
-                    , ['Account Dormant:', `${accdormant}`]
-                    , ['Account Open Three Months:', `${accthreemonths}`]
-                    , ['Account Accepts Debits:', `${accdebit}`]
-                    , ['Account Type Match:', `${acc}`]
-                , ]
-                , startY: doc.lastAutoTable.finalY + 7
-                , styles: {
-                    fontSize: 8
-                    , font: 'Avenir'
-                    , textColor: [0, 0, 0]
-                }
-                , columnStyles: {
-                    0: {
-                        cellWidth: 220
-                        , fontStyle: 'bold'
-                    }
-                    , 1: {
-                        cellWidth: 230
-                    , },
-                    /* 2: {
-                        cellWidth: 110,
-                        fontStyle: 'bold'
-                    }, */
-                    2: {
-                        cellWidth: 80
-                    }
-                },
-
-                headStyles: {
-                    fillColor: bgColour
-                    , textColor: [255, 255, 255]
-                }
-            , });
-        }
-
-
 
         if (dovsStatus == '1') {
             // doc.addPage();
@@ -1969,6 +1966,61 @@ ini_set('memory_limit', '1024M');
                 }
             , });
         }
+
+        if (avsStatus == '1') {
+
+// doc.addPage();
+doc.autoTable({
+    head: [
+        ['Bank Account Verification (Realtime)', 'Result', 'Verified']
+    ]
+    , body: [
+        ['AVS Status:', `${avs}`]
+        , ['Branch Code:', `${Branch_code}`]
+        , ['Account Holder:', `${Account_name}`]
+        , ['Account Number:', `${Account_no}`]
+        , ['Bank Name:', `${Bank_name}`]
+        , ['Account Exists:', `${accopen}`]
+        , ['Initials Match:', `${initials}`, `${initialsmatch}`]
+        , ['Surname Match:', `${surname}`, `${surnamematch}`]
+        , ['ID Number Match:', `${idnum}`, `${idnummatch}`]
+        , ['Email Address Match:', `${Email}`, `${EMAILMATCHstatus}`]
+        , ['Account Type Match:', `${accopen}`]
+        , ['Account Dormant:', `${accdormant}`]
+        , ['Account Open Three Months:', `${accthreemonths}`]
+        , ['Account Accepts Debits:', `${accdebit}`]
+        , ['Account Type Match:', `${acc}`]
+    , ]
+    , startY: doc.lastAutoTable.finalY + 7
+    , styles: {
+        fontSize: 8
+        , font: 'Avenir'
+        , textColor: [0, 0, 0]
+    }
+    , columnStyles: {
+        0: {
+            cellWidth: 220
+            , fontStyle: 'bold'
+        }
+        , 1: {
+            cellWidth: 230
+        , },
+        /* 2: {
+            cellWidth: 110,
+            fontStyle: 'bold'
+        }, */
+        2: {
+            cellWidth: 80
+        }
+    },
+
+    headStyles: {
+        fillColor: bgColour
+        , textColor: [255, 255, 255]
+    }
+, });
+}
+
 
 
 
