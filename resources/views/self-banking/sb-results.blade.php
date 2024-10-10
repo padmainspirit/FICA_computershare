@@ -125,15 +125,15 @@ ini_set('memory_limit', '1024M');
                 <div class="row justify-content-center">
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;height:220px;">
+                        <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
 
                                 <div class="form-floating mb-3">
                                     @if ($dovs?->ConsumerIDPhoto==NULL)
-                                    <img src="/assets/images/ImageNotFound.png" alt="" height="200" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="/assets/images/ImageNotFound.png" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @else
-                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="200" width="160" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @endif
 
@@ -149,7 +149,7 @@ ini_set('memory_limit', '1024M');
                     </div>
 
                     <div class="col-sm-3">
-                        <div class="card" style="width: 100%; height:220px;">
+                        <div class="card" style="width: 100%; height:258px;">
                             <div id="box" class="row d-flex justify-content-evenly" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Flow Status Summary
@@ -177,7 +177,7 @@ ini_set('memory_limit', '1024M');
                                     <span class="float-end text-black">{{ $selfbankingdetails?->IDNUMBER }}</span>
                                 </div>
                                 <div class="col-sm-6" style="padding-left: 9%;">
-                                    <h5 class="font-size-14 text-left">Personal info :</h5>
+                                    <h5 class="font-size-14 text-left">Personal Info Captured :</h5>
                                 </div>
                                 @if ($selfbankinglink->PersonalDetails == "1")
                                 <div class="col-sm-6" style="padding-right: 10%;">
@@ -270,10 +270,10 @@ ini_set('memory_limit', '1024M');
                     </div>
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;height:220px;">
+                        <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
-                                    Personal info
+                                    Personal Info
                                 </h5>
 
                                 @if ($dovs?->DOVS_Status =="1")
@@ -307,7 +307,7 @@ ini_set('memory_limit', '1024M');
 
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;height:220px;">
+                        <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h6 class="card-title" style="text-align: center;">Banking Details</h6>
 
@@ -341,7 +341,7 @@ ini_set('memory_limit', '1024M');
 
 
                     <div class="col-sm-2">
-                        <div class="card" style="width: 100%;height:220px;">
+                        <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h5 class="card-title" style="text-align: center;">
                                     Face view</h5>
@@ -387,7 +387,7 @@ ini_set('memory_limit', '1024M');
                                 <div class="row">
                                     <div class="col-md-3 ">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            <a class="nav-link mb-2 active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Personal Info</a>
+                                            <a class="nav-link mb-2 active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Personal Information Captured</a>
 
                                             <a class="nav-link mb-2" id="v-pills-banking-tab" data-bs-toggle="pill" href="#v-pills-banking" role="tab" aria-controls="v-pills-banking" aria-selected="false">Bank
                                                 Account Verification</a>
@@ -405,11 +405,23 @@ ini_set('memory_limit', '1024M');
                                         </div>
 
                                         <div class="row justify-content-center">
-                                            <button type="button" id="newpdf" name="newpdf" onclick="generate()" class="btn btn-rounded waves-effect waves-light mt-3 text-white font-size-14" style="background-color: rgb(193, 22, 28); width: 120px;padding-top: 0px;
-                                                padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                                Export to PDF
-                                            </button>
+                                            <div class="d-flex justify-content-between" style="width: 100%;">
+                                                <button type="button"
+                                                    class="btn waves-effect waves-light"
+                                                    style="background-color: #93186c; border-color: #93186c; color:white;"
+                                                    data-bs-toggle="modal" data-bs-target="#composemessage">
+                                                    Compose Email
+                                                </button>
+                                                <button type="button" id="newpdf" name="newpdf" onclick="generate()"
+                                                    class="btn waves-effect waves-light text-white font-size-14"
+                                                    style="background-color: rgb(193, 22, 28); width: 120px; padding: 0;">
+                                                    Export to PDF
+                                                </button>
+                                            </div>
                                         </div>
+
+
+
                                         <br>
                                         <div>
                                             <span> <img style="height:20px;width:20px;position:relative; top:-3px;" src="/assets/images/greencircle.png" alt=""> - Verified - external sources.</span> <br><br>
@@ -443,7 +455,7 @@ ini_set('memory_limit', '1024M');
                                                                     <thead>
                                                                         <tr>
                                                                             <th class="col-md-5 heading-fica-id" style="color:#ffffff;"></th>
-                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Personal Info</th>
+                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Personal Information Captured</th>
                                                                             <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Pass/Fail
                                                                             </th>
                                                                         </tr>
@@ -580,6 +592,33 @@ ini_set('memory_limit', '1024M');
 
 
 
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover mb-0" id="downloadProfile">
+
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="col-md-5 heading-fica-id" style="color:#ffffff;">SRN</th>
+                                                                            <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Companies</th>
+                                                                            <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @forelse ($SelfBankingCompanySRN as $CompanySRN)
+                                                                        <tr>
+                                                                            <td style="text-transform: uppercase;">{{ $CompanySRN->SRN }}</td>
+                                                                            <td>{{ $CompanySRN?->companies }}</td>
+
+                                                                        </tr>
+                                                                    @empty
+                                                                        <tr>
+                                                                            <td colspan="4">No exceptions found.</td>
+                                                                        </tr>
+                                                                    @endforelse
                                                                     </tbody>
 
                                                                 </table>
@@ -997,7 +1036,7 @@ ini_set('memory_limit', '1024M');
                                             </div>
 
                                             <div class="tab-pane fade" id="v-pills-actions" role="tabpanel" aria-labelledby="v-pills-actions-tab">
-                                                <form method="POST" action="{{ route('sb-results',['id'=>$selfbankingdetails?->SelfBankingDetailsId]) }}">
+                                                <form method="POST" id="form-actions" action="{{ route('sb-results',['id'=>$selfbankingdetails?->SelfBankingDetailsId]) }}">
 
                                                     @csrf
                                                     <section>
@@ -1052,7 +1091,7 @@ ini_set('memory_limit', '1024M');
                                                                     </div>
                                                                     <div class="mt-3 text-center">
 
-                                                                        <button type="submit" class="btn w-md text-white" id="" style="background-color: #91C60F; border-color: #91C60F;">Submit</button>
+                                                                        <button type="button" class="btn w-md text-white" id="btn-action" style="background-color: #91C60F; border-color: #91C60F;">Submit</button>
 
                                                                     </div>
 
@@ -1073,13 +1112,13 @@ ini_set('memory_limit', '1024M');
 
                                                             <thead>
                                                                 <tr>
-                                                                    <th class="col-md-5 heading-fica-id" style="color:#ffffff;">Action From</th>
-                                                                    <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Action To</th>
-                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Comment
+                                                                    <th class="col-md-3 heading-fica-id" style="color:#ffffff;">Action From</th>
+                                                                    <th class="col-md-3 heading-fica-id" style="color:#ffffff;">Action To</th>
+                                                                    <th class="col-md-3 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Comment
                                                                     </th>
-                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Date
+                                                                    <th class="col-md-3 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Date
                                                                     </th>
-                                                                    <th class="col-md-1 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Admin
+                                                                    <th class="col-md-3 heading-fica-id" style="color:#ffffff;padding-left: 0px;">Admin
                                                                     </th>
                                                                 </tr>
                                                             </thead>
@@ -1201,8 +1240,10 @@ ini_set('memory_limit', '1024M');
 
                                                                                 @if ($avs?->AVS_Status == '1')
                                                                                 AVS Completed
-                                                                                @else
+                                                                                @elseif($avs?->AVS_Status == '-1')
                                                                                 AVS Incomplete
+                                                                                @else
+                                                                                Not Available
                                                                                 @endif
 
                                                                             </td>
@@ -1418,6 +1459,64 @@ ini_set('memory_limit', '1024M');
         </div>
 
     </div>
+     <!-- email Modal -->
+
+     <form class="form-horizontal" method="POST" id="form-email"
+     action="{{ route('send-email',['id'=>$selfbankingdetails?->SelfBankingDetailsId]) }}">
+
+     @csrf
+
+     <div class="modal fade" id="composemessage" tabindex="-1" role="dialog"
+         aria-labelledby="composemessageTitle" aria-hidden="true">
+
+         <div class="modal-dialog modal-dialog-centered" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+
+                     <h4 class="card-title mb-2 d-flex justify-content-left"
+                         style="font-size: 18px;margin-bottom: 0px;margin-top: 8px;">
+                         Send an Email
+                     </h4>
+
+                     <button type="button" class="btn-close"
+                         data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+
+                     <div class="mb-3">
+                         <input type="email" id="Email" name="Email"
+                             required class="form-control"
+                             value="{{ $selfbankingdetails?->Email }}" readonly>
+                     </div>
+
+                     <div class="mb-3">
+                         <input type="text" id="Subject" name="Subject"
+                             class="form-control" placeholder="Subject">
+                     </div>
+
+                     <div class="mb-3">
+                         <div>
+                             <textarea required placeholder="Message" id="EmailMessage" name="EmailMessage" class="form-control" maxlength="250"
+                                 rows="4"></textarea>
+                         </div>
+                     </div>
+
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary"
+                         style="background-color: #93186c; border-color: #93186c; color:white; width:78px"
+                         data-bs-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary" id="btn-email"
+                         style="background-color: #93186c; border-color: #93186c; color:white;">Send
+                         <i class="fab fa-telegram-plane ms-1"></i></button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+ </form>
+ <!-- end modal -->
+
 
 </div>
 
@@ -1426,6 +1525,18 @@ ini_set('memory_limit', '1024M');
 
 
 @section('script')
+
+<script>
+    document.getElementById('btn-action').addEventListener('click', function() {
+        // Submit the form actions
+        document.getElementById('form-actions').submit();
+    });
+
+    document.getElementById('btn-email').addEventListener('click', function() {
+        // Submit the emails form
+        document.getElementById('form-email').submit();
+    });
+</script>
 
 <script>
     function generate() {
@@ -1441,8 +1552,21 @@ ini_set('memory_limit', '1024M');
         } else if (avsStatus == '-1') {
             avs = 'Failed';
         }
+        else
+        {
+            avs = 'Not Available'
+        }
+        var SelfBankingCompanySRN = <?= json_encode($SelfBankingCompanySRN); ?>;
+        var AddData = [];
+        //console.log(SelfBankingCompanySRN)
         var UserFullName = ("<?= $UserFullName; ?>" != null) ? "<?= $UserFullName; ?>" : '';
         var FirstName = ("<?= $selfbankingdetails?->FirstName ?>" != null) ? "<?= $selfbankingdetails?->FirstName; ?>" : '';
+        var SecondName = ("<?= $selfbankingdetails?->SecondName ?>" != null) ? "<?= $selfbankingdetails?->SecondName; ?>" : '';
+        var ThirdName = ("<?= $selfbankingdetails?->ThirdName ?>" != null) ? "<?= $selfbankingdetails?->ThirdName; ?>" : '';
+        var namematch = ("<?= $namematch ?>" != null) ? "<?= $namematch; ?>" : '';
+        var secnamematch = ("<?= $secnamematch ?>" != null) ? "<?= $secnamematch; ?>" : '';
+        var thirdnamematch = ("<?= $thirdnamematch ?>" != null) ? "<?= $thirdnamematch; ?>" : '';
+
         var surname = ("<?= $selfbankingdetails?->Surname; ?>" != null) ? "<?= $selfbankingdetails?->Surname; ?>" : '';
         var phone = ("<?= $selfbankingdetails?->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails?->PhoneNumber; ?>" : '';
         var idnum = ("<?= $selfbankingdetails?->IDNUMBER; ?>" != null) ? "<?= $selfbankingdetails?->IDNUMBER; ?>" : '';
@@ -1463,12 +1587,91 @@ ini_set('memory_limit', '1024M');
         var accthreemonths = ("<?= $avs?->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" != null) ? "<?= $avs?->ACCOUNTOPENFORATLEASTTHREEMONTHS; ?>" : '';
         var accdebit = ("<?= $avs?->ACCOUNTACCEPTSDEBITS; ?>" != null) ? "<?= $avs?->ACCOUNTACCEPTSDEBITS; ?>" : '';
         var acc = ("<?= $avs?->BankTypeid; ?>" != null) ? 'Passed' : 'Failed';
+        var PersonalDetails =  ("<?= $selfbankinglink->PersonalDetails; ?>" != null) ? "<?= $selfbankinglink->PersonalDetails; ?>" : '';
+        var BankingDetails = ("<?= $selfbankinglink->BankingDetails; ?>" != null) ? "<?= $selfbankinglink->BankingDetails; ?>" : '';
+        var DOVS = ("<?= $selfbankinglink->DOVS; ?>" != null) ? "<?= $selfbankinglink->DOVS; ?>" : '';
+        var personaldet = '';
+        var bankingdet = '';
+        var dovsdet = '';
+        if (PersonalDetails =='1')
+        {
+            personaldet = 'Passed';
+        }
+        else if (PersonalDetails =='-2')
+        {
+            personaldet = 'Failed';
+        }
+        else if (PersonalDetails =='2')
+        {
+            personaldet = 'Needs Review';
+        }
+        else
+        {
+            personaldet = 'In Progress';
+        }
+
+        //banking details
+        if (BankingDetails =='1')
+        {
+            bankingdet = 'Passed';
+        }
+        else if (BankingDetails =='-2')
+        {
+            bankingdet = 'Failed';
+        }
+        else if (BankingDetails =='2')
+        {
+            bankingdet = 'Needs Review';
+        }
+        else
+        {
+            bankingdet = 'In Progress';
+        }
+        //faceview
+        if (DOVS =='1')
+        {
+            dovsdet = 'Passed';
+        }
+        else if (DOVS =='-2')
+        {
+            dovsdet  = 'Failed';
+        }
+        else if (DOVS =='2')
+        {
+            dovsdet  = 'Needs Review';
+        }
+        else
+        {
+            dovsdet  = 'In Progress';
+        }
+        /*
+
+                                @if ($selfbankinglink->DOVS == "1")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: #028E41 !important;" class="float-end text-black">Passed</span>
+                                </div>
+                            @elseif ($selfbankinglink->DOVS == "-2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: red !important;" class="float-end text-black">Failed</span>
+                                </div>
+                            @elseif ($selfbankinglink->DOVS == "2")
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: rgb(231, 103, 18) !important;" class="float-end text-black">Needs Review</span>
+                                </div>
+                            @else
+                                <div class="col-sm-6" style="padding-right: 10%;">
+                                    <span style="color: orange !important;" class="float-end text-black">In Progress</span>
+                                </div>
+                            @endif
+*/
 
         var LivenessDetectionResult = ("<?= $dovs?->LivenessDetectionResult; ?>" != null) ? "<?= $dovs?->LivenessDetectionResult; ?>" : '';
         var ConsumerIDPhotoMatch = ("<?= $dovs?->ConsumerIDPhotoMatch; ?>" != null) ? "<?= $dovs?->ConsumerIDPhotoMatch; ?>" : '';
         var DeceasedStatus = ("<?= $dovs?->DeceasedStatus; ?>" != null) ? "<?= $dovs?->DeceasedStatus; ?>" : '';
         var initialsmatch = ("<?= $avs?->INITIALSMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
-        var initials = ("<?= $avs?->INITIALS; ?>" != null) ? "<?= $avs?->INITIALS; ?>" : '';
+
+        //var initials = ("<?= $avs?->INITIALS; ?>" != null) ? "<?= $avs?->INITIALS; ?>" : '';
+        var initials =  ("<?= $sbdetails->AccountHolderInitial; ?>" != null) ? "<?= $sbdetails->AccountHolderInitial; ?>" : '';
         var EMAILMATCHstatus = ("<?= $avs?->EMAILMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
         var surnamematch = ("<?= $avs?->SURNAMEMATCH ?>" == 'Yes') ? 'Matched' : 'Unmatched';
 
@@ -1514,6 +1717,13 @@ ini_set('memory_limit', '1024M');
         var WorkTelephoneNo = ("<?= $dovs?->WorkTelephoneNo; ?>" != null) ? "<?= $dovs?->WorkTelephoneNo; ?>" : '';
         var PostalAddress = ("<?= $dovs?->PostalAddress; ?>" != null) ? "<?= $dovs?->PostalAddress; ?>" : '';
         var ResidentialAddress = ("<?= $dovs?->ResidentialAddress; ?>" != null) ? "<?= $dovs?->ResidentialAddress; ?>" : '';
+
+        var CreatedOnDate = ("<?= $selfbankingdetails->CreatedOnDate; ?>" != null) ? "<?= $selfbankingdetails->CreatedOnDate; ?>" : '';
+        var ha_name = ("<?= $ha_name; ?>" != null) ? "<?= $ha_name; ?>" : '';
+        var ha_secondname = ("<?= $ha_secondname; ?>" != null) ? "<?= $ha_secondname; ?>" : '';
+        var ha_surname = ("<?= $ha_surname; ?>" != null) ? "<?= $ha_surname; ?>" : '';
+        var FICAStatus = ("<?= $FICAStatus; ?>" != null) ? "<?= $FICAStatus; ?>" : '';
+
 
      // Format date
         const formattedDate = date.toLocaleDateString('en-GB', {
@@ -1646,7 +1856,8 @@ ini_set('memory_limit', '1024M');
              doc.addImage(CapturedPhoto, 'png', secondImageX, secondImageY, secondImageWidth, secondImageHeight);
          }  */
 
-        if (dovsStatus == '1') {
+        //if (dovsStatus == '1')
+        /*{
             doc.autoTable({
                 head: [
                     ['Facial Recognition']
@@ -1673,7 +1884,8 @@ ini_set('memory_limit', '1024M');
             , });
         }
 
-        if (dovsStatus == '1') {
+       // if (dovsStatus == '1')
+        {
 
             // First Image
             var firstImageX = 250; //95; //250
@@ -1715,12 +1927,69 @@ ini_set('memory_limit', '1024M');
             else
                 doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX + 120, firstImageY - 20, firstImageWidth, firstImageHeight, undefined, 'FAST');
 
+        } */
+
+
+               doc.autoTable({
+            head: [
+                ['Flow Status Summary', '', '']
+            ]
+            , body: [
+                ['Date Started:', `${CreatedOnDate}`, ``]
+                , ['Full names :', `${ha_name} ${ha_secondname} ${ha_surname}`, ``]
+                , ['Identity:', `${idnum }`, ``]
+                , ['Personal Information Captured:', `${personaldet }`, ``]
+                , ['Banking Details:', `${bankingdet }`, ``]
+                , ['Face view :', `${dovsdet }`, ``]
+                , ['Flow Overral Status :', `${FICAStatus }`, ``]
+                //['Telephone (C):', `${CellCode}${CellNo}`, 'Date of Birth:', `${BirthDate}`],
+                //['ID Date of Issue:', `${ID_DateofIssue}`, 'Country of Birth:', `${ID_CountryResidence}`],
+                //['Employment Industry:', `${Industryofoccupation}`,'Employment Status:', `${Employmentstatus}`],
+                //['Name Of Employer:', `${Nameofemployer}`],
+            ],
+            didDrawCell: function (data) {
+        // Insert the image into the third column, first row
+        if (data.column.index === 2 && data.row.index === 6) {
+            // Position the image within the cell
+            if (FICAStatus=='Completed')
+            doc.addImage(tick, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
+        else
+        doc.addImage(cross, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
         }
+    }
+            , startY: doc.lastAutoTable.finalY + 20
+            , styles: {
+                fontSize: 8
+                , font: 'Avenir'
+                , textColor: [0, 0, 0]
+            }
+            , columnStyles: {
+                0: {
+                    cellWidth: 220
+                    , fontStyle: 'bold'
+                }
+                , 1: {
+                    cellWidth: 230
+                },
+                /* 2: {
+                    cellWidth: 110,
+                    fontStyle: 'bold'
+                }, */
+                2: {
+                    cellWidth: 80
+                }
+            }
+            , headStyles: {
+                fillColor: bgColour
+                , textColor: [255, 255, 255]
+            }
+        , });
 
 
 
 
-        var startofscreening = dovsStatus == 1 ? 140 : 20;
+
+        var startofscreening =20;
         doc.autoTable({
             head: [
                 ['Screening Indicators']
@@ -1759,7 +2028,7 @@ ini_set('memory_limit', '1024M');
 
 
         doc.addImage(VerificationStaticPhoto, 'png',i+ 70, iconfromheight, 50, 50);
-        doc.text('Personal Info', i+94, icontextfromheight, {
+        doc.text('Personal Information Captured', i+94, icontextfromheight, {
             align: 'center'
             , fontSize: 2
         });
@@ -1767,7 +2036,25 @@ ini_set('memory_limit', '1024M');
 
 
 
-        if (avsStatus == '1') {
+
+       // if (dovsStatus == '1')
+        {
+            if (idnummatch == 'Matched') {
+                doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
+            } else {
+                doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
+            }
+            doc.addImage(FacialPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
+            doc.text('Face View', i + 189, icontextfromheight, {
+                align: 'center'
+                , fontSize: 2
+            });
+            i = i + 90;
+        }
+
+
+      //  if (avsStatus == '1')
+      {
             if (avs == 'Passed') {
                 doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             } else if (avs == 'Failed') {
@@ -1783,28 +2070,12 @@ ini_set('memory_limit', '1024M');
             i = i + 90;
         }
 
-        if (dovsStatus == '1') {
-            if (idnummatch == 'Matched') {
-                doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            } else {
-                doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            }
-            doc.addImage(FacialPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
-            doc.text('Face View', i + 189, icontextfromheight, {
-                align: 'center'
-                , fontSize: 2
-            });
-            i = i + 90;
-        }
-
-
-
 
 
         // Define the text to be placed in the center
         var text = "Verification checks completed successfully.";
         var text2 = "Verification checks did not complete successfully.";
-        var text3 = "No response from Verification checks."; //assets/images/question.png
+        var text3 = "No response from verification checks."; //assets/images/question.png
 
         // Get the width of the text
         var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize();
@@ -1871,10 +2142,13 @@ ini_set('memory_limit', '1024M');
         // Personal Details
         doc.autoTable({
             head: [
-                ['Personal Info Details', 'Result', 'Verified']
+                ['Personal Information Captured', 'Result', 'Verified']
             ]
             , body: [
-                ['Full Name(s):', `${FirstName} ${surname}`, ``]
+                ['First name:', `${FirstName}`, `${namematch}`]
+                ,['Second Name:', `${SecondName}`, `${secnamematch}`]
+                ,['Third Name:', `${ThirdName}`, `${thirdnamematch}`]
+                ,['Surname:', `${surname}`, `${surnamematch}`]
                 , ['Email:', `${Email}`, `${EMAILMATCHstatus}`]
                 , ['Phone (C):', `${phone }`],
 
@@ -1911,8 +2185,136 @@ ini_set('memory_limit', '1024M');
             }
         , });
 
+        SelfBankingCompanySRN.forEach((element, index) => {
 
-        if (dovsStatus == '1') {
+            var temp = [
+                element.SRN.toUpperCase(),
+                element.companies,
+            ]
+            AddData.push(temp)
+            })
+
+            console.log(AddData);
+
+            if (AddData.length > 0) {
+
+            doc.autoTable({
+
+                head: [
+                    ['SRN', 'Companies']
+                ],
+                body: AddData,
+                startY: doc.lastAutoTable.finalY + 7,
+                styles: {
+                    fontSize: 8,
+                    font: 'Avenir',
+                    textColor: [0, 0, 0]
+                },
+
+                headStyles: {
+                    fillColor: bgColour,
+                    textColor: [255, 255, 255]
+                },
+            });
+            } else {
+
+            doc.autoTable({
+                head: [
+                    ['SRN', 'Companies']
+                ],
+                body: [
+                    ['', '', 'No results found']
+                ],
+                startY: doc.lastAutoTable.finalY + 7,
+                styles: {
+                    fontSize: 8,
+                    font: 'Avenir',
+                    textColor: [0, 0, 0],
+
+                },
+
+                headStyles: {
+                    fillColor: bgColour,
+                    textColor: [255, 255, 255],
+
+                },
+
+            });
+
+
+            }
+            doc.addPage();
+
+        doc.autoTable({
+    head: [
+        ['Facial Recognition']
+    ],
+    body: [],
+    //startY: doc.lastAutoTable ? doc.lastAutoTable.finalY + 7 : 20, // Ensures images are placed after table
+    styles: {
+        fontSize: 8,
+        font: 'Avenir',
+        textColor: [0, 0, 0]
+    },
+    columnStyles: {
+        0: {
+            cellWidth: 100,
+            fontStyle: 'bold',
+            halign: 'left'
+        }
+    },
+    headStyles: {
+        fillColor: bgColour,
+        textColor: [255, 255, 255],
+        halign: 'left'
+    }
+});
+
+// Get the Y position after the table
+var lastY = doc.lastAutoTable.finalY + 10; // Adjust as needed for spacing
+
+// Set the position for the first image
+var firstImageX = 280;
+var firstImageY = lastY + 20; // Adjust for spacing under table
+var firstImageWidth = 75;
+var firstImageHeight = 100;
+
+// Add text centered on top of the first image frame
+doc.setFontSize(10);
+var firstImageTextX = firstImageX + firstImageWidth / 2;
+var firstImageTextY = firstImageY - 10;
+doc.text('DHA Captured Photo', firstImageTextX - 120, firstImageTextY, {
+    align: 'center'
+});
+
+if ('<?php echo $dovs?->ConsumerIDPhoto; ?>' !== "") {
+    doc.addImage(HomeAffPhoto, 'png', firstImageX - 120, firstImageY, firstImageWidth, firstImageHeight, undefined, 'FAST');
+} else {
+    doc.addImage(ConsumerIDPhotoAlt, 'png', firstImageX - 120, firstImageY, firstImageWidth, firstImageHeight, undefined, 'FAST');
+}
+
+if (ConsumerIDPhotoMatch == "Matched" && LivenessDetectionResult == "Passed") {
+                doc.addImage(tick, 'png', firstImageX, firstImageY +10, firstImageWidth, firstImageHeight - 30, undefined, 'FAST');
+            } else {
+                doc.addImage(cross, 'png', firstImageX, firstImageY +10, firstImageWidth, firstImageHeight - 30, undefined, 'FAST');
+            }
+
+// Handle image for second photo
+var secondImageX = firstImageX + 100; // Adjust as needed for second image alignment
+var secondImageY = firstImageY;
+
+doc.text('Consumer Captured Photo', secondImageX+40, firstImageTextY, {
+    align: 'center'
+});
+
+if ('<?php echo $dovs?->ConsumerCapturedPhoto; ?>' !== "") {
+    doc.addImage(CapturedPhoto, 'png', secondImageX, secondImageY, firstImageWidth, firstImageHeight, undefined, 'FAST');
+} else {
+    doc.addImage(ConsumerIDPhotoAlt, 'png', secondImageX, secondImageY, firstImageWidth, firstImageHeight, undefined, 'FAST');
+}
+
+        //if (dovsStatus == '1')
+        {
             // doc.addPage();
             doc.autoTable({
                 //head: [['Facial Recognition Biometric: Validated at Department of Home Affairs', '', '']],
@@ -1942,7 +2344,7 @@ ini_set('memory_limit', '1024M');
                     , ['Residential Address:', `${ResidentialAddress}`, '']
 
                 ]
-                , startY: doc.lastAutoTable.finalY + 7
+                , startY: doc.lastAutoTable.finalY + 150
                 , styles: {
                     fontSize: 8
                     , font: 'Avenir'
@@ -1967,7 +2369,8 @@ ini_set('memory_limit', '1024M');
             , });
         }
 
-        if (avsStatus == '1') {
+        //if (avsStatus == '1')
+        {
 
 // doc.addPage();
 doc.autoTable({

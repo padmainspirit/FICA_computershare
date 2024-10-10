@@ -148,6 +148,7 @@ Route::post('/admin-tabs-other', [CustomerVerification::class, 'OtherDetailsCrea
 Route::get('/admin-comments', [CustomerVerification::class, 'UserComments'])->name('admin-comments');
 Route::get('/admin-inbox', [CustomerVerification::class, 'UserInbox'])->name('admin-inbox');
 Route::post('/admin-inbox', [CustomerVerification::class, 'SendMessage'])->name('admin-inbox-message');
+Route::post('/send-email/{id}', [AdminSelfBankController::class, 'SendEmail'])->name('send-email');
 
 //FAQ
 Route::get('/FAQ', [App\Http\Controllers\FAQ::class, 'ShowPage'])->name('FAQ');
@@ -173,7 +174,6 @@ Route::get('/selfservice', [AdminSelfBankController::class, 'genearateLink'])->n
 Route::get('/selfbankinglink', [AdminSelfBankController::class, 'selfBanking'])->name('selfbanking');
 Route::any('/sb-initiate', [AdminSelfBankController::class, 'selfBankingStart'])->name('agree-selfbanking-tnc');
 Route::any('/sb-personalinfo', [AdminSelfBankController::class, 'sbPersonalInfo'])->name('sb-personalinfo');
-//Route::any('/sb-results/{id}', [AdminSelfBankController::class, 'sbChangeStatus'])->name('update-status');
 Route::any('/uploadid', [AdminSelfBankController::class, 'uploadid'])->name('uploadid');
 Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerification'])->name('digi-verify');
 Route::post('/sbgetselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');
