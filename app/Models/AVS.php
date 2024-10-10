@@ -33,6 +33,7 @@ class AVS extends Model
         'ACCOUNTFOUND',
         'IDNUMBERMATCH',
         'INITIALSMATCH',
+        'INITIALS',
         'SURNAMEMATCH',
         'ACCOUNT_OPEN',
         'ACCOUNTDORMANT',

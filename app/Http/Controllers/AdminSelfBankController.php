@@ -20,6 +20,7 @@ use App\Models\SelfBankingCompanySRN;
 use App\Models\SelfBankingDetails;
 use App\Models\SelfBankingExceptions;
 use App\Models\SelfBankingLink;
+use App\Models\SendEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -325,20 +326,22 @@ class AdminSelfBankController extends Controller
 
             $selfbanking->PersonalDetails = 1;
             /* Matches First name only */
-            if (strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) != strtoupper($request->SecondName)) {
+            if (strtoupper(str_replace(' ', '', $apiresult[4])) == strtoupper(str_replace(' ', '', $request->FirstName)) && strtoupper(str_replace(' ', '', $apiresult[5])) != strtoupper(str_replace(' ', '', $request->Surname)) &&
+            strtoupper(str_replace(' ', '', $apiresult[6])) != strtoupper(str_replace(' ', '', $request->SecondName))) {
                 $sbe = SelfBankingExceptions::create([
                     'Id' => Str::upper(Str::uuid()),
                     'SelfBankingLinkId' =>  $sbid, //$selfbankingdetailsid,
                     'API' => 1,
                     'Status' => 'Validation Pending',
-                    'Comment' => 'Pending Surname'
+                    'Comment' => 'Pending Firstame'
                 ]);
                 $sbe->save();
                 SelfBankingLink::where(['Id' => $sbid])->update(['PersonalDetails' => 2]);
             }
 
             /* Matches First name and Second name only */
-            if (strtoupper($apiresult[4]) == strtoupper($request->FirstName) && strtoupper($apiresult[5]) != strtoupper($request->Surname) && strtoupper($apiresult[6]) == strtoupper($request->SecondName)) {
+            if (strtoupper(str_replace(' ', '', $apiresult[4])) == strtoupper(str_replace(' ', '', $request->FirstName)) && strtoupper(str_replace(' ', '', $apiresult[5])) != strtoupper(str_replace(' ', '', $request->Surname)) &&
+            strtoupper(str_replace(' ', '', $apiresult[6])) == strtoupper(str_replace(' ', '', $request->SecondName))) {
                 $sbe = SelfBankingExceptions::create([
                     'Id' => Str::upper(Str::uuid()),
                     'SelfBankingLinkId' => $sbid, //$selfbankingdetailsid,
@@ -1739,6 +1742,13 @@ class AdminSelfBankController extends Controller
                         /* Process passed due to no home affairs photo we have to redirect todocument upload screen */
                         if($ConsumerIDPhoto == '' || $ConsumerIDPhoto == null || $ConsumerIDPhotoMatch == 'BadPose' || $ConsumerIDPhotoMatch == 'BadSharpness')
                         {
+                            //check if exception is already existing
+                           $existingException = SelfBankingExceptions::where('SelfBankingLinkId', $sbid)
+                            ->where('API', 4)
+                            ->first();
+
+                        if (!$existingException)
+                        {
                             $sbe = SelfBankingExceptions::create([
                                 'Id' => Str::upper(Str::uuid()),
                                 'SelfBankingLinkId' => $sbid,
@@ -1747,9 +1757,11 @@ class AdminSelfBankController extends Controller
                                 'Comment' => $ConsumerIDPhotoMatch
                             ]);
 
+
                             SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>2]);
 
                             $process = 'NoPhoto';
+                        }
                         }else if($ConsumerIDPhotoMatch == 'Not Matched'){
                             /* Process failed flow, terminate the execution */
                             $sbe = SelfBankingExceptions::create([
@@ -1926,6 +1938,7 @@ class AdminSelfBankController extends Controller
                     $returnValue = $userVerification->ConnectGetAccountVerificationResult($this->soapUrlLive, $this->xdsusername, $this->xdspassword, $ticket, $referenceNo);
 
 
+
                     $tempData = explode('>', $returnValue);
                     $tempData2 = explode('<', $tempData[5]);
 
@@ -1961,6 +1974,7 @@ class AdminSelfBankController extends Controller
                         $EnquiryStatus = NULL;
                         $XDsRefNo = NULL;
                         $ExternalRef = NULL;
+                        $INITIALS = NULL;
                         // $BankTypeid = 3;
                         //print_r($tempData5);exit;
 
@@ -1996,6 +2010,10 @@ class AdminSelfBankController extends Controller
                             if ($tempData5[$i] == 'ACCOUNTOPENFORATLEASTTHREEMONTHS') {
                                 $ACCOUNTOPENFORATLEASTTHREEMONTHS  = $tempData5[$i + 1];
                                 $ACCOUNTOPENFORATLEASTTHREEMONTHS = str_replace('/ACCOUNTOPENFORATLEASTTHREEMONTHS', '', $ACCOUNTOPENFORATLEASTTHREEMONTHS);
+                            }
+                            if ($tempData5[$i] == 'INITIALS') {
+                                $INITIALS  = $tempData5[$i + 1];
+                                $INITIALS = str_replace('/INITIALS', '', $INITIALS);
                             }
                             if ($tempData5[$i] == 'ACCOUNTACCEPTSDEBITS') {
                                 $ACCOUNTACCEPTSDEBITS  = $tempData5[$i + 1];
@@ -2079,6 +2097,8 @@ class AdminSelfBankController extends Controller
                             'EnquiryStatus' => $EnquiryStatus,
                             'XDsRefNo' => $XDsRefNo,
                             'ExternalRef' => $ExternalRef,
+                            'INITIALS' => $INITIALS,
+
                         ]);
                     //print_r($tempData5);exit;
                         if ($tempData5[1] == 'ResultFile') {
@@ -2112,7 +2132,9 @@ class AdminSelfBankController extends Controller
                                     'XDsRefNo' => $XDsRefNo,
                                     'ExternalRef' => $ExternalRef,
                                     'ErrorMessage' => NULL,
-                                    'AVSResponse' => $returnValue
+                                    'AVSResponse' => $returnValue,
+                                    'INITIALS' => $INITIALS
+
                                 )
                             );
                             FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
@@ -2219,14 +2241,14 @@ class AdminSelfBankController extends Controller
                                     'ErrorMessage' => $message
                                 )
                             );
-                           /* FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
+                            FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
                                 array(
                                     'LastUpdatedDate' => date("Y-m-d H:i:s"),
                                     'FICAStatus' =>  'Failed',
                                     'FailedDate' => date("Y-m-d H:i:s"),
                                     'FICAProgress' =>  '10.0',
                                 )
-                            );*/
+                            );
                             //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
                             SelfBankingLink::where('Id', '=',   $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
@@ -2420,8 +2442,6 @@ class AdminSelfBankController extends Controller
 
         $reason = $request->reason;
         $status = $request->avsStatus;
-        $actionType = '';
-        $actionComment = '';
 
         $getCustomerId = $id;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
@@ -2439,9 +2459,11 @@ class AdminSelfBankController extends Controller
          $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
          $SbActions =  SbActions::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
+         $SelfBankingCompanySRN =  SelfBankingCompanySRN::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
 
 
-         //print_r($SbActions);exit;
+
+        // print_r($SelfBankingCompanySRN);exit;
          $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
          $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
          $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
@@ -2480,7 +2502,7 @@ class AdminSelfBankController extends Controller
          {
             $smatch = 'Matched';
          }
-
+//print_r($sbdetails);exit;
          if(!empty($_POST))
          {
             FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
@@ -2515,6 +2537,126 @@ class AdminSelfBankController extends Controller
         ->with('dovs', $dovs)
         ->with('UserFullName', $UserFullName)
         ->with('customerName', $customer->RegistrationName)
+        ->with('sbdetails', $sbdetails)
+        ->with('Icon', $customer->Client_Icon)
+        ->with('message', $message)
+        ->with('SelfBankingCompanySRN', $SelfBankingCompanySRN)
+        ->with('exceptions', $exceptions)
+        ->with('Logo', $customer->Client_Logo)
+        ->with('LogUserName', $client->FirstName)
+        ->with('cellmatch', $cellmatch)
+        ->with('emailmatch', $emailmatch)
+        ->with('thirdnamematch', $thirdnamematch)
+        ->with('secnamematch', $secnamematch)
+        ->with('FICAStatus', $fica->FICAStatus)
+        ->with('namematch', $namematch)
+        ->with('SbActions', $SbActions)
+        ->with('smatch', $smatch)
+        ->with('ha_name', $consumerIdentity->FIRSTNAME)
+        ->with('ha_secondname', $consumerIdentity->SECONDNAME)
+        ->with('ha_surname', $consumerIdentity->SURNAME)
+        ->with('selfbankinglink', $selfbankinglink)
+        ->with('iddoc', $consumerIdentity->Identity_File_Path)
+        ->with('LogUserSurname', $client->LastName);
+
+    }
+    public function SendEmail(Request $request,$id)
+    {
+        $client = Auth::user();
+        $customer = Customer::getCustomerDetails($client->CustomerId);
+
+        $message ='';
+        $messageemail ='';
+        $UserFullName = $client->FirstName . ' ' . $client->LastName;
+
+        $Subject = $request->Subject;
+        $messagetyped = $request->EmailMessage;
+
+
+        $getCustomerId = $id;
+        $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
+        $selfbankinglink = SelfBankingLink::where('Id', '=',  $selfbankingdetails->SelfBankingLinkId)->first();
+
+       //print_r($selfbankingdetails);exit;
+        $sbdetails = SelfBankingDetails::where(['SelfBankingDetailsId' => $getCustomerId])
+        ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
+        ->first();
+
+         $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $selfbankingdetails->SelfBankingLinkId)->get();
+
+         $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
+         $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
+         $SbActions =  SbActions::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
+         $SelfBankingCompanySRN =  SelfBankingCompanySRN::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
+
+
+         //print_r($avs);exit;
+         $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
+         $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
+         $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
+         $cell4 = $consumerIdentity->CELL_4_PHONE_NUMBER;
+         $cell5 = $consumerIdentity->CELL_5_PHONE_NUMBER;
+         $cellmatch = "Unmatched";
+         $emailmatch = 'Unmatched';
+         $namematch = 'Unmatched';
+         $smatch = 'Unmatched';
+         $secnamematch = 'Unmatched';
+         $thirdnamematch = 'Unmatched';
+         if($selfbankingdetails->PhoneNumber ==$cell1 || $selfbankingdetails->PhoneNumber ==$cell2 ||
+         $selfbankingdetails->PhoneNumber ==$cell3 || $selfbankingdetails->PhoneNumber ==$cell4|| $selfbankingdetails->PhoneNumber ==$cell5)
+         {
+            $cellmatch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->Email) == strtolower($consumerIdentity->X_EMAIL) )
+         {
+            $emailmatch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->FirstName) == strtolower($consumerIdentity->FIRSTNAME) )
+         {
+            $namematch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->SecondName) == strtolower($consumerIdentity->SECONDNAME) )
+         {
+            $secnamematch = 'Matched';
+         }
+         if(strtolower($selfbankingdetails->ThirdName) == strtolower($consumerIdentity->OTHER_NAMES) )
+         {
+            $thirdnamematch = 'Matched';
+         }
+
+
+         if(strtolower($selfbankingdetails->Surname) == strtolower($consumerIdentity->SURNAME) )
+         {
+            $smatch = 'Matched';
+         }
+        $ClientFullName = $selfbankingdetails->FirstName . ' ' . $selfbankingdetails->Surname;
+
+        $email = $selfbankingdetails->Email;
+
+        $YearNow = Carbon::now()->year;
+        $TradingName = $customer->TradingName;
+
+        Mail::send(
+            'self-banking.emailclient',
+            ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow,'FirstName'=>$selfbankingdetails->FirstName, 'Surname'=>$selfbankingdetails->Surname, 'ClientFullName'=>$ClientFullName, 'messagetyped'=>$messagetyped],
+            function ($messageemail) use ($request, $email,$Subject) {
+
+                $messageemail->from(config('app.cssb_adminemail'));
+                $messageemail->to($email);
+                $messageemail->subject($Subject);
+            }
+
+        );
+        $message = 'Email has been sent succesfully';
+        return view('self-banking.sb-results', ['selfbankingdetails' => $selfbankingdetails])
+        ->with('customer', $customer)
+        ->with('avs', $avs)
+        ->with('dovs', $dovs)
+        ->with('sbdetails', $sbdetails)
+        ->with('UserFullName', $UserFullName)
+        ->with('customerName', $customer->RegistrationName)
         ->with('Icon', $customer->Client_Icon)
         ->with('message', $message)
         ->with('exceptions', $exceptions)
@@ -2526,6 +2668,7 @@ class AdminSelfBankController extends Controller
         ->with('secnamematch', $secnamematch)
         ->with('FICAStatus', $fica->FICAStatus)
         ->with('namematch', $namematch)
+        ->with('SelfBankingCompanySRN', $SelfBankingCompanySRN)
         ->with('SbActions', $SbActions)
         ->with('smatch', $smatch)
         ->with('ha_name', $consumerIdentity->FIRSTNAME)
