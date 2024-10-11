@@ -1823,8 +1823,9 @@ class AdminSelfBankController extends Controller
     }
 
 
-    public function previewDetails(Request $request)
+    public function previewDetails(Request $request, $j=1)
     {
+        app('debugbar')->info('avs start ');
         $YearNow = Carbon::now()->year;
         $sbid = $request->session()->get('sbid');
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
@@ -2232,6 +2233,16 @@ class AdminSelfBankController extends Controller
                            // return redirect()->route('process-status');
                         } else {
                             //invalid bank information
+
+
+                            app('debugbar')->info('test ');
+                            if ($tempData5[2] === ' No Result available /NotFound' && $j <= 2)
+                            {
+
+                                app('debugbar')->info('test ' . $j);
+                                $j++; // Increment $j
+                                 $this->previewDetails($request, $j); // Call recursively with updated $j
+                            }else{
                             $errorMessage = str_replace('/Error', '', $tempData5[2]);
                             $message = $errorMessage != null ? $errorMessage : 'AVS Failed, Please contact administrator';
                             AVS::where('FICA_id', $fica_id)->update(
@@ -2249,9 +2260,13 @@ class AdminSelfBankController extends Controller
                                     'FICAProgress' =>  '10.0',
                                 )
                             );
+
+
+
                             //return redirect()->route('process-status')->withInput($request->input())->with('message', 'AVS Failure');
                             SelfBankingLink::where('Id', '=',   $sbid)->update(['BankingDetails'=>-2,'BankDocumentUpload'=>0]);
                                 return redirect()->route('sb-preview-details')->withInput($request->input())->with('message', 'Internal checks are failed');
+                            }
                         }
                     }
                 }
