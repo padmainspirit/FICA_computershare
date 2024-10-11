@@ -421,66 +421,7 @@ use Illuminate\Support\Facades\Session;
     </script>
 
 
-    <!-- jQuery -->
 
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-    <script src="{{ URL::asset('/assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
-
-    <script src="{{ URL::asset('/assets/js/pages/form-repeater.int.js') }}"></script>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const fileNameDisplay = document.getElementById('fileNameDisplay');
-
-            // Prevent default behaviors for drag events
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = 'blue';
-            });
-
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = '#ccc';
-            });
-
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.style.borderColor = '#ccc';
-
-                // Handle the dropped files
-                const files = e.dataTransfer.files;
-                handleFiles(files);
-            });
-
-            function handleFiles(files) {
-                if (files.length > 0) {
-                    // Show the name of the first file
-                    fileNameDisplay.textContent = files[0].name;
-                } else {
-                    fileNameDisplay.textContent = '';
-                }
-            }
-
-            // Trigger file input when drop zone is clicked
-            dropZone.addEventListener('click', function() {
-                fileInput.click();
-            });
-
-            // Handle file input change event
-            fileInput.addEventListener('change', function() {
-                const files = fileInput.files;
-                handleFiles(files);
-            });
-        });
-    </script>
 
 <script type="text/javascript">
     function redirecttocs() {
