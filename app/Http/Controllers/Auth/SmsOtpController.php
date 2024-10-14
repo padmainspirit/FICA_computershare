@@ -156,4 +156,44 @@ class SmsOtpController extends Controller
             return false;
         }
     }
+
+    /* function to send sms for self banking functionlaity */
+    public function sbSMS($phonenumber, $message)
+    {
+        $phonenumber = '0723865361';
+        $apiKey = config("app.SB_SMS_APIKEY");
+        $apiSecret = config("app.SB_SMS_APISECRET");
+        $sbsmsurl = config("app.SB_SMS_URL");
+        $accountApiCredentials = $apiKey . ':' . $apiSecret;
+
+        $base64Credentials = base64_encode($accountApiCredentials);
+        $authHeader = 'Authorization: Basic ' . $base64Credentials;
+
+        $sendData = '{ "messages" : [ { "content" : "'.$message.'", "destination" : "'.$phonenumber.'" } ] }';
+
+        $options = array(
+            'http' => array(
+                'header' => array("Content-Type: application/json", $authHeader),
+                'method' => 'POST',
+                'content' => $sendData,
+                'ignore_errors' => true
+            )
+        );
+
+        $sendResult = file_get_contents($sbsmsurl, false, stream_context_create($options));
+
+        $status_line = $http_response_header[0];
+        preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+        $status = $match[1];
+
+        if ($status === '200') {
+            echo "Success:\n";
+            var_dump($sendResult);
+        } else {
+            echo "Failure:\n";
+            var_dump($sendResult);
+        }
+        exit;
+        return true;
+    }
 }
