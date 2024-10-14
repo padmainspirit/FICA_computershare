@@ -179,7 +179,9 @@ Route::any('/digital-verification', [AdminSelfBankController::class, 'DigiVerifi
 Route::post('/sbgetselfieresult', [AdminSelfBankController::class, 'getSelfieResultFromxXDS'])->name('sbgetselfieresult');
 Route::any('/bank-verification', [AdminSelfBankController::class, 'BankVerification'])->name('bank-verify');
 Route::post('/sbEmailorPhone', [AdminSelfBankController::class, 'sbEmailorPhone'])->name('sbEmailorPhone');
+Route::post('/requestOTL', [AdminSelfBankController::class, 'requestOTL'])->name('requestOTL');
 Route::any('/idvlink', [AdminSelfBankController::class, 'idvlink'])->name('idvlink');
+Route::any('/idvlink_otl', [AdminSelfBankController::class, 'idvlinkOTL'])->name('idvlink_otl');
 Route::any('/banking', [AdminSelfBankController::class, 'bankingAvs'])->name('banking');
 Route::any('/sb-preview-details', [AdminSelfBankController::class, 'previewDetails'])->name('sb-preview-details');
 Route::get('/sb-status', [AdminSelfBankController::class, 'processStatus'])->name('process-status');
@@ -187,7 +189,7 @@ Route::get('/sb-status', [AdminSelfBankController::class, 'processStatus'])->nam
 
 
 /* Cron crontroller routes */
-Route::any('/getOtlSelfieResponse', [CronJobController::class, 'getDiaResponse'])->name('get-otl-Response');
+Route::get('/sbgetDovsSelfieStatus', [CronJobController::class, 'getDovsSelfieStatus'])->name('sbgetOtlDovsStatus');
 
 
 

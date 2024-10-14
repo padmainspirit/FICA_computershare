@@ -50,6 +50,7 @@ class AdminSelfBankController extends Controller
     protected $soapUrlLive;
     protected $soapUrlDemo;
     protected $s3url;
+    
 
     public function __construct()
     {
@@ -67,7 +68,7 @@ class AdminSelfBankController extends Controller
 
         $this->soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
         $this->soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
-        $this->s3url = config('app.API_UPLOAD_PATH');
+        $this->s3url = config('app.API_UPLOAD_PATH');        
 
         date_default_timezone_set('Africa/Johannesburg');
     }
@@ -538,6 +539,32 @@ class AdminSelfBankController extends Controller
             ->with('sbid', $sbid);
     }
 
+    public function idvlinkOTL(Request $request)
+    {
+        $sbid = $request->session()->get('sbid');
+
+        if ($sbid == '' || $sbid == null) {
+            $url = '/';
+            return response()->view('errors.401', ['message' => 'link has been expired', 'url' => $url], 401);
+        }
+
+        $routename = SelfBankingLink::checkStep($sbid);
+        if (Route::currentRouteName() != $routename && $routename != "digi-verify") {
+            return redirect()->route($routename);
+        }
+
+        $selfbanking = SelfBankingLink::find($sbid);
+        $customer = Customer::getCustomerDetails($selfbanking->CustomerId);
+        $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=', $sbid)->first();
+        $phoneNumber = $selfbankingdetails->PhoneNumber;
+        return view('self-banking.idvlink_otl')
+            ->with('customer', $customer)
+            ->with('phoneNumber', $phoneNumber)
+            ->with('emailVal', $selfbankingdetails->Email)
+            ->with('sbid', $sbid)
+            ->with('otl', '');
+    }
+
     public function bankingAvs(Request $request)
     {
        // $sbid = "90E7B1CC-4F65-4183-A0F4-2717CD9C82A0";
@@ -949,6 +976,82 @@ class AdminSelfBankController extends Controller
             ->with('bankTpye', $bankTpye)
             ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
     }
+
+
+    public function requestOTL(Request $request)
+    {
+        $sbid = $request->session()->get('sbid');
+        $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
+        $selfbankinglinkdetails = SelfBankingLink::with(['selfBankingDetails.fica','selfBankingDetails.bankAccountType','selfBankingDetails.SBCompanySRN'])->where('Id',$sbid)->first();
+        $fica_id = $selfbankinglinkdetails->selfBankingDetails->fica->FICA_id;
+        $YearNow = Carbon::now()->year;
+
+        if($_POST){
+            $option = $request->option;
+            if($option == 'Browser'){
+                $request['phoneinput'] = null;
+                $request['emailinput'] = null;
+            }else{
+                $request['phoneinput'] = $option == 'Email' ? null : $request['phoneinput'];
+                $request['emailinput'] = $option == 'SMS' ? null : $request['emailinput'];
+            }
+            $this->validate($request, [
+                'option' => ['required', 'string'],
+                'emailinput' => ['nullable', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/','required_if:option,Email'],
+                'phoneinput' => ['nullable', 'regex:/^0[6-8][0-9]{8}$/' ,'required_if:option,SMS'],
+            ]);
+
+            $sbapi = new AdminSelfServiceBankingApiController();
+            $requestOTLresponsexml = $sbapi->requestOTL($selfbankingdetails->IDNUMBER);
+            $requestOTLresponse = $sbapi->parseSoapXmlDia($requestOTLresponsexml);
+            
+            $otlResult = $requestOTLresponse['Body']['RequestOTLResponse']['RequestOTLResult'];
+            $EnquiryInput = $otlResult['DiaReference'];
+
+            DOVS::where(['FICA_id' => $fica_id])->update([
+                'LastUpdatedDate' => date("Y-m-d H:i:s"),
+                'EnquiryInput' => $EnquiryInput,
+                //'SelfieStatus' => 'pending',
+                'DOVS_DIA_Response'=>$requestOTLresponsexml,
+                'API_TYPE' => 2,
+                'SubscriberName'=> config("app.DIA_INSTNAME"),
+                'SubscriberUserName'=> config("app.DIA_USERNAME")
+            ]);
+            $urldata = $otlResult['UniqueUrl'];
+            $regex = '/https?\:\/\/[^\",]+/i';
+            preg_match_all($regex, $urldata, $matches);
+
+            $otl = '';
+            if(!empty($matches[0])){
+                $otl = $matches[0][0];
+            }
+
+            if($option == 'Browser'){
+                //return redirect()->away($otl);
+                return redirect()->back()->with("otl",$otl)->with("option",'Browser');
+            }else if($option == 'Email'){
+                $customer = Customer::getCustomerDetails(config("app.CUSTOMER_DEFAULT_ID"));
+                Mail::send(
+                    'email.sb_otl',
+                    ['otl' => $otl, 'Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $YearNow],
+                    function ($message) use ($request) {
+                        $message->to($request['emailinput']);
+                        $message->subject('OTL For Facial Recognition');
+                    }
+                );
+                return redirect()->back()->with("otl",$otl)->with("option",'Email');
+
+            }else if($option == 'SMS'){
+                $smsotp = new SmsOtpController();
+                $message = "Computershare: Dear shareholder, Please Click ".$otl." for facial recognition";
+                $smsresult = $smsotp->sbSMS($request['phoneinput'], $message);
+                return redirect()->back()->with("otl",$otl)->with("option",'SMS');
+
+            }
+            print_r($requestOTLresponse);exit;
+        }
+    }
+
 
 
     /* Self banking flow link  */
