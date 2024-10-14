@@ -1491,7 +1491,7 @@ ini_set('memory_limit', '1024M');
 
                      <div class="mb-3">
                          <input type="text" id="Subject" name="Subject"
-                             class="form-control" placeholder="Subject">
+                             class="form-control" placeholder="Subject" >
                      </div>
 
                      <div class="mb-3">
@@ -1506,7 +1506,7 @@ ini_set('memory_limit', '1024M');
                      <button type="button" class="btn btn-secondary"
                          style="background-color: #93186c; border-color: #93186c; color:white; width:78px"
                          data-bs-dismiss="modal">Close</button>
-                     <button type="button" class="btn btn-primary" id="btn-email"
+                     <button type="button" disabled class="btn btn-primary" id="btn-email"
                          style="background-color: #93186c; border-color: #93186c; color:white;">Send
                          <i class="fab fa-telegram-plane ms-1"></i></button>
                  </div>
@@ -1536,6 +1536,27 @@ ini_set('memory_limit', '1024M');
         // Submit the emails form
         document.getElementById('form-email').submit();
     });
+</script>
+<script>
+    const subjectInput = document.getElementById('Subject');
+    const messageInput = document.getElementById('EmailMessage');
+    const sendButton = document.getElementById('btn-email');
+
+    // Disable the button initially
+    sendButton.disabled = true;
+
+    // Function to check if both fields are filled
+    function checkInputFields() {
+        if (subjectInput.value.trim() !== "" && messageInput.value.trim() !== "") {
+            sendButton.disabled = false;  // Enable button if both fields are not empty
+        } else {
+            sendButton.disabled = true;   // Disable button if one or both fields are empty
+        }
+    }
+
+    // Listen for input changes in both the Subject and Message fields
+    subjectInput.addEventListener('input', checkInputFields);
+    messageInput.addEventListener('input', checkInputFields);
 </script>
 
 <script>

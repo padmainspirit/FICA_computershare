@@ -116,9 +116,9 @@
 
                                     {{-- @error('exception')
                                     <div class="alert alert-danger">
-                                    
+
                                         {{ $exception }}
-                                        
+
                                     </div>
                                     @enderror --}}
 
@@ -153,7 +153,7 @@
                                                 <div class="mb-3">
 
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">ID Number:</label>
+                                                        >ID Number:</label>
 
                                                 </div>
                                             </div>
@@ -162,7 +162,7 @@
                                                 <div class="mb-3">
 
                                                     <input autocomplete="off" type="text" class="form-control input-sm"
-                                                        style="height: 27px; width: 10px; padding-left: 24px; width: 225px; text-transform: uppercase;"
+                                                        style="border-radius: 15px;"
                                                         id="IDNumber" name="IDNumber" placeholder="Enter ID Number"
                                                         value="">
 
@@ -173,18 +173,18 @@
                                                 <div class="mb-3">
 
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">FICA Status:</label>
+                                                        >FICA Status:</label>
 
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4 ">
                                                 <div class="mb-3">
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
+                                                    <div class="input-group">
 
-                                                        <div class="input-group" style="height: 27px; width: 225px;">
+                                                        <div class="input-group" >
                                                             <select class="form-select" autocomplete="off"
-                                                                style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px;"
+                                                                style="border-radius: 15px;"
                                                                 id="FICAStatus" name="FICAStatus">
                                                                 <option value="" style="font-size: 12px;">
                                                                     Select
@@ -227,7 +227,7 @@
                                                 <div class="mb-3">
 
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">Last Name:</label>
+                                                        >Last Name:</label>
 
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                                 <div class="mb-3">
 
                                                     <input autocomplete="off" type="text" class="form-control input-sm"
-                                                        style="height: 27px; width: 10px; padding-left: 24px; width: 225px; text-transform: uppercase;"
+                                                       style="border-radius: 15px;"
                                                         id="LastName" name="LastName" placeholder="Enter Last Name"
                                                         value="">
 
@@ -247,17 +247,17 @@
                                                 <div class="mb-3">
 
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">First Name:</label>
+                                                        >First Name:</label>
 
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
+                                                    <div class="input-group">
 
-                                                        <input autocomplete="off" type="text" class="form-control"
-                                                            style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px; text-transform: uppercase;"
+                                                        <input autocomplete="off" type="text" class="form-control input-sm"
+                                                            style="border-radius: 15px;"
                                                             id="FirstName" name="FirstName" placeholder="Enter First Name"
                                                             value="">
 
@@ -275,7 +275,7 @@
                                                 <div class="mb-3">
 
                                                     <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">Cell Phone No.:</label>
+                                                        >Cell Phone No.:</label>
 
                                                 </div>
                                             </div>
@@ -284,7 +284,7 @@
                                                 <div class="mb-3">
 
                                                     <input autocomplete="off" type="text" class="form-control input-sm"
-                                                        style="height: 27px; width: 10px; padding-left: 24px; width: 225px; text-transform: uppercase;"
+                                                        style="border-radius: 15px;"
                                                         id="PhoneNumber" name="PhoneNumber"
                                                         placeholder="Enter Contact Number" value="">
 
@@ -293,17 +293,17 @@
 
                                             <div class="col-md-2">
                                                 <label for="basicpill-vatno-input" class="font-weight-bold"
-                                                        style="font-size: 12px; color: rgb(0, 0, 0)">Risk Status:</label>
+                                                        >Risk Status:</label>
 
                                                 </div>
 
                                                 <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <div class="input-group" style="height: 27px; width: 225px;">
+                                                    <div class="input-group" >
 
-                                                        <div class="input-group" style="height: 27px; width: 225px;">
+                                                        <div class="input-group" >
                                                             <select class="form-select" autocomplete="off"
-                                                                style="height: 27px;padding-left: 24px;padding-bottom: 2px;padding-top: 2px;"
+                                                                style="border-radius: 15px;"
                                                                 id="FICARiskStatus" name="FICARiskStatus">
                                                                 <option value="" selected style="font-size: 12px;" >
                                                                     Select
@@ -353,24 +353,21 @@
                                         </div>
                                     </div>
 
-                                    
+
 
                                     <span class="text-danger" id="error_msg" styel="display:none"></span><br/>
+
                                     <div class="row">
 
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                <button type="submit" id="submit"
-                                                    style="background-color: #93186c; border-color: #93186c"
-                                                    class="btn btn-primary w-lg waves-effect waves-light">Search</button>
+                                                <button type="submit" id="submit" style="background-color: #91C60F; border-color: #91C60F;" class="btn w-md text-white">Search</button>
                                             </div>
                                         </div>
 
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                <button type="button" id="clearall" name="clearall"
-                                                    style="background-color: #93186c; border-color: #93186c"
-                                                    class="btn btn-danger w-lg waves-effect waves-light">Clear</button>
+                                                <button type="button" id="clearall" name="clearall" class="btn btn-secondary w-md">Clear</button>
                                             </div>
                                         </div>
 
@@ -378,18 +375,18 @@
 
                                 </form>
 
-                                
+
                                 <form method="POST" action='{{ route('testresult') }}' id="idForm">
                                     @csrf
                                     <input type="type" id="idnumberResult" name="idnumberResult">
                                     <button type="submit" id="testresult-btn"></button>
                                 </form>
 
-                                <br/><br/>    
+                                <br/><br/>
 
                                 <div id="search-container"></div>
                                 <div id="pagination-links"></div>
-                                
+
                             </div>
                             <!-- end card body -->
                         </div>
@@ -398,7 +395,7 @@
                     <!-- end col -->
 
                 </div>
-              
+
 
             </div>
 
@@ -415,7 +412,7 @@
     <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 
     <script>
-        
+
         function clearAll() {
             $('#search-container').html('');
             document.getElementById("error_msg").style.display = 'none';
@@ -423,21 +420,21 @@
             document.getElementById("FirstName").value = '';
             document.getElementById("LastName").value = '';
             document.getElementById("PhoneNumber").value = '';
-            document.getElementById("FICAStatus").value = ''; 
-            document.getElementById("FICARiskStatus").value = '';            
+            document.getElementById("FICAStatus").value = '';
+            document.getElementById("FICARiskStatus").value = '';
         }
 
         var btn = document.getElementById("clearall");
         btn.addEventListener("click", clearAll);
 
-        
+
     </script>
 
-  
+
 
 
 <script>
-    
+
 
     $(document).ready(function() {
     //loadEmployees(1);
@@ -448,14 +445,14 @@
     //     validateForm();
     // }
 
-    $(document).on('submit', '#searchclient', function(e) { 
+    $(document).on('submit', '#searchclient', function(e) {
         e.preventDefault();
         validateForm();
     });
 
     function validateForm()
-    {      
-        $('#search-container').empty();  
+    {
+        $('#search-container').empty();
         document.getElementById("error_msg").style.display = 'none';
         var idVal = document.getElementById("IDNumber").value;
         var fname = document.getElementById("FirstName").value;
@@ -465,7 +462,7 @@
         var FICARiskStatus = document.getElementById("FICARiskStatus").value;
 
         if((idVal === null || idVal === '') && (fname === null || fname === '') && (lname === null || lname === '') && (phonenum === '' || phonenum === null) && (ficaStatus === '' || ficaStatus === null) && (FICARiskStatus === '' || FICARiskStatus === null) )
-        { 
+        {
             document.getElementById("error_msg").innerHTML = 'Please enter any of the search criteria';
             document.getElementById("error_msg").style.display = 'block';
             return false;
@@ -477,9 +474,9 @@
         return false;
 
     }
-    
 
-    function loadEmployees(page) { 
+
+    function loadEmployees(page) {
         var form = $('#searchclient');
         var formData = form.serialize();
         $('#search-container').html('');
@@ -488,8 +485,8 @@
             method: 'POST',
             data: formData + '&page=' + page,
             success: function(response) {
-                $('#datatable').DataTable({ 
-                      "destroy": true, 
+                $('#datatable').DataTable({
+                      "destroy": true,
                    });
 
                 $('#search-container').html(response);
@@ -517,7 +514,7 @@
 
     });
 
-    
+
 </script>
 @endsection
 
