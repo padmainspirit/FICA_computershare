@@ -22,10 +22,11 @@ class AdminSelfServiceBankingApiController extends Controller
     protected $soapUrlLive;
     protected $soapUrlDemo;
 
-    // $kycLookup = LookupDatas::where('ID', '=', $this->KYC)->first();
-    // $avsLookup = LookupDatas::where('ID', '=', $this->AVS)->first();
-    // $dovsLookup = LookupDatas::where('ID', '=', $this->DOVS)->first();
-    // $complyLookup = LookupDatas::where('ID', '=', $this->COMPLIANCE)->first();
+    protected $DIA_UAT;
+    protected $DIA_LIVE;
+    protected $DIA_USERNAME;
+    protected $DIA_PASSWORD;
+    PROTECTED $DIA_INSTNAME;
 
     public function __construct()
     {
@@ -39,6 +40,12 @@ class AdminSelfServiceBankingApiController extends Controller
 
         $this->soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
         $this->soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
+
+        $this->DIA_UAT = config("app.DIA_UAT");
+        $this->DIA_LIVE = config("app.DIA_LIVE");
+        $this->DIA_USERNAME = config("app.DIA_USERNAME");
+        $this->DIA_PASSWORD = config("app.DIA_PASSWORD");
+        $this->DIA_INSTNAME = config("app.DIA_INSTNAME");
         date_default_timezone_set('Africa/Johannesburg');
     }
 
@@ -94,5 +101,77 @@ class AdminSelfServiceBankingApiController extends Controller
         
         return json_decode($json,true);
 	}
+
+    public function parseSoapXmlDia($xml){
+		if(str_contains($xml,'cURL Error')){
+            $data['Body'] = array("Fault" => $xml);
+            $json = json_encode($data);
+        }else{
+            $response = strtr($xml, ['</s:' => '</', '<s:' => '<']);
+            $response1 = strtr($response, ['</a:' => '</', '<a:' => '<']);
+            $simple_xml = simplexml_load_string($response1);
+            $json = json_encode($simple_xml);
+        }
+        
+        return json_decode($json,true);
+	}
+
+    /* function request an OTL using DIA API */
+    public function requestOTL($idnumber)
+    {
+        $xml_post_string = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:fac="http://schemas.datacontract.org/2004/07/FaceService">
+                                <soapenv:Header/>
+                                    <soapenv:Body>
+                                        <tem:RequestOTL>
+                                            <tem:Request>
+                                                <fac:ClientUniqueNumber>'.$idnumber.'</fac:ClientUniqueNumber>
+                                                <fac:InstName>'.$this->DIA_INSTNAME.'</fac:InstName>
+                                                <fac:OTLtype>2</fac:OTLtype>
+                                                <fac:SaIdNo>true</fac:SaIdNo>
+                                                <fac:UserName>'.$this->DIA_USERNAME.'</fac:UserName>
+                                                <fac:UserPassword>'.$this->DIA_PASSWORD.'</fac:UserPassword>
+                                            </tem:Request>
+                                        </tem:RequestOTL>
+                                    </soapenv:Body>
+                                </soapenv:Envelope>';   // data from the form, e.g. some ID number
+
+        $headers = array(
+            "POST /DiaFace/FaceService HTTP/1.1",
+            //"Host: www.web.xds.co.za",
+            'Content-type: text/xml; charset=utf-8',
+            "Accept: text/xml",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "Content-length: " . strlen($xml_post_string),
+            //"Authorization: Basic Y3pzX3dzOjFDb24xJEFkbSE=",
+            "SOAPAction: http://tempuri.org/IFaceService/RequestOTL",
+        ); //SOAPAction: your op URL
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->DIA_LIVE,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_USERPWD => $this->DIA_USERNAME . ":" . $this->DIA_PASSWORD,
+            CURLOPT_POSTFIELDS => $xml_post_string,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+            CURLOPT_SSL_VERIFYPEER => 1
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        curl_close($curl);
+
+        if ($err) { 
+            return "cURL Error #:" . $err;
+        } else {
+            return $response;
+        }
+
+    } 
 
 }

@@ -181,4 +181,5 @@ return [
   "sb_personaldetails" => "Self Banking - Personal Details",
   "sb_index" => "Self Banking - Terms & Conditions",
   "sb_digi_verify" => "Self Banking - Digital verification",
+  "sb_requestotl" => "Self Banking - Request OTL",
 ];
