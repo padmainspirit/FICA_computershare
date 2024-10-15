@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.243",
+        "barryvdh/laravel-dompdf": "^2.2",
         "calcinai/php-imagick": "^0.1.2",
         "guzzlehttp/guzzle": "^7.2",
         "josiasmontag/laravel-recaptchav3": "^1.0",
@@ -16,6 +17,7 @@
         "laravel/ui": "^4.0",
         "laravelcollective/html": "^6.3",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "league/flysystem-sftp-v3": "^3.0",
         "spatie/laravel-permission": "^5.5"
     },
     "require-dev": {
