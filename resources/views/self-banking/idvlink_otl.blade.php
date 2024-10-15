@@ -97,14 +97,14 @@ use Illuminate\Support\Facades\Session;
 
 
 
-                                    <div class="row">
+                                    <div class="row justify-content-center">
 
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
                                                     <form method="post" action="{{ route('requestOTL') }}" id="">
                                                         @csrf
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3 justify-content-center align-items-center;">
+                                                        <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                                            <div class="mb-3 mt-3 text-center">
                                                                 <div class="form-check form-check-inline font-size-16">
                                                                     <input class="form-check-input" type="radio" id="browserOption" name="option" value="Browser" @if(old("option")=="Browser" || old("option") == null ) checked @endif>
                                                                     <label class="form-check-label" for="smsOption" >Browser</label>
@@ -117,18 +117,16 @@ use Illuminate\Support\Facades\Session;
                                                                     <input class="form-check-input" type="radio" id="smsOption" name="option" value="SMS" @if(old("option")=="SMS" ) checked @endif>
                                                                     <label class="form-check-label" for="smsOption" >SMS</label>
                                                                 </div>
-                                                                
+
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3 font-size-16">
-
-
+                                                        <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                                            <div class="mb-3 font-size-16 text-center" style="width:50%;">
                                                                         <input autocomplete="off" type="email" class="form-control input-sm" @if(old("option")=="Email" ) style="border-radius: 15px;display:block;" @else style="border-radius: 15px;display:none;" @endif style="border-radius: 15px;display:none;" id="emailInput" name="emailinput" placeholder="Enter Email Address" value='{{old("emailinput", $emailVal)}}'>
 
                                                                         <input autocomplete="off" type="text" class="form-control input-sm" @if(old("option")=="SMS" ) style="border-radius: 15px;" @else style="border-radius: 15px;display:none" @endif  id="smsInput" name="phoneinput" placeholder="Enter Cellphone Number" value='{{old("phoneinput", $phoneNumber)}}'>
-                                                                        
+
 
                                                                     <span class="error-messg"></span>
                                                                     @error('email')
@@ -304,7 +302,7 @@ use Illuminate\Support\Facades\Session;
 
 
     <script type="text/javascript">
-        
+
     </script>
 
 {{-- take selfie --}}
@@ -540,9 +538,9 @@ use Illuminate\Support\Facades\Session;
             if(("<?= Session::get('option'); ?>" == 'Browser')){
                 window.open('<?php echo Session::get('otl'); ?>', '_blank');
             }
-            
+
                     //setTimeout(function() {
-                   
+
                     $("#btn-hidden-selfie").click();
                     startCountdown();
                     var i = 1;
@@ -564,7 +562,7 @@ use Illuminate\Support\Facades\Session;
                                     'ID verification was not successful. Please click the Next button again to resend the link!'
                                 );
                             }else{
-                        
+
                                 $.ajax({
                                     url: "{{ route('sbgetOtlDovsStatus') }}",
                                     method: 'GET',
@@ -635,24 +633,24 @@ use Illuminate\Support\Facades\Session;
                                             $("#instruction").hide();
                                             $("#remaining").hide();
                                             $('#seflie-text-error').text(
-                                                'IDV verification failed due to '+ output_data.ConsumerIDPhotoMatch 
+                                                'IDV verification failed due to '+ output_data.ConsumerIDPhotoMatch
                                             );
                                             $("#selfie-continue").hide();
                                             $("#alertError").show();
                                             $("#seflie-text-error").show();
                                             $("#continue-btn").show();
-                                                            
+
                                         }
                                     }
                                     , error: function() {
                                     console.log('error');
                                     }
 
-                                   
+
                                 });
                             }
                             i++;
-                        
+
                     }, 10000);
                // }, 20000);
         }

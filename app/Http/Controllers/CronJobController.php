@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\APILogs;
+use App\Models\ConsumerIdentity;
 use App\Models\CustomerUser;
 use App\Models\DOVS;
 use App\Models\FICA;
@@ -17,8 +18,8 @@ use Illuminate\Support\Str;
 
 class CronJobController extends Controller
 {
-   /* Below function updates all the records of the fica table 
-    which are related to the self banking flow with 
+   /* Below function updates all the records of the fica table
+    which are related to the self banking flow with
     'In progress' status and is created before 24 hours
     to 'expired' status*/
     public function checksbLInks()
@@ -28,14 +29,14 @@ class CronJobController extends Controller
         //$selfbankinglinkdetails = SelfBankingLink::select('Id')->with(['selfBankingDetails:SelfBankingDetailsId,SelfBankingLinkId'])->where("CreatedAt", "<", $minus_24_hours)->get();
         $selfbankinglinkdetails = SelfBankingDetails::select('SelfBankingLinkId','SelfBankingDetailsId')->where("CreatedOnDate", "<", $minus_24_hours)->get();
         $SelfBankingDetailsIdArray = [];
-     
+
         foreach ($selfbankinglinkdetails as $key => $value) {
             if(!empty($value['SelfBankingDetailsId'])){
             $SelfBankingDetailsIdArray[]=$value['SelfBankingDetailsId'];
             }
         }
 
-        
+
         FICA::where(['FICAStatus'=> "In progress", 'ConsumerReferance' =>4])
             ->whereIn("Consumerid", $SelfBankingDetailsIdArray)
             ->update(["FICAStatus" => "Expired",'LastUpdatedDate' => date("Y-m-d H:i:s")]);
@@ -46,10 +47,10 @@ class CronJobController extends Controller
     /* Function to get the DIA OTL response */
     public function getDiaResponse(Request $request)
     {
-      Log::info('message'); 
+      Log::info('message');
       $xmlContent = $request->getContent();
     //Log::info($xmlContent);
-      
+
       $data1 = json_decode($xmlContent);
       $diareference = $data1->DiaReference;
       $UniqueReference =  $data1->UniqueReference;
@@ -86,6 +87,38 @@ class CronJobController extends Controller
     //$diareference = '31035262';
     $getfICA = DOVS::where(['EnquiryInput'=>$diareference, 'API_TYPE'=>2])->first();
     $fica_id = $getfICA->FICA_id;
+
+    $getIdentity = ConsumerIdentity::where(['FICA_id'=>$fica_id])->first();
+
+    DOVS::where(['FICA_id'=>$fica_id])->update([
+        'LastUpdatedDate' => date("Y-m-d H:i:s"),
+        'FirstName' => $getIdentity->FIRSTNAME,
+        'SecondName'=> $getIdentity->SECONDNAME,
+        'ThirdName'=> $getIdentity->OTHER_NAMES,
+        'Surname'=> $getIdentity->SURNAME,
+        'BirthDate'=> $getIdentity->DOB,
+        'Gender'=> $getIdentity->PROFILE_GENDER,
+        'TitleDesc'=> $getIdentity->TITLE,
+        'maritalStatus'=> $getIdentity->PROFILE_MARITAL_STATUS,
+        'HomeTelephoneNo'=> $getIdentity->HOME_1_PHONE_NUMBER,
+        'WorkTelephoneNo'=> $getIdentity->WORK_1_PHONE_NUMBER,
+        'CellularNo'=> $getIdentity->CELL_1_PHONE_NUMBER,
+        'EmailAddress'=> $getIdentity->X_EMAIL,
+        'EmployerDetail'=> $getIdentity->X_EMPLOYMENT_1,
+        'ResidentialAddress1'=> $getIdentity->HOME_ADDRESS1_LINE_1,
+        'ResidentialAddress2'=> $getIdentity->HOME_ADDRESS1_LINE_2,
+        'ResidentialAddress3'=> $getIdentity->HOME_ADDRESS1_TOWNSHIP,
+        'ResidentialAddress4'=> $getIdentity->HOME_ADDRESS1_REGION,
+        'ResidentialPostalCode'=> $getIdentity->HOME_ADDRESS1_POSTAL_CODE,
+        'PostalAddress1'=> $getIdentity->POSTAL_ADDRESS1_LINE_1,
+        'PostalAddress2'=> $getIdentity->POSTAL_ADDRESS1_LINE_2,
+        'PostalAddress3'=> $getIdentity->POSTAL_ADDRESS1_TOWNSHIP,
+        'PostalAddress4'=> $getIdentity->POSTAL_ADDRESS1_REGION,
+        'PostalPostalCode'=> $getIdentity->POSTAL_ADDRESS1_POSTAL_CODE,
+
+    ]);
+
+
     $ficadetails = FICA::where(['FICA_id'=>$fica_id])->first();
     $sb_detailsid = $ficadetails->Consumerid;
     $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $sb_detailsid)->first();
@@ -127,7 +160,7 @@ class CronJobController extends Controller
             )
         );
 
-        
+
     }else if($RespMessage == 'Matched'){
         SelfBankingLink::where('Id', '=',  $sbid)->update(['DOVS'=>1]);
         FICA::where(['FICA_id' => $fica_id])->update(
@@ -148,7 +181,7 @@ class CronJobController extends Controller
         'API_ID' => 7,
     ]);
 
-      return response()->json(['message' => 'XML received successfully'], 200);    
+      return response()->json(['message' => 'XML received successfully'], 200);
     }
 
 

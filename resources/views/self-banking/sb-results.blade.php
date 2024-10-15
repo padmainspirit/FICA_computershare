@@ -127,13 +127,19 @@ ini_set('memory_limit', '1024M');
                     <div class="col-sm-2">
                         <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+                                <div class="" style="padding-left: 9%;">
+                                    <h6 class="font-size-14 text-left">Full Names : <span class="text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span></h6>
+                                </div>
+
+
+
 
                                 <div class="form-floating mb-3">
                                     @if ($dovs?->ConsumerIDPhoto==NULL)
-                                    <img src="/assets/images/ImageNotFound.png" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="/assets/images/ImageNotFound.png" alt="" height="150" width="130" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @else
-                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="180" width="140" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @endif
 
@@ -162,13 +168,7 @@ ini_set('memory_limit', '1024M');
                                     <span class="float-end text-black">{{$selfbankingdetails->CreatedOnDate}}</span>
                                 </div>
 
-                                <div class="col-sm-6" style="padding-left: 9%;">
-                                    <h6 class="font-size-14 text-left">Full Names :</h6>
-                                </div>
 
-                                <div class="col-sm-6" style="padding-right: 10%;">
-                                    <span class="float-end text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span>
-                                </div>
                                 <div class="col-sm-6" style="padding-left: 9%;">
                                     <h5 class="font-size-14 text-left">Identity :</h5>
                                 </div>
@@ -276,12 +276,12 @@ ini_set('memory_limit', '1024M');
                                     Personal Info
                                 </h5>
 
-                                @if ($dovs?->DOVS_Status =="1")
+                                @if ($selfbankinglink->PersonalDetails == "1" )
                                 <!-- ($Identity_status == 1) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif ($dovs?->DOVS_Status == NULL)
+                                @elseif ($selfbankinglink->PersonalDetails == "-2")
                                 <!-- ($Identity_status == 0) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
@@ -311,11 +311,11 @@ ini_set('memory_limit', '1024M');
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h6 class="card-title" style="text-align: center;">Banking Details</h6>
 
-                                @if ($avs?->AVS_Status == '1')
+                                @if ($selfbankinglink->BankingDetails == "1")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif ($avs?->AVS_Status == '0')
+                                @elseif ($selfbankinglink->BankingDetails == "-2")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                 </h6>
@@ -346,13 +346,17 @@ ini_set('memory_limit', '1024M');
                                 <h5 class="card-title" style="text-align: center;">
                                     Face view</h5>
 
-                                @if ($dovs?->DOVS_Status == '1')
+                                @if ($selfbankinglink->DOVS == "1")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @else
+                                @elseif ($selfbankinglink->DOVS == "-2")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
+                                </h6>
+                                @else
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
                                 </h6>
                                 @endif
 

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\AVS;
 use App\Models\Consumer;
 use App\Models\ConsumerIdentity;
 use App\Models\Customer;
@@ -9,6 +10,9 @@ use App\Models\CustomerUser;
 use App\Models\DebtSummary;
 use App\Models\DOVS;
 use App\Models\FICA;
+use App\Models\SelfBankingCompanySRN;
+use App\Models\SelfBankingDetails;
+use App\Models\SelfBankingLink;
 use Carbon\Carbon;
 use DateTime;
 use Exception;
@@ -73,10 +77,9 @@ class DDJob implements ShouldQueue
 
         $UserFullName = $client->FirstName . ' ' . $client->LastName;
 
-        $reason = $request->reason;
-        $status = $request->avsStatus;
 
-        $getCustomerId = $id;
+
+        $getCustomerId = $compliteidlist_list;
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingDetailsId', '=',  $getCustomerId)->first();
         $selfbankinglink = SelfBankingLink::where('Id', '=',  $selfbankingdetails->SelfBankingLinkId)->first();
 
@@ -85,18 +88,12 @@ class DDJob implements ShouldQueue
         ->join('TBL_FICA', 'TBL_FICA.Consumerid', '=', 'TBL_Consumer_SelfBankingDetails.SelfBankingDetailsId')
         ->first();
 
-         $exceptions = SelfBankingExceptions::where('SelfBankingLinkId', '=', $selfbankingdetails->SelfBankingLinkId)->get();
-
          $avs = AVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $dovs = DOVS::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $sbdetails->FICA_id)->first();
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
-         $SbActions =  SbActions::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
          $SelfBankingCompanySRN =  SelfBankingCompanySRN::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
 
-
-
-        // print_r($SelfBankingCompanySRN);exit;
          $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
          $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
          $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
@@ -135,29 +132,8 @@ class DDJob implements ShouldQueue
          {
             $smatch = 'Matched';
          }
-//print_r($sbdetails);exit;
-         if(!empty($_POST))
-         {
-            FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->update(
-                array(
-                    'LastUpdatedDate' => date("Y-m-d H:i:s"),
-                    'FICAStatus' =>  $status,
-                )
-            );
 
-
-                SbActions::create([
-                    'ActionId' => Str::upper(Str::uuid()),
-                    'AdminID' => $client->Id,
-                    'SelfBankingdetailsId' =>  $selfbankingdetails->SelfBankingDetailsId,
-                    'CreatedAt' => date("Y-m-d H:i:s"),
-                    'ActionFrom' => $fica->FICAStatus,
-                    'ActionTo' => $status,
-                    'Comment' => $reason,
-                    'Admin_User' => $UserFullName
-                ]);
-
-            $pdf = FacadePdf::loadView(
+            $pdf = FacadePdF::loadView(
                 'bulk-pdfs.bulkddpdf',
                 [
                     'customer' => $customer,
@@ -169,7 +145,6 @@ class DDJob implements ShouldQueue
                     'Icon' => $customer->Client_Icon,
                     'message' => $message,
                     'SelfBankingCompanySRN' => $SelfBankingCompanySRN,
-                    'exceptions' => $exceptions,
                     'Logo' => $customer->Client_Logo,
                     'LogUserName' => $client->FirstName,
                     'cellmatch' => $cellmatch,
@@ -178,7 +153,6 @@ class DDJob implements ShouldQueue
                     'secnamematch' => $secnamematch,
                     'FICAStatus' => $fica->FICAStatus,
                     'namematch' => $namematch,
-                    'SbActions' => $SbActions,
                     'smatch' => $smatch,
                     'ha_name' => $consumerIdentity->FIRSTNAME,
                     'ha_secondname' => $consumerIdentity->SECONDNAME,
@@ -224,7 +198,7 @@ class DDJob implements ShouldQueue
             $lastiteration = $count == $this->totalcount ? 1 : 0;
 
             $this->transferfile($pdf, $pdfilename, $key, $type = 'dd', $lastiteration, $data['Customerid']);
-        }
+
 
         $fileName = 'Contact Centre Due Diligence/Extraction_' . $this->date2 . '/' . 'index.txt';
 
