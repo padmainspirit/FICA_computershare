@@ -20,6 +20,7 @@ use App\Http\Controllers\CustomerVerification;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCreateController;
 use App\Http\Controllers\AdminSelfBankController;
+use App\Http\Controllers\BulkExtractioncontroller;
 use App\Http\Controllers\ClientCaptureController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CronJobController;
@@ -190,6 +191,8 @@ Route::get('/sb-status', [AdminSelfBankController::class, 'processStatus'])->nam
 
 /* Cron crontroller routes */
 Route::get('/sbgetDovsSelfieStatus', [CronJobController::class, 'getDovsSelfieStatus'])->name('sbgetOtlDovsStatus');
+
+Route::get('/generate-sbextract', [BulkExtractioncontroller::class, 'generateSelfBankingPDF'])->name('generate-sbextract');
 
 
 

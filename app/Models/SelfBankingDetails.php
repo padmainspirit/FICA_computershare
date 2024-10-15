@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SelfBankingDetails extends Model
 {
@@ -102,5 +103,20 @@ class SelfBankingDetails extends Model
             return false;
         }
     }
+
+
+    public static function getsbresults($CreatedOnDate, $SBIds)
+    {
+        $testing  = DB::connection("sqlsrv2")->select(
+            DB::raw("SET NOCOUNT ON; exec SP_selfbankingresults_All :CreatedOnDate, :SBIds"),
+            [
+                ':CreatedOnDate' => $CreatedOnDate,
+                ':SBIds' => $SBIds
+            ]
+        );
+
+        return $testing;
+    }
+
 
 }
