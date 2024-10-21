@@ -217,8 +217,12 @@ use Illuminate\Support\Facades\Session;
                             </div>
 
                             <br><br>
+
+                            
                             <div class="row justify-content-center">
                                 <br>
+
+                                @if(Session::get('option')!='Browser')
                                 <div class="col-xl-10" id="selfie-link-title">
                                     <h4 style="color: #000000">Identity verification link sent via SMS.
                                     </h4>
@@ -226,6 +230,7 @@ use Illuminate\Support\Facades\Session;
                                         Please select "Allow" option.
                                                            </p>
                                 </div>
+                                @endif
                                 <div id="green-check" style="display: none;" class="text-center">
                                     <img src="{{ URL::asset('/assets/images/greencheck.png') }}" style="width:45px;">
 
@@ -239,6 +244,14 @@ use Illuminate\Support\Facades\Session;
                                     <br>
                                     <p id="seflie-text-error" style="color: rgb(182, 37, 37); font-size: 15px;"></p>
                                 </div>
+
+                                @if(Session::get('option')=='Browser')
+                                <div id="facial-loading-dynamic">
+                                <iframe src="demo_iframe.htm" id="iframe_url" name="iframe_a" height="300px" width="100%" title="Iframe Example"></iframe>
+                                </div>
+                                @endif
+
+
                                 <hr id="line" style="display:none;color: #93186c ;border-top-style: solid;border-top-width: 2.5px;border-bottom-width: 2.5px;border: 1px solid #93186c; background-color: #93186c; opacity: 100%;">
                             </div>
                             <br>
@@ -294,6 +307,9 @@ use Illuminate\Support\Facades\Session;
             {{-- </form> --}}
         </div>
     </div>
+
+
+
 
 
 
@@ -538,7 +554,9 @@ use Illuminate\Support\Facades\Session;
         if("<?= Session::get('otl'); ?>" != ''){
 
             if(("<?= Session::get('option'); ?>" == 'Browser')){
-                window.open('<?php echo Session::get('otl'); ?>', '_blank');
+                document.getElementById('iframe_url').src = '<?php echo Session::get('otl'); ?>';
+
+                //window.open('<?php //echo Session::get('otl'); ?>', '_blank');
             }
             
                     //setTimeout(function() {
