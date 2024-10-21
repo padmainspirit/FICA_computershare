@@ -50,7 +50,7 @@ class AdminSelfBankController extends Controller
     protected $soapUrlLive;
     protected $soapUrlDemo;
     protected $s3url;
-    
+
 
     public function __construct()
     {
@@ -68,7 +68,7 @@ class AdminSelfBankController extends Controller
 
         $this->soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
         $this->soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
-        $this->s3url = config('app.API_UPLOAD_PATH');        
+        $this->s3url = config('app.API_UPLOAD_PATH');
 
         date_default_timezone_set('Africa/Johannesburg');
     }
@@ -1004,7 +1004,7 @@ class AdminSelfBankController extends Controller
             $sbapi = new AdminSelfServiceBankingApiController();
             $requestOTLresponsexml = $sbapi->requestOTL($selfbankingdetails->IDNUMBER);
             $requestOTLresponse = $sbapi->parseSoapXmlDia($requestOTLresponsexml);
-            
+
             $otlResult = $requestOTLresponse['Body']['RequestOTLResponse']['RequestOTLResult'];
             $EnquiryInput = $otlResult['DiaReference'];
 
@@ -2578,7 +2578,6 @@ class AdminSelfBankController extends Controller
          $fica =  FICA::where('Consumerid', $selfbankingdetails->SelfBankingDetailsId)->first();
          $SbActions =  SbActions::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
          $SelfBankingCompanySRN =  SelfBankingCompanySRN::where('SelfBankingdetailsId', $selfbankingdetails->SelfBankingDetailsId)->get();
-
 
 
         // print_r($SelfBankingCompanySRN);exit;

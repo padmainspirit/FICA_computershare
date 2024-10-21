@@ -620,7 +620,7 @@ ini_set('memory_limit', '1024M');
                                                                         </tr>
                                                                     @empty
                                                                         <tr>
-                                                                            <td colspan="4">No exceptions found.</td>
+                                                                            <td colspan="4">No companies found.</td>
                                                                         </tr>
                                                                     @endforelse
                                                                     </tbody>
@@ -1568,7 +1568,7 @@ ini_set('memory_limit', '1024M');
 
         var doc = new jsPDF('p', 'pt', 'letter');
 
-        var avsStatus = "<?= $avs?->AVS_Status; ?>";
+        var avsStatus = "<?= $selfbankinglink->BankingDetails; ?>";
         var dovsStatus = "<?= $dovs?->DOVS_Status; ?>";
 
         var avs = '';
@@ -1591,6 +1591,8 @@ ini_set('memory_limit', '1024M');
         var namematch = ("<?= $namematch ?>" != null) ? "<?= $namematch; ?>" : '';
         var secnamematch = ("<?= $secnamematch ?>" != null) ? "<?= $secnamematch; ?>" : '';
         var thirdnamematch = ("<?= $thirdnamematch ?>" != null) ? "<?= $thirdnamematch; ?>" : '';
+        var cellmatch = ("<?= $cellmatch ?>" != null) ? "<?= $cellmatch; ?>" : '';
+
 
         var surname = ("<?= $selfbankingdetails?->Surname; ?>" != null) ? "<?= $selfbankingdetails?->Surname; ?>" : '';
         var phone = ("<?= $selfbankingdetails?->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails?->PhoneNumber; ?>" : '';
@@ -1976,9 +1978,14 @@ ini_set('memory_limit', '1024M');
         // Insert the image into the third column, first row
         if (data.column.index === 2 && data.row.index === 6) {
             // Position the image within the cell
+            console.log(FICAStatus);
             if (FICAStatus=='Completed')
             doc.addImage(tick, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
-        else
+        else if(FICAStatus=='Partially Completed')
+        {
+            doc.addImage(question, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10);
+
+        }else
         doc.addImage(cross, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
         }
     }
@@ -2046,9 +2053,17 @@ ini_set('memory_limit', '1024M');
 
         var i = 100;
 
+        if (personaldet == 'Passed') {
         {
             doc.addImage(tick, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
         }
+        } else if (personaldet == 'Failed')
+        {
+                doc.addImage(cross, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
+            }
+            else {
+                doc.addImage(question, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
+            }
 
 
 
@@ -2058,16 +2073,17 @@ ini_set('memory_limit', '1024M');
             , fontSize: 2
         });
 
-
-
-
-
        // if (dovsStatus == '1')
         {
-            if (idnummatch == 'Matched') {
+
+            if (dovsdet == 'Passed') {
+
                 doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            } else {
+            } else if (dovsdet == 'Failed') {
                 doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
+            }
+            else {
+                doc.addImage(question, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             }
             doc.addImage(FacialPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
             doc.text('Face View', i + 189, icontextfromheight, {
@@ -2080,9 +2096,9 @@ ini_set('memory_limit', '1024M');
 
       //  if (avsStatus == '1')
       {
-            if (avs == 'Passed') {
+            if (bankingdet == 'Passed') {
                 doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            } else if (avs == 'Failed') {
+            } else if (bankingdet == 'Failed') {
                 doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             } else {
                 doc.addImage(question, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
@@ -2175,7 +2191,7 @@ ini_set('memory_limit', '1024M');
                 ,['Third Name:', `${ThirdName}`, `${thirdnamematch}`]
                 ,['Surname:', `${surname}`, `${surnamematch}`]
                 , ['Email:', `${Email}`, `${EMAILMATCHstatus}`]
-                , ['Phone (C):', `${phone }`],
+                , ['Phone (C):', `${phone }`,`${cellmatch}`],
 
                 //['Telephone (C):', `${CellCode}${CellNo}`, 'Date of Birth:', `${BirthDate}`],
                 //['ID Date of Issue:', `${ID_DateofIssue}`, 'Country of Birth:', `${ID_CountryResidence}`],
