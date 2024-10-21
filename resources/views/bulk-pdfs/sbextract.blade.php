@@ -124,7 +124,7 @@
     .footer2 {
         position: fixed;
         bottom: 0;
-        height: 50px;
+        height: 45px;
         width: 100%;
         text-align: center;
         margin-bottom: 8px;
@@ -314,7 +314,7 @@
                 </div>
                 <div class="mb-2">
 
-                    <div class="image-container2 mb-4" style = "display: inline-block; ">
+                    <div class="image-container2 mb-2" style = "display: inline-block; ">
 
                         @if ($PersonalDetails == '1')
                         <img src="data:image/png;base64,{{ $tick}}" style="width:55px;height:55px;margin-left: 155px;" class="img-fluid" alt="Image 2">
@@ -349,7 +349,7 @@
                                 @endif
 
                         </div>
-                    <div class="image-container mt-4" style="display:flex;position: relative; top:17px;margin-left:-88px;">
+                    <div class="image-container" style="display:flex;position: relative; top:17px;margin-left:-88px;">
                         <img src="data:image/png;base64,{{ $VerificationStaticPhoto}}" style="display:flex;width:140px;height:140px; margin-left: 210px;"  alt="Image 1">
 
                              <img src="data:image/png;base64,{{ $PaymentPhoto}}" style="display:flex;width:140px;height:140px;margin-left: 148px;"  alt="Image 3">
@@ -357,7 +357,7 @@
                              <img src="data:image/png;base64,{{ $FacialPhoto}}" style="display:flex;width:140px;height:140px;margin-left: 148px;"  alt="Image 4">
 
                     </div>
-                    <div class="image-container3 justify-content-center text-center" style="display: flex;">
+                    <div class="image-container3 justify-content-center mt-2" style="display:flex;position: relative; ">
                         <h1 style="display: inline-block;margin-left: 88px;font-weight:normal; font-size:26px">Personal Info</h1>
                              <h1 style="display: inline-block;margin-left: 200px;font-weight:normal; font-size:26px">Bank</h1>
                              <h1 style="display: inline-block;margin-left: 200px;font-weight:normal; font-size:26px">Face View</h1>
@@ -481,8 +481,8 @@
 
             <thead>
                 <tr>
-                    <th class="col-md-5 heading-fica-id" style="color:#ffffff;">SRN</th>
-                    <th class="col-md-6 heading-fica-id" style="color:#ffffff;">Companies</th>
+                    <th class="col-md-5 heading-fica-id" style="color:#ffffff;font-size:20px">SRN</th>
+                    <th class="col-md-6 heading-fica-id" style="color:#ffffff;font-size:20px">Companies</th>
 
                 </tr>
             </thead>
@@ -502,11 +502,11 @@
 
         </table>
     </div>
-    <div class="heading-fica-id">
-        <h2 class="font-size-24"
-        style="color: #fff;display:flex; margin-left:6px;">Facial Recognition</h2>
+    <div class="heading-fica-id" style="page-break-before: always;">
+        <h3 class="font-size-24"
+        style="color: #fff;display:flex; margin-left:6px;">Facial Recognition</h3>
     </div>
-    <table id="personaldetails"  class="table table-hover mt-2 mb-2" style="background-color: transparent;width: 100%;align-items: center; text-align:center; position: relative;">
+    <table id="personaldetails"  class="table table-hover mt-4 mb-2" style="background-color: transparent;width: 100%;align-items: center; text-align:center; position: relative;">
         <tbody>
             <tr>
                 <th style="border: none;font-size:20px; font-weight:800;" class="align-middle"><h4 style="font-weight: normal;">DHA Captured Photo</h4></th>
@@ -886,4 +886,3 @@
 
 
 </div></body></html>
-
