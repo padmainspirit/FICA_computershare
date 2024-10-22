@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\SmsOtpController;
 use App\Models\AVS;
 use App\Models\ConsumerIdentity;
 use App\Models\Customer;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class SbAdminController extends Controller
 {
@@ -120,7 +122,7 @@ class SbAdminController extends Controller
             ->with('LogUserName', $client->FirstName)
             ->with('LogUserSurname', $client->LastName);
     }
-    
+
 
     /* Search for self banking */
     public function searchsb(Request $request)
@@ -410,5 +412,59 @@ class SbAdminController extends Controller
 
     }
 
+    /* Function to generate link for self banking and send it via Email/SMS */
+    public function SendLink(Request $request)
+    {
+        $user = Auth::user();
+        $customer = Customer::getCustomerDetails($user->CustomerId);
+        $Year = Carbon::now()->year;
+        if (!empty($_POST)) {
+            $this->validate($request, [
+                'Media' => ['required', 'string'],
+                'PhoneNumber' => ['nullable', 'digits:10', 'required_if:Media,SMS'],
+                'Email' => ['nullable', 'Email', 'required_if:Media,Email'],
+            ]);
+
+            $selfbankingId = Str::upper(Str::uuid());
+            if ($_POST['Media'] == 'Email' || $_POST['Media'] == 'SMS') {
+                $linkGenerated = URL::temporarySignedRoute(
+                    'selfbanking',
+                    now()->addHours(2),
+                    ['sbid' => $selfbankingId]
+                );
+            } else {
+                return false;
+            }
+
+            $request['Id'] = $selfbankingId;
+            $request['CustomerUserId'] = $user->Id;
+            $request['CustomerId'] = $user->CustomerId;
+            $request['LinkGenerated'] = $linkGenerated;
+            SelfBankingLink::create($request->all());
+
+
+
+            if ($_POST['Media'] == 'Email') {
+                Mail::send(
+                    'email.email-selfbankinglink',
+                    ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $Year, 'linkGenerated' => $linkGenerated],
+                    function ($message) use ($request) {
+                        $message->to($_POST['Email']);
+                        $message->subject('Self Service Banking Link');
+                    }
+                );
+            } else if ($_POST['Media'] == 'SMS') {
+                $sms = new SmsOtpController();
+                $smsresult = $sms->sendselfServicelink($_POST['PhoneNumber'], $linkGenerated);
+                print_r($smsresult);
+                exit;
+            } else {
+                return false;
+            }
+        }
+        return view('self-banking.send-link')
+            ->with('customer', $customer)
+            ->with('UserFullName', $user->FirstName . ' ' . $user->Surname);
+    }
 
 }
