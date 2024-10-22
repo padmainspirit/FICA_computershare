@@ -127,13 +127,19 @@ ini_set('memory_limit', '1024M');
                     <div class="col-sm-2">
                         <div class="card" style="width: 100%;height:258px;">
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+                                <div class="" style="padding-left: 9%;">
+                                    <h6 class="font-size-14 text-left">Full Names : <span class="text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span></h6>
+                                </div>
+
+
+
 
                                 <div class="form-floating mb-3">
                                     @if ($dovs?->ConsumerIDPhoto==NULL)
-                                    <img src="/assets/images/ImageNotFound.png" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="/assets/images/ImageNotFound.png" alt="" height="150" width="130" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @else
-                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="240" width="180" class="auth-logo-light" style="display: block; margin: auto">
+                                    <img src="data:image/png;base64,{{ $dovs?->ConsumerIDPhoto }}" alt="" height="180" width="140" class="auth-logo-light" style="display: block; margin: auto">
                                     </img>
                                     @endif
 
@@ -162,13 +168,7 @@ ini_set('memory_limit', '1024M');
                                     <span class="float-end text-black">{{$selfbankingdetails->CreatedOnDate}}</span>
                                 </div>
 
-                                <div class="col-sm-6" style="padding-left: 9%;">
-                                    <h6 class="font-size-14 text-left">Full Names :</h6>
-                                </div>
 
-                                <div class="col-sm-6" style="padding-right: 10%;">
-                                    <span class="float-end text-black">{{ $ha_name }} {{ $ha_secondname }} {{ $ha_surname }}</span>
-                                </div>
                                 <div class="col-sm-6" style="padding-left: 9%;">
                                     <h5 class="font-size-14 text-left">Identity :</h5>
                                 </div>
@@ -276,12 +276,12 @@ ini_set('memory_limit', '1024M');
                                     Personal Info
                                 </h5>
 
-                                @if ($dovs?->DOVS_Status =="1")
+                                @if ($selfbankinglink->PersonalDetails == "1" )
                                 <!-- ($Identity_status == 1) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif ($dovs?->DOVS_Status == NULL)
+                                @elseif ($selfbankinglink->PersonalDetails == "-2")
                                 <!-- ($Identity_status == 0) -->
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
@@ -311,11 +311,11 @@ ini_set('memory_limit', '1024M');
                             <div class="card-body" style="padding-top: 8px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                 <h6 class="card-title" style="text-align: center;">Banking Details</h6>
 
-                                @if ($avs?->AVS_Status == '1')
+                                @if ($selfbankinglink->BankingDetails == "1")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @elseif ($avs?->AVS_Status == '0')
+                                @elseif ($selfbankinglink->BankingDetails == "-2")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
                                 </h6>
@@ -346,13 +346,17 @@ ini_set('memory_limit', '1024M');
                                 <h5 class="card-title" style="text-align: center;">
                                     Face view</h5>
 
-                                @if ($dovs?->DOVS_Status == '1')
+                                @if ($selfbankinglink->DOVS == "1")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-check-circle  bx-md" style="color: #028E41"></i>
                                 </h6>
-                                @else
+                                @elseif ($selfbankinglink->DOVS == "-2")
                                 <h6 class="card-title" style="text-align: center;">
                                     <i class="bx bx-x-circle  bx-md" style="color: #E0474C"></i>
+                                </h6>
+                                @else
+                                <h6 class="card-title" style="text-align: center;">
+                                    <i class="dripicons-question  bx-sm" style="color: #FFA500"></i>
                                 </h6>
                                 @endif
 
@@ -616,7 +620,7 @@ ini_set('memory_limit', '1024M');
                                                                         </tr>
                                                                     @empty
                                                                         <tr>
-                                                                            <td colspan="4">No exceptions found.</td>
+                                                                            <td colspan="4">No companies found.</td>
                                                                         </tr>
                                                                     @endforelse
                                                                     </tbody>
@@ -1491,7 +1495,7 @@ ini_set('memory_limit', '1024M');
 
                      <div class="mb-3">
                          <input type="text" id="Subject" name="Subject"
-                             class="form-control" placeholder="Subject">
+                             class="form-control" placeholder="Subject" >
                      </div>
 
                      <div class="mb-3">
@@ -1506,7 +1510,7 @@ ini_set('memory_limit', '1024M');
                      <button type="button" class="btn btn-secondary"
                          style="background-color: #93186c; border-color: #93186c; color:white; width:78px"
                          data-bs-dismiss="modal">Close</button>
-                     <button type="button" class="btn btn-primary" id="btn-email"
+                     <button type="button" disabled class="btn btn-primary" id="btn-email"
                          style="background-color: #93186c; border-color: #93186c; color:white;">Send
                          <i class="fab fa-telegram-plane ms-1"></i></button>
                  </div>
@@ -1537,13 +1541,34 @@ ini_set('memory_limit', '1024M');
         document.getElementById('form-email').submit();
     });
 </script>
+<script>
+    const subjectInput = document.getElementById('Subject');
+    const messageInput = document.getElementById('EmailMessage');
+    const sendButton = document.getElementById('btn-email');
+
+    // Disable the button initially
+    sendButton.disabled = true;
+
+    // Function to check if both fields are filled
+    function checkInputFields() {
+        if (subjectInput.value.trim() !== "" && messageInput.value.trim() !== "") {
+            sendButton.disabled = false;  // Enable button if both fields are not empty
+        } else {
+            sendButton.disabled = true;   // Disable button if one or both fields are empty
+        }
+    }
+
+    // Listen for input changes in both the Subject and Message fields
+    subjectInput.addEventListener('input', checkInputFields);
+    messageInput.addEventListener('input', checkInputFields);
+</script>
 
 <script>
     function generate() {
 
         var doc = new jsPDF('p', 'pt', 'letter');
 
-        var avsStatus = "<?= $avs?->AVS_Status; ?>";
+        var avsStatus = "<?= $selfbankinglink->BankingDetails; ?>";
         var dovsStatus = "<?= $dovs?->DOVS_Status; ?>";
 
         var avs = '';
@@ -1566,6 +1591,8 @@ ini_set('memory_limit', '1024M');
         var namematch = ("<?= $namematch ?>" != null) ? "<?= $namematch; ?>" : '';
         var secnamematch = ("<?= $secnamematch ?>" != null) ? "<?= $secnamematch; ?>" : '';
         var thirdnamematch = ("<?= $thirdnamematch ?>" != null) ? "<?= $thirdnamematch; ?>" : '';
+        var cellmatch = ("<?= $cellmatch ?>" != null) ? "<?= $cellmatch; ?>" : '';
+
 
         var surname = ("<?= $selfbankingdetails?->Surname; ?>" != null) ? "<?= $selfbankingdetails?->Surname; ?>" : '';
         var phone = ("<?= $selfbankingdetails?->PhoneNumber; ?>" != null) ? "<?= $selfbankingdetails?->PhoneNumber; ?>" : '';
@@ -1951,9 +1978,14 @@ ini_set('memory_limit', '1024M');
         // Insert the image into the third column, first row
         if (data.column.index === 2 && data.row.index === 6) {
             // Position the image within the cell
+            console.log(FICAStatus);
             if (FICAStatus=='Completed')
             doc.addImage(tick, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
-        else
+        else if(FICAStatus=='Partially Completed')
+        {
+            doc.addImage(question, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10);
+
+        }else
         doc.addImage(cross, 'PNG', data.cell.x + 2, data.cell.y + 5, 10, 10); // Adjust size and position
         }
     }
@@ -2021,9 +2053,17 @@ ini_set('memory_limit', '1024M');
 
         var i = 100;
 
+        if (personaldet == 'Passed') {
         {
             doc.addImage(tick, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
         }
+        } else if (personaldet == 'Failed')
+        {
+                doc.addImage(cross, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
+            }
+            else {
+                doc.addImage(question, 'png', i+85, tickfromheight, 20, 20, undefined, 'FAST');
+            }
 
 
 
@@ -2033,16 +2073,17 @@ ini_set('memory_limit', '1024M');
             , fontSize: 2
         });
 
-
-
-
-
        // if (dovsStatus == '1')
         {
-            if (idnummatch == 'Matched') {
+
+            if (dovsdet == 'Passed') {
+
                 doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            } else {
+            } else if (dovsdet == 'Failed') {
                 doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
+            }
+            else {
+                doc.addImage(question, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             }
             doc.addImage(FacialPhoto, 'png', i + 165, iconfromheight, 50, 50, undefined, 'FAST');
             doc.text('Face View', i + 189, icontextfromheight, {
@@ -2055,9 +2096,9 @@ ini_set('memory_limit', '1024M');
 
       //  if (avsStatus == '1')
       {
-            if (avs == 'Passed') {
+            if (bankingdet == 'Passed') {
                 doc.addImage(tick, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
-            } else if (avs == 'Failed') {
+            } else if (bankingdet == 'Failed') {
                 doc.addImage(cross, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
             } else {
                 doc.addImage(question, 'png', i + 180, tickfromheight, 20, 20, undefined, 'FAST');
@@ -2150,7 +2191,7 @@ ini_set('memory_limit', '1024M');
                 ,['Third Name:', `${ThirdName}`, `${thirdnamematch}`]
                 ,['Surname:', `${surname}`, `${surnamematch}`]
                 , ['Email:', `${Email}`, `${EMAILMATCHstatus}`]
-                , ['Phone (C):', `${phone }`],
+                , ['Phone (C):', `${phone }`,`${cellmatch}`],
 
                 //['Telephone (C):', `${CellCode}${CellNo}`, 'Date of Birth:', `${BirthDate}`],
                 //['ID Date of Issue:', `${ID_DateofIssue}`, 'Country of Birth:', `${ID_CountryResidence}`],

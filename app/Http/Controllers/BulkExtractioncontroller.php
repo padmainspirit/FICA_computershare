@@ -20,8 +20,8 @@ class BulkExtractioncontroller extends Controller
 
     public function __construct()
     {
-        $this->date1 = "2024-10-11"; //date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
-        $this->date2 = "11102024"; //date("dmY"); //"15082024"; //date("dmY");
+        $this->date1 = "2024-10-10"; //date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
+        $this->date2 = "10102024"; //date("dmY"); //"15082024"; //date("dmY");
         $this->disk = 'public'; //'sftp';
     }
 
@@ -45,14 +45,14 @@ class BulkExtractioncontroller extends Controller
             return false;
         }
 
-        
         $jobs=[];
         $chunk_size = 5;
         $idsarray = array_chunk($selfbankingdetails_ids,$chunk_size);
-        foreach ($idsarray as $key => $value) {            
+        foreach ($idsarray as $key => $value) {
+            //print_r($value);exit;
             $jobs[] = new SBExtract($key, $value, count($selfbankingdetails_ids), $chunk_size);
         }
-       
+
         $batch = Bus::batch($jobs)->then(function (Batch $batch) {
             // All jobs completed successfully...
             print_r('Batch ' . $batch->id . ' finished successfully!');

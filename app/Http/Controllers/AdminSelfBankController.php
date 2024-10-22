@@ -48,7 +48,7 @@ class AdminSelfBankController extends Controller
     protected $soapUrlLive;
     protected $soapUrlDemo;
     protected $s3url;
-    
+
 
     public function __construct()
     {
@@ -63,7 +63,7 @@ class AdminSelfBankController extends Controller
 
         $this->soapUrlLive = config("app.API_SOAP_URL_LIVE_XDS_SELFIE_RESULT");
         $this->soapUrlDemo = config("app.API_SOAP_URL_DEMO_XDS_SELFIE_RESULT");
-        $this->s3url = config('app.API_UPLOAD_PATH');        
+        $this->s3url = config('app.API_UPLOAD_PATH');
 
         date_default_timezone_set('Africa/Johannesburg');
     }
@@ -670,7 +670,7 @@ class AdminSelfBankController extends Controller
             $sbapi = new AdminSelfServiceBankingApiController();
             $requestOTLresponsexml = $sbapi->requestOTL($selfbankingdetails->IDNUMBER);
             $requestOTLresponse = $sbapi->parseSoapXmlDia($requestOTLresponsexml);
-            
+
             $otlResult = $requestOTLresponse['Body']['RequestOTLResponse']['RequestOTLResult'];
             $EnquiryInput = $otlResult['DiaReference'];
 
@@ -692,7 +692,7 @@ class AdminSelfBankController extends Controller
                 $otl = $matches[0][0];
             }
 
-           
+
             if($option == 'Browser'){
                 //return redirect()->away($otl);
                 return redirect()->back()->with("otl",$otl)->with("option",'Browser')->withInput($request->input());
@@ -2086,9 +2086,9 @@ class AdminSelfBankController extends Controller
             ->with('Success', $success)
             ->with('selfbankinglinkdetails', $selfbankinglinkdetails);
     }
-    
-    
-    
-    
+
+
+
+
 
 }

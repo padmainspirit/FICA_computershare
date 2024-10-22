@@ -9,8 +9,11 @@ use App\Models\CustomerUser;
 use App\Models\DebtSummary;
 use App\Models\DOVS;
 use App\Models\FICA;
+use App\Models\SelfBankingCompanySRN;
 use App\Models\SelfBankingDetails;
+use App\Models\SelfBankingLink;
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use DateTime;
 use Exception;
 use Illuminate\Bus\Batchable;
@@ -21,7 +24,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use \PhpOffice\PhpSpreadsheet\IOFactory;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class SBExtract implements ShouldQueue
 {
@@ -37,8 +42,8 @@ class SBExtract implements ShouldQueue
 
     public function __construct($key, $sbids, $totalcount, $chunk_size)
     {
-        $this->date1 = "2024-10-11"; //date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
-        $this->date2 = "11102024"; //date("dmY"); //"15082024"; //date("dmY");
+        $this->date1 = "2024-10-10"; //date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
+        $this->date2 = "10102024"; //date("dmY"); //"15082024"; //date("dmY");
         $this->disk = 'public'; //'sftp';
         $this->sbids = $sbids;
         $this->keyofchunks = $key;
@@ -59,7 +64,7 @@ class SBExtract implements ShouldQueue
             // Determine if the batch has been cancelled...
             return;
         }
-        
+
         $compliteidlist_list = implode(',', $this->sbids);
         $today = new DateTime($this->date1);
 
@@ -74,26 +79,42 @@ class SBExtract implements ShouldQueue
         $ComplianceData = [];
         $data = [];
         $debt_summary_data = [];
-        $FetchComplianceSanct = [];
-        $FetchComplianceAdd = [];
-        $ConsumerIDPhotos = [];
+        $SelfBankingCompanySRN = [];
+
         $avs = '';
         $kyc = '';
         $compliance = '';
         $debt = '';
         $facial = '';
         $filedata = '';
+        $PersonalDetails = "";
+        $DOVS = "";
+        $BankingDetails = "";
+
         $count = ($this->keyofchunks ) * ($this->chunk_size);
         $RiskStatusbyFICA = '';
         $formattedDate = '';
         foreach ($testing as $key => $compliance_id) {
             $ConsumerID = $compliance_id;
-            $SelfBankingDetailsId = $testing[$key]->SelfBankingDetailsId;
+
+           $SelfBankingDetailsId = $testing[$key]->SelfBankingDetailsId;
+
+            $SelfBankinglinkId = $testing[$key]->SelfBankingLinkId;
+
+
+            $selfbankinglink = SelfBankingLink::where('Id', '=',  $SelfBankinglinkId)->first();
+            $PersonalDetails = $selfbankinglink->PersonalDetails;
+            $DOVS = $selfbankinglink->DOVS;
+            $BankingDetails = $selfbankinglink->BankingDetails;
+            $SelfBankingCompanySRN =  SelfBankingCompanySRN::where('SelfBankingdetailsId', $SelfBankingDetailsId)->get();
+            $consumerIdentity  = ConsumerIdentity::where('FICA_id', '=',  $testing[$key]->FICA_id)->first();
 
 
             $data = [
                 'Customerid' => $testing[$key]->Customerid,
                 'FirstName' => $testing[$key]->FirstName,
+                'SecondName' => $testing[$key]->SecondName,
+                'ThirdName' => $testing[$key]->ThirdName,
                 'SURNAME' => $testing[$key]->SURNAME,
                 // Residence Address
                 'Res_OriginalAdd1' => $testing[$key]->Res_OriginalAdd1,
@@ -111,9 +132,9 @@ class SBExtract implements ShouldQueue
                 'HomeTelCode' => $testing[$key]->HomeTelCode,
                 'HomeTelNo' => $testing[$key]->HomeTelNo,
                 'WorkTelCode' => $testing[$key]->WorkTelCode,
-                'WorkTelNo' => $testing[$key]->WorkTelNo,               
+                'WorkTelNo' => $testing[$key]->WorkTelNo,
 
-                
+
                 //Bank Account Details
                 'Account_no' => $testing[$key]->Account_no,
                 'Account_name' => $testing[$key]->Account_name,
@@ -136,11 +157,22 @@ class SBExtract implements ShouldQueue
                 'DeceasedStatus' => $testing[$key]->DeceasedStatus,
 
                 //Facial Recognition
+                'CreatedOnDate' => $testing[$key]->CreatedOnDate,
+                'FICAStatus' => $testing[$key]->FICAStatus,
                 'ConsumerIDPhotoMatch' => $testing[$key]->ConsumerIDPhotoMatch,
                 'MatchResponseCode' => $testing[$key]->MatchResponseCode,
                 'LivenessDetectionResult' => $testing[$key]->LivenessDetectionResult,
                 'Latitude' => $testing[$key]->Latitude,
                 'Longitude' => $testing[$key]->Longitude,
+                'CellularNo' => $testing[$key]->CellularNo,
+                'HomeTelephoneNo' => $testing[$key]->HomeTelephoneNo,
+                'PhoneNumber' => $testing[$key]->PhoneNumber,
+                'WorkTelephoneNo' => $testing[$key]->WorkTelephoneNo,
+                'PostalAddress' => $testing[$key]->PostalAddress,
+                'ResidentialAddress' => $testing[$key]->ResidentialAddress,
+                'Longitude' => $testing[$key]->Longitude,
+                'ConsumerIDPhoto' => $testing[$key]->ConsumerIDPhoto,
+                'ConsumerCapturedPhoto' => $testing[$key]->ConsumerCapturedPhoto,
                 //HA Details
                 'HA_IDNO' => $testing[$key]->IDNo,
                 'HA_Names' => $testing[$key]->FirstName,
@@ -149,140 +181,91 @@ class SBExtract implements ShouldQueue
                 'HA_DeceasedStatus' => $testing[$key]->DeceasedStatus,
                 'HA_Gender' => $testing[$key]->Gender,
                 'HA_EnquiryReference' => $testing[$key]->ReferenceNo,
-
+                'MaritalStatusDesc' => $testing[$key]->MaritalStatusDesc,
+                'TitleDesc' => $testing[$key]->TitleDesc,
 
             ];
 
-
-            $getSearchFica = FICA::where('Consumerid', '=', $SelfBankingDetailsId)->first();
-            $SearchFica = $getSearchFica['FICA_id'];
-
-           
-            
-       
-            $data['cellmatch'] = 'Unmatched';
-            $data['workmatch'] = 'Unmatched';
-            $data['homematch'] = 'Unmatched';
-            $data['emailmatch'] = 'Unmatched';
-            $data['idas_firstname_match'] = 'Unmatched';
-            $data['idas_surname_match'] = 'Unmatched';
-            $data['fullnamesmatch'] = 'Unmatched';
-
-            $getConsumerIDdetails = ConsumerIdentity::where('FICA_id', '=', $getSearchFica['FICA_id'])->first();
-            $inputcellnumber = $data['CellCode'] . $data['CellNo'];
-            $inputHomenumber = $data['HomeTelCode'] . $data['HomeTelNo'];
-            $inputworknumber = $data['WorkTelCode'] . $data['WorkTelNo'];
-            if (
-                $inputcellnumber == $getConsumerIDdetails->CELL_1_PHONE_NUMBER || $inputcellnumber == $getConsumerIDdetails->CELL_2_PHONE_NUMBER
-                || $inputcellnumber == $getConsumerIDdetails->CELL_3_PHONE_NUMBER || $inputcellnumber == $getConsumerIDdetails->CELL_4_PHONE_NUMBER
-                || $inputcellnumber == $getConsumerIDdetails->CELL_5_PHONE_NUMBER
-            ) {
-                $data['cellmatch'] = 'Matched';
+            $cell1 = $consumerIdentity->CELL_1_PHONE_NUMBER;
+            $cell2 = $consumerIdentity->CELL_2_PHONE_NUMBER;
+            $cell3 = $consumerIdentity->CELL_3_PHONE_NUMBER;
+            $cell4 = $consumerIdentity->CELL_4_PHONE_NUMBER;
+            $cell5 = $consumerIdentity->CELL_5_PHONE_NUMBER;
+            $cellmatch = "Unmatched";
+            $emailmatch = 'Unmatched';
+            $namematch = 'Unmatched';
+            $smatch = 'Unmatched';
+            $secnamematch = 'Unmatched';
+            $thirdnamematch = 'Unmatched';
+            if($data['PhoneNumber'] ==$cell1 || $data['PhoneNumber'] ==$cell2 ||
+            $data['PhoneNumber'] ==$cell3 || $data['PhoneNumber'] ==$cell4|| $data['PhoneNumber'] ==$cell5)
+            {
+               $cellmatch = 'Matched';
+            }
+            if(strtolower($data['Email']) == strtolower($consumerIdentity->X_EMAIL) )
+            {
+               $emailmatch = 'Matched';
+            }
+            if(strtolower($data['FirstName']) == strtolower($consumerIdentity->FIRSTNAME) )
+            {
+               $namematch = 'Matched';
+            }
+            if(strtolower($data['SecondName']) == strtolower($consumerIdentity->SECONDNAME) )
+            {
+               $secnamematch = 'Matched';
+            }
+            if(strtolower($data['ThirdName']) == strtolower($consumerIdentity->OTHER_NAMES) )
+            {
+               $thirdnamematch = 'Matched';
             }
 
-            if (
-                $inputHomenumber == $getConsumerIDdetails->WORK_1_PHONE_NUMBER || $inputHomenumber == $getConsumerIDdetails->WORK_2_PHONE_NUMBER
-                || $inputHomenumber == $getConsumerIDdetails->WORK_3_PHONE_NUMBER || $inputHomenumber == $getConsumerIDdetails->WORK_4_PHONE_NUMBER
-                || $inputHomenumber == $getConsumerIDdetails->WORK_5_PHONE_NUMBER
-            ) {
-                $data['workmatch'] = 'Matched';
+
+            if(strtolower($data['SURNAME']) == strtolower($consumerIdentity->SURNAME) )
+            {
+               $smatch = 'Matched';
             }
 
-            if (
-                $inputworknumber == $getConsumerIDdetails->HOME_1_PHONE_NUMBER || $inputworknumber == $getConsumerIDdetails->HOME_2_PHONE_NUMBER
-                || $inputworknumber == $getConsumerIDdetails->HOME_3_PHONE_NUMBER || $inputworknumber == $getConsumerIDdetails->HOME_4_PHONE_NUMBER
-                || $inputworknumber == $getConsumerIDdetails->HOME_5_PHONE_NUMBER
-            ) {
-                $data['homematch'] = 'Matched';
-            }
-
-            if (strtoupper($data['Email']) == strtoupper($getConsumerIDdetails->X_EMAIL)) {
-                $data['emailmatch'] = 'Matched';
-            }
-            if (strtoupper($data['FirstName']) == $getConsumerIDdetails->FIRSTNAME || strtoupper($data['FirstName']) == $getConsumerIDdetails->SECONDNAME || strtoupper($data['FirstName']) == $getConsumerIDdetails->FIRSTNAME . ' ' . $getConsumerIDdetails->SECONDNAME) {
-                $data['idas_firstname_match'] = 'Matched';
-            }
-            if (strtoupper($data['SURNAME']) == $getConsumerIDdetails->SURNAME) {
-                $data['idas_surname_match'] = 'Matched';
-            }
-            if (strtoupper($data['IDNUMBER']) == $getConsumerIDdetails->Identity_Document_ID) {
-                $data['idas_idnumber_match'] = 'Matched';
-            }
-            if ($data['idas_firstname_match'] == 'Matched' && $data['idas_surname_match'] == 'Matched') {
-                $data['fullnamesmatch'] = 'Matched';
-            }
-
-            
-            
-            //$getPhoto = DOVS::getConsumerID($request);
-            $getPhoto = DOVS::where('FICA_id', '=', $getSearchFica['FICA_id'])->first();
-
-            // exit;
-            if ($getPhoto == null || $getPhoto->ConsumerIDPhoto == null) {
-                DOVS::where('FICA_id', '=', $SearchFica)->update(
-                    array(
-
-                        'ConsumerIDPhoto' => NULL,
-
-                    )
-                );
-
-                $ConsumerIDPhoto = base64_encode(file_get_contents(public_path('assets/images/nouser.png')));
-            } else {
-                $ConsumerIDPhoto = $getPhoto->ConsumerIDPhoto;
-            }
-            $ConsumerIDPhotos = [
-                'IDPhoto' => $ConsumerIDPhoto,
-            ];
-           
-            
-            $compliancephoto = base64_encode(file_get_contents(public_path('assets/images/compliance.png')));
-            $VerificationStaticPhoto = base64_encode(file_get_contents(public_path('assets/images/verification-static.png')));
-            $PaymentPhoto = base64_encode(file_get_contents(public_path('assets/images/payment.png')));
-            $Debtphoto = base64_encode(file_get_contents(public_path('assets/images/policy5.png')));
-            $KYCPhoto = base64_encode(file_get_contents(public_path('assets/images/KYC.png')));
-            $FacialPhoto = base64_encode(file_get_contents(public_path('assets/images/facial.png')));
+            $VerificationStaticPhoto = base64_encode(file_get_contents(public_path('images/results/client1.png')));
+            $PaymentPhoto = base64_encode(file_get_contents(public_path('images/results/AVS.png')));
+            $FacialPhoto = base64_encode(file_get_contents(public_path('images/results/facephone4.png')));
             $tick = base64_encode(file_get_contents(public_path('assets/images/small/tick.png')));
             $question = base64_encode(file_get_contents(public_path('assets/images/question.png')));
             $cross = base64_encode(file_get_contents(public_path('assets/images/small/cross.png')));
             $xds = base64_encode(file_get_contents(public_path('assets/images/small/xds1.png')));
-            
-            $customer = Customer::getCustomerDetails($testing[$key]->Customerid);
-            $Logo = $customer->Client_Logo;
-            $font_colour = $customer->Client_Font_Code;
+
+            //$customer = Customer::getCustomerDetails($testing[$key]->Customerid);
+            //$Logo = $customer->Client_Logo;
+           // $font_colour = $customer->Client_Font_Code;
 
             $pdf = FacadePdf::loadView(
                 'bulk-pdfs.sbextract',
                 [
                     'data' => $data,
-                    'debt_summary_data' => $debt_summary_data,
-                    'compliance_data' => $ComplianceData,
-                    'FetchComplianceSanct' => $FetchComplianceSanct,
-                    'FetchComplianceAdd' => $FetchComplianceAdd,
-                    'ConsumerIDPhotos' => $ConsumerIDPhotos,
+                    'SelfBankingCompanySRN' => $SelfBankingCompanySRN,
                     'VerificationStaticPhoto' => $VerificationStaticPhoto,
                     'PaymentPhoto' => $PaymentPhoto,
-                    'Debtphoto' => $Debtphoto,
-                    'KYCPhoto' => $KYCPhoto,
                     'FacialPhoto' => $FacialPhoto,
-                    'RiskStatusbyFICA' => $RiskStatusbyFICA,
                     'tick' => $tick,
                     'question' => $question,
                     'cross' => $cross,
                     'xds' => $xds,
-                    'compliancephoto' => $compliancephoto,
-                    'inputcellnumber' => $inputcellnumber,
-                    'inputHomenumber' => $inputHomenumber,
-                    'inputworknumber' => $inputworknumber,
                     'avs' => $avs,
-                    'kyc' => $kyc,
-                    'compliance' => $compliance,
-                    'debt' => $debt,
-                    'facial' => $facial,
                     'today' => $today->format('m/d/Y'),
                     'formattedDate' => $formattedDate,
-                    'Logo' => $Logo,
-                    'font_colour' => $font_colour
+                    //'Logo' => $Logo,
+                    //'font_colour' => $font_colour,
+                    'PersonalDetails' => $PersonalDetails,
+                    'DOVS' => $DOVS,
+                    'BankingDetails' => $BankingDetails,
+                    'cellmatch' => $cellmatch,
+                    'emailmatch' => $emailmatch,
+                    'thirdnamematch' => $thirdnamematch,
+                    'secnamematch' => $secnamematch,
+                    'namematch' => $namematch,
+                    'smatch' => $smatch,
+                    'ha_name' => $consumerIdentity->FIRSTNAME,
+                    'ha_secondname' => $consumerIdentity->SECONDNAME,
+                    'ha_surname' => $consumerIdentity->SURNAME,
 
                 ]
             );
@@ -307,7 +290,7 @@ class SBExtract implements ShouldQueue
             else if ($count < 10000000)
                 $row =  "0" . (string)$count;
             else $row = (string)$count;
-            
+
             $dateformate = date("d-m-Y", strtotime($this->date1));
 
             //$content = $row . ",CSS-LNK," . $data['Client_Ref'] . "," . $row . "_" . $data['Client_Ref'] . "_iFICADOCS.pdf,Account_Confirmation_Details," . $dateformate . ",FICA," . $dateformate . "\n";
@@ -318,12 +301,13 @@ class SBExtract implements ShouldQueue
             $pdfilename =  $row . "_" . $SelfBankingDetailsId . "_SelfBankingDOCS.pdf";
             //$pdf->save($pdfilename, 'public');
             $lastiteration = $count == $this->totalcount ? 1 : 0;
-            
-            $this->transferfile($pdf, $pdfilename, $key, $type = 'sb', $lastiteration, $data['Customerid']);
+
+            $this->transferfile($pdf, $pdfilename,$data['FirstName'],$data['SURNAME'], $data['IDNUMBER'],$data['Account_no'],$data['Branch_code'],$data['Bank_name'],$data['Email'],$data['PhoneNumber'],$data['FICAStatus'], $count, $type = 'sb', $lastiteration, $data['Customerid']);
+
         }
 
         /* $fileName = 'Contact Centre Due Diligence/Extraction_' . $this->date2 . '/' . 'index.txt';
-        
+
         if (Storage::disk($this->disk)->exists($fileName)) {
             // Append the content to the existing file
             Storage::disk($this->disk)->append($fileName, $filedata);
@@ -335,14 +319,11 @@ class SBExtract implements ShouldQueue
 
     }
 
-    public function transferfile($pdf, $filename, $index, $type, $lastiteration, $custID)
+    public function transferfile($pdf, $filename,$name,$Surname, $ID_Number,$Bank_Account_Number,$Branch_Code,$Bank_Name,$Email_Address,$Mobile_Number,$FICA_Status, $index, $type, $lastiteration, $custID)
     {
         $customer = Customer::getCustomerDetails($custID);
         $Year = Carbon::now()->year;
         if (!empty($filename)) {
-            //print_r('in'); exit;
-            //$data = base64_decode($_POST['data']);
-            //file_put_contents( public_path($_POST['name']), $data ); //this will store file into public folder of application
 
             /* below code is to store the  file cs's server with sftp driver
            $filepath - server path where file needs to be stored*/
@@ -361,20 +342,36 @@ class SBExtract implements ShouldQueue
                 exit;
             }
 
-            /* $xlfilename = public_path('DueDeligencePDFs_' . $this->date1 . '.xlsx');
-            $dd_res = [$index + 1, $filename];
+             $xlfilename = public_path('SelfBankingPDFs_' . $this->date1 . '.xlsx');
+
+            $dd_res = [$index + 1, $filename, $name,$Surname, $ID_Number,$Bank_Account_Number,$Branch_Code,$Bank_Name,$Email_Address,$Mobile_Number,$FICA_Status];
             if (file_exists($xlfilename)) {
                 $spreadsheet = IOFactory::Load($xlfilename);
                 $highestRow = $spreadsheet->getActiveSheet()->getHighestRow();
             } else {
                 $spreadsheet = new Spreadsheet();
                 $worksheet = $spreadsheet->getActiveSheet();
+                $worksheet->getColumnDimension('A')->setWidth(15); // Row Number
+                $worksheet->getColumnDimension('B')->setWidth(45); // Filename
+                $worksheet->getColumnDimension('C')->setWidth(20); // First_Name
+                $worksheet->getColumnDimension('D')->setWidth(20); // Surname
+                $worksheet->getColumnDimension('E')->setWidth(15); // ID Number
+                $worksheet->getColumnDimension('F')->setWidth(15); // Bank_Account_Number
+                $worksheet->getColumnDimension('G')->setWidth(14); // Branch_Code
+                $worksheet->getColumnDimension('H')->setWidth(20); // Bank_Name
+                $worksheet->getColumnDimension('I')->setWidth(30); // Email_Address
+                $worksheet->getColumnDimension('J')->setWidth(13); // Mobile_Number
+                $worksheet->getColumnDimension('K')->setWidth(20); // Mobile_Number
                 $data = [
-                    ['SL NUMBER', 'Filename']
+
+                    ['Row Number','Filename', 'First_Name', 'Surname', 'ID Number','Bank_Account_Number','Branch_Code','Bank_Name','Email_Address','Mobile_Number', 'FICA_Status']
+
                 ];
                 foreach ($data as $rowNum => $rowData) {
                     $worksheet->fromArray($rowData, null, 'A' . ($rowNum + 1));
+
                 }
+
 
                 $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
                 $writer->save($xlfilename);
@@ -387,7 +384,7 @@ class SBExtract implements ShouldQueue
             $worksheet->fromArray($dd_res, null, 'A' . $row);
 
             $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
-            $writer->save($xlfilename); */
+            $writer->save($xlfilename);
 
             /* if ($lastiteration == 1) {
                 Mail::send(
@@ -403,7 +400,7 @@ class SBExtract implements ShouldQueue
                 unlink($xlfilename);
             } else {
                 print_r('not in');
-            } */
+            }*/
         } else {
             echo "No Data Sent";
         }
