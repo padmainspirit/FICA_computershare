@@ -18,6 +18,7 @@ class APILogs extends Model
         'FICAId',
         'ConsumerID',
         'CustomerID',
-        'API_ID'
+        'API_ID',
+        'Status'
     ];
 }

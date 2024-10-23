@@ -116,6 +116,10 @@ class SBExtract implements ShouldQueue
                 'SecondName' => $testing[$key]->SecondName,
                 'ThirdName' => $testing[$key]->ThirdName,
                 'SURNAME' => $testing[$key]->SURNAME,
+                'Lname' => $testing[$key]->Lname,
+                'SecName' => $testing[$key]->SecName,
+                'TName' => $testing[$key]->TName,
+                'Fname' => $testing[$key]->Fname,
                 // Residence Address
                 'Res_OriginalAdd1' => $testing[$key]->Res_OriginalAdd1,
                 'Res_OriginalAdd2' => $testing[$key]->Res_OriginalAdd2,
@@ -206,24 +210,57 @@ class SBExtract implements ShouldQueue
             {
                $emailmatch = 'Matched';
             }
-            if(strtolower($data['FirstName']) == strtolower($consumerIdentity->FIRSTNAME) )
+            if(strtolower($data['Fname']) == strtolower($consumerIdentity->FIRSTNAME))
             {
                $namematch = 'Matched';
             }
-            if(strtolower($data['SecondName']) == strtolower($consumerIdentity->SECONDNAME) )
+            elseif ($data['Fname'] == null)
+            {
+                $namematch = 'Not Available';
+            }
+            else
+            {
+                $namematch = 'Unmatched';
+            }
+            if(strtolower($data['SecName']) == strtolower($consumerIdentity->SECONDNAME) && $data['SecName'] !== null)
             {
                $secnamematch = 'Matched';
             }
-            if(strtolower($data['ThirdName']) == strtolower($consumerIdentity->OTHER_NAMES) )
+            elseif ($data['SecName'] == null)
+            {
+                $secnamematch = 'Not Available';
+            }
+            else
+            {
+                $secnamematch = 'Unmatched';
+            }
+
+            if(strtolower($data['TName']) == strtolower($consumerIdentity->OTHER_NAMES)   )
             {
                $thirdnamematch = 'Matched';
             }
+            elseif ($data['TName'] == null)
+            {
+                $thirdnamematch = 'Not Available';
+            }
+            else
+            {
+                $thirdnamematch = 'Unmatched';
+            }
 
-
-            if(strtolower($data['SURNAME']) == strtolower($consumerIdentity->SURNAME) )
+            if(strtolower($data['Lname']) == strtolower($consumerIdentity->SURNAME) )
             {
                $smatch = 'Matched';
             }
+            elseif ($data['Lname'] == null)
+            {
+                $smatch = 'Not Available';
+            }
+            else
+            {
+                $smatch = 'Unmatched';
+            }
+
 
             $VerificationStaticPhoto = base64_encode(file_get_contents(public_path('images/results/client1.png')));
             $PaymentPhoto = base64_encode(file_get_contents(public_path('images/results/AVS.png')));
