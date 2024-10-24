@@ -1100,99 +1100,7 @@ class AdminSelfBankController extends Controller
                                 $Longitude  = $tempData5[$i + 1];
                                 $Longitude = str_replace('/Longitude', '', $Longitude);
                             }
-                            /*
-                                                            [0] => Consumer
-                                [1] => ConsumerDetails
-                                [2] => DisplayText
-                                [3] => Consumer Detail/DisplayText
-                                [4] => ConsumerID
-                                [5] => 154701267/ConsumerID
-                                [6] => Initials
-                                [7] => F/Initials
-                                [8] => FirstName
-                                [9] => FORTUNE/FirstName
-                                [10] => SecondName /
-                                [11] => ThirdName /
-                                [12] => Surname
-                                [13] => NGWENYA/Surname
-                                [14] => MaidenName /
-                                [15] => IDNo
-                                [16] => 9904165182084/IDNo
-                                [17] => PassportNo /
-                                [18] => BirthDate
-                                [19] => 1999-04-16/BirthDate
-                                [20] => Gender
-                                [21] => Male/Gender
-                                [22] => TitleDesc
-                                [23] => Mister/TitleDesc
-                                [24] => MaritalStatusDesc
-                                [25] => Single/MaritalStatusDesc
-                                [26] => PrivacyStatus
-                                [27] => ACCEPTS CONTACTS/PrivacyStatus
-                                [28] => ResidentialAddress /
-                                [29] => PostalAddress
-                                [30] => STAND NO 1956 MALELANE 1320/PostalAddress
-                                [31] => HomeTelephoneNo /
-                                [32] => WorkTelephoneNo /
-                                [33] => CellularNo
-                                [34] => 0799739130/CellularNo
-                                [35] => EmailAddress
-                                [36] => fortunengw@gmail.com/EmailAddress
-                                [37] => EmployerDetail /
-                                [38] => ReferenceNo /
-                                [39] => ExternalReference /
-                                [40] => ResidentialAddress1 /
-                                [41] => ResidentialAddress2 /
-                                [42] => ResidentialAddress3 /
-                                [43] => ResidentialAddress4 /
-                                [44] => ResidentialPostalCode /
-                                [45] => PostalAddress1
-                                [46] => STAND NO 1956/PostalAddress1
-                                [47] => PostalAddress2
-                                [48] => MALELANE/PostalAddress2
-                                [49] => PostalAddress3 /
-                                [50] => PostalAddress4 /
-                                [51] => PostalPostalCode
-                                [52] => 1320/PostalPostalCode
-                                [53] => InputCellularNo
-                                [54] => 0723865361/InputCellularNo
-                                [55] => CellNumberMatched
-                                [56] => 0/CellNumberMatched
-                                [57] => LinkedCount
-                                [58] => 1/LinkedCount
-                                [59] => BonusXML /
-                                [60] => TempReference /
-                                [61] => /ConsumerDetails
-                                [62] => SubscriberInputDetails
-                                [63] => EnquiryDate
-                                [64] => 2024-10-02T09:19:30.9215799+02:00/EnquiryDate
-                                [65] => EnquiryType
-                                [66] => DOVS/EnquiryType
-                                [67] => SubscriberName
-                                [68] => Inspirit Data/SubscriberName
-                                [69] => SubscriberUserName
-                                [70] => InspiritAPI_live InspiritAPI_live/SubscriberUserName
-                                [71] => EnquiryInput
-                                [72] => 9904165182084 | 0723865361/EnquiryInput
-                                [73] => /SubscriberInputDetails
-                                [74] => DOVDetails
-                                [75] => Name
-                                [76] => FORTUNE  /Name
-                                [77] => Surname
-                                [78] => NGWENYA/Surname
-                                [79] => DeceasedStatus /
-                                [80] => ConsumerIDPhotoMatch
-                                [81] => Matched/ConsumerIDPhotoMatch
-                                [82] => MatchResponseCode
-                                [83] => 1/MatchResponseCode
-                                [84] => LivenessDetectionResult
-                                [85] => Passed/LivenessDetectionResult
-                                [86] => AgeEstimationOfLiveness
-                                [87] => -1/AgeEstimationOfLiveness
-                                [88] => ConsumerIDPhoto
-
-
-                            */
+                            
                             if ($tempData5[$i] == 'Initials') {
                                 $Initials  = $tempData5[$i + 1];
                                 $Initials = str_replace('/Initials', '', $Initials);
@@ -1904,7 +1812,7 @@ class AdminSelfBankController extends Controller
                                     'ExternalRef' => $ExternalRef,
                                     'ErrorMessage' => NULL,
                                     'AVSResponse' => $returnValue,
-                                    'INITIALS' => $INITIALS
+                                    //'INITIALS' => $INITIALS
 
                                 )
                             );

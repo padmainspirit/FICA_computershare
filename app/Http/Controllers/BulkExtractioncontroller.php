@@ -20,8 +20,8 @@ class BulkExtractioncontroller extends Controller
 
     public function __construct()
     {
-        $this->date1 = "2024-10-10"; //date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
-        $this->date2 = "10102024"; //date("dmY"); //"15082024"; //date("dmY");
+        $this->date1 = date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
+        $this->date2 = date("dmY"); //"15082024"; //date("dmY");
         $this->disk = 'public'; //'sftp';
     }
 

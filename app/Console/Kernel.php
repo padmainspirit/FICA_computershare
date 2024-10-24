@@ -17,6 +17,10 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sblink:autoexpiry')
         ->appendOutputTo(storage_path('logs/scheduled_command.log'))->everyMinute();
+
+        $schedule->command('sb:extraction')        
+                ->timezone('Africa/Johannesburg')
+                ->dailyAt('07:46');
     }
 
     /**
