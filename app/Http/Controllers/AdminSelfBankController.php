@@ -1503,7 +1503,7 @@ class AdminSelfBankController extends Controller
 
     public function previewDetails(Request $request, $j=1)
     {
-        app('debugbar')->info('avs start ');
+        //app('debugbar')->info('avs start ');
         $YearNow = Carbon::now()->year;
         $sbid = $request->session()->get('sbid');
         $selfbankingdetails = SelfBankingDetails::where('SelfBankingLinkId', '=',  $sbid)->first();
@@ -1833,6 +1833,7 @@ class AdminSelfBankController extends Controller
                                 'CustomerID' =>  config("app.CUSTOMER_DEFAULT_ID"),
                                 'Createddate' => date("Y-m-d H:i:s"),
                                 'API_ID' => $avsLookup->Value,
+                                'Status' => "Success",
                             ]);
 
                             if($ACCOUNTFOUND == 'No' || $IDNUMBERMATCH == 'No' || $ACCOUNT_OPEN == 'No'){
@@ -1914,10 +1915,20 @@ class AdminSelfBankController extends Controller
 
 
                             app('debugbar')->info('test ');
-                            if ($tempData5[2] === ' No Result available /NotFound' && $j <= 2)
+                            if ($tempData5[2] === ' No Result available /NotFound' && $j <= 3)
                             {
 
                                 app('debugbar')->info('test ' . $j);
+                                APILogs::create([
+                                    'API_Log_Id' => Str::upper(Str::uuid()),
+                                    'FICAId' => $fica_id,
+                                    'ConsumerID' => $selfbankinglinkdetails->selfBankingDetails->Id,
+                                    'CustomerID' =>  config("app.CUSTOMER_DEFAULT_ID"),
+                                    'Createddate' => date("Y-m-d H:i:s"),
+                                    'API_ID' => $avsLookup->Value,
+                                    'Status' => "Fail",
+
+                                ]);
                                 $j++; // Increment $j
                                  $this->previewDetails($request, $j); // Call recursively with updated $j
                             }else{

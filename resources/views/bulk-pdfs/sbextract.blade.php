@@ -89,22 +89,32 @@
         #footer .page:after { content: counter(page, decimal); }
         @page { margin: 20px 30px 40px 50px; }
 
+        .image-div {
+    display: flex;
+    align-items: center;  /* Vertical alignment */
+    justify-content: space-between;  /* Distribute space between images */
+    position: relative;
+    padding: 0 20px;  /* Add padding to keep the images away from screen edges */
+}
 
         .image-div .logo {
-        width:  350px;
-        height:  150px;
+        width:  320px;
+        height:  95px;
         object-fit: cover;
     }
 
     .image-div .logo2{
         width:  350px;
         height:  120px;
-        object-fit: cover; /* Ensure the image covers the div */
+        object-fit: cover;
         position: absolute;
-
-        right: 20px; /* Distance from the right edge */
+        right: 20px;
         transform: translateY(-50%);
     }
+
+
+
+
 
     .content {
         page-break-after: always;
@@ -157,14 +167,15 @@
 <br>
     </div>
 
-    <div class="content2 mt-4" >
+    <div class="content2 mt-3" >
 
         <div class="image-div mt-4 mb-2">
 
-            <img class="logo" src="assets/images/computershare.png" alt="Description of image">
+            <img class="logo" src="assets/images/logo/computershare.png" alt="Description of image">
             <img class="logo2" src="assets/images/PoweredBy.png" alt="Description of image">
 
         </div>
+
     </div>
     <div class="content">
 
@@ -403,7 +414,8 @@
                             First Name:
                         </td>
                         <td style="font-size:20px;">
-                            {{$data['FirstName']}}
+                            {{$data['Fname']}}
+
                         </td>
                         <td style="font-size:20px;">
                             {{$namematch}}
@@ -415,7 +427,7 @@
                             Second Name:
                         </td>
                         <td style="font-size:20px;">
-                            {{$data['SecondName']}}
+                            {{$data['SecName']}}
                         </td>
                         <td style="font-size:20px;">
                             {{$secnamematch}}
@@ -427,7 +439,7 @@
                             Third Name:
                         </td>
                         <td style="font-size:20px;">
-                            {{$data['ThirdName']}}
+                            {{$data['TName']}}
                         </td>
                         <td style="font-size:20px;">
                             {{$thirdnamematch}}
@@ -439,7 +451,7 @@
                             Surname:
                         </td>
                         <td style="font-size:20px;">
-                            {{$data['SURNAME']}}
+                            {{$data['Lname']}}
                         </td>
                         <td style="font-size:20px;">
                             {{$smatch}}
@@ -797,7 +809,13 @@
                         {{$data['INITIALS']}}
                     </td>
                     <td style="font-size:20px;">
+                        @if ($data['INITIALSMATCH']=='Yes')
+                            Matched
+                        @elseif ($data['INITIALSMATCH']=='No')
+                        Unmatched
+                        @else
                         {{$data['INITIALSMATCH']}}
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -808,7 +826,14 @@
                         {{$data['SURNAME']}}
                     </td>
                     <td style="font-size:20px;">
-                        {{$data['SURNAMEMATCH']}}
+
+                        @if ($data['SURNAMEMATCH']=='Yes')
+                        Matched
+                    @elseif ($data['SURNAMEMATCH']=='No')
+                    Unmatched
+                    @else
+                    {{$data['SURNAMEMATCH']}}
+                    @endif
                     </td>
                 </tr>
                 <tr>
@@ -819,7 +844,13 @@
                         {{$data['IDNUMBER']}}
                     </td>
                     <td style="font-size:20px;">
-                        {{$data['IDNUMBERMATCH']}}
+                        @if ($data['IDNUMBERMATCH']=='Yes')
+                        Matched
+                    @elseif ($data['IDNUMBERMATCH']=='No')
+                    Unmatched
+                    @else
+                    {{$data['IDNUMBERMATCH']}}
+                    @endif
                     </td>
                 </tr>
                 <tr>
@@ -830,7 +861,14 @@
                         {{$data['Email']}}
                     </td>
                     <td style="font-size:20px;">
-                        {{$data['EMAILMATCH']}}
+
+                        @if ($data['EMAILMATCH']=='Yes')
+                        Matched
+                    @elseif ($data['EMAILMATCH']=='No')
+                    Unmatched
+                    @else
+                    {{$data['EMAILMATCH']}}
+                    @endif
                     </td>
                 </tr>
                 <tr>

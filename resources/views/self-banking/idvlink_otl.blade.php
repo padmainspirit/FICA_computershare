@@ -97,36 +97,54 @@ use Illuminate\Support\Facades\Session;
 
 
 
-                                    <div class="row justify-content-center">
+                                    <div class="row justify-content-center mt-3">
+                                        <div class="col-sm-6">
+                                            <div style="display: flex; align-items: center;">
+                                                <p class="font-size-16">Please select an option that is suitable for you to complete the facial recognition process.</p>
+                                                 </div>
 
+                                        </div>
 
                                                     {{-- <p style="color: #000000;">{{ $exception }}</p> --}}
                                                     <form method="post" action="{{ route('requestOTL') }}" id="">
                                                         @csrf
-                                                        <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                                            <div class="mb-3 mt-3 text-center">
-                                                                <div class="form-check form-check-inline font-size-16">
-                                                                    <input class="form-check-input" type="radio" id="browserOption" name="option" value="Browser" @if(old("option")=="Browser" || old("option") == null ) checked @endif>
-                                                                    <label class="form-check-label" for="smsOption" >Browser</label>
-                                                                </div>
-                                                               <div class="form-check form-check-inline font-size-16">
-                                                                    <input class="form-check-input" type="radio" id="emailOption" name="option" value="Email" @if(old("option")=="Email" ) checked @endif >
-                                                                    <label class="form-check-label" for="emailOption" >Email</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline font-size-16">
-                                                                    <input class="form-check-input" type="radio" id="smsOption" name="option" value="SMS" @if(old("option")=="SMS" ) checked @endif>
-                                                                    <label class="form-check-label" for="smsOption" >SMS</label>
-                                                                </div>
+                                                        <div class="d-flex justify-content-center align-items-center" >
+                                                            <div class="col-md-6 border border-primary rounded p-3 mx-auto">
+                                                                <div class="mb-3">
 
-                                                            </div>
-                                                        </div>
+                                                                    <!-- Browser option without input field -->
+                                                                    <div class="row border-bottom mb-2">
+                                                                        <div class="col-md-6 d-flex align-items-center align-items-center justify-content-end py-2 border-end">
+                                                                            <label class="form-check-label me-2" for="browserOption">Browser</label>
+                                                                            <input style="position: relative;display:flex; top:-3px;" class="form-check-input"  type="radio" id="browserOption" name="option" value="Browser" @if(old("option")=="Browser" || old("option") == null ) checked @endif>
 
-                                                        <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                                            <div class="mb-3 font-size-16 text-center" style="width:50%;">
-                                                                        <input autocomplete="off" type="email" class="form-control input-sm" @if(old("option")=="Email" ) style="border-radius: 15px;display:block;" @else style="border-radius: 15px;display:none;" @endif style="border-radius: 15px;display:none;" id="emailInput" name="emailinput" placeholder="Enter Email Address" value='{{old("emailinput", $emailVal)}}'>
+                                                                        </div>
+                                                                        <div class="col-md-6"></div> <!-- No input for Browser -->
+                                                                    </div>
 
-                                                                        <input autocomplete="off" type="text" class="form-control input-sm" @if(old("option")=="SMS" ) style="border-radius: 15px;" @else style="border-radius: 15px;display:none" @endif  id="smsInput" name="phoneinput" placeholder="Enter Cellphone Number" value='{{old("phoneinput", $phoneNumber)}}'>
+                                                                    <!-- Email option with input field -->
+                                                                   {{-- <div class="row border-bottom mb-2">
+                                                                        <div class="col-md-6 d-flex align-items-center align-items-center justify-content-end py-2 border-end">
+                                                                            <label class="form-check-label" for="emailOption">Email</label>
+                                                                            <input class="form-check-input me-2" type="radio" id="emailOption" name="option" value="Email" @if(old("option")=="Email" ) checked @endif>
 
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <input autocomplete="off" type="email" class="form-control input-sm" id="emailInput" name="emailinput" placeholder="Enter Email Address" value='{{old("emailinput", $emailVal)}}' @if(old("option")!="Email" ) style="display:none;" @endif>
+                                                                        </div>
+                                                                    </div>--}}
+
+                                                                    <!-- SMS option with input field -->
+                                                                    <div class="row border-bottom mb-2">
+                                                                        <div class="col-md-6 d-flex align-items-center align-items-center justify-content-end py-2 border-end">
+
+                                                                            <label class="form-check-label me-2" for="smsOption">SMS</label>
+                                                                            <input style="position: relative;display:flex; top:-3px;" class="form-check-input" type="radio" id="smsOption" name="option" value="SMS" @if(old("option")=="SMS" ) checked @endif>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <input autocomplete="off" type="text" class="form-control input-sm" id="smsInput" name="phoneinput" placeholder="Enter Cellphone Number" value='{{old("phoneinput", $phoneNumber)}}' @if(old("option")!="SMS" ) style="display:none;" @endif>
+                                                                        </div>
+                                                                    </div>
 
                                                                     <span class="error-messg"></span>
                                                                     @error('email')
@@ -139,10 +157,41 @@ use Illuminate\Support\Facades\Session;
                                                                             <small>{{ $message }}</small>
                                                                         </span>
                                                                     @enderror
-
-
+                                                                </div>
                                                             </div>
                                                         </div>
+
+                                                        <!-- JavaScript to Toggle Visibility -->
+                                                        <script>
+                                                            document.addEventListener('DOMContentLoaded', function () {
+                                                                //const emailOption = document.getElementById('emailOption');
+                                                                const smsOption = document.getElementById('smsOption');
+                                                                //const emailInput = document.getElementById('emailInput');
+                                                                const smsInput = document.getElementById('smsInput');
+
+                                                                // Show/Hide input based on selected option
+                                                                function toggleInputFields() {
+                                                                    /*if (emailOption.checked) {
+                                                                        emailInput.style.display = 'block';
+                                                                        smsInput.style.display = 'none';
+                                                                    } */
+                                                                    if (smsOption.checked) {
+                                                                        smsInput.style.display = 'block';
+                                                                        emailInput.style.display = 'none';
+                                                                    } else {
+                                                                        emailInput.style.display = 'none';
+                                                                        smsInput.style.display = 'none';
+                                                                    }
+                                                                }
+
+                                                                // Initialize the input visibility
+                                                                toggleInputFields();
+
+                                                                // Add event listeners to radio buttons
+                                                               // emailOption.addEventListener('change', toggleInputFields);
+                                                                smsOption.addEventListener('change', toggleInputFields);
+                                                            });
+                                                        </script>
 
 
                                                 <div class="text-center d-flex justify-content-center align-items-center mt-2">
@@ -216,7 +265,7 @@ use Illuminate\Support\Facades\Session;
 
                             <br><br>
 
-                            
+
                             <div class="row justify-content-center">
                                 <br>
 
@@ -779,27 +828,27 @@ function startCountdown() {
     </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const emailOption = document.getElementById('emailOption');
+       // const emailOption = document.getElementById('emailOption');
         const browserOption = document.getElementById('browserOption');
         const smsOption = document.getElementById('smsOption');
-        const emailInput = document.getElementById('emailInput');
+        //const emailInput = document.getElementById('emailInput');
         const smsInput = document.getElementById('smsInput');
-        emailOption.addEventListener('change', function() {
+       /* emailOption.addEventListener('change', function() {
             if (emailOption.checked) {
                 emailInput.style.display = 'block';
                 smsInput.style.display = 'none';
             }
-        });
+        });*/
         smsOption.addEventListener('change', function() {
             if (smsOption.checked) {
                 smsInput.style.display = 'block';
-                emailInput.style.display = 'none';
+                //emailInput.style.display = 'none';
             }
         });
         browserOption.addEventListener('change', function() {
             if (browserOption.checked) {
                 smsInput.style.display = 'none';
-                emailInput.style.display = 'none';
+                //emailInput.style.display = 'none';
             }
         });
     });
