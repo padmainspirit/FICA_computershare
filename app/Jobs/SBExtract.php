@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Storage;
 use \PhpOffice\PhpSpreadsheet\IOFactory;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Illuminate\Support\Facades\Mail;
 
 class SBExtract implements ShouldQueue
 {
@@ -42,8 +43,8 @@ class SBExtract implements ShouldQueue
 
     public function __construct($key, $sbids, $totalcount, $chunk_size)
     {
-        $this->date1 = date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
-        $this->date2 = date("dmY"); //"15082024"; //date("dmY");
+        $this->date1 = "2024-10-22";//date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
+        $this->date2 = "22102024";
         $this->disk = 'public'; //'sftp';
         $this->sbids = $sbids;
         $this->keyofchunks = $key;
@@ -70,7 +71,7 @@ class SBExtract implements ShouldQueue
 
         $batchId = $this->batch()->id;
         $testing  = SelfBankingDetails::getsbresults($today, $compliteidlist_list);
-
+//print_r($testing);exit;
         if (empty($testing)) {
             return false;
         }
@@ -381,7 +382,7 @@ class SBExtract implements ShouldQueue
 
              $xlfilename = public_path('SelfBankingPDFs_' . $this->date1 . '.xlsx');
 
-            $dd_res = [$index + 1, $filename, $name,$Surname, $ID_Number,$Bank_Account_Number,$Branch_Code,$Bank_Name,$Email_Address,$Mobile_Number,$FICA_Status];
+            $dd_res = [$index , $filename, $name,$Surname, $ID_Number,$Bank_Account_Number,$Branch_Code,$Bank_Name,$Email_Address,$Mobile_Number,$FICA_Status];
             if (file_exists($xlfilename)) {
                 $spreadsheet = IOFactory::Load($xlfilename);
                 $highestRow = $spreadsheet->getActiveSheet()->getHighestRow();
@@ -423,12 +424,12 @@ class SBExtract implements ShouldQueue
             $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
             $writer->save($xlfilename);
 
-            /* if ($lastiteration == 1) {
+            if ($lastiteration == 1) {
                 Mail::send(
-                    'auth.bulk_dd_pdfs',
+                    'email.sb_extracts',
                     ['Logo' => $customer->Client_Logo, 'TradingName' => $customer->RegistrationName, 'YearNow' => $Year, 'type' => $type],
                     function ($message) use ($xlfilename, $mailsubject) {
-                        $message->to(config("app.CS_CUSTOMER_EMAIL_BULKPDF"));
+                        $message->to(config("app.EXTRACT_EMAILS"));
                         $message->subject($mailsubject);
                         $message->attach($xlfilename);
                     }
@@ -437,7 +438,7 @@ class SBExtract implements ShouldQueue
                 unlink($xlfilename);
             } else {
                 print_r('not in');
-            }*/
+            }
         } else {
             echo "No Data Sent";
         }

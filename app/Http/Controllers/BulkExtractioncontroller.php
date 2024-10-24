@@ -20,8 +20,8 @@ class BulkExtractioncontroller extends Controller
 
     public function __construct()
     {
-        $this->date1 = date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
-        $this->date2 = date("dmY"); //"15082024"; //date("dmY");
+        $this->date1 = "2024-10-22";//date("Y-m-d"); //"2024-08-15"; //date("Y-m-d");
+        $this->date2 = "22102024"; //"15082024"; //date("dmY");
         $this->disk = 'public'; //'sftp';
     }
 
@@ -34,6 +34,7 @@ class BulkExtractioncontroller extends Controller
         //supply Compliance lite table id
         $selfbankingdetails_ids =  DB::connection('sqlsrv2')->table('TBL_Consumer_SelfBankingDetails as sd')
         ->join(config('app.DB_DATABASE').'.dbo.SelfBankingLink as sl','sl.Id','=','sd.SelfBankingLinkId')
+        ->where(["sl.PersonalDetails"=>1,"DOVS"=>1,"BankingDetails"=>1])
         ->whereDate('CreatedOnDate', $today)
         ->get()
         ->pluck('SelfBankingDetailsId')
